@@ -6,8 +6,10 @@ const { User } = require('../../db/models');
 const router = express.Router();
 
 router.get('/', asyncHandler(async function (req, res, next) {
-    const users = await User.findAll();
-    res.json({ users });
+    // const users = await User.findAll();
+    // res.json({ users });
+    console.log('success')
+    res.json('hello')
 }));
 
 module.exports = router;

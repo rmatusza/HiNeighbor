@@ -18,6 +18,16 @@ module.exports = {
         type: Sequelize.STRING(255),
         unique: true,
       },
+      first_name: {
+        allowNull: false,
+        type: Sequelize.STRING(50),
+        unique: true,
+      },
+      last_name: {
+        allowNull: false,
+        type: Sequelize.STRING(50),
+        unique: true,
+      },
       hashedPassword: {
         allowNull: false,
         type: Sequelize.STRING(60).BINARY,
