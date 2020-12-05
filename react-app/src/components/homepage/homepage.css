@@ -1,0 +1,22 @@
+.category-container{
+  display: flex;
+  justify-content: center;
+
+}
+.category-contents{
+  display: flex;
+}
+.search-container{
+  border: 2px solid black;
+  display: flex;
+  justify-content: space-between;
+}
+.toggles {
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  margin-left: 50px;
+}
+.search-bar-container{
+  margin-right: 100px;
+}

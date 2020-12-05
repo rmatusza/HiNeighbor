@@ -1,0 +1,27 @@
+.top-bar-right{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 200px;
+  margin-right: 10px;
+}
+
+.username{
+  margin: 3px;
+}
+
+.user-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  margin-top: 200px;
+  margin: 3px;
+  background-color: whitesmoke;
+  height: 30px;
+  width: 30px;
+}
+
+.dropdown-button-container{
+  margin: 3px;
+}

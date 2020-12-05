@@ -1,20 +1,76 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Item = sequelize.define('Item', {
-    seller_id: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    price: DataTypes.INTEGER,
-    quantity: DataTypes.INTEGER,
-    for_rent: DataTypes.BOOLEAN,
-    for_sale: DataTypes.BOOLEAN,
-    image_url: DataTypes.TEXT,
-    sold: DataTypes.BOOLEAN,
-    location: DataTypes.TEXT,
-    date_sold: DataTypes.DATE
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    seller_id: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+
+    },
+    purchaser_id: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
+
+    },
+    name: {
+      allowNull: false,
+      type: DataTypes.STRING(100)
+    },
+    description: {
+      allowNull: false,
+      type: DataTypes.TEXT
+    },
+    price: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
+    quantity: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
+    for_rent: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+
+    },
+    for_sale: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+
+    },
+    image_url: {
+      allowNull: true,
+      type: DataTypes.TEXT
+    },
+    sold: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    location: {
+      allowNull: true,
+      type: DataTypes.TEXT
+    },
+    date_sold: {
+      allowNull: true,
+      type: DataTypes.DATE
+    },
+    category: {
+      allowNull: false,
+      type: DataTypes.STRING(50)
+    },
+
   }, {});
   Item.associate = function(models) {
-    // associations can be defined here
+    Item.belongsTo(models.User, { foreignKey: 'seller_id'})
+    Item.belongsTo(models.User, { foreignKey: 'purchaser_id'})
+    Item.hasMany(models.Bid, { foreignKey: 'item_id'})
+    Item.hasOne(models.Review, { foreignKey: 'item_id'})
   };
   return Item;
 };

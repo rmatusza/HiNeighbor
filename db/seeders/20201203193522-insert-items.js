@@ -13,10 +13,11 @@ module.exports = {
         quantity: 1,
         for_rent: false,
         for_sale: true,
-        image_url: '../../public/images/holy_grail.PNG',
+        image_url: '../../images/holy_grail.PNG',
         sold: false,
         location: null,
         date_sold: null,
+        category: 'Ancient Relics',
         createdAt: new Date(),
         updatedAt: new Date(),
       }

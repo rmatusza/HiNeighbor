@@ -1,0 +1,5 @@
+export const SET_USER_CREDS = 'SET_USER_CREDS';
+export const SET_CATEGORY = 'SET_CATEGORY';
+export const SET_PRICE_RANGE = 'SET_PRICE_RANGE';
+export const SET_DISTANCE = 'SET_DISTANCE';
+export const SET_OFFER_TYPE = 'SET_OFFER_TYPE';

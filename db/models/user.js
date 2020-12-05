@@ -24,7 +24,16 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
 
   User.associate = function(models) {
-    
+    User.hasMany(models.Bid, { foreignKey: 'user_id'})
+    User.hasMany(models.Conversation, { foreignKey: 'member_one'})
+    User.hasMany(models.Conversation, { foreignKey: 'member_two'})
+    User.hasOne(models.Item, { foreignKey: 'seller_id'})
+    User.hasOne(models.Item, { foreignKey: 'purchaser_id'})
+    User.hasMany(models.Message, { foreignKey: 'author'})
+    User.hasMany(models.Review, { foreignKey: 'author_id'})
+    User.hasMany(models.Review, { foreignKey: 'reviewee_id'})
+    User.hasMany(models.Service, { foreignKey: 'seller_id'})
+    User.hasMany(models.User_service, { foreignKey: 'purchaser_id'})
   };
 
   return User;

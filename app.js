@@ -6,10 +6,19 @@ const helmet = require('helmet');
 const path = require('path');
 const logger = require('morgan');
 const csurf = require('csurf');
-const routes = require('./routes');
+const userRouter = require('./api/users');
+const bearerToken = require("express-bearer-token");
+const { secret, expiresIn } = require('./config').jwtConfig;
 
 const app = express();
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true
+};
 
+// Security Middleware
+app.use(cors(corsOptions));
+app.use(bearerToken())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -18,19 +27,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser())
 
 
-// Security Middleware
-app.use(cors({ origin: true }));
-app.use(helmet({ hsts: false }));
-app.use(csurf({
-  cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production',
-    httpOnly: true
-  }
-}));
 
-
-app.use(routes);
+// app.use(bearerToken({
+//   cookie: {
+//     signed: true, // if passed true you must pass secret otherwise will throw error
+//     secret,
+//     key: 'access_token' // default value
+//   }
+// }));
+app.use("/api/users", userRouter);
 
 // Serve React Application
 // This should come after routes, but before 404 and error handling.
@@ -48,6 +53,7 @@ app.use(function(_req, _res, next) {
 
 app.use(function(err, _req, res, _next) {
   res.status(err.status || 500);
+  console.log(err)
   if (err.status === 401) {
     res.set('WWW-Authenticate', 'Bearer');
   }

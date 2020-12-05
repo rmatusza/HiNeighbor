@@ -20,7 +20,7 @@ module.exports = {
       },
       name: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING(100)
       },
       description: {
         allowNull: false,
@@ -60,6 +60,10 @@ module.exports = {
       date_sold: {
         allowNull: true,
         type: Sequelize.DATE
+      },
+      category: {
+        allowNull: false,
+        type: Sequelize.STRING(50)
       },
       createdAt: {
         allowNull: false,
