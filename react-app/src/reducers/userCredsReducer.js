@@ -2,21 +2,22 @@ import { SET_USER_CREDS } from '../actions/types';
 import setUserCreds from '../actions/userCredsAction';
 
 const initialState = {
-  session: {
-    // currentUserId: '',
-    // currentUsername: '',
-    // currentUserFirstName: '',
-    // currentUserLastName: ''
-  }
+  // session: {
+  //   // currentUserId: '',
+  //   // currentUsername: '',
+  //   // currentUserFirstName: '',
+  //   // currentUserLastName: ''
+  // },
+
 }
 
 const setUserCredsReducer = (state = initialState, action) => {
-
+  const currentUser = action.currentUserData
   switch(action.type) {
     case SET_USER_CREDS:
       return {
         ...state,
-        session: action.currentUserData
+        currentUser
       }
     default:
       return state;

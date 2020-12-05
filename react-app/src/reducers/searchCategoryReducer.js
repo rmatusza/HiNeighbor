@@ -1,6 +1,13 @@
-const { SET_PRICE_RANGE, SET_OFFER_TYPE } = require("../actions/types")
-import { SET_CATEGORY, SET_PRICE_RANGE, SET_DISTANCE, SET_OFFER_TYPE } from '../actions/types/'
+const { SET_PRICE_RANGE, SET_CATEGORY, SET_DISTANCE, SET_OFFER_TYPE } = require("../actions/types")
 
+const initialState = {
+
+
+  search_params: {
+
+
+  }
+}
 const searchCategoryReducer = (state = initialState, action) => {
 
   switch(action.type) {

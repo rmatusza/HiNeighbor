@@ -30,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
 const TopBar = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const firstName = useSelector((store) => store.session.firstName)
-
+  const firstName = useSelector((store) => store.session.currentUser.firstName)
+  
   return (
     <>
       <div className={classes.topBar}>
