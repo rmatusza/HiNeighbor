@@ -3,13 +3,29 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { MdAttachMoney } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { setPriceRange } from '../../actions/searchCategoryActions';
+
 
 const PriceRange = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null)
+  const options = ['$5 - $20', '$20 - $50', '$50 - $100', '$100 +']
+  const dispatch = useDispatch();
+
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuItemClick = async (e, idx) => {
+
+    dispatch(setPriceRange({
+      price_range: options[idx]
+    }))
+    setSelectedCategory(options[idx])
+    setAnchorEl(null);
   };
 
   const handleClose = () => {
@@ -19,7 +35,7 @@ const PriceRange = () => {
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} variant="contained" color="primary">
-        <MdAttachMoney /> Price Range
+        <MdAttachMoney /> Price Range: {selectedCategory ? selectedCategory : <p className="price-range-selection">Any</p>}
       </Button>
       <Menu
         id="simple-menu"
@@ -28,10 +44,11 @@ const PriceRange = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>$5 - $20</MenuItem>
-        <MenuItem onClick={handleClose}>$20 - $50</MenuItem>
-        <MenuItem onClick={handleClose}>$50 - $100</MenuItem>
-        <MenuItem onClick={handleClose}>$100 +</MenuItem>
+        {options.map((option, idx) => (
+          <MenuItem onClick={(event) => handleMenuItemClick(event, idx)}>
+            {option}
+          </MenuItem>
+        ))}
       </Menu>
     </div>
   );

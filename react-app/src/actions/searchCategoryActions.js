@@ -2,16 +2,18 @@ import { SET_CATEGORY, SET_PRICE_RANGE, SET_DISTANCE, SET_OFFER_TYPE } from './t
 
 
 export const setCategory = (category) => {
+  console.log('WHAT', category)
   return {
     type: SET_CATEGORY,
     category
   }
 }
 
-export const setPriceRange = (priceRange) => {
+export const setPriceRange = (price_range) => {
+  console.log('here')
   return {
     type: SET_PRICE_RANGE,
-    priceRange
+    price_range
   }
 }
 

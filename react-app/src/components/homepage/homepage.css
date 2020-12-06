@@ -5,6 +5,7 @@
 }
 .category-contents{
   display: flex;
+  align-items: center;
 }
 .search-container{
   border: 2px solid black;
@@ -19,4 +20,15 @@
 }
 .search-bar-container{
   margin-right: 100px;
+}
+
+.chosen-category{
+  display: flex;
+  margin: 5px;
+  margin-left: 10px;
+  /* align-items: center; */
+}
+
+.price-range-selection{
+  margin-left: 10px;
 }
