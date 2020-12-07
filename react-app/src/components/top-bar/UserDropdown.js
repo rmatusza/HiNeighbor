@@ -14,8 +14,6 @@ import { setPostItemFormStatus } from '../../actions/itemsActions';
 const UserDropdown = (props) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [visibility, setVisibility] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -45,7 +43,7 @@ const UserDropdown = (props) => {
 
   const handleDialogClose = () => {
     dispatch(setPostItemFormStatus(false))
-    setDialogOpen(false);
+    // setDialogOpen(false);
   };
 
   const handleDialogOpen = () => {

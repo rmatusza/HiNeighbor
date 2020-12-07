@@ -10,7 +10,7 @@ import setUserCreds from '../../actions/userCredsAction'
 
 
 const HomePage = () => {
-
+  const imageData = '0f96255f8170d28e319c68ddbcf7236e'
   const items = useSelector(store => store.entities.items_state)
   console.log(items)
 
@@ -43,8 +43,10 @@ const HomePage = () => {
           </h4>
         </div>
       </div>
-      
+
+      {/* <img src={`data:image/png;bas64`,require(`../../uploads/${imageData}`).default} /> */}
     </>
+
   )
 }
 

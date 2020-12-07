@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     image_data: {
-      type:DataTypes.BLOB
+      type:DataTypes.TEXT
     },
   }, {});
   image.associate = function(models) {

@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
 
     },
-    image_url: {
+    image_data: {
       allowNull: true,
       type: DataTypes.TEXT
     },

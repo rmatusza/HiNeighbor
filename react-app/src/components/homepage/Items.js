@@ -33,10 +33,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Items = (props) => {
-  let items = useSelector(store => store.entities.items_state)
+  let items = useSelector(store => store.entities.items_state.items)
+  let bids = useSelector(store => store.entities.items_state.items.bids)
+  // console.log(items.items)
+  console.log(bids)
   const classes = useStyles()
-
-
 
   if((typeof items === 'object' && Object.keys(items).length === 0) || items === undefined) {
     console.log('NO ITEMS')
@@ -52,12 +53,13 @@ const Items = (props) => {
          <Grid container spacing={4} className={classes.grid} >
             {items.items.map((item) => {
               console.log(item)
+              let ext = item.image_data
+              console.log(ext)
               return (
                 <Grid item xs={12} md={12}>
                   <Card className={classes.paper}>
                     <CardContent className={classes.image}>
-                     {item.url}
-                     <img className="item-image" src={require(`../../images/${item.image_url}`).default} />
+                      <img src={`data:image/png;bas64`,require(`../../uploads/${ext}`).default} />
                     </CardContent>
                   </Card>
                 </Grid>
@@ -67,20 +69,17 @@ const Items = (props) => {
         </div>
         <div className="item-data-container">
           <ul>
-            {items.items.map(item => {
+            {items.items.map((item, idx) => {
               // console.log(item)
               // <li>{item.name}</li>
               return(
                 <>
                 <li>{item.name}</li>
-                <li>**Seller Name</li>
                 <li>Buy Now for: ${item.price}</li>
-                <li>**Current Bid Amount</li>
+                <li>Current Bid Amount: ${bids[idx].bid_amount}</li>
                 <li>**Number of Bids</li>
                 <li>**Days Remaining</li>
-                <li><UploadPhoto /> </li>
                 </>
-                // <span><li></li></span>
               )
             })}
           </ul>
