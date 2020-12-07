@@ -9,6 +9,7 @@ module.exports = {
       'Users',
       [
         {
+          id: 1,
           username: 'rmatusza',
           first_name: 'Ryan',
           last_name: 'Matuszak',
@@ -18,6 +19,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 2,
           username:'indy',
           first_name: 'Indiana',
           last_name: 'Jones',
@@ -34,4 +36,3 @@ module.exports = {
     await queryInterface.bulkDelete('Users', null, {});
   }
 };
-

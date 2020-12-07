@@ -11,7 +11,7 @@ const Category = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null)
   const dispatch = useDispatch();
-  const options = ['Users', 'Electronics', 'Books', 'Home and Garden', 'Ancient Relics of the Past that Contain Forbidden Knowledge and Immeasurable Power']
+  const options = ['Users', 'Electronics', 'Books', 'Home and Garden', 'Ancient Relics']
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

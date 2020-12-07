@@ -24,9 +24,9 @@ export const setDistance = (distance) => {
   }
 }
 
-export const setOfferType = (offerType) => {
+export const setOfferType = (offer_type) => {
   return {
     type: SET_OFFER_TYPE,
-    offerType
+    offer_type
   }
 }

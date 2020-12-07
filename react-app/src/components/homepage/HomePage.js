@@ -7,23 +7,12 @@ import SearchBar from './SearchBar';
 import Category from './Category'
 import { useDispatch, useSelector } from "react-redux";
 import setUserCreds from '../../actions/userCredsAction'
-// import setUserCredsReducer from '../../reducers/userCredsReducer';
 
-// const userId = 1
-// const payload = {
-//   currentUserId: 1,
-//   currentUsername: 'rmatusza',
-//   currentUserFirstName: 'Ryan',
-//   currentUserLastName: 'Matuszak'
-// }
 
 const HomePage = () => {
-  // const dispatch = useDispatch();
-  // (async()=> {
-  //   dispatch(setUserCreds(payload))
-  // })()
-  // const username = useSelector((store) => store.session.currentUsername)
-  // console.log(username)
+
+  const items = useSelector(store => store.entities.items_state)
+  console.log(items)
 
   return (
     <>
@@ -54,6 +43,7 @@ const HomePage = () => {
           </h4>
         </div>
       </div>
+      
     </>
   )
 }

@@ -3,14 +3,30 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { GiPathDistance } from "react-icons/gi";
+import { useDispatch, useSelector } from "react-redux";
+import { setDistance } from '../../actions/searchCategoryActions';
 
 const Distance = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null)
+  const options = ['0 - 5 mi', '10 - 20 mi', '20 mi +']
+  const dispatch = useDispatch();
+
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const handleMenuItemClick = async (e, idx) => {
+
+    dispatch(setDistance({
+      distance: options[idx]
+    }))
+    setSelectedCategory(options[idx])
+    setAnchorEl(null);
+  };
+
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -19,7 +35,7 @@ const Distance = () => {
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} variant="contained" color="primary">
-        <GiPathDistance /> Distance
+        <GiPathDistance /> Distance: {selectedCategory ? selectedCategory : <p className="distance-selection">Any</p>}
       </Button>
       <Menu
         id="simple-menu"
@@ -28,10 +44,11 @@ const Distance = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>0 - 5 mi</MenuItem>
-        <MenuItem onClick={handleClose}>5 - 10 mi</MenuItem>
-        <MenuItem onClick={handleClose}>10 - 20 mi</MenuItem>
-        <MenuItem onClick={handleClose}>20 mi +</MenuItem>
+        {options.map((option, idx) => (
+          <MenuItem onClick={(event) => handleMenuItemClick(event, idx)}>
+            {option}
+          </MenuItem>
+        ))}
       </Menu>
     </div>
   );

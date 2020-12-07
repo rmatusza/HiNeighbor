@@ -3,3 +3,5 @@ export const SET_CATEGORY = 'SET_CATEGORY';
 export const SET_PRICE_RANGE = 'SET_PRICE_RANGE';
 export const SET_DISTANCE = 'SET_DISTANCE';
 export const SET_OFFER_TYPE = 'SET_OFFER_TYPE';
+export const SET_ITEMS = 'SET_ITEMS';
+export const SET_POST_ITEM_FORM_STATUS = 'SET_POST_ITEM_FORM_STATUS'

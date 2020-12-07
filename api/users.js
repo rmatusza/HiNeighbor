@@ -1,12 +1,14 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
-const { User } = require("../db/models");
+const { User, image } = require("../db/models");
 const { asyncHandler } = require('../utils');
 const { getUserToken, verifyUser } = require('../auth');
 const bearerToken = require("express-bearer-token");
 const { secret, expiresIn } = require('../config').jwtConfig;
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 
+const upload = multer({dest: 'uploads/'});
 const router = express.Router();
 
 router.post('/token', asyncHandler(async(req, res) => {
@@ -58,6 +60,7 @@ router.post('/authenticate', verifyUser, asyncHandler(async(req, res) => {
   }
   res.json(userData)
 }))
+
 
 
 module.exports = router

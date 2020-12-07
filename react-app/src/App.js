@@ -6,11 +6,20 @@ import Login from './components/login/Login';
 import setUserCreds from './actions/userCredsAction'
 import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from './components/ProtectedRoute';
+import Items from './components/homepage/Items';
+import PostItem from './components/top-bar/PostItem'
+
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
+  const items = useSelector(store => store.entities.items_state)
+  const form_state = useSelector(store => store.entities.post_item_form_state.status)
+
+  // const[items, setItems] = useState([])
   const dispatch = useDispatch();
   const history = useHistory()
 
+
+  // AUTHENTICATES THE USER BY CHECKING TO SEE IF THEY HAVE A VALID ACCESS TOKEN
   useEffect(() => {
     (async () => {
       try{
@@ -47,9 +56,12 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      {form_state === true ? <PostItem /> : <> </>}
       <ProtectedRoute path="/" authenticated={authenticated} exact={true}>
         <TopBar setAuthenticated={setAuthenticated}/>
         <HomePage />
+        {/* {items !== undefined ? <div></div> : <Items items={items}/>} */}
+        <Items />
       </ProtectedRoute>
       <Route path="/login" exact={true} >
         <Login authenticated={authenticated} setAuthenticated={setAuthenticated}/>

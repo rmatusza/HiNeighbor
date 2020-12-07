@@ -7,14 +7,6 @@ import holyGrail from '../../images/holy_grail.PNG';
 import { useDispatch, useSelector } from "react-redux";
 import setUserCreds from '../../actions/userCredsAction'
 
-// const payload = {
-//   currentUserId: 1,
-//   currentUsername: 'rmatusza',
-//   currentUserFirstName: 'Ryan',
-//   currentUserLastName: 'Matuszak'
-// }
-
-
 const useStyles = makeStyles((theme) => ({
 
   topBar: {
@@ -31,7 +23,7 @@ const TopBar = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const firstName = useSelector((store) => store.session.currentUser.firstName)
-  
+
   return (
     <>
       <div className={classes.topBar}>
@@ -48,7 +40,7 @@ const TopBar = (props) => {
           </div>
           <div className='user-icon'>
             <h2>
-              <GiAbstract017 />
+              <GiCrackedMask />
             </h2>
           </div>
           <div className='dropdown-button-container'>

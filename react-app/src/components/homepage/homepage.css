@@ -32,3 +32,36 @@
 .price-range-selection{
   margin-left: 10px;
 }
+
+.distance-selection{
+  margin-left: 10px;
+}
+
+.offer-type-selection{
+  margin-left: 10px;
+}
+
+.items-container{
+  border: 2px solid red;
+  height: 100%;
+  box-sizing: border-box;
+  width: 25%;
+}
+
+.item-data-conatiner{
+  border: 10px solid green;
+  height: 100%;
+  box-sizing: border-box;
+  /* width: 75%; */
+}
+
+.items-body-container{
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.item-image{
+  height: 100%;
+  width: 100%
+}
