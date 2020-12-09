@@ -50,7 +50,7 @@ const Login = (props) => {
 
     if(user) {
       const payload = {
-        userId: user.id,
+        id: user.id,
         username: user.userName,
         firstName: user.firstName,
         lastName: user.lastName

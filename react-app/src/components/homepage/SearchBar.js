@@ -18,8 +18,9 @@ const SearchBar = () => {
   const classes = useStyles();
   const [input, setInput] = useState('')
   const search_params = useSelector((store) => store.entities.search_params)
+  const currUserId = useSelector(store => store.session.currentUser.id)
   const dispatch = useDispatch()
-
+  console.log('CURRENT USER ID:', currUserId)
   const handleInputChange = (e) => {
     setInput(e.target.value)
   }
@@ -33,6 +34,7 @@ const SearchBar = () => {
       body[param] = search_params[param]
     }
     body['user_search'] = input
+    body['user_id'] = currUserId
     console.log(body)
     const res = await fetch('http://localhost:8080/api/items-and-services/search', {
       method: 'POST',

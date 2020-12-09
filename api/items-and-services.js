@@ -5,16 +5,12 @@ const { Item, Service, User, Bid } = require("../db/models");
 const Sequelize = require('sequelize');
 const fs = require('fs');
 const { encode } = require("punycode");
-
 const Op = Sequelize.Op
-
 const upload = multer({dest: 'react-app/src/uploads/'});
-
-
 const router = express.Router();
 
 router.post('/search', asyncHandler(async(req, res) => {
-  let {price_range, distance, offer_type, category, user_search} = req.body
+  let {price_range, distance, offer_type, category, user_search, user_id} = req.body
   console.log(req.body)
 
   if(!price_range){
@@ -41,13 +37,14 @@ router.post('/search', asyncHandler(async(req, res) => {
 
         price: {
           [Op.between]: price_range
-        }
+        },
+        seller_id: {
+          [Op.not]: user_id
+        },
+        sold: false
       },
-
     })
-    items.forEach(item => {
 
-    })
     console.log(items)
     res.json({'items': items, 'bids': bids})
 
@@ -55,7 +52,6 @@ router.post('/search', asyncHandler(async(req, res) => {
 
 
   } else if(offer_type === 'Rent') {
-    let filteredItems = []
     console.log('PRICE RANGE', price_range)
     const items = await Item.findAll({
       where: {
@@ -66,14 +62,17 @@ router.post('/search', asyncHandler(async(req, res) => {
         },
         price: {
           [Op.between]: price_range
-        }
+        },
+        seller_id: {
+          [Op.not]: user_id
+        },
+        sold: false
       }
     })
-    res.json(items)
+    res.json({'items': items})
 
     //-ANY OFFER TYPE------------------------------------------------------------------------------------------------
   } else {
-    let filteredItems = []
     const items = await Item.findAll({
       where: {
         category: category,
@@ -82,7 +81,11 @@ router.post('/search', asyncHandler(async(req, res) => {
         },
         price: {
           [Op.between]: price_range
-        }
+        },
+        seller_id: {
+          [Op.not]: user_id
+        },
+        sold: false
       }
     })
   }
@@ -136,6 +139,82 @@ router.post('/post-item', asyncHandler(async(req,res) => {
 
   res.json(newItem)
 
+}))
+
+router.patch('/:id/bid', asyncHandler(async(req, res) => {
+  const itemId = req.params.id
+  const { bidInput, currUserId } = req.body
+
+  console.log('USER BID:', bidInput)
+  console.log('ITEM ID:', itemId)
+  console.log('USER ID:', currUserId)
+
+  const bid = await Bid.findOne({
+    where: {
+      item_id: itemId,
+      user_id: currUserId
+    }
+  })
+
+  if(!bid) {
+    console.log('NOT ALREADY A BID OBJECT')
+    const newBid = await Bid.create({
+      item_id: itemId,
+      user_id: currUserId,
+      bid_amount: bidInput
+    })
+
+    if(!newBid){
+      res.json('ERROR: new bid object was not created')
+    }
+
+    const item = await Item.findByPk(itemId)
+    let bidIds = item.bid_ids
+    let numBids = item.num_bids
+    console.log('NUM BIDS:', numBids)
+    const updatedItem = item.update({
+      current_bid: bidInput,
+      bid_ids: bidIds += newBid.id,
+      num_bids: numBids += 1,
+    })
+
+
+
+    res.json(updatedItem)
+  } else {
+    console.log('ALREADY A BID OBJECT')
+
+    bid.update({
+      bid_amount: bidInput
+    })
+    const item = await Item.findByPk(itemId)
+    item.update({
+      current_bid: bidInput
+    })
+    res.json(item)
+  }
+
+
+
+  // 1) current highest bid -> in any case we must increment this on the item object
+  // 2) number of bids -> is there already a bid object with the provided itemid and currUserId
+  // if not make new bid object and increment numBids on item object
+  // 3) string containing associated bid object ids --> if making a new bid object
+  // need to add id to string
+}))
+
+router.patch('/:id/purchase', asyncHandler(async(req, res) => {
+  const itemId = req.params.id
+  const { currUserId } = req.body
+
+  let item = await Item.findByPk(itemId)
+
+  item.update({
+    purchaser_id: currUserId,
+    sold: true
+  })
+
+  res.json({'soldItemId':itemId})
 }))
 
 module.exports = router
