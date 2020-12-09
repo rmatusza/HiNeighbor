@@ -8,6 +8,7 @@ const logger = require('morgan');
 const csurf = require('csurf');
 const userRouter = require('./api/users');
 const itemsAndServicesRouter = require('./api/items-and-services')
+const itemsRouter = require('./api/items')
 const bearerToken = require("express-bearer-token");
 const { secret, expiresIn } = require('./config').jwtConfig;
 
@@ -38,7 +39,7 @@ app.use(cookieParser())
 // }));
 app.use("/api/users", userRouter);
 app.use("/api/items-and-services", itemsAndServicesRouter)
-
+app.use("/api/items", itemsRouter)
 // Serve React Application
 // This should come after routes, but before 404 and error handling.
 if (process.env.NODE_ENV === "production") {

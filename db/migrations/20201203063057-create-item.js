@@ -1,4 +1,7 @@
 'use strict';
+
+const { sequelize } = require("../models");
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Items', {
@@ -64,6 +67,18 @@ module.exports = {
       category: {
         allowNull: false,
         type: Sequelize.STRING(50)
+      },
+      num_bids: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
+      bid_ids: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+      },
+      current_bid: {
+        allowNull: true,
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

@@ -6,7 +6,7 @@ const initialState = {
   search_params: {
   },
   items_state: {
-
+    items: []
   },
   post_item_form_state: {
 

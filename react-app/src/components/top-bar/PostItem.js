@@ -74,7 +74,7 @@ const PostItem = (props) => {
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState(null);
 
-
+  console.log('CURRENT USER ID:', userId)
 
   const handleInputChange = (e) => {
     if (e.target.id === "name-input") {
@@ -94,7 +94,6 @@ const PostItem = (props) => {
 
   const handleCloseModal = () => {
     dispatch(setPostItemFormStatus(false))
-    console.log('ooooh baby thats somme sweet pooty')
   }
 
   const handleReaderLoaded = (readerEvt) => {

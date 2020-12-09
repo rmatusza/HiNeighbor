@@ -6,12 +6,14 @@ import OfferType from './OfferType';
 import SearchBar from './SearchBar';
 import Category from './Category'
 import { useDispatch, useSelector } from "react-redux";
-import setUserCreds from '../../actions/userCredsAction'
+import setUserCreds from '../../actions/userCredsAction';
+import Items from './Items';
+
 
 
 const HomePage = () => {
   const imageData = '0f96255f8170d28e319c68ddbcf7236e'
-  const items = useSelector(store => store.entities.items_state)
+  const items = useSelector(store => store.entities.items_state.items)
   console.log(items)
 
   return (
@@ -43,8 +45,19 @@ const HomePage = () => {
           </h4>
         </div>
       </div>
+      {(()=>{
+        if((typeof items === 'object' && Object.keys(items).length === 0) || items.items === undefined) {
+          return(
+            <>
+            </>
+          )
+        } else {
+          return <Items items={items}/>
+        }
 
+      })()}
       {/* <img src={`data:image/png;bas64`,require(`../../uploads/${imageData}`).default} /> */}
+      {/* <Items /> */}
     </>
 
   )

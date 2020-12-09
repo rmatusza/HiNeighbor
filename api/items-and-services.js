@@ -14,52 +14,44 @@ const upload = multer({dest: 'react-app/src/uploads/'});
 const router = express.Router();
 
 router.post('/search', asyncHandler(async(req, res) => {
-  const {price_range, distance, offer_type, category, user_search} = req.body
+  let {price_range, distance, offer_type, category, user_search} = req.body
   console.log(req.body)
+
+  if(!price_range){
+    price_range = [0, 1000000000]
+  }
   const bids = await Bid.findAll({
   })
   if(offer_type === 'Services') {
     console.log('hol up')
 
 
-    //-----------------------------------------------------
+    //-PURCHASE---------------------------------------------------------------
 
 
   }else if(offer_type === 'Purchase') {
-    const data = {}
-    let filteredItems = []
+
     const items = await Item.findAll({
       where: {
         category,
         for_sale: true,
         name: {
           [Op.substring]: user_search
+        },
+
+        price: {
+          [Op.between]: price_range
         }
       },
 
     })
-    items.forEach(async(item)=> {
-      if(price_range!== undefined) {
-        if(item.price >= price_range[0] && item.price <= price_range[1]) {
+    items.forEach(item => {
 
-          console.log('WHY AM I HERE')
-          filteredItems.push(item)
-        }
-
-      } else {
-        console.log('ITEM ID:', item.id)
-
-        // data[item.id].currItem = item
-        // data[item.id].currBids = bid
-
-        // console.log(bid)
-        res.json({'items': items, 'bids': bids})
-      }
     })
-    console.log(data)
+    console.log(items)
+    res.json({'items': items, 'bids': bids})
 
-
-    //------------------------------------------
+    //-RENT-----------------------------------------------------------------------
 
 
   } else if(offer_type === 'Rent') {
@@ -71,24 +63,15 @@ router.post('/search', asyncHandler(async(req, res) => {
         for_rent: true,
         name: {
           [Op.substring]: user_search
+        },
+        price: {
+          [Op.between]: price_range
         }
       }
     })
-    items.forEach(item => {
-      console.log(item.price)
-      if(price_range!== undefined) {
-        if(item.price >= price_range[0] && item.price <= price_range[1]) {
+    res.json(items)
 
-          console.log('WHY AM I HERE')
-          filteredItems.push(item)
-        }
-
-      } else {
-        res.json(items)
-      }
-    })
-    console.log(items)
-    res.json(filteredItems)
+    //-ANY OFFER TYPE------------------------------------------------------------------------------------------------
   } else {
     let filteredItems = []
     const items = await Item.findAll({
@@ -96,23 +79,12 @@ router.post('/search', asyncHandler(async(req, res) => {
         category: category,
         name: {
           [Op.substring]: user_search
+        },
+        price: {
+          [Op.between]: price_range
         }
       }
     })
-    items.forEach(item => {
-      if(price_range!== undefined) {
-        if(item.price >= price_range[0] && item.price <= price_range[1]) {
-
-          console.log('WHY AM I HERE')
-          filteredItems.push(item)
-        }
-
-      } else {
-        res.json(items)
-      }
-    })
-    console.log(items)
-    res.json(filteredItems)
   }
 }))
 
@@ -160,6 +132,7 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     item_id: newItem.id,
     bid_amount: 0
   })
+
 
   res.json(newItem)
 

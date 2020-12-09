@@ -61,7 +61,22 @@ const App = () => {
         <TopBar setAuthenticated={setAuthenticated}/>
         <HomePage />
         {/* {items !== undefined ? <div></div> : <Items items={items}/>} */}
-        <Items />
+        {/* <Items /> */}
+        {/* {(()=>{
+        if((typeof items === 'object' && Object.keys(items).length === 0) || items === undefined) {
+          console.log('ITEMS IS UNDEFINED')
+          return(
+
+            <>
+            </>
+          )
+        } else {
+          console.log('ITEMS IS DEFINED')
+          return (
+          <Items />
+          )
+        }
+      })()} */}
       </ProtectedRoute>
       <Route path="/login" exact={true} >
         <Login authenticated={authenticated} setAuthenticated={setAuthenticated}/>

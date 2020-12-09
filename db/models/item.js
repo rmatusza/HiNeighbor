@@ -60,6 +60,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.DATE
     },
+    num_bids: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    bid_ids: {
+      allowNull: true,
+      type: DataTypes.TEXT,
+    },
+    current_bid: {
+      allowNull: true,
+      type: DataTypes.INTEGER
+    },
     category: {
       allowNull: false,
       type: DataTypes.STRING(50)
