@@ -45,8 +45,8 @@ const HomePage = () => {
           </h4>
         </div>
       </div>
-      {(()=>{
-        if((typeof items === 'object' && Object.keys(items).length === 0) || items.items === undefined) {
+      {/* {(()=>{
+        if((typeof items === 'object' && Object.keys(items).length === 0) || items === undefined) {
           return(
             <>
             </>
@@ -55,9 +55,9 @@ const HomePage = () => {
           return <Items items={items}/>
         }
 
-      })()}
+      })()} */}
       {/* <img src={`data:image/png;bas64`,require(`../../uploads/${imageData}`).default} /> */}
-      {/* <Items /> */}
+      <Items />
     </>
 
   )

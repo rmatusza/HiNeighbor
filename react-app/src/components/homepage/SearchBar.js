@@ -43,7 +43,8 @@ const SearchBar = () => {
     })
 
     const items = await res.json()
-    dispatch(setItems(items))
+    console.log('RETURNED ITEMS:', items)
+    dispatch(setItems(items.items))
     console.log(items)
   }
 

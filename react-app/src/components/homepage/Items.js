@@ -102,71 +102,44 @@ const Items = (props) => {
   let currItems = []
   let test
 
-  // if((typeof items === 'object' && Object.keys(items).length === 0) || items === undefined) {
-  //   return(
-  //     <>
-  //     </>
-  //   )
-  // } else {
-  //   items.items.forEach(item => {
-  //     currItems.push(item)
-  //   })
-  // }
+  console.log('ITEMS:', items)
 
-  useEffect(()=> {
-    if((typeof items === 'object' && Object.keys(items).length === 0) || items.items === undefined) {
-      return (
-        <>
-        </>
-      )
-    } else{
+  // useEffect(()=> {
+  //   if((typeof items === 'object' && Object.keys(items).length === 0) || items === undefined) {
+  //     return (
+  //       <>
+  //       </>
+  //     )
+  //   } else{
 
-      items.items.forEach(item => {
-        currItems.push(item)
-      })
-      setCurrItemsState(currItems)
-    }
+  //     items.items.forEach(item => {
+  //       currItems.push(item)
+  //     })
+  //     setCurrItemsState(currItems)
+  //   }
 
-  }, [])
-
-  // console.log('PROPS:', props.items.items)
-  // console.log('ITEMS:', items)
-  // const test = props.items.items
-
-  // // props.items.items.forEach(item => {
-  // //   currItems.push(item)
-  // // })
-
-  // console.log('CURRITEMS:', currItems)
+  // }, [])
 
 
-  // if((typeof items === 'object' && Object.keys(items).length === 0) || items === undefined) {
-  //   return (
-  //     <>
-  //     </>
-  //   )
-  // } else{
 
 
   const updateBidInput = (e) => {
     setBidInput(e.target.value)
   }
-  // items.items.forEach(item => {
-  //   currItems.push(item)
-  // })
+
 
   const updateItems = (updatedItem) => {
     console.log('CURRENT ITEM OBJECT:', updatedItem)
     const id = updatedItem.id
     console.log('ITEM ID:', id)
-    currItems.forEach((item, i) => {
+    items.forEach((item, i) => {
       console.log('UPDATING ITEMS')
       if(item.id === id) {
         console.log('CURR ITEM:', currItems[i])
-        currItems[i] = updatedItem
-        console.log('CURRITEMS:', currItems)
-        // dispatch(setItems(currItems))
-        setCurrItemsState(currItems)
+        items[i] = updatedItem
+        console.log('CURRITEMS:', items)
+        dispatch(setItems(items))
+        // setCurrItemsState(currItems)
       }
     })
   }
@@ -194,10 +167,10 @@ const Items = (props) => {
     })
     const item = await res.json()
 
-    console.log('RETURNED UPDATED ITEM:', item)
+    // console.log('RETURNED UPDATED ITEM:', item)
 
     updateItems(item)
-    alert(`bid of $${bidInput} was placed`)
+    // alert(`bid of $${bidInput} was placed`)
   }
 
   const openBidModal = (itemData) => {
@@ -211,27 +184,27 @@ const Items = (props) => {
     setModalOpen(false)
   }
 
-  if((typeof items === 'object' && Object.keys(items).length === 0) || props.items.items === undefined) {
-    console.log('NO ITEMS')
-    return (
-      <div>
-      </div>
-    )
-  // } else if(currItemsState === null) {
-  //   return(
-  //     <h1>
-  //       loading...
-  //     </h1>
+  // if((typeof items === 'object' && Object.keys(items).length === 0) || items === undefined) {
+  //   console.log('NO ITEMS')
+  //   return (
+  //     <div>
+  //     </div>
   //   )
-  }else {
-    console.log('ITEMS', items.items)
+  // // } else if(currItemsState === null) {
+  // //   return(
+  // //     <h1>
+  // //       loading...
+  // //     </h1>
+  // //   )
+  // }else {
+    // console.log('ITEMS', items.items)
 
     return(
         <div className="items-body-container">
         <div className="items-container">
          <Grid container spacing={4} className={classes.grid} >
-            {props.items.items.map((item) => {
-              console.log(item)
+            {items.map((item) => {
+              // console.log(item)
               let ext = item.image_data
               console.log(ext)
               return (
@@ -250,7 +223,7 @@ const Items = (props) => {
         </div>
         <div className="item-data-container">
           <ul>
-            {props.items.items.map((item, idx) => {
+            {items.map((item, idx) => {
               // console.log(item)
               // <li>{item.name}</li>
               return(
@@ -338,18 +311,18 @@ const Items = (props) => {
       </div>
     )
   }
-}
+// }
 
-const mapStateToProps = (state) => ({
-  items: state.entities.items_state.items
-});
-
-// const mapDispatchToProps = (dispatch) => ({
-//   updateReduxItems: (items) => dispatch(setItems(items)),
+// const mapStateToProps = (state) => ({
+//   items: state.entities.items_state.items
 // });
 
+// // const mapDispatchToProps = (dispatch) => ({
+// //   updateReduxItems: (items) => dispatch(setItems(items)),
+// // });
 
-const ConnectedComponent = connect(mapStateToProps)(Items);
+
+// const ConnectedComponent = connect(mapStateToProps)(Items);
 
 
 export default Items;
