@@ -88,6 +88,7 @@ router.post('/search', asyncHandler(async(req, res) => {
         sold: false
       }
     })
+    res.json({'items': items})
   }
 }))
 
@@ -172,7 +173,7 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
     let bidIds = item.bid_ids
     let numBids = item.num_bids
     console.log('NUM BIDS:', numBids)
-    const updatedItem = item.update({
+    const updatedItem = await item.update({
       current_bid: bidInput,
       bid_ids: bidIds += newBid.id,
       num_bids: numBids += 1,
@@ -187,11 +188,11 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
     bid.update({
       bid_amount: bidInput
     })
-    const item = await Item.findByPk(itemId)
-    item.update({
+    const updatedItem = await Item.findByPk(itemId)
+    updatedItem.update({
       current_bid: bidInput
     })
-    res.json(item)
+    res.json(updatedItem)
   }
 
 
@@ -216,5 +217,7 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
 
   res.json({'soldItemId':itemId})
 }))
+
+
 
 module.exports = router

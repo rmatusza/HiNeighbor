@@ -73,6 +73,9 @@ const PostItem = (props) => {
   const classes = useStyles()
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState(null);
+  const [popupVisible, setPopupVisible] = useState(false)
+  const[modalOpen, setModalOpen] = useState(true)
+
 
   console.log('CURRENT USER ID:', userId)
 
@@ -93,21 +96,27 @@ const PostItem = (props) => {
   };
 
   const handleCloseModal = () => {
-    dispatch(setPostItemFormStatus(false))
+    console.log('MODAL STATE:', modalOpen)
+    setModalOpen(false)
+    setPopupVisible(true)
+    setTimeout(() => {
+      setPopupVisible(false)
+      dispatch(setPostItemFormStatus(false))
+    }, 2500)
   }
 
-  const handleReaderLoaded = (readerEvt) => {
-    let binaryString = readerEvt.target.result
-    console.log(binaryString)
-    // setEncodedImg({base64TextString: btoa(binaryString)})
-  }
+  // const handleReaderLoaded = (readerEvt) => {
+  //   let binaryString = readerEvt.target.result
+  //   console.log(binaryString)
+  //   // setEncodedImg({base64TextString: btoa(binaryString)})
+  // }
 
-  const examineFile = async(data, e) => {
-    const getImage = await fetch('http://localhost:8080/api/items-and-services/examine-file')
+  // const examineFile = async(data, e) => {
+  //   const getImage = await fetch('http://localhost:8080/api/items-and-services/examine-file')
 
-    const {encoded_image} = await getImage.json()
-    console.log(encoded_image)
-  }
+  //   const {encoded_image} = await getImage.json()
+  //   console.log(encoded_image)
+  // }
 
   const postItem = async() => {
 
@@ -135,6 +144,7 @@ const PostItem = (props) => {
 
     const newItem = await res.json()
     console.log(newItem)
+    handleCloseModal()
   }
 
 
@@ -240,13 +250,16 @@ const PostItem = (props) => {
 
   return(
     <>
+    {popupVisible ? <div className="fade-test" style={{display:"block"}}><h2>Post Successful!</h2></div> : <></>}
     <Modal
-    open={() => {
-      if(form_state === false || 'undefined') {
+    open={(() => {
+      if(form_state === false || form_state === 'undefined' || modalOpen === false) {
+        console.log('FALSE')
         return false
       }
+      console.log('TRUE')
       return true
-    }}
+    })()}
     aria-labelledby="simple-modal-title"
     aria-describedby="simple-modal-description"
     >

@@ -17,8 +17,7 @@ import { setItems } from '../../actions/itemsActions';
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
-
+import { useHistory, Link, Switch } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -40,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
   image: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    height: '210px',
+    width: '200px',
   },
   itemFormModal: {
     // position: 'absolute',
@@ -76,9 +76,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const handleClick = (sellerId) => {
-  console.log(sellerId)
-}
+
 
 
 const Items = () => {
@@ -92,6 +90,8 @@ const Items = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const classes = useStyles()
   const dispatch = useDispatch()
+  const history = useHistory();
+
 
 
 
@@ -161,11 +161,11 @@ const Items = () => {
       },
       body: JSON.stringify(body)
     })
-    const item = await res.json()
+    const updatedItem = await res.json()
 
-    // console.log('RETURNED UPDATED ITEM:', item)
+    console.log('RETURNED UPDATED ITEM:', updatedItem)
 
-    updateItems(item)
+    updateItems(updatedItem)
     // alert(`bid of $${bidInput} was placed`)
   }
 
@@ -187,6 +187,11 @@ const Items = () => {
     updateSoldItems(soldItemId)
   }
 
+  const handleClick = (sellerId) => {
+    history.replace('/seller-profile')
+    console.log(sellerId)
+  }
+
   const openBidModal = (itemData) => {
     console.log('ITEM DATA:', itemData)
     setCurrItemId(itemData.itemId)
@@ -204,18 +209,19 @@ const Items = () => {
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
           {items.map((item) => {
-            // console.log(item)
             let ext = item.image_data
             console.log(ext)
             return (
               <Grid item xs={12} md={12}>
-                <CardActionArea onClick={() => {handleClick(item.seller_id)}}>
+                <Link to={`/seller-profile/${item.seller_id}`}>
+                <CardActionArea >
                   <Card className={classes.paper}>
                     <CardContent className={classes.image}>
-                      <img className="item-image" src={`data:image/png;bas64`,require(`../../uploads/${ext}`).default} />
+                      <img className="item-image-homepage" src={`data:image/png;bas64`,require(`../../uploads/${ext}`).default} />
                     </CardContent>
                   </Card>
                 </CardActionArea>
+                </Link>
               </Grid>
             )
           })}
@@ -226,6 +232,8 @@ const Items = () => {
           {items.map((item, idx) => {
             // console.log(item)
             // <li>{item.name}</li>
+            console.log('MAPPED ITEMS:',item)
+
             return(
               <>
                 <li>{item.name}</li>
@@ -245,6 +253,7 @@ const Items = () => {
         </ul>
 
       </div>
+
 
       {/* BID MODAL */}
 
@@ -313,3 +322,4 @@ const Items = () => {
 }
 
 export default Items;
+// onClick={() => {handleClick(item.seller_id)}}

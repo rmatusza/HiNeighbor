@@ -6,6 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { useHistory,  Redirect } from 'react-router-dom'
 import PostItem from './PostItem';
+import PostedItems from '../user_dropdown/PostedItems'
 import { setPostItemFormStatus } from '../../actions/itemsActions';
 
 
@@ -32,6 +33,14 @@ const UserDropdown = (props) => {
     document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     props.setAuthenticated(false)
   };
+
+  const handlePostedItems = () => {
+    history.replace('/posted-items')
+  }
+
+  const handlePurchaseHistory = () => {
+    history.replace('/purchase-history')
+  }
 
   // const togglePostItemForm = () => {
   //   console.log('here')
@@ -66,13 +75,13 @@ const UserDropdown = (props) => {
           onClose={handleClose}
         >
           <MenuItem onClick={handleDialogOpen}> Post an Item </MenuItem>
-          <MenuItem onClick={handleClose}>Post a Service</MenuItem>
           <MenuItem onClick={handleClose}>My Stats</MenuItem>
-          <MenuItem onClick={handleClose}>My Reviews</MenuItem>
-          <MenuItem onClick={handleClose}>Conversations</MenuItem>
+          <MenuItem onClick={handlePostedItems}>Posted Items</MenuItem>
+          <MenuItem onClick={handlePurchaseHistory}>Purchase History</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </div>
+      {form_state === true ? <PostItem /> : <> </>}
     </>
 
   );

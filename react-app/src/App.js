@@ -7,7 +7,11 @@ import setUserCreds from './actions/userCredsAction'
 import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from './components/ProtectedRoute';
 import Items from './components/homepage/Items';
-import PostItem from './components/top-bar/PostItem'
+import PostItem from './components/top-bar/PostItem';
+import PostedItems from './components/user_dropdown/PostedItems';
+import PurchaseHistory from './components/user_dropdown/PurchaseHistory';
+import SellerProfile from './components/seller_profile/SellerProfile';
+
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -56,27 +60,22 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      {form_state === true ? <PostItem /> : <> </>}
+      {/* {form_state === true ? <PostItem /> : <> </>} */}
       <ProtectedRoute path="/" authenticated={authenticated} exact={true}>
         <TopBar setAuthenticated={setAuthenticated}/>
         <HomePage />
-        {/* {items !== undefined ? <div></div> : <Items items={items}/>} */}
-        {/* <Items /> */}
-        {/* {(()=>{
-        if((typeof items === 'object' && Object.keys(items).length === 0) || items === undefined) {
-          console.log('ITEMS IS UNDEFINED')
-          return(
-
-            <>
-            </>
-          )
-        } else {
-          console.log('ITEMS IS DEFINED')
-          return (
-          <Items />
-          )
-        }
-      })()} */}
+      </ProtectedRoute>
+      <ProtectedRoute path="/posted-items" authenticated={authenticated} exact={true}>
+        <TopBar setAuthenticated={setAuthenticated}/>
+        <PostedItems />
+      </ProtectedRoute>
+      <ProtectedRoute path="/purchase-history" authenticated={authenticated} exact={true}>
+        <TopBar setAuthenticated={setAuthenticated}/>
+        <PurchaseHistory />
+      </ProtectedRoute>
+      <ProtectedRoute path="/seller-profile/:id" authenticated={authenticated} exact={true}>
+        <TopBar setAuthenticated={setAuthenticated}/>
+        <SellerProfile />
       </ProtectedRoute>
       <Route path="/login" exact={true} >
         <Login authenticated={authenticated} setAuthenticated={setAuthenticated}/>

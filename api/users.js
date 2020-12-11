@@ -1,12 +1,14 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
-const { User, image } = require("../db/models");
+const { User, Item, Review } = require("../db/models");
 const { asyncHandler } = require('../utils');
 const { getUserToken, verifyUser } = require('../auth');
 const bearerToken = require("express-bearer-token");
 const { secret, expiresIn } = require('../config').jwtConfig;
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op
 
 const upload = multer({dest: 'uploads/'});
 const router = express.Router();
@@ -61,6 +63,54 @@ router.post('/authenticate', verifyUser, asyncHandler(async(req, res) => {
   res.json(userData)
 }))
 
+router.get('/:id/get-posted-items', asyncHandler(async(req,res) => {
+  const userId = req.params.id
+  const items = await Item.findAll({
+    where:{
+      seller_id: userId,
+      sold: false
+    }
+  })
 
+  res.json(items)
+}))
+
+router.get('/:id/get-seller-info', asyncHandler(async(req,res) => {
+  const userId = req.params.id
+  const items = await Item.findAll({
+    where: {
+      seller_id: userId,
+      sold: false
+    }
+  })
+  const user = await User.findByPk(userId)
+
+  const reviews = await Review.findAll({
+    where: {
+      reviewee_id: userId
+    }
+  })
+
+  const soldItems = await Item.findAndCountAll({
+    where: {
+      seller_id: userId,
+      sold: true
+    }
+  })
+
+  res.json({'items': items, 'user': user, 'reviews': reviews, 'sold': soldItems})
+}))
+
+router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
+  const userId = req.params.id
+  const items = await Item.findAll({
+    where:{
+      purchaser_id: userId,
+      sold: true
+    }
+  })
+
+  res.json(items)
+}))
 
 module.exports = router

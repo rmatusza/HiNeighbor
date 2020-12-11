@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './homepage.css';
 import PriceRange from './PriceRange';
 import Distance from './Distance';
@@ -6,18 +6,41 @@ import OfferType from './OfferType';
 import SearchBar from './SearchBar';
 import Category from './Category'
 import { useDispatch, useSelector } from "react-redux";
-import setUserCreds from '../../actions/userCredsAction';
+import { Button } from "@material-ui/core";
+// import { view, Animated, TouchableOpacity, Text } from 'react-native';
 import Items from './Items';
 
 
 
 const HomePage = () => {
-  const imageData = '0f96255f8170d28e319c68ddbcf7236e'
   const items = useSelector(store => store.entities.items_state.items)
+  const [popupVisible, setPopupVisible] = useState(false)
   console.log(items)
+
+  const handlePopUp = () => {
+    setPopupVisible(true)
+    setTimeout(() => {
+      setPopupVisible(false)
+    }, 3900);
+  }
+
+  // WAS TESTING THE INCLUDES FUNCTIONALITY OF SEQUELIZE ON THE SELLER PROFILE
+  // HERE SO THAT I COULD AVIOD A FEW CLICKS
+
+  // useEffect(() => {
+  //   (async() => {
+  //     const res = await fetch(`http://localhost:8080/api/users/${2}/get-seller-info`)
+  //     const sellerInfo = await res.json()
+  //     // items = postedItems
+  //     console.log('RETURNED ITEMS:', sellerInfo)
+  //     // setPostedItems(postedItems)
+  //   })()
+  // }, [])
+
 
   return (
     <>
+      {popupVisible ? <div className="fade-test" style={{display:"block"}}><h2>Your purchase was successful</h2></div> : <></>}
       <div className='category-container'>
         <Category />
       </div>
@@ -46,6 +69,9 @@ const HomePage = () => {
         </div>
       </div>
       <Items />
+      <Button onClick={handlePopUp}>
+        Test
+      </Button>
     </>
 
   )
