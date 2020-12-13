@@ -14,7 +14,8 @@ module.exports = {
       },
       rating: {
         allowNull: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       },
       author_id: {
         allowNull: true,

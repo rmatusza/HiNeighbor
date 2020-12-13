@@ -32,6 +32,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(60).BINARY,
       },
+      average_rating: {
+        allowNull: true,
+        type: Sequelize.INTEGER
+      },
+      num_ratings: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
       tokenId: {
         type: Sequelize.STRING(36),
       },

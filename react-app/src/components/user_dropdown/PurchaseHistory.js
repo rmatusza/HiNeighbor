@@ -104,6 +104,8 @@ const PurchaseHistory = () => {
   const [postedItems, setPostedItems] = useState({'items': [], 'users': []})
   const [dataRows, setDataRows] = useState([])
   const[ratingVisibility, setRatingVisibility] = useState({})
+  const[currItem, setCurrItem] = useState(null)
+  const[itemRating, setItemRating] = useState(null)
   const classes = useStyles()
   let items = []
   let ratingState = {}
@@ -134,20 +136,35 @@ const PurchaseHistory = () => {
     })()
   }, [])
 
-  const test = (itemId, value) => {
-    console.log(value)
-    console.log(itemId)
+  const updateItemRating = (e, value) => {
+    setItemRating(value)
   }
 
   const enableRating = (itemId, idx) => {
-    // setRatingVisibility(...ratingVisibility, e.target.id = !ratingVisibility[e.target.id])
     console.log(itemId)
     let statecpy = {...ratingVisibility}
-    console.log(statecpy)
-    // let idx = e.target.id
     let value = ratingVisibility[idx]
     statecpy[idx] = !value
+    setCurrItem(itemId)
     setRatingVisibility(statecpy)
+  }
+
+  const submitRating = async() => {
+   const body = {
+      currUserId,
+      itemRating
+    }
+
+    const res = await fetch(`http://localhost:8080/api/items-and-services/${currItem}/rate-item`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+
+    const rating = await res.json()
+    console.log('UPDATED RATING OBJECT:', rating)
   }
 
   return(
@@ -204,13 +221,13 @@ const PurchaseHistory = () => {
                   <div className="rating-buttons-and-slider">
                     <div className="rate-and-submit-buttons">
                       <Button variant="outlined" color="primary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
-                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="outlined" color="primary">Submit Rating</Button></div>}
+                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="outlined" color="primary" onClick={submitRating}>Submit Rating</Button></div>}
                     </div>
                     {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
                     <></>
                     :  <div className={classes.root}>
                     <Typography id="discrete-slider-small-steps" gutterBottom>
-                      Small steps
+                      Rating:
                     </Typography>
                       <Slider
                         defaultValue={postedItems.reviews[item.seller_id - postedItems.items[0].seller_id].rating ? postedItems.reviews[item.seller_id - postedItems.items[0].seller_id].rating : 1}
@@ -221,7 +238,7 @@ const PurchaseHistory = () => {
                         min={1}
                         max={5}
                         valueLabelDisplay="auto"
-                        onChange={test}
+                        onChange={updateItemRating}
                       />
                     </div>}
                   </div>

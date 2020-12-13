@@ -41,3 +41,10 @@
 .submit-rating-button{
   margin-left: 20px
 }
+
+.posted-items-table-container{
+  padding-bottom: 0px;
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 160px;
+}

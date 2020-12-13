@@ -86,11 +86,30 @@ router.get('/:id/get-seller-info', asyncHandler(async(req,res) => {
   })
   const user = await User.findByPk(userId)
 
+  let reviewData = {}
+  let ratings = 0
+  let numRatings = 0
   const reviews = await Review.findAll({
     where: {
-      reviewee_id: userId
+      reviewee_id: userId,
+      rating: {
+        [Op.ne]: 0
+      }
     }
   })
+
+  if (reviews.length !== 0) {
+    reviews.forEach(review => {
+      numRatings += 1
+      ratings += review.rating
+    })
+
+    reviewData['num_ratings'] = numRatings
+    reviewData['average'] = ratings/numRatings
+  } else {
+    reviewData['num_ratings'] = numRatings
+    reviewData['average'] = ratings
+  }
 
   const soldItems = await Item.findAndCountAll({
     where: {
@@ -99,7 +118,7 @@ router.get('/:id/get-seller-info', asyncHandler(async(req,res) => {
     }
   })
 
-  res.json({'items': items, 'user': user, 'reviews': reviews, 'sold': soldItems})
+  res.json({'items': items, 'user': user, 'reviews': reviewData, 'sold': soldItems})
 }))
 
 router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {

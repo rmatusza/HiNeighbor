@@ -256,7 +256,63 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
 //   res.json({'date': item.date_sold})
 // }))
 
+router.patch('/:id/rate-item', asyncHandler(async(req,res) => {
+  itemId = req.params.id
+  const { itemRating, currUserId } = req.body
 
+  const review = await Review.findOne({
+    where: {
+      item_id: itemId
+    }
+  })
+
+
+  if(review.rating === 0) {
+
+    review.update({
+      rating: itemRating,
+      author_id: currUserId
+    })
+    // const reviewee = await User.findByPk(review.reviewee_id)
+    // let currAverage = reviewee.average_rating
+    // let numRatings = reviewee.num_ratings
+
+    // numRatings += 1
+    // let newAverage = (currAverage += itemRating)/numRatings
+
+    // await reviewee.update({
+    //   average_rating: newAverage,
+    //   num_ratings: numRatings
+    // })
+
+    // await review.update({
+    //   rating: itemRating,
+    //   author_id: currUserId
+    // })
+
+    // review.update({
+    //   rating: itemRating
+    // })
+
+    // const reviews = Review.findAll()
+
+    res.json(review)
+  }else {
+    // const reviewee = await User.findByPk(review.reviewee_id)
+    // let currAverage = reviewee.average_rating
+    // let numRatings = reviewee.num_ratings
+    // let newAverage = (currAverage += itemRating)/numRatings
+
+    // await reviewee.update({
+    //   average_rating: newAverage
+    // })
+
+    await review.update({
+      rating: itemRating,
+    })
+    res.json(review)
+  }
+}))
 
 
 module.exports = router

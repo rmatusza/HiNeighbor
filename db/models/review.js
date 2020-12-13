@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     rating: {
       allowNull: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     author_id: {
       allowNull: true,

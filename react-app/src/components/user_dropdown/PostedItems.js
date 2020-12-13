@@ -8,6 +8,12 @@ import {
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector, connect } from "react-redux";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 
 
@@ -64,22 +70,56 @@ const useStyles = makeStyles((theme) => ({
   dialogBox: {
     width: '200px',
     heigth: '200px'
+  },
+  table: {
+    minWidth: 650,
+  },
+  tableHead: {
+    backgroundColor: theme.palette.secondary.light,
+  },
+  tableRow: {
+    backgroundColor: 'whitesmoke'
+  },
+  tableContainer: {
+    paddingBottom: '0px',
+    backgroundColor: 'white',
+    height: '70px'
   }
 }))
+
+function createData(name, price, bid, num_bidders, days_remaining) {
+  return { name, price, bid, num_bidders, days_remaining };
+}
 
 const PostedItems = () => {
 
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [postedItems, setPostedItems] = useState([])
+  const [dataRows, setDataRows] = useState([])
   const classes = useStyles()
   let items = []
   // console.log('ITEMS:', items)
   useEffect(() => {
     (async() => {
+      let rows = []
       const res = await fetch(`http://localhost:8080/api/users/${currUserId}/get-posted-items`)
       const postedItems = await res.json()
       // items = postedItems
       console.log('RETURNED ITEMS:', postedItems)
+      const d1 = new Date(postedItems[0].expiry_date)
+      const today = new Date()
+      today.setDate(today.getDate()+0)
+      const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+      const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
+      postedItems.forEach(item => {
+        if(item.current_bid === null) {
+          rows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining))
+        } else {
+          rows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining))
+        }
+      })
+      console.log('ROWS:', rows)
+      setDataRows(rows)
       setPostedItems(postedItems)
     })()
   }, [])
@@ -110,24 +150,40 @@ const PostedItems = () => {
           })}
         </Grid>
       </div>
-      <div className="item-data-container">
-        <ul>
-          {postedItems.map((item, idx) => {
-            console.log(item.name)
-            // <li>{item.name}</li>
-            return(
-              <>
-                <li>{item.name}</li>
-                <li>Buy Now for: ${item.price}</li>
-                <li>Current Bid Amount: ${item.current_bid ? item.current_bid : 0}</li>
-                <li>{item.num_bids} bidders</li>
-                <li>**Days Remaining</li>
-              </>
-            )
-          })}
-        </ul>
+        {postedItems.map((item, idx) => {
+          return(
+            <div className="posted-items-table-container">
+          <TableContainer className={classes.tableContainer}>
+            <Table className={classes.table} size="small" aria-label="a dense table">
+              <TableHead className={classes.tableHead}>
+                <TableRow>
+                  {/* <TableCell align="right">Item Name</TableCell> */}
+                  <TableCell align="right">Full Sale Price</TableCell>
+                  <TableCell align="right">Current Bid</TableCell>
+                  <TableCell align="right">Number of Bidders</TableCell>
+                  <TableCell align="right">Days Remaining</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
 
-      </div>
+                <TableRow key={dataRows[idx].name}>
+                  {/* <TableCell component="th" scope="row">
+                    {dataRows.name}
+                  </TableCell> */}
+                  {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
+                  <TableCell align="right">${dataRows[idx].price}</TableCell>
+                  <TableCell align="right">${dataRows[idx].bid}</TableCell>
+                  <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
+                  <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
+                </TableRow>
+
+              </TableBody>
+            </Table>
+          </TableContainer>
+          </div>
+          )
+        })}
+       
     </div>
     </>
   )

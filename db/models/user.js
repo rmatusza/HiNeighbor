@@ -21,6 +21,16 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING(50)
     },
+    average_rating: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    num_ratings: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
   }, {});
 
   User.associate = function(models) {

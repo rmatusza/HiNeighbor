@@ -148,16 +148,19 @@ const SellerProfile = () => {
         <div className="seller-username">
           <h3> Seller: </h3><span><h4>{userData.user.username}</h4></span>
         </div>
-        <div className="seller-icon">
+        {/* <div className="seller-icon">
           <h2>
             <GiCrackedMask />
           </h2>
-        </div>
+        </div> */}
         <div className="seller-sold-items-count">
           <h3> Items sold:</h3><span><h4>{userData.sold.count}</h4></span>
         </div>
-        <div className="seller-rating">
-          <h3>Seller Rating:</h3><span><h4> {userData.reviews.length === 0 ? <p> No Ratings</p> : <p>{userData.reviews.length} reviews</p>}</h4></span>
+        <div className="seller-sold-items-count">
+          <h3> Average Rating:</h3><span><h4>{userData.reviews.average} Stars</h4></span>
+        </div>
+        <div className="num_seller-ratings">
+          <h3>Ratings:</h3><span><h4> {userData.reviews.num_ratings === 0 ? <p> No Ratings</p> : <p>{userData.reviews.num_ratings}</p>}</h4></span>
         </div>
       </div>
       <div>
