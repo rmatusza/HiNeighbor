@@ -64,6 +64,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.DATE
       },
+      expiry_date: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
       category: {
         allowNull: false,
         type: Sequelize.STRING(50)

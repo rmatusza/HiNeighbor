@@ -106,6 +106,10 @@ router.post('/upload-photo', upload.single('Image'), async(req, res) =>{
 // })
 
 router.post('/post-item', asyncHandler(async(req,res) => {
+
+  // const today = new Date()
+  // today.setDate(today.getDate()+0)
+
   const {
     userId,
     itemName,
@@ -114,11 +118,13 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     itemPrice,
     itemQuantity,
     itemForSale,
-    imageData
+    imageData,
+    expiryDate
   } = req.body
   console.log('IMAGE DATA:', imageData)
   // res.json(req.body)
 
+  console.log('EXPIRY DATE:', expiryDate)
   const newItem = await Item.create({
     seller_id: userId,
     name: itemName,
@@ -128,7 +134,8 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     quantity: itemQuantity,
     for_rent: !itemForSale,
     for_sale: itemForSale,
-    image_data: imageData
+    image_data: imageData,
+    expiry_date: expiryDate
   })
 
   const newBidTable = await Bid.create({
@@ -136,6 +143,8 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     item_id: newItem.id,
     bid_amount: 0
   })
+
+  console.log('NEW ITEM:', newItem)
 
 
   res.json(newItem)
@@ -208,15 +217,41 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
   const itemId = req.params.id
   const { currUserId } = req.body
 
+  const today = new Date()
+  today.setDate(today.getDate()+0)
+  JSON.stringify(today)
+
   let item = await Item.findByPk(itemId)
 
   item.update({
     purchaser_id: currUserId,
-    sold: true
+    sold: true,
+    date_sold: today,
+    current_bid: item.price
   })
 
   res.json({'soldItemId':itemId})
 }))
+
+// router.patch('/:id/unpurchase', asyncHandler(async(req, res) => {
+//   const itemId = req.params.id
+//   let item = await Item.findByPk(itemId)
+
+//   item.update({
+//     purchaser_id: null,
+//     sold: false,
+//     for_sale: true,
+//     date_sold: null
+//   })
+// }))
+
+// router.get(`/:id/cheese`, asyncHandler(async(req,res) => {
+//   const itemId = req.params.id
+//   let item = await Item.findByPk(itemId)
+
+//   res.json({'date': item.date_sold})
+// }))
+
 
 
 

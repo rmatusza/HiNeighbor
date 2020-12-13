@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import holyGrail from '../../images/holy_grail.PNG';
 import { useDispatch, useSelector } from "react-redux";
 import setUserCreds from '../../actions/userCredsAction'
+import { useHistory,  Redirect } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -23,11 +24,15 @@ const TopBar = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const firstName = useSelector((store) => store.session.currentUser.firstName)
+  const history = useHistory();
 
+  const redirectToHome = () => {
+    history.replace('/')
+  }
   return (
     <>
       <div className={classes.topBar}>
-        <div className='site-name-container'>
+        <div className='site-name-container' onClick={redirectToHome}>
           <h2>
             Hi Neighbor!
           </h2>

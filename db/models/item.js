@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     seller_id: {
       allowNull: false,
       type: DataTypes.INTEGER,
-
+      references: { model: 'Users' }
     },
     purchaser_id: {
       allowNull: true,
       type: DataTypes.INTEGER,
-
+      references: { model: 'Users' }
     },
     name: {
       allowNull: false,
@@ -60,6 +60,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.DATE
     },
+    expiry_date: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    category: {
+      allowNull: false,
+      type: DataTypes.STRING(50)
+    },
     num_bids: {
       type: DataTypes.INTEGER,
       defaultValue: 0
@@ -71,10 +79,6 @@ module.exports = (sequelize, DataTypes) => {
     current_bid: {
       allowNull: true,
       type: DataTypes.INTEGER
-    },
-    category: {
-      allowNull: false,
-      type: DataTypes.STRING(50)
     },
 
   }, {});

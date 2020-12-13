@@ -124,6 +124,8 @@ const PostItem = (props) => {
     if(itemOfferType.toLocaleLowerCase() === 'rent') {
       itemForSale = false
     }
+    const expiryDate = new Date()
+    expiryDate.setDate(expiryDate.getDate() + 30);
     const body = {
       userId,
       itemName,
@@ -132,8 +134,12 @@ const PostItem = (props) => {
       itemPrice,
       itemQuantity,
       itemForSale,
-      imageData
+      imageData,
+      expiryDate
     }
+
+    console.log('EXPIRY DATE:', body)
+
     const res = await fetch('http://localhost:8080/api/items-and-services/post-item', {
       method: 'POST',
       headers: {

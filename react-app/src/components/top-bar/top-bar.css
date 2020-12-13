@@ -25,3 +25,7 @@
 .dropdown-button-container{
   margin: 3px;
 }
+
+.site-name-container:hover{
+  cursor: pointer;
+}

@@ -36,8 +36,8 @@ const useStyles = makeStyles((theme) => ({
     // width: '200px'
     padding: theme.spacing(2),
     textAlign: 'center',
-    backgroundColor: theme.palette.secondary.light,
-    background: theme.palette.success.light,
+    backgroundColor: 'white',
+    background: 'white',
     color: theme.palette.secondary.contrastText,
     height: '300px',
     width: '300px',
@@ -99,7 +99,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'whitesmoke'
   },
   tableContainer: {
-    paddingBottom: '50px'
+    paddingBottom: '0px',
+    backgroundColor: 'white',
+    height: '70px'
   }
 
 }))
@@ -108,46 +110,54 @@ function createData(name, price, bid, num_bidders, days_remaining) {
   return { name, price, bid, num_bidders, days_remaining };
 }
 
-let rows = []
+
 
 const SellerProfile = () => {
 
   const { id } = useParams()
   const [userData, setUserData] = useState({'items': [], 'user': {}, 'sold': {}, 'reviews': {}})
+  const [dataRows, setDataRows] = useState([])
   const classes = useStyles()
-  let items = []
-  // console.log('ITEMS:', items)
   useEffect(() => {
     (async() => {
+      let rows = []
       const res = await fetch(`http://localhost:8080/api/users/${id}/get-seller-info`)
       const sellerInfo = await res.json()
-      // items = userData
       console.log('RETURNED ITEMS:', sellerInfo)
+      const d1 = new Date(sellerInfo.items[0].expiry_date)
+      const today = new Date()
+      today.setDate(today.getDate()+0)
+      const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+      const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
       sellerInfo.items.forEach(item => {
-        rows.push(createData(item.name, item.price, item.current_bid, item.num_bids, '**days remaining'))
+        if(item.current_bid === null) {
+          rows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining))
+        } else {
+          rows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining))
+        }
       })
+      setDataRows(rows)
       setUserData(sellerInfo)
     })()
-  }, [])
+  },[])
 
   return(
+
     <>
       <div className="seller-info">
+        <div className="seller-username">
+          <h3> Seller: </h3><span><h4>{userData.user.username}</h4></span>
+        </div>
         <div className="seller-icon">
           <h2>
             <GiCrackedMask />
           </h2>
         </div>
-        <div className="seller-username">
-          <h3>
-            Seller: {userData.user.username}
-          </h3>
-        </div>
         <div className="seller-sold-items-count">
-          Items sold: {userData.sold.count}
+          <h3> Items sold:</h3><span><h4>{userData.sold.count}</h4></span>
         </div>
         <div className="seller-rating">
-          {userData.reviews.length === 0 ? <p>Seller Rating: No Ratings</p> : <p>Seller Rating: {userData.reviews.length} reviews</p>}
+          <h3>Seller Rating:</h3><span><h4> {userData.reviews.length === 0 ? <p> No Ratings</p> : <p>{userData.reviews.length} reviews</p>}</h4></span>
         </div>
       </div>
       <div>
@@ -159,9 +169,7 @@ const SellerProfile = () => {
         <div className="seller-items-container">
           <Grid container spacing={1} className={classes.grid} >
             {userData.items.map((item, idx) => {
-              // console.log(item)
               let ext = item.image_data
-              console.log(ext)
               return (
                 <Grid item xs={12} md={6}>
                   <div className="seller-page-item-cards">
@@ -176,11 +184,11 @@ const SellerProfile = () => {
                     {item.description}
                   </div>
                   <div>
-                  <TableContainer component={Paper} className={classes.tableContainer}>
+                  <TableContainer className={classes.tableContainer}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
                       <TableHead className={classes.tableHead}>
                         <TableRow>
-                          <TableCell align="right">Item Name</TableCell>
+                          {/* <TableCell align="right">Item Name</TableCell> */}
                           <TableCell align="right">Full Sale Price</TableCell>
                           <TableCell align="right">Current Bid</TableCell>
                           <TableCell align="right">Number of Bidders</TableCell>
@@ -189,15 +197,15 @@ const SellerProfile = () => {
                       </TableHead>
                       <TableBody>
 
-                        <TableRow key={rows[idx].name}>
+                        <TableRow key={dataRows[idx].name}>
                           {/* <TableCell component="th" scope="row">
-                            {rows.name}
+                            {dataRows.name}
                           </TableCell> */}
-                          <TableCell align="right">{rows[idx].name}</TableCell>
-                          <TableCell align="right">${rows[idx].price}</TableCell>
-                          <TableCell align="right">${rows[idx].bid}</TableCell>
-                          <TableCell align="right">{rows[idx].num_bidders}</TableCell>
-                          <TableCell align="right">{rows[idx].days_remaining}</TableCell>
+                          {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
+                          <TableCell align="right">${dataRows[idx].price}</TableCell>
+                          <TableCell align="right">${dataRows[idx].bid}</TableCell>
+                          <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
+                          <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
                         </TableRow>
 
                       </TableBody>

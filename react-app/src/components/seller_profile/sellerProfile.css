@@ -7,10 +7,23 @@
 .seller-info {
   border: 2px solid black;
   display: flex;
-  width: 50%;
+  width: 70%;
   justify-content: space-around;
   margin-left: 20px;
   margin-top: 20px;
+}
+
+.seller-username{
+  display: flex;
+}
+
+.seller-sold-items-count{
+  display: flex;
+}
+
+.seller-rating{
+  display: flex;
+  padding-right: 120px;
 }
 
 .seller-icon{
