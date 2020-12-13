@@ -18,6 +18,12 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { useHistory, Link, Switch } from "react-router-dom";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -73,10 +79,30 @@ const useStyles = makeStyles((theme) => ({
   dialogBox: {
     width: '200px',
     heigth: '200px'
+  },
+  table: {
+    minWidth: 650,
+  },
+  tableHead: {
+    backgroundColor: theme.palette.secondary.light,
+  },
+  tableRow: {
+    backgroundColor: 'whitesmoke'
+  },
+  tableContainer: {
+    paddingBottom: '0px',
+    backgroundColor: 'white',
+    height: '70px'
+  },
+  buyNow: {
+    maxHeight: "50px"
   }
+
 }))
 
-
+function createData(name, price, bid, num_bidders, days_remaining) {
+  return { name, price, bid, num_bidders, days_remaining };
+}
 
 
 const Items = () => {
@@ -91,17 +117,11 @@ const Items = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const history = useHistory();
-
-
-
-
   console.log('ITEMS:', items)
-
 
   const updateBidInput = (e) => {
     setBidInput(e.target.value)
   }
-
 
   const updateItems = (updatedItem) => {
     console.log('CURRENT ITEM OBJECT:', updatedItem)
@@ -230,26 +250,70 @@ const Items = () => {
       <div className="item-data-container">
         <ul>
           {items.map((item, idx) => {
-            // console.log(item)
-            // <li>{item.name}</li>
-            console.log('MAPPED ITEMS:',item)
+            let dataRows = []
+            const d1 = new Date(items[0].expiry_date)
+            const today = new Date()
+            today.setDate(today.getDate()+0)
+            const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+            const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
+            if(item.current_bid === null) {
+              dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining))
+            } else {
+              dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining))
+            }
 
             return(
-              <>
-                <li>{item.name}</li>
+              <div className="posted-items-table-container">
+              <TableContainer className={classes.tableContainer}>
+                <Table className={classes.table} size="small" aria-label="a dense table">
+                  <TableHead className={classes.tableHead}>
+                    <TableRow>
+                      {/* <TableCell align="right">Item Name</TableCell> */}
+                      <TableCell align="right">Full Sale Price</TableCell>
+                      <TableCell align="right">Current Bid</TableCell>
+                      <TableCell align="right">Number of Bidders</TableCell>
+                      <TableCell align="right">Days Remaining</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+
+                    <TableRow key={dataRows[idx].name}>
+                      {/* <TableCell component="th" scope="row">
+                        {dataRows.name}
+                      </TableCell> */}
+                      {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
+                      <TableCell align="right">${dataRows[idx].price}</TableCell>
+                      <TableCell align="right">${dataRows[idx].bid}</TableCell>
+                      <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
+                      <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
+                    </TableRow>
+
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <div className="bid-buy-buttons-container">
+                <div className="bid-button">
+                <Button variant="contained" color="primary" variant="outlined" onClick={() => {openBidModal({'itemId': item.id, 'currentBid': item.current_bid, 'itemPrice': item.price})}}>
+                  Bid
+                </Button>
+                </div>
+                <div className="buy-button">
+                <Button variant="contained" color="primary" size="medium" variant="outlined" onClick={() => {handleDialogOpen({'itemId': item.id, 'currentBid': item.current_bid, 'itemPrice': item.price})}}>
+                  Purchase
+                </Button>
+                </div>
+                </div>
+
+              </div>
+              )
+            })}
+                {/* <li>{item.name}</li>
                 <li>Buy Now for: ${item.price}</li>
                 <li>Current Bid Amount: ${item.current_bid ? item.current_bid : 0}</li>
                 <li>{item.num_bids} bidders</li>
-                <li>**Days Remaining</li>
-                <Button variant="contained" color="primary" onClick={() => {openBidModal({'itemId': item.id, 'currentBid': item.current_bid, 'itemPrice': item.price})}}>
-                  Bid
-                </Button>
-                <Button variant="contained" color="primary" onClick={() => {handleDialogOpen({'itemId': item.id, 'currentBid': item.current_bid, 'itemPrice': item.price})}}>
-                  Buy Now
-                </Button>
-              </>
-            )
-          })}
+                <li>**Days Remaining</li> */}
+
+
         </ul>
 
       </div>

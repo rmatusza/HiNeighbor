@@ -117,3 +117,14 @@
   /* 90% { top: 0px; } */
   100% {top: -500px }
 }
+
+.bid-buy-buttons-container{
+  display: flex;
+}
+.bid-button{
+  margin-left: 20px;
+}
+.buy-button{
+  margin-left: 20px;
+  height: 10px;
+}
