@@ -30,6 +30,14 @@
   /* width: 1000px; */
 }
 
-.rating-button{
+.rating-buttons-and-slider{
   margin-left: 160px;
+}
+
+.rate-and-submit-buttons{
+  display: flex;
+}
+
+.submit-rating-button{
+  margin-left: 20px
 }

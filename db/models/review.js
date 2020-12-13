@@ -8,15 +8,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     content: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.TEXT
     },
     rating: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER
     },
     author_id: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER,
       references: { model: 'Users' }
     },
@@ -26,10 +26,8 @@ module.exports = (sequelize, DataTypes) => {
 
     },
     item_id: {
-      allowNull: true,
+      allowNull: false,
       type: DataTypes.INTEGER,
-
-
     },
     service_id: {
       allowNull: true,

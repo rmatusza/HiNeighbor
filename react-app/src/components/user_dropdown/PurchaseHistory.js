@@ -134,14 +134,19 @@ const PurchaseHistory = () => {
     })()
   }, [])
 
-  const enableRating = (i) => {
+  const test = (itemId, value) => {
+    console.log(value)
+    console.log(itemId)
+  }
+
+  const enableRating = (itemId, idx) => {
     // setRatingVisibility(...ratingVisibility, e.target.id = !ratingVisibility[e.target.id])
-    // console.log(e.target.id)
+    console.log(itemId)
     let statecpy = {...ratingVisibility}
     console.log(statecpy)
     // let idx = e.target.id
-    let value = ratingVisibility[i]
-    statecpy[i] = !value
+    let value = ratingVisibility[idx]
+    statecpy[idx] = !value
     setRatingVisibility(statecpy)
   }
 
@@ -196,8 +201,11 @@ const PurchaseHistory = () => {
                       </TableBody>
                     </Table>
                   </TableContainer>
-                  <div className="rating-button">
-                    <Button variant="outlined" color="primary" onClick={() => enableRating(idx)}>Rate this item</Button>
+                  <div className="rating-buttons-and-slider">
+                    <div className="rate-and-submit-buttons">
+                      <Button variant="outlined" color="primary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
+                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="outlined" color="primary">Submit Rating</Button></div>}
+                    </div>
                     {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
                     <></>
                     :  <div className={classes.root}>
@@ -205,7 +213,7 @@ const PurchaseHistory = () => {
                       Small steps
                     </Typography>
                       <Slider
-                        defaultValue={postedItems.users[item.seller_id - postedItems.items[0].seller_id].username}
+                        defaultValue={postedItems.reviews[item.seller_id - postedItems.items[0].seller_id].rating ? postedItems.reviews[item.seller_id - postedItems.items[0].seller_id].rating : 1}
                         getAriaValueText={valuetext}
                         aria-labelledby="discrete-slider-small-steps"
                         step={1}
@@ -213,6 +221,7 @@ const PurchaseHistory = () => {
                         min={1}
                         max={5}
                         valueLabelDisplay="auto"
+                        onChange={test}
                       />
                     </div>}
                   </div>

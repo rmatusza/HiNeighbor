@@ -1,7 +1,7 @@
 const express = require("express");
 const { asyncHandler } = require('../utils');
 const multer = require('multer');
-const { Item, Service, User, Bid } = require("../db/models");
+const { Item, Service, User, Bid, Review } = require("../db/models");
 const Sequelize = require('sequelize');
 const fs = require('fs');
 const { encode } = require("punycode");
@@ -146,8 +146,12 @@ router.post('/post-item', asyncHandler(async(req,res) => {
 
   console.log('NEW ITEM:', newItem)
 
+  const newReviewObj = await Review.create({
+    reviewee_id: userId,
+    item_id: newItem.id
+  })
 
-  res.json(newItem)
+  res.json(newReviewObj)
 
 }))
 

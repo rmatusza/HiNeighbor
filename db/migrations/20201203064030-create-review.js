@@ -9,15 +9,15 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       content: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.TEXT
       },
       rating: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER
       },
       author_id: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
         references: { model: 'Users' }
       },
@@ -28,7 +28,7 @@ module.exports = {
 
       },
       item_id: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: 'Items' }
 

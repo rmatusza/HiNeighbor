@@ -118,10 +118,11 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
 
   // console.log('ITEMS:', items)
   let ids = []
+  let itemIds = []
   let userobj = {}
   items.forEach(item => {
     ids.push(item.seller_id)
-
+    itemIds.push(item.id)
   })
 
   // console.log('ID ARRAY:', ids)
@@ -133,7 +134,7 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
 
   const reviews = await Review.findAll({
     where: {
-      author_id
+      item_id: ids
     },
     [order]: [
       ['reviewee_id', 'ASC']
