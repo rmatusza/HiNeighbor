@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     // padding: theme.spacing(2),
     textAlign: 'center',
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.primary.light,
     background: theme.palette.success.light,
     color: theme.palette.secondary.contrastText,
     height: '200px',
@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
   image: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    height: '210px',
+    width: '200px',
   },
   itemFormModal: {
     // position: 'absolute',
@@ -75,10 +76,13 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 650,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary.dark,
   },
   tableRow: {
     backgroundColor: 'whitesmoke'
+  },
+  tableCell: {
+    color: theme.palette.secondary.contrastText
   },
   tableContainer: {
     paddingBottom: '0px',
@@ -105,6 +109,9 @@ const PostedItems = () => {
       const res = await fetch(`http://localhost:8080/api/users/${currUserId}/get-posted-items`)
       const postedItems = await res.json()
       // items = postedItems
+      if(postedItems.length === 0) {
+        return
+      }
       console.log('RETURNED ITEMS:', postedItems)
       const d1 = new Date(postedItems[0].expiry_date)
       const today = new Date()
@@ -150,6 +157,7 @@ const PostedItems = () => {
           })}
         </Grid>
       </div>
+      <ul>
         {postedItems.map((item, idx) => {
           return(
             <div className="posted-items-table-container">
@@ -158,10 +166,10 @@ const PostedItems = () => {
               <TableHead className={classes.tableHead}>
                 <TableRow>
                   {/* <TableCell align="right">Item Name</TableCell> */}
-                  <TableCell align="right">Full Sale Price</TableCell>
-                  <TableCell align="right">Current Bid</TableCell>
-                  <TableCell align="right">Number of Bidders</TableCell>
-                  <TableCell align="right">Days Remaining</TableCell>
+                  <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
+                  <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
+                  <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
+                  <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -183,7 +191,7 @@ const PostedItems = () => {
           </div>
           )
         })}
-       
+      </ul>
     </div>
     </>
   )

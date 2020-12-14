@@ -3,7 +3,8 @@ body {
   /* background-color: #f6f5f7; */
   /* background-color: #457B9D; */
   box-sizing: border-box;
-  height: 100%;
+  height: auto;
+  /* margin: 0 auto */
   /* padding: 10px; */
   /* margin-bottom: 0.5rem; */
 }
@@ -13,7 +14,7 @@ body {
     justify-content: center;
     display: flex;
     flex-direction: column; */
-    height: 100%;
+    height: auto;
     /* display: grid;
     grid-gap: 3px;
     grid-template-columns: repeat(12, 1fr);

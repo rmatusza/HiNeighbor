@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 650,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary.dark,
   },
   tableRow: {
     backgroundColor: 'whitesmoke'
@@ -102,7 +102,10 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '0px',
     backgroundColor: 'white',
     height: '70px'
-  }
+  },
+  tableCell: {
+    color: theme.palette.secondary.contrastText
+  },
 
 }))
 
@@ -146,7 +149,7 @@ const SellerProfile = () => {
     <>
       <div className="seller-info">
         <div className="seller-username">
-          <h3> Seller: </h3><span><h4>{userData.user.username}</h4></span>
+          <h3> Seller: </h3><h4 className="username">{userData.user.username}</h4>
         </div>
         {/* <div className="seller-icon">
           <h2>
@@ -154,13 +157,13 @@ const SellerProfile = () => {
           </h2>
         </div> */}
         <div className="seller-sold-items-count">
-          <h3> Items sold:</h3><span><h4>{userData.sold.count}</h4></span>
+          <h3> Items sold:</h3><h4 className="sell-count">{userData.sold.count}</h4>
         </div>
         <div className="seller-sold-items-count">
-          <h3> Average Rating:</h3><span><h4>{userData.reviews.average} Stars</h4></span>
+          <h3> Average Rating:</h3><h4 className="average-ratings">{userData.reviews.average === 0 ? 'No Ratings' : `${userData.reviews.average} Stars`}</h4>
         </div>
-        <div className="num_seller-ratings">
-          <h3>Ratings:</h3><span><h4> {userData.reviews.num_ratings === 0 ? <p> No Ratings</p> : <p>{userData.reviews.num_ratings}</p>}</h4></span>
+        <div className="num-seller-ratings">
+          <h3>Ratings:</h3><h4 className="num-ratings">{userData.reviews.num_ratings === 0 ? <p> No Ratings</p> : <p>{userData.reviews.num_ratings}</p>}</h4>
         </div>
       </div>
       <div>
@@ -192,10 +195,10 @@ const SellerProfile = () => {
                       <TableHead className={classes.tableHead}>
                         <TableRow>
                           {/* <TableCell align="right">Item Name</TableCell> */}
-                          <TableCell align="right">Full Sale Price</TableCell>
-                          <TableCell align="right">Current Bid</TableCell>
-                          <TableCell align="right">Number of Bidders</TableCell>
-                          <TableCell align="right">Days Remaining</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>

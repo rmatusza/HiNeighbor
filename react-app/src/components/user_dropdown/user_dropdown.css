@@ -31,7 +31,7 @@
 }
 
 .rating-buttons-and-slider{
-  margin-left: 160px;
+  margin-left: 70px;
 }
 
 .rate-and-submit-buttons{
@@ -46,5 +46,14 @@
   padding-bottom: 0px;
   display: flex;
   margin-top: 20px;
-  margin-bottom: 160px;
+  margin-bottom: 158px;
+
+}
+
+.main-page-items-table-container{
+  padding-bottom: 0px;
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 120px;
+
 }

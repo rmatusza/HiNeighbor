@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     // padding: theme.spacing(2),
     textAlign: 'center',
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.primary.light,
     background: theme.palette.success.light,
     color: theme.palette.secondary.contrastText,
     height: '200px',
@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
   image: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    height: '210px',
+    width: '200px',
   },
   itemFormModal: {
     // position: 'absolute',
@@ -77,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 650,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary.dark,
   },
   tableRow: {
     backgroundColor: 'whitesmoke'
@@ -87,7 +88,10 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '0px',
     backgroundColor: 'white',
     height: '70px'
-  }
+  },
+  tableCell: {
+    color: theme.palette.secondary.contrastText
+  },
 }))
 
 function createData(name, seller, purchase_price, purchase_date) {
@@ -202,10 +206,10 @@ const PurchaseHistory = () => {
                     <Table className={classes.table} size="small" aria-label="a dense table">
                       <TableHead className={classes.tableHead}>
                         <TableRow>
-                          <TableCell align="right">seller</TableCell>
-                          <TableCell align="right">Item Name</TableCell>
-                          <TableCell align="right">Purchase Price</TableCell>
-                          <TableCell align="right">Purchase Date</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>seller</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Purchase Price</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Purchase Date</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -230,7 +234,7 @@ const PurchaseHistory = () => {
                       Rating:
                     </Typography>
                       <Slider
-                        defaultValue={postedItems.reviews[item.seller_id - postedItems.items[0].seller_id].rating ? postedItems.reviews[item.seller_id - postedItems.items[0].seller_id].rating : 1}
+                        defaultValue={postedItems.reviews[idx].rating}
                         getAriaValueText={valuetext}
                         aria-labelledby="discrete-slider-small-steps"
                         step={1}

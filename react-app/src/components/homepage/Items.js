@@ -97,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
-    height: '70px'
+    height: '110px'
   },
   buyNow: {
     maxHeight: "50px"
@@ -272,7 +272,7 @@ const Items = () => {
             {/* console.log(dataRows) */}
           {dataRows.map((item, idx) => {
             return(
-              <div className="posted-items-table-container">
+              <div className="main-page-items-table-container">
               <TableContainer className={classes.tableContainer}>
                 <Table className={classes.table} size="small" aria-label="a dense table">
                   <TableHead className={classes.tableHead}>

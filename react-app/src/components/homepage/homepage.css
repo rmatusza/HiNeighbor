@@ -73,9 +73,10 @@
   height: 100%;
   width: 100%;
   display: flex;
+  height: auto;
   /* background-color: rgb(233, 233, 233); */
   /* background-color: #565656; */
-  background-color: rgb(192, 192, 192);
+  background-color: rgb(206, 204, 204);
 }
 
 .item-image{
@@ -91,7 +92,7 @@
 
 .fade-test {
   z-index: 9;
-  background-color: #61f3b6;
+  background-color: #bd4545;
   top: 20px;
   left: 700px;
   font-size: 12px;
@@ -136,6 +137,7 @@
 
 .bid-buy-buttons-container{
   display: flex;
+  margin-right: 20px;
 }
 .bid-button{
   margin-left: 20px;

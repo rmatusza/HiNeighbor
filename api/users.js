@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op
-const order = Sequelize.order
+// const order = Sequelize.order
 
 const upload = multer({dest: 'uploads/'});
 const router = express.Router();
@@ -129,9 +129,7 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
       sold: true,
 
     },
-    [order]: [
-      ['seller_id', 'ASC']
-    ]
+    order: [['id', 'ASC']]
 
   })
 
@@ -153,11 +151,9 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
 
   const reviews = await Review.findAll({
     where: {
-      item_id: ids
+      item_id: itemIds
     },
-    [order]: [
-      ['reviewee_id', 'ASC']
-    ]
+    order: [['id', 'ASC']]
   })
 
   res.json({'items': items, 'users': users, 'reviews': reviews})

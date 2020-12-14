@@ -11,8 +11,8 @@ const PriceRange = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null)
-  const options = ['$5 - $20', '$20 - $50', '$50 - $100', '$100 +']
-  const prices = [[5, 20], [20, 50], [50, 100], [100, 100000000]]
+  const options = ['ANY', '$5 - $20', '$20 - $50', '$50 - $100', '$100 +']
+  const prices = [[0, 1000000000], [5, 20], [20, 50], [50, 100], [100, 100000000]]
   const dispatch = useDispatch();
 
 

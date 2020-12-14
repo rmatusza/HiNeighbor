@@ -138,11 +138,11 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     expiry_date: expiryDate
   })
 
-  const newBidTable = await Bid.create({
-    user_id: userId,
-    item_id: newItem.id,
-    bid_amount: 0
-  })
+  // const newBidTable = await Bid.create({
+  //   user_id: userId,
+  //   item_id: newItem.id,
+  //   bid_amount: 0
+  // })
 
   console.log('NEW ITEM:', newItem)
 
@@ -222,7 +222,7 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
   const { currUserId } = req.body
 
   const today = new Date()
-  today.setDate(today.getDate()+0)
+  today.setDate(today.getDate()-1)
   JSON.stringify(today)
 
   let item = await Item.findByPk(itemId)
