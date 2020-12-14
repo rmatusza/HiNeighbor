@@ -69,9 +69,6 @@ const HomePage = () => {
         </div>
       </div>
       <Items />
-      <Button onClick={handlePopUp}>
-        Test
-      </Button>
     </>
 
   )

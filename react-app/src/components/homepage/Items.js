@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     // padding: theme.spacing(2),
     textAlign: 'center',
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.primary.light,
     background: theme.palette.success.light,
     color: theme.palette.secondary.contrastText,
     height: '200px',
@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     height: '210px',
     width: '200px',
+    // border: '2px solid black'
   },
   itemFormModal: {
     // position: 'absolute',
@@ -84,7 +85,11 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 650,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary.dark,
+    color: theme.palette.secondary.contrastText,
+  },
+  tableCell: {
+    color: theme.palette.secondary.contrastText
   },
   tableRow: {
     backgroundColor: 'whitesmoke'
@@ -100,8 +105,8 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-function createData(name, price, bid, num_bidders, days_remaining) {
-  return { name, price, bid, num_bidders, days_remaining };
+function createData(name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price) {
+  return { name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price };
 }
 
 
@@ -120,6 +125,7 @@ const Items = () => {
   console.log('ITEMS:', items)
 
   const updateBidInput = (e) => {
+    console.log('BID INPUT:', e.target.value)
     setBidInput(e.target.value)
   }
 
@@ -223,7 +229,7 @@ const Items = () => {
   const closeModal = () => {
     setModalOpen(false)
   }
-
+  let dataRows = []
   return(
       <div className="items-body-container">
       <div className="items-container">
@@ -248,31 +254,35 @@ const Items = () => {
         </Grid>
       </div>
       <div className="item-data-container">
-        <ul>
-          {items.map((item, idx) => {
-            let dataRows = []
-            const d1 = new Date(items[0].expiry_date)
+
+          {items.forEach((item, idx) => {
+
+            const d1 = new Date(item.expiry_date)
             const today = new Date()
             today.setDate(today.getDate()+0)
             const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
             const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
             if(item.current_bid === null) {
-              dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining))
+              dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.id, item.current_bid, item.price))
             } else {
-              dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining))
+              dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price))
             }
 
+          })}
+            {/* console.log(dataRows) */}
+          {dataRows.map((item, idx) => {
             return(
               <div className="posted-items-table-container">
               <TableContainer className={classes.tableContainer}>
                 <Table className={classes.table} size="small" aria-label="a dense table">
                   <TableHead className={classes.tableHead}>
-                    <TableRow>
+                    <TableRow className={classes.tableHead}>
                       {/* <TableCell align="right">Item Name</TableCell> */}
-                      <TableCell align="right">Full Sale Price</TableCell>
-                      <TableCell align="right">Current Bid</TableCell>
-                      <TableCell align="right">Number of Bidders</TableCell>
-                      <TableCell align="right">Days Remaining</TableCell>
+                      <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
+                      <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
+                      <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
+                      <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
+                      <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -282,6 +292,7 @@ const Items = () => {
                         {dataRows.name}
                       </TableCell> */}
                       {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
+                      <TableCell align="right">{dataRows[idx].name}</TableCell>
                       <TableCell align="right">${dataRows[idx].price}</TableCell>
                       <TableCell align="right">${dataRows[idx].bid}</TableCell>
                       <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
@@ -293,12 +304,13 @@ const Items = () => {
               </TableContainer>
               <div className="bid-buy-buttons-container">
                 <div className="bid-button">
-                <Button variant="contained" color="primary" variant="outlined" onClick={() => {openBidModal({'itemId': item.id, 'currentBid': item.current_bid, 'itemPrice': item.price})}}>
+                <Button variant="contained" color="primary" variant="outlined" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}}>
                   Bid
                 </Button>
                 </div>
+                <div className="bid-purchase-divider"></div>
                 <div className="buy-button">
-                <Button variant="contained" color="primary" size="medium" variant="outlined" onClick={() => {handleDialogOpen({'itemId': item.id, 'currentBid': item.current_bid, 'itemPrice': item.price})}}>
+                <Button variant="contained" color="primary" size="medium" variant="outlined" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}}>
                   Purchase
                 </Button>
                 </div>
@@ -306,15 +318,7 @@ const Items = () => {
 
               </div>
               )
-            })}
-                {/* <li>{item.name}</li>
-                <li>Buy Now for: ${item.price}</li>
-                <li>Current Bid Amount: ${item.current_bid ? item.current_bid : 0}</li>
-                <li>{item.num_bids} bidders</li>
-                <li>**Days Remaining</li> */}
-
-
-        </ul>
+          })}
 
       </div>
 
@@ -344,7 +348,7 @@ const Items = () => {
             size="small"
             className={classes.submitButton}
             onClick={() => {
-              if(Number(bidInput) < currBid) {
+              if(Number(bidInput) <= currBid) {
                 alert('Your bid must be larger than the current bid amount')
               } else if(Number(bidInput) > currItemPrice) {
                 alert('Your bid must be less than the item sell price')

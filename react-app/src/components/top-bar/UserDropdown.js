@@ -67,7 +67,7 @@ const UserDropdown = (props) => {
     <>
       <div>
         {/* <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}> */}
-          <h2>
+          <h2 className="three-dots">
             <BiDotsVerticalRounded aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}/>
           </h2>
         {/* </Button> */}

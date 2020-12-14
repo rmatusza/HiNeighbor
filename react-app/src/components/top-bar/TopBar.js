@@ -11,9 +11,10 @@ import { useHistory,  Redirect } from 'react-router-dom'
 const useStyles = makeStyles((theme) => ({
 
   topBar: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary.dark,
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    height: '100px'
   },
   topBarRight: {
     display: 'flex'
@@ -42,11 +43,6 @@ const TopBar = (props) => {
             <h3 className='username'>
              Hello {firstName}!
             </h3>
-          </div>
-          <div className='user-icon'>
-            <h2>
-              <GiCrackedMask />
-            </h2>
           </div>
           <div className='dropdown-button-container'>
             <UserDropdown setAuthenticated={props.setAuthenticated}/>
