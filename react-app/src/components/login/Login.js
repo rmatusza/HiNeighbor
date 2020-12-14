@@ -5,6 +5,8 @@ import Button from "@material-ui/core/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Redirect } from 'react-router-dom'
 import setUserCreds from '../../actions/userCredsAction'
+import './login.css';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,15 +68,22 @@ const Login = (props) => {
   }
 
   return (
-    <>
+    <div className="sign-in-container">
+    <div className="sign-in-page">
+      <div className="site-name-sign-in">
+        <h1>Hi Neighbor!</h1>
+      </div>
       <form className={classes.root} noValidate autoComplete="off">
         <TextField id="filled-basic" label="Email:" variant="filled" name="email-input" onChange={updateInput}/>
-        <TextField id="filled-basic" label="Password:" type="password" variant="filled" name="password-input" onChange={updateInput}/>
-        <Button onClick={handleSubmit}  variant="contained" color="primary">
+        <div className="password-field">
+        <TextField id="filled-basic" label="Password:" type="password" variant="filled" name="password-input" fullWidth={true} onChange={updateInput}/>
+        </div>
+        <Button onClick={handleSubmit}  variant="contained" color="secondary">
           Submit
         </Button>
       </form>
-    </>
+    </div>
+    </div>
   )
 }
 
