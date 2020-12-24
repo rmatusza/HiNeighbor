@@ -13,8 +13,9 @@ import {
 } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import { useForm } from 'react-hook-form';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 const fs = require('fs')
-
 
 const useStyles = makeStyles((theme) => ({
   itemFormModal: {
@@ -105,19 +106,6 @@ const PostItem = (props) => {
     }, 2500)
   }
 
-  // const handleReaderLoaded = (readerEvt) => {
-  //   let binaryString = readerEvt.target.result
-  //   console.log(binaryString)
-  //   // setEncodedImg({base64TextString: btoa(binaryString)})
-  // }
-
-  // const examineFile = async(data, e) => {
-  //   const getImage = await fetch('http://localhost:8080/api/items-and-services/examine-file')
-
-  //   const {encoded_image} = await getImage.json()
-  //   console.log(encoded_image)
-  // }
-
   const postItem = async() => {
 
     let itemForSale = true
@@ -126,6 +114,7 @@ const PostItem = (props) => {
     }
     const expiryDate = new Date()
     expiryDate.setDate(expiryDate.getDate() + 30);
+    console.log(expiryDate)
     const body = {
       userId,
       itemName,

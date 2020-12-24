@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Category = () => {
 
+  let defaultCategory = useSelector(store => store.entities.search_params.category)
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null)
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const Category = () => {
       </span>
       <div className="chosen-category">
         <h3>
-        {selectedCategory ? selectedCategory : <p>Any</p>}
+        {defaultCategory ? defaultCategory : <p>Any</p>}
         </h3>
       </div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>

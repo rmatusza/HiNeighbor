@@ -16,17 +16,17 @@ const ProfitsChart = () => {
   // const months = {1: 'Janurary', 2: 'Februrary', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
   let data =
   [
-  { x: 1, y: 0, label: 'Janurary'},
-  { x: 2, y: 0, label: 'Februrary' },
-  { x: 3, y: 0, label: 'March' },
-  { x: 4, y: 0, label: 'April' },
-  { x: 5, y: 0, label: 'May' },
-  { x: 6, y: 0, label: 'June' },
-  { x: 7, y: 0, label: 'July' },
-  { x: 8, y: 0, label: 'August' },
-  { x: 9, y: 0, label: 'September' },
-  { x: 10, y: 0, label: 'October' },
-  { x: 11, y: 0, label: 'November' },
+  { x: 1, y: 30, label: 'Janurary'},
+  { x: 2, y: 40, label: 'Februrary' },
+  { x: 3, y: 35, label: 'March' },
+  { x: 4, y: 70, label: 'April' },
+  { x: 5, y: 90, label: 'May' },
+  { x: 6, y: 50, label: 'June' },
+  { x: 7, y: 100, label: 'July' },
+  { x: 8, y: 50, label: 'August' },
+  { x: 9, y: 90, label: 'September' },
+  { x: 10, y: 80, label: 'October' },
+  { x: 11, y: 90, label: 'November' },
   { x: 12, y: 0, label: 'December' },
   ]
 

@@ -175,6 +175,7 @@ const Items = () => {
   }
 
   const submitBid = async () => {
+
     const body = {
       bidInput,
       currUserId
@@ -193,6 +194,7 @@ const Items = () => {
 
     updateItems(updatedItem)
     // alert(`bid of $${bidInput} was placed`)
+    setModalOpen(false)
   }
 
   const handlePurchase = async () => {

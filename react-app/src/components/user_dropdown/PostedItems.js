@@ -113,12 +113,14 @@ const PostedItems = () => {
         return
       }
       console.log('RETURNED ITEMS:', postedItems)
-      const d1 = new Date(postedItems[0].expiry_date)
-      const today = new Date()
-      today.setDate(today.getDate()+0)
-      const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-      const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
-      postedItems.forEach(item => {
+
+      postedItems.forEach((item, idx) => {
+        const d1 = new Date(postedItems[idx].expiry_date)
+        console.log('EXPIRY DATE:', d1)
+        const today = new Date()
+        today.setDate(today.getDate()+0)
+        const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+        const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
         if(item.current_bid === null) {
           rows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining))
         } else {
@@ -144,7 +146,7 @@ const PostedItems = () => {
           {postedItems.map((item) => {
             // console.log(item)
             let ext = item.image_data
-            console.log(ext)
+            // console.log(ext)
             return (
               <Grid item xs={12} md={12}>
                 <Card className={classes.paper}>

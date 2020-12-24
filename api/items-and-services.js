@@ -121,7 +121,7 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     imageData,
     expiryDate
   } = req.body
-  console.log('IMAGE DATA:', imageData)
+  // console.log('IMAGE DATA:', imageData)
   // res.json(req.body)
 
   console.log('EXPIRY DATE:', expiryDate)
@@ -222,7 +222,7 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
   const { currUserId } = req.body
 
   const today = new Date()
-  today.setDate(today.getDate()-1)
+  today.setDate(today.getDate())
   JSON.stringify(today)
 
   let item = await Item.findByPk(itemId)
