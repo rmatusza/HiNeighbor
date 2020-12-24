@@ -213,6 +213,7 @@ const Items = () => {
     console.log(soldItemId)
 
     updateSoldItems(soldItemId)
+    handleDialogClose()
   }
 
   const handleClick = (sellerId) => {

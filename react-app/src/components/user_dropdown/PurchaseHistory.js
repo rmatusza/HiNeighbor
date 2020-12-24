@@ -110,6 +110,7 @@ const PurchaseHistory = () => {
   const[ratingVisibility, setRatingVisibility] = useState({})
   const[currItem, setCurrItem] = useState(null)
   const[itemRating, setItemRating] = useState(null)
+  const [selectedRatingButton, setSelectedRatingButton] = useState(null)
   const classes = useStyles()
   let items = []
   let ratingState = {}
@@ -149,11 +150,15 @@ const PurchaseHistory = () => {
     let statecpy = {...ratingVisibility}
     let value = ratingVisibility[idx]
     statecpy[idx] = !value
+    if(selectedRatingButton !== null) {
+      statecpy[selectedRatingButton] = false
+    }
     setCurrItem(itemId)
     setRatingVisibility(statecpy)
+    setSelectedRatingButton(idx)
   }
 
-  const submitRating = async() => {
+  const submitRating = async(itemId, idx) => {
    const body = {
       currUserId,
       itemRating
@@ -169,6 +174,8 @@ const PurchaseHistory = () => {
 
     const rating = await res.json()
     console.log('UPDATED RATING OBJECT:', rating)
+
+    enableRating(itemId, idx)
   }
 
   return(
@@ -225,7 +232,7 @@ const PurchaseHistory = () => {
                   <div className="rating-buttons-and-slider">
                     <div className="rate-and-submit-buttons">
                       <Button variant="outlined" color="primary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
-                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="outlined" color="primary" onClick={submitRating}>Submit Rating</Button></div>}
+                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="outlined" color="primary" onClick={() => submitRating(item.id, idx)}>Submit Rating</Button></div>}
                     </div>
                     {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
                     <></>
