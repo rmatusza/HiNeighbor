@@ -3,6 +3,7 @@
   padding-bottom: 30px;
   border-top: 2px solid black;
   height: auto;
+  display: flex;
 }
 
 .seller-info {
@@ -46,9 +47,10 @@
 }
 
 .divider{
-  border-right: 2px solid black;
-  margin-left: 270px;
-  margin-top: 50px;
+  border-bottom: 2px solid black;
+  width: 100%;
+  /* margin-left: 270px;
+  margin-top: 50px; */
   /* padding-right: 30px; */
   /* justify-self: flex-end; */
 }
@@ -57,12 +59,13 @@
   margin-left: 150px;
   height: 100px;
   width: 400px;
+  padding: 5px;
   background-color: whitesmoke;
   margin-bottom: 20px;
   /* border-radius: 10px; */
-  border-top: 3px solid black;
+  border: 1px solid black;
   /* border-bottom: 2px solid black; */
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 
 .username{
@@ -80,8 +83,26 @@
 
 .num-ratings{
   margin-left: 10px;
-  margin-top: 0px;
+  margin-top: 5px;
 }
+
+.item-name-seller-profile{
+  /* margin-left: 170px; */
+  /* padding-bottom: 50px; */
+  display: flex;
+  justify-content: flex-start;
+  height: 100px;
+}
+
+.table-container{
+  display: flex;
+  justify-content: center;
+}
+
+.inner-grid-container{
+  display: flex;
+}
+
 
 /* username
 sell-count

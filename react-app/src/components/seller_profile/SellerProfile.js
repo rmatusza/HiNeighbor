@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.contrastText,
     height: '300px',
     width: '300px',
-    marginLeft: '200px',
+    // marginLeft: '200px',
+    marginLeft: '20px',
     padding: '50px',
 
   },
@@ -90,7 +91,8 @@ const useStyles = makeStyles((theme) => ({
     heigth: '200px'
   },
   table: {
-    minWidth: 650,
+    // minWidth: 650,
+    minWidth: 350,
   },
   tableHead: {
     backgroundColor: theme.palette.secondary.dark,
@@ -101,7 +103,9 @@ const useStyles = makeStyles((theme) => ({
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
-    height: '70px'
+    height: '70px',
+    width: '400px',
+    height: '94px'
   },
   tableCell: {
     color: theme.palette.secondary.contrastText
@@ -145,7 +149,6 @@ const SellerProfile = () => {
   },[])
 
   return(
-
     <>
       <div className="seller-info">
         <div className="seller-username">
@@ -160,7 +163,7 @@ const SellerProfile = () => {
           <h3> Items sold:</h3><h4 className="sell-count">{userData.sold.count}</h4>
         </div>
         <div className="seller-sold-items-count">
-          <h3> Average Rating:</h3><h4 className="average-ratings">{userData.reviews.average === 0 ? 'No Ratings' : `${userData.reviews.average} Stars`}</h4>
+          <h3> Average Rating:</h3><h4 className="average-ratings">{userData.reviews.average === 0 ? 'No Ratings' : `${Number(userData.reviews.average).toFixed(2)} Stars`}</h4>
         </div>
         <div className="num-seller-ratings">
           <h3>Ratings:</h3><h4 className="num-ratings">{userData.reviews.num_ratings === 0 ? <p> No Ratings</p> : <p>{userData.reviews.num_ratings}</p>}</h4>
@@ -172,57 +175,67 @@ const SellerProfile = () => {
         </h1>
       </div>
       <div className="seller-items-body-container">
-        <div className="seller-items-container">
+        {/* <div className="seller-items-container"> */}
           <Grid container spacing={1} className={classes.grid} >
             {userData.items.map((item, idx) => {
               let ext = item.image_data
               return (
-                <Grid item xs={12} md={6}>
-                  <div className="seller-page-item-cards">
-                    <Card className={classes.paper}>
-                      <CardContent className={classes.image}>
-                        <img className="item-image" src={`data:image/png;bas64`,require(`../../uploads/${ext}`).default} />
-                      </CardContent>
-                    </Card>
-                    {idx === 0 || idx % 2 === 0 ? <div className="divider"></div> : <></> }
-                  </div>
-                  <div className="item-description-conatiner">
-                    {item.description}
-                  </div>
-                  <div>
-                  <TableContainer className={classes.tableContainer}>
-                    <Table className={classes.table} size="small" aria-label="a dense table">
-                      <TableHead className={classes.tableHead}>
-                        <TableRow>
-                          {/* <TableCell align="right">Item Name</TableCell> */}
-                          <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
+                <>
+                <Grid item xs={12} md={12}>
+                  <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
+                  {/* <div className="inner-grid-container"> */}
+                    <div className="seller-page-item-cards">
+                      <Card className={classes.paper}>
+                        <CardContent className={classes.image}>
+                          <img className="item-image" src={`data:image/png;bas64`,require(`../../uploads/${ext}`).default} />
+                        </CardContent>
+                      </Card>
+                      <div className="description-table-container">
+                      <div className="item-description-conatiner">
+                        {item.description}
+                      </div>
+                      <div className="table-container">
+                        <TableContainer className={classes.tableContainer}>
+                          <Table className={classes.table} size="small" aria-label="a dense table">
+                            <TableHead className={classes.tableHead}>
+                              <TableRow>
+                                {/* <TableCell align="right">Item Name</TableCell> */}
+                                <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
+                                <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
+                                <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
+                                <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
 
-                        <TableRow key={dataRows[idx].name}>
-                          {/* <TableCell component="th" scope="row">
-                            {dataRows.name}
-                          </TableCell> */}
-                          {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
-                          <TableCell align="right">${dataRows[idx].price}</TableCell>
-                          <TableCell align="right">${dataRows[idx].bid}</TableCell>
-                          <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
-                          <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
-                        </TableRow>
+                              <TableRow key={dataRows[idx].name}>
+                                {/* <TableCell component="th" scope="row">
+                                  {dataRows.name}
+                                </TableCell> */}
+                                {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
+                                <TableCell align="right">${dataRows[idx].price}</TableCell>
+                                <TableCell align="right">${dataRows[idx].bid}</TableCell>
+                                <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
+                                <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
+                              </TableRow>
 
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  </div>
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </div>
+                    </div>
+                    </div>
+
+                  {/* </div> */}
                 </Grid>
+                <div className="divider">
+
+                </div>
+                </>
               )
             })}
           </Grid>
-        </div>
+        {/* </div> */}
       </div>
     </>
   )
