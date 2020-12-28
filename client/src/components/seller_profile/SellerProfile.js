@@ -128,7 +128,7 @@ const SellerProfile = () => {
   useEffect(() => {
     (async() => {
       let rows = []
-      const res = await fetch(`http://localhost:8080/api/users/${id}/get-seller-info`)
+      const res = await fetch(`http://localhost:5000/api/users/${id}/get-seller-info`)
       const sellerInfo = await res.json()
       console.log('RETURNED ITEMS:', sellerInfo)
       const d1 = new Date(sellerInfo.items[0].expiry_date)

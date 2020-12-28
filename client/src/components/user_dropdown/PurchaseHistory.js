@@ -118,7 +118,7 @@ const PurchaseHistory = () => {
   useEffect(() => {
     (async() => {
       let rows = []
-      const res = await fetch(`http://localhost:8080/api/users/${currUserId}/get-purchase-history`)
+      const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
       const postedItems = await res.json()
       // items = postedItems
       console.log('RETURNED ITEMS:', postedItems)
@@ -164,7 +164,7 @@ const PurchaseHistory = () => {
       itemRating
     }
 
-    const res = await fetch(`http://localhost:8080/api/items-and-services/${currItem}/rate-item`, {
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'

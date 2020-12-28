@@ -181,7 +181,7 @@ const Items = () => {
       currUserId
     }
 
-    const res = await fetch(`http://localhost:8080/api/items-and-services/${currItemId}/bid`, {
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/bid`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -202,7 +202,7 @@ const Items = () => {
       currUserId
     }
 
-    const res = await fetch(`http://localhost:8080/api/items-and-services/${currItemId}/purchase`, {
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'

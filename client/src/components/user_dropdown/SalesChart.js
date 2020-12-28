@@ -48,7 +48,7 @@ const SalesChart = () => {
 
   useEffect(() => {
     (async() => {
-      const res = await fetch(`http://localhost:8080/api/users/${userId}/chart-data`)
+      const res = await fetch(`http://localhost:5000/api/users/${userId}/chart-data`)
       const items = await res.json()
       console.log('SALES DATA:', data)
       items.forEach(item => {
@@ -85,13 +85,13 @@ const SalesChart = () => {
   }
 
   const resetItem = async() => {
-    // await fetch(`http://localhost:8080/api/items-and-services/${12}/unpurchase`,{
+    // await fetch(`http://localhost:5000/api/items-and-services/${12}/unpurchase`,{
       //   method: 'PATCH'
       // })
     }
 
     const getCheese = async() => {
-      // const res = await fetch(`http://localhost:8080/api/items-and-services/${12}/cheese`)
+      // const res = await fetch(`http://localhost:5000/api/items-and-services/${12}/cheese`)
       // const {date} = await res.json()
 
       // const dateobj = new Date(date)

@@ -39,7 +39,7 @@ const Login = (props) => {
       password
     }
     console.log(body)
-    const res = await fetch('http://localhost:8080/api/users/token', {
+    const res = await fetch('http://localhost:5000/api/users/token', {
       method: 'POST',
       credentials: 'include',
       headers: {
