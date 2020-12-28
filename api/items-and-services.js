@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const fs = require('fs');
 const { encode } = require("punycode");
 const Op = Sequelize.Op
-const upload = multer({dest: 'react-app/src/uploads/'});
+const upload = multer({dest: 'client/src/uploads/'});
 const router = express.Router();
 
 router.post('/search', asyncHandler(async(req, res) => {
