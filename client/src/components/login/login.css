@@ -11,6 +11,10 @@
   justify-content: center; */
   display: block;
   margin-left: 100px;
+  /* text-decoration: underline; */
+}
+
+.site-name-text {
   text-decoration: underline;
 }
 

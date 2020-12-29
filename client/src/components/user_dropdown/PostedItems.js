@@ -144,9 +144,9 @@ const PostedItems = () => {
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
           {postedItems.map((item) => {
-            // console.log(item)
+            console.log(item)
             let ext = item.image_data
-            // console.log(ext)
+            console.log(ext)
             return (
               <Grid item xs={12} md={12}>
                 <Card className={classes.paper}>

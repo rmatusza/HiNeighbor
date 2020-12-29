@@ -62,6 +62,35 @@ const Login = (props) => {
     }
   }
 
+  const logInDemoUser = async () => {
+    const body = {
+      email: 'testuser@test.com',
+      password: 'password'
+    }
+    console.log(body)
+    const res = await fetch('http://localhost:5000/api/users/token', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+
+    const { user } = await res.json()
+
+    if(user) {
+      const payload = {
+        id: user.id,
+        username: user.userName,
+        firstName: user.firstName,
+        lastName: user.lastName
+      }
+      dispatch(setUserCreds(payload))
+      props.setAuthenticated(true)
+    }
+  }
+
 
   if(props.authenticated === true) {
     return <Redirect to="/" exact={true}/>
@@ -71,7 +100,7 @@ const Login = (props) => {
     <div className="sign-in-container">
     <div className="sign-in-page">
       <div className="site-name-sign-in">
-        <h1>Hi Neighbor!</h1>
+        <h1 className='site-name-text'>Hi Neighbor!</h1>
       </div>
       <form className={classes.root} noValidate autoComplete="off">
         <TextField id="filled-basic" label="Email:" variant="filled" name="email-input" onChange={updateInput}/>
@@ -81,6 +110,11 @@ const Login = (props) => {
         <Button onClick={handleSubmit}  variant="contained" color="secondary">
           Submit
         </Button>
+        <div>
+        <Button onClick={logInDemoUser}  variant="contained" color="secondary" fullWidth={true}>
+          Log in as Demo User
+        </Button>
+        </div>
       </form>
     </div>
     </div>

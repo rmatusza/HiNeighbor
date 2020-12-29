@@ -150,7 +150,7 @@ const PurchaseHistory = () => {
     let statecpy = {...ratingVisibility}
     let value = ratingVisibility[idx]
     statecpy[idx] = !value
-    if(selectedRatingButton !== null) {
+    if(selectedRatingButton !== null && selectedRatingButton !== idx) {
       statecpy[selectedRatingButton] = false
     }
     setCurrItem(itemId)

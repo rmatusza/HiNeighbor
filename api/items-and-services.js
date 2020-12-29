@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const fs = require('fs');
 const { encode } = require("punycode");
 const Op = Sequelize.Op
-const upload = multer({dest: 'client/src/uploads/'});
+const upload = multer({dest: 'client/src/uploads'});
 const router = express.Router();
 
 router.post('/search', asyncHandler(async(req, res) => {
@@ -121,7 +121,7 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     imageData,
     expiryDate
   } = req.body
-  // console.log('IMAGE DATA:', imageData)
+  console.log('IMAGE DATA:', imageData)
   // res.json(req.body)
 
   console.log('EXPIRY DATE:', expiryDate)
