@@ -46,8 +46,8 @@
   padding-bottom: 0px;
   display: flex;
   /* margin-top: 20px; */
-  margin-bottom: 163px;
-
+  margin-bottom: 283px;
+  margin-top: 100px;
 }
 
 .main-page-items-table-container{
@@ -55,5 +55,24 @@
   display: flex;
   margin-top: 20px;
   margin-bottom: 120px;
+}
 
+.items-for-sale-heading{
+  margin-left: 20px;
+}
+
+.item-name-posted-items{
+  margin-left: -20px;
+  display: flex;
+  justify-content: flex-start;
+  height: 100px;
+  max-height: 100px;
+  /* border: 1px solid red; */
+}
+
+.divider {
+  display: block;
+  width: 215px;
+  margin-left: 10px;
+  margin-top: 20px;
 }

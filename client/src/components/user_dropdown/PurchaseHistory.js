@@ -180,6 +180,8 @@ const PurchaseHistory = () => {
 
   return(
     <>
+    {postedItems.items.length === 0 ? <h1>No Purchase History...</h1> :
+    <>
     <div>
       <h1>
         Your Purchase History:
@@ -258,6 +260,8 @@ const PurchaseHistory = () => {
           })}
       </div>
     </div>
+    </>
+    }
     </>
   )
 }

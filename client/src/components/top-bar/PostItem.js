@@ -96,9 +96,13 @@ const PostItem = (props) => {
     }
   };
 
-  const handleCloseModal = () => {
-    console.log('MODAL STATE:', modalOpen)
+  const handleCloseModal = (buttonName) => {
     setModalOpen(false)
+    // console.log(e)
+    if(buttonName === 'close-button') {
+      dispatch(setPostItemFormStatus(false))
+      return
+    }
     setPopupVisible(true)
     setTimeout(() => {
       setPopupVisible(false)
@@ -222,6 +226,7 @@ const PostItem = (props) => {
           className={classes.submitButton}
           onClick={postItem}
           type="submit"
+          name="post-button"
         >
           Post Item
         </Button>
@@ -231,8 +236,9 @@ const PostItem = (props) => {
           style={{ color: "white" }}
           size="small"
           className={classes.submitButton}
-          onClick={handleCloseModal}
+          onClick={()=>handleCloseModal('close-button')}
           type="submit"
+          name="close-button"
         >
          Close
         </Button>

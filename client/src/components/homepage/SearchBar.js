@@ -33,6 +33,10 @@ const SearchBar = () => {
       console.log(param)
       body[param] = search_params[param]
     }
+    if(body.category === undefined) {
+      alert('Please Choose a Category')
+      return
+    }
     body['user_search'] = input
     body['user_id'] = currUserId
     console.log(body)

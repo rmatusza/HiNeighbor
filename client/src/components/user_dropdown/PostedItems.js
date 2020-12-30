@@ -135,8 +135,10 @@ const PostedItems = () => {
 
   return(
     <>
+    {postedItems.length === 0 ? <h1>No Items Posted...</h1> :
+    <>
     <div>
-      <h1>
+      <h1 className="items-for-sale-heading">
         Your Items for Sale:
       </h1>
     </div>
@@ -148,13 +150,17 @@ const PostedItems = () => {
             let ext = item.image_data
             console.log(ext)
             return (
+              <>
               <Grid item xs={12} md={12}>
+                <div className="item-name-posted-items"><h2 className="item-text">{item.name}</h2></div>
                 <Card className={classes.paper}>
                   <CardContent className={classes.image}>
                     <img className="item-image" src={`data:image/png;bas64`,require(`../../uploads/${ext}`).default} />
                   </CardContent>
                 </Card>
               </Grid>
+              <div className="divider"></div>
+              </>
             )
           })}
         </Grid>
@@ -163,38 +169,40 @@ const PostedItems = () => {
         {postedItems.map((item, idx) => {
           return(
             <div className="posted-items-table-container">
-          <TableContainer className={classes.tableContainer}>
-            <Table className={classes.table} size="small" aria-label="a dense table">
-              <TableHead className={classes.tableHead}>
-                <TableRow>
-                  {/* <TableCell align="right">Item Name</TableCell> */}
-                  <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
-                  <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
-                  <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
-                  <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
+              <TableContainer className={classes.tableContainer}>
+                <Table className={classes.table} size="small" aria-label="a dense table">
+                  <TableHead className={classes.tableHead}>
+                    <TableRow>
+                      {/* <TableCell align="right">Item Name</TableCell> */}
+                      <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
+                      <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
+                      <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
+                      <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
 
-                <TableRow key={dataRows[idx].name}>
-                  {/* <TableCell component="th" scope="row">
-                    {dataRows.name}
-                  </TableCell> */}
-                  {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
-                  <TableCell align="right">${dataRows[idx].price}</TableCell>
-                  <TableCell align="right">${dataRows[idx].bid}</TableCell>
-                  <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
-                  <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
-                </TableRow>
+                    <TableRow key={dataRows[idx].name}>
+                      {/* <TableCell component="th" scope="row">
+                        {dataRows.name}
+                      </TableCell> */}
+                      {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
+                      <TableCell align="right">${dataRows[idx].price}</TableCell>
+                      <TableCell align="right">${dataRows[idx].bid}</TableCell>
+                      <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
+                      <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
+                    </TableRow>
 
-              </TableBody>
-            </Table>
-          </TableContainer>
-          </div>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
           )
         })}
       </ul>
     </div>
+    </>
+    }
     </>
   )
 }
