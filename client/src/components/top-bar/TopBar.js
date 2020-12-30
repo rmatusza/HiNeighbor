@@ -7,6 +7,7 @@ import holyGrail from '../../images/holy_grail.PNG';
 import { useDispatch, useSelector } from "react-redux";
 import setUserCreds from '../../actions/userCredsAction'
 import { useHistory,  Redirect } from 'react-router-dom'
+import { BsHouseFill } from "react-icons/bs"
 
 const useStyles = makeStyles((theme) => ({
 
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.dark,
     display: 'flex',
     justifyContent: 'space-between',
-    height: '100px'
+    height: '100px',
   },
   topBarRight: {
     display: 'flex'
@@ -32,20 +33,27 @@ const TopBar = (props) => {
   }
   return (
     <>
-      <div className={classes.topBar}>
-        <div className='site-name-container' onClick={redirectToHome}>
-          <h2>
-            Hi Neighbor!
-          </h2>
-        </div>
-        <div className='top-bar-right'>
-          <div className='username-container'>
-            <h3 className='username'>
-             Hello {firstName}!
-            </h3>
+      <div className="top-bar-container">
+        <div className={classes.topBar}>
+          <div className="site-name-home-icon-container">
+            <div className='site-name-container' onClick={redirectToHome}>
+              {/* <h2 className="site-name-text">
+                Hi Neighbor!
+              </h2> */}
+            <h2 className="house-icon">
+              <BsHouseFill />
+            </h2>
+            </div>
           </div>
-          <div className='dropdown-button-container'>
-            <UserDropdown setAuthenticated={props.setAuthenticated}/>
+          <div className='top-bar-right'>
+            <div className='username-container'>
+              <h2 className='username'>
+              Hello {firstName}!
+              </h2>
+            </div>
+            <div className='dropdown-button-container'>
+              <UserDropdown setAuthenticated={props.setAuthenticated}/>
+            </div>
           </div>
         </div>
       </div>

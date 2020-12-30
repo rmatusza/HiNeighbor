@@ -41,7 +41,7 @@ const HomePage = () => {
   return (
     <>
       {popupVisible ? <div className="fade-test" style={{display:"block"}}><h2>Your purchase was successful</h2></div> : <></>}
-      <div className='category-container'>
+        <div className='category-contents-container'>
         <Category />
       </div>
       <div className='search-container'>

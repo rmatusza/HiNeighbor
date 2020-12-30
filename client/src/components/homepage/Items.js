@@ -27,7 +27,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
-    width: '100%',
+    width: '50%',
     margin: '0px'
   },
   paper: {
@@ -101,6 +101,9 @@ const useStyles = makeStyles((theme) => ({
   },
   buyNow: {
     maxHeight: "50px"
+  },
+  cardActionArea: {
+    width: '200px'
   }
 
 }))
@@ -243,7 +246,7 @@ const Items = () => {
             return (
               <Grid item xs={12} md={12}>
                 <Link to={`/seller-profile/${item.seller_id}`}>
-                <CardActionArea >
+                <CardActionArea className={classes.cardActionArea}>
                   <Card className={classes.paper}>
                     <CardContent className={classes.image}>
                       <img className="item-image-homepage" src={`data:image/png;bas64`,require(`../../uploads/${ext}`).default} />

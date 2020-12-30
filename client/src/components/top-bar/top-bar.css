@@ -36,7 +36,7 @@
   height: 30px;
   margin-right: 25px;
   align-items: flex-start;
-  margin-top: 14px;
+  margin-top: 20px;
   margin-bottom: 0px;
 }
 
@@ -44,11 +44,42 @@
   cursor: pointer;
 }
 
+.site-name-home-icon-container{
+  display: flex;
+}
+
 .site-name-container{
-  color: white;
+  /* color: #76323F; */
+  /* color: black; */
+
   margin-left: 20px;
+  background-color: rgb(44, 1, 1);
+  width: 50px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 50%;
 }
 
 .site-name-container:hover{
   cursor: pointer;
 }
+
+.site-name-text{
+  color: black;
+  text-decoration: underline;
+}
+
+.house-icon{
+  color: whitesmoke
+}
+
+/* .top-bar-container{
+  position: fixed;
+  display: block;
+  width: 100%;
+  top: 0px;
+  z-index: 1;
+} */

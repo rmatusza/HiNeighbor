@@ -1,4 +1,4 @@
-.category-container{
+.category-contents-container{
   display: flex;
   justify-content: center;
 }
@@ -8,6 +8,10 @@
   align-items: center;
 
 }
+
+/* .category-container{
+  display: block;
+} */
 
 .search-container{
   border: 2px solid black;

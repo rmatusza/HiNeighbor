@@ -28,12 +28,6 @@ const useStyles = makeStyles((theme) => ({
     // padding: '10px',
   },
   paper: {
-    // textAlign: 'center',
-    // backgroundColor: theme.palette.secondary.light,
-    // background: theme.palette.success.light,
-    // color: theme.palette.secondary.contrastText,
-    // height: '200px',
-    // width: '200px'
     padding: theme.spacing(2),
     textAlign: 'center',
     backgroundColor: 'white',
@@ -41,10 +35,10 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.contrastText,
     height: '300px',
     width: '300px',
-    // marginLeft: '200px',
     marginLeft: '20px',
-    padding: '50px',
-
+    paddingTop: '50px',
+    paddingBottom: '50px',
+    paddingLeft: '20px'
   },
   typography: {
     fontSize: theme.typography.fontSize
@@ -56,7 +50,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     padding: '10px',
     height: '300px',
+    width: '300px',
     marginBottom: '200px',
+    paddingRight: '50px'
   },
   itemFormModal: {
     // position: 'absolute',
@@ -170,8 +166,8 @@ const SellerProfile = () => {
         </div>
       </div>
       <div>
-        <h1>
-        Current Items for Sale:
+        <h1 className="current-items-heading">
+        {userData.user.username} is Currently Selling the Following Items:
         </h1>
       </div>
       <div className="seller-items-body-container">
@@ -191,39 +187,41 @@ const SellerProfile = () => {
                         </CardContent>
                       </Card>
                       <div className="description-table-container">
-                      <div className="item-description-conatiner">
-                        {item.description}
-                      </div>
-                      <div className="table-container">
-                        <TableContainer className={classes.tableContainer}>
-                          <Table className={classes.table} size="small" aria-label="a dense table">
-                            <TableHead className={classes.tableHead}>
-                              <TableRow>
-                                {/* <TableCell align="right">Item Name</TableCell> */}
-                                <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
-                                <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
-                                <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
-                                <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
+                        <div className="table-container">
 
-                              <TableRow key={dataRows[idx].name}>
-                                {/* <TableCell component="th" scope="row">
-                                  {dataRows.name}
-                                </TableCell> */}
-                                {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
-                                <TableCell align="right">${dataRows[idx].price}</TableCell>
-                                <TableCell align="right">${dataRows[idx].bid}</TableCell>
-                                <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
-                                <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
-                              </TableRow>
+                          <TableContainer className={classes.tableContainer}>
+                            <Table className={classes.table} size="small" aria-label="a dense table">
+                              <TableHead className={classes.tableHead}>
+                                <TableRow>
+                                  {/* <TableCell align="right">Item Name</TableCell> */}
+                                  <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
+                                  <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
+                                  <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
+                                  <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
 
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
+                                <TableRow key={dataRows[idx].name}>
+                                  {/* <TableCell component="th" scope="row">
+                                    {dataRows.name}
+                                  </TableCell> */}
+                                  {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
+                                  <TableCell align="right">${dataRows[idx].price}</TableCell>
+                                  <TableCell align="right">${dataRows[idx].bid}</TableCell>
+                                  <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
+                                  <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
+                                </TableRow>
+
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+
+                        </div>
+                        <div className="item-description-conatiner">
+                          {item.description}
+                        </div>
                       </div>
-                    </div>
                     </div>
 
                   {/* </div> */}
