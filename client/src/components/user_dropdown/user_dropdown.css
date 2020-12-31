@@ -70,9 +70,13 @@
   /* border: 1px solid red; */
 }
 
-.divider {
+.item-divider {
   display: block;
   width: 215px;
   margin-left: 10px;
   margin-top: 20px;
+}
+
+.purchase-history-heading{
+  margin-left: 20px;
 }

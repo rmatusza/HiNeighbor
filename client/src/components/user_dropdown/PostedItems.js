@@ -159,7 +159,7 @@ const PostedItems = () => {
                   </CardContent>
                 </Card>
               </Grid>
-              <div className="divider"></div>
+              <div className="item-divider"></div>
               </>
             )
           })}

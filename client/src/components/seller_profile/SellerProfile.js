@@ -127,12 +127,12 @@ const SellerProfile = () => {
       const res = await fetch(`http://localhost:5000/api/users/${id}/get-seller-info`)
       const sellerInfo = await res.json()
       console.log('RETURNED ITEMS:', sellerInfo)
-      const d1 = new Date(sellerInfo.items[0].expiry_date)
-      const today = new Date()
-      today.setDate(today.getDate()+0)
-      const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-      const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
       sellerInfo.items.forEach(item => {
+        const d1 = new Date(item.expiry_date)
+        const today = new Date()
+        today.setDate(today.getDate()+0)
+        const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+        const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
         if(item.current_bid === null) {
           rows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining))
         } else {

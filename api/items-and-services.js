@@ -222,7 +222,9 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
   const { currUserId } = req.body
 
   const today = new Date()
+  // today.toLocalDateString()
   today.setDate(today.getDate())
+  console.log('TODAY:', today)
   JSON.stringify(today)
 
   let item = await Item.findByPk(itemId)

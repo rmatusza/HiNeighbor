@@ -183,7 +183,7 @@ const PurchaseHistory = () => {
     {postedItems.items.length === 0 ? <h1>No Purchase History...</h1> :
     <>
     <div>
-      <h1>
+      <h1 className="purchase-history-heading">
         Your Purchase History:
       </h1>
     </div>
