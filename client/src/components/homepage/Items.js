@@ -241,15 +241,14 @@ const Items = () => {
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
           {items.map((item) => {
-            let ext = item.image_data
-            console.log(ext)
+            let url = item.image_url
             return (
               <Grid item xs={12} md={12}>
                 <Link to={`/seller-profile/${item.seller_id}`}>
                 <CardActionArea className={classes.cardActionArea}>
                   <Card className={classes.paper}>
                     <CardContent className={classes.image}>
-                      <img className="item-image-homepage" src={`data:image/png;bas64`,require(`../../uploads/${ext}`).default} />
+                      <img className="item-image-homepage" src={url} />
                     </CardContent>
                   </Card>
                 </CardActionArea>

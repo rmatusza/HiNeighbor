@@ -174,7 +174,7 @@ const SellerProfile = () => {
         {/* <div className="seller-items-container"> */}
           <Grid container spacing={1} className={classes.grid} >
             {userData.items.map((item, idx) => {
-              let ext = item.image_data
+              let url = item.image_url
               return (
                 <>
                 <Grid item xs={12} md={12}>
@@ -183,7 +183,7 @@ const SellerProfile = () => {
                     <div className="seller-page-item-cards">
                       <Card className={classes.paper}>
                         <CardContent className={classes.image}>
-                          <img className="item-image" src={`data:image/png;bas64`,require(`../../uploads/${ext}`).default} />
+                          <img className="item-image" src={url} />
                         </CardContent>
                       </Card>
                       <div className="description-table-container">

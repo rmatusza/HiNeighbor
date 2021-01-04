@@ -41,9 +41,8 @@ module.exports = (sequelize, DataTypes) => {
     for_sale: {
       allowNull: false,
       type: DataTypes.BOOLEAN,
-
     },
-    image_data: {
+    image_url: {
       allowNull: true,
       type: DataTypes.TEXT
     },

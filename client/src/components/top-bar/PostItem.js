@@ -63,7 +63,8 @@ const PostItem = (props) => {
   const [itemPrice, setItemPrice] = useState("");
   const [itemOfferType, setItemOfferType] = useState("");
   const [itemQuantity, setItemQuantity] = useState("");
-  const [imageData, setImageData] = useState('')
+  const [imageURL, setImageURL] = useState('')
+  const [imageFile, setImageFile] = useState(null)
   const [classTime, setClassTime] = useState("");
   const [modalClosed, setModalClosed] = useState('false')
   const [encodedImg, setEncodedImg] = useState({})
@@ -127,7 +128,7 @@ const PostItem = (props) => {
       itemPrice,
       itemQuantity,
       itemForSale,
-      imageData,
+      imageURL,
       expiryDate
     }
 
@@ -147,30 +148,29 @@ const PostItem = (props) => {
   }
 
 
-  const uploadPhoto = async (data) => {
-    console.log(data.image[0].name)
+  const uploadPhoto = async (e) => {
+    e.preventDefault()
+    console.log(imageFile)
+    // console.log(data.image[0].name)
     const fd = new FormData();
-    fd.append('Image', data.image[0], data.image[0].name)
-    console.log(fd)
+    fd.append('file', imageFile)
+    // console.log(fd)
 
     const res = await fetch('http://localhost:5000/api/items-and-services/upload-photo', {
       method: 'POST',
       body: fd
     })
 
-    const image = await res.json()
-    const path = image.path.split('/')
-    const image_extenstion = path[path.length-1]
-    // console.log(image.path.split('/'))
-    setImageData(image_extenstion)
-    console.log(image_extenstion)
-    // console.log(image)
-    // setImageData(image)
-    alert('Upload Successful!')
+    const { imageURL } = await res.json()
+    setImageURL(imageURL)
+    // const path = image.path.split('/')
+    // const image_extenstion = path[path.length-1]
+    // setImageData(image_extenstion)
+    // console.log(image_extenstion)
+    // alert('Upload Successful!')
 
   }
 
-  console.log(imageData)
 
   const postItemBody = (
     <div className={classes.itemFormModal}>
@@ -212,9 +212,9 @@ const PostItem = (props) => {
         </FormControl>
       </div>
       <div>
-        <form onSubmit={handleSubmit(uploadPhoto)}>
-          <input ref={register} type="file" id="upload-image-input" name='image'/>
-          <button>Confirm Upload</button>
+        <form onChange={(e) => setImageFile(e.target.files[0])}>
+          <input type="file" id="upload-image-input" name='image'/>
+          <button onClick={uploadPhoto}>Confirm Upload</button>
         </form>
       </div>
       <div className="post_item_or_service_buttons">

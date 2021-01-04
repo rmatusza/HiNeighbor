@@ -12,4 +12,9 @@ module.exports = {
     expiresIn: process.env.JWT_EXPIRES_IN
   },
   cookieConfig: process.env.COOKIE_SECRET,
+  awsKeys: {
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    region: process.env.AWS_REGION
+  }
 };
