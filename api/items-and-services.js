@@ -1,13 +1,32 @@
 const express = require("express");
 const { asyncHandler } = require('../utils');
 const multer = require('multer');
+const upload = multer();
 const { Item, Service, User, Bid, Review } = require("../db/models");
 const Sequelize = require('sequelize');
 const fs = require('fs');
 const { encode } = require("punycode");
 const Op = Sequelize.Op
-const upload = multer({dest: 'client/src/uploads'});
 const router = express.Router();
+const AWS = require("aws-sdk")
+const { awsKeys } = require ("../config")
+
+AWS.config.update({
+  secretAccessKey: awsKeys.secretAccessKey,
+  accessKeyId: awsKeys.accessKeyId,
+  region: awsKeys.region,
+})
+
+const s3 = new AWS.S3()
+
+const fileFilter = (req, res, next) => {
+  const file = req.files[0];
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/webp") {
+    next();
+  } else {
+    return
+  }
+}
 
 router.post('/search', asyncHandler(async(req, res) => {
   let {price_range, distance, offer_type, category, user_search, user_id} = req.body
@@ -94,9 +113,21 @@ router.post('/search', asyncHandler(async(req, res) => {
 
 // uploads a photo to react-app/src/uploads
 
-router.post('/upload-photo', upload.single('Image'), async(req, res) =>{
-  res.json(req.file)
-})
+router.post('/upload-photo', upload.any(), fileFilter, asyncHandler(async (req, res) =>{
+  const file = req.files[0]
+  const params = {
+    Bucket: "hi-neighbor-item-photos",
+    Key: Date.now().toString()+file.originalname,
+    Body: file.buffer,
+    ACL: "public-read",
+    ContentType: file.mimetype
+  }
+
+  const promise = s3.upload(params).promise()
+  const uploadedImage = await promise
+  const imageURL = uploadedImage.Location
+  res.json({'imageURL': imageURL})
+}))
 
 // router.get('/examine-file', async(req,res) => {
 //   // const id = req.params.id
@@ -118,10 +149,9 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     itemPrice,
     itemQuantity,
     itemForSale,
-    imageData,
+    imageURL,
     expiryDate
   } = req.body
-  console.log('IMAGE DATA:', imageData)
   // res.json(req.body)
 
   console.log('EXPIRY DATE:', expiryDate)
@@ -134,7 +164,7 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     quantity: itemQuantity,
     for_rent: !itemForSale,
     for_sale: itemForSale,
-    image_data: imageData,
+    image_url: imageURL,
     expiry_date: expiryDate
   })
 

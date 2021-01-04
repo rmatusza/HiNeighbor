@@ -47,7 +47,7 @@ module.exports = {
         type: Sequelize.BOOLEAN,
 
       },
-      image_data: {
+      image_url: {
         allowNull: true,
         type: Sequelize.TEXT
       },
