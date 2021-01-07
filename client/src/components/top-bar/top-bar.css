@@ -76,6 +76,20 @@
   color: whitesmoke
 }
 
+.photo-upload-container{
+  margin-left: 55px;
+}
+
+.confirm-upload-button{
+  margin-top: 5px;
+}
+
+.post-item-or-service-buttons {
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+}
+
 /* .top-bar-container{
   position: fixed;
   display: block;

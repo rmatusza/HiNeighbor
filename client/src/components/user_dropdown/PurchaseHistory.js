@@ -121,13 +121,13 @@ const PurchaseHistory = () => {
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
       const postedItems = await res.json()
       // items = postedItems
-      console.log('RETURNED ITEMS:', postedItems)
+      // console.log('RETURNED ITEMS:', postedItems)
       postedItems.items.forEach((item, i) => {
         ratingState[i] = false
         let month = item.date_sold.slice(5,7)
-        console.log(month)
+        // console.log(month)
         let day = item.date_sold.slice(8,10)
-        console.log(day)
+        // console.log(day)
         let year = item.date_sold.slice(0, 4)
         if(item.current_bid === null) {
           rows.push(createData(item.name, postedItems.users[item.seller_id - postedItems.items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))

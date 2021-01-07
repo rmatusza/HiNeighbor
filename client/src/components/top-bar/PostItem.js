@@ -15,6 +15,9 @@ import Modal from "@material-ui/core/Modal";
 import { useForm } from 'react-hook-form';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Select from "@material-ui/core/Select";
+import Box from "@material-ui/core/Box";
+
 const fs = require('fs')
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +52,17 @@ const useStyles = makeStyles((theme) => ({
   dialogBox: {
     width: '200px',
     heigth: '200px'
+  },
+
+  offerType: {
+    margin: '10px',
+    width: '100%'
+  },
+
+  formControl: {
+    width: '200px',
+    marginTop: '10px',
+    marginBottom: '10px'
   }
 }));
 
@@ -77,9 +91,23 @@ const PostItem = (props) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [popupVisible, setPopupVisible] = useState(false)
   const[modalOpen, setModalOpen] = useState(true)
+  const [anchorEl, setAnchorEl] = useState(null);
 
 
-  console.log('CURRENT USER ID:', userId)
+  // console.log('CURRENT USER ID:', userId)
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOfferTypeSelection = (offerType) => {
+    setItemOfferType(offerType)
+    handleClose()
+  }
 
   const handleInputChange = (e) => {
     if (e.target.id === "name-input") {
@@ -92,8 +120,6 @@ const PostItem = (props) => {
       setItemPrice(e.target.value)
     }else if(e.target.id === "quantitiy-input") {
       setItemQuantity(e.target.value)
-    } else if(e.target.id === "offer-type-input") {
-      setItemOfferType(e.target.value)
     }
   };
 
@@ -114,7 +140,7 @@ const PostItem = (props) => {
   const postItem = async() => {
 
     let itemForSale = true
-    if(itemOfferType.toLocaleLowerCase() === 'rent') {
+    if(itemOfferType === 'Rent') {
       itemForSale = false
     }
     const expiryDate = new Date()
@@ -167,7 +193,7 @@ const PostItem = (props) => {
     // const image_extenstion = path[path.length-1]
     // setImageData(image_extenstion)
     // console.log(image_extenstion)
-    // alert('Upload Successful!')
+    alert('Upload Successful!')
 
   }
 
@@ -203,21 +229,29 @@ const PostItem = (props) => {
         <FormControl>
           <InputLabel htmlFor="sell-price-input">Sell Price</InputLabel>
           <Input id="sell-price-input" onChange={handleInputChange} />
+
         </FormControl>
       </div>
       <div>
-        <FormControl>
-          <InputLabel htmlFor="offer-type-input"> Rent or Sell</InputLabel>
-          <Input id="offer-type-input" onChange={handleInputChange} />
+        <FormControl variant="filled" className={classes.formControl}>
+          <InputLabel id="offer-type-select">Offer Type</InputLabel>
+          <Select
+            labelId="offer-type-select"
+            id="offer-type"
+            onChange={(e) => handleOfferTypeSelection(e)}
+          >
+            <MenuItem value={"Rent"}>Rent</MenuItem>
+            <MenuItem value={"Sell"}>Sell</MenuItem>
+          </Select>
         </FormControl>
       </div>
-      <div>
+      <div className="photo-upload-container">
         <form onChange={(e) => setImageFile(e.target.files[0])}>
           <input type="file" id="upload-image-input" name='image'/>
-          <button onClick={uploadPhoto}>Confirm Upload</button>
+          <button onClick={uploadPhoto} className="confirm-upload-button">Confirm Upload</button>
         </form>
       </div>
-      <div className="post_item_or_service_buttons">
+      <div className="post-item-or-service-buttons">
         <Button
           variant="contained"
           color="primary"

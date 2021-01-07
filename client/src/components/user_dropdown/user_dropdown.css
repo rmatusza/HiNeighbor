@@ -75,6 +75,7 @@
   width: 215px;
   margin-left: 10px;
   margin-top: 20px;
+  border-bottom: 2px solid black
 }
 
 .purchase-history-heading{

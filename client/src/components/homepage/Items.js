@@ -128,16 +128,16 @@ const Items = () => {
   console.log('ITEMS:', items)
 
   const updateBidInput = (e) => {
-    console.log('BID INPUT:', e.target.value)
+    // console.log('BID INPUT:', e.target.value)
     setBidInput(e.target.value)
   }
 
   const updateItems = (updatedItem) => {
-    console.log('CURRENT ITEM OBJECT:', updatedItem)
+    // console.log('CURRENT ITEM OBJECT:', updatedItem)
     const id = updatedItem.id
-    console.log('ITEM ID:', id)
+    // console.log('ITEM ID:', id)
     items.forEach((item, i) => {
-      console.log('UPDATING ITEMS')
+      // console.log('UPDATING ITEMS')
       if(item.id === id) {
         // console.log('CURR ITEM:', currItems[i])
         items[i] = updatedItem
@@ -150,16 +150,16 @@ const Items = () => {
 
   const updateSoldItems = (id) => {
     let currItems = []
-    console.log('SOLD ITEM ID:', id)
+    // console.log('SOLD ITEM ID:', id)
     items.forEach((item, i) => {
-      console.log('CURRENT ITEMS ID:', id)
+      // console.log('CURRENT ITEMS ID:', id)
       // console.log('UPDATING ITEMS')
       if(Number(item.id) !== Number(id)) {
-        console.log('IDS DO NOT MATCH')
+        // console.log('IDS DO NOT MATCH')
         // console.log()
         // console.log('CURR ITEM:', currItems[i])
         currItems.push(item)
-        console.log('CURRITEMS:', items)
+        // console.log('CURRITEMS:', items)
 
         // setCurrItemsState(currItems)
       }
