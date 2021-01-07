@@ -201,6 +201,7 @@ const Items = () => {
   }
 
   const handlePurchase = async () => {
+   
     const body = {
       currUserId
     }

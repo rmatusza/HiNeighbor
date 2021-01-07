@@ -31,6 +31,10 @@ const TopBar = (props) => {
   const history = useHistory();
 
   const redirectToHome = () => {
+    const today = new Date()
+    // today.toLocalDateString()
+    // today.setDate(today.getDate())
+    console.log('TODAY:', today)
     history.replace('/')
   }
   return (

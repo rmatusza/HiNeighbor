@@ -149,7 +149,7 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     itemPrice,
     itemQuantity,
     itemForSale,
-    imageURL,
+    generatedImageURL,
     expiryDate
   } = req.body
   // res.json(req.body)
@@ -164,7 +164,7 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     quantity: itemQuantity,
     for_rent: !itemForSale,
     for_sale: itemForSale,
-    image_url: imageURL,
+    image_url: generatedImageURL,
     expiry_date: expiryDate
   })
 
@@ -252,17 +252,21 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
   const { currUserId } = req.body
 
   const today = new Date()
-  // today.toLocalDateString()
-  // today.setDate(today.getDate())
-  // console.log('TODAY:', today)
-  JSON.stringify(today)
+  const day = today.getDate()
+  const month = today.getMonth() + 1
+  const year = today.getFullYear()
+  console.log(year)
+  console.log(day)
+  console.log(month)
+  const date = new Date(month+'-'+day+'-'+year)
+  JSON.stringify(date)
 
   let item = await Item.findByPk(itemId)
 
   item.update({
     purchaser_id: currUserId,
     sold: true,
-    date_sold: today,
+    date_sold: date,
     current_bid: item.price
   })
 

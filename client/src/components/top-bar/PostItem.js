@@ -77,7 +77,7 @@ const PostItem = (props) => {
   const [itemPrice, setItemPrice] = useState("");
   const [itemOfferType, setItemOfferType] = useState("");
   const [itemQuantity, setItemQuantity] = useState("");
-  const [imageURL, setImageURL] = useState('')
+  // const [imageURL, setImageURL] = useState('')
   const [imageFile, setImageFile] = useState(null)
   const [classTime, setClassTime] = useState("");
   const [modalClosed, setModalClosed] = useState('false')
@@ -95,7 +95,7 @@ const PostItem = (props) => {
 
 
   // console.log('CURRENT USER ID:', userId)
-
+  let generatedImageURL;
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -145,7 +145,7 @@ const PostItem = (props) => {
     }
     const expiryDate = new Date()
     expiryDate.setDate(expiryDate.getDate() + 30);
-    console.log(expiryDate)
+    console.log(generatedImageURL)
     const body = {
       userId,
       itemName,
@@ -154,7 +154,7 @@ const PostItem = (props) => {
       itemPrice,
       itemQuantity,
       itemForSale,
-      imageURL,
+      generatedImageURL,
       expiryDate
     }
 
@@ -188,7 +188,9 @@ const PostItem = (props) => {
     })
 
     const { imageURL } = await res.json()
-    setImageURL(imageURL)
+    generatedImageURL = imageURL
+    console.log(generatedImageURL)
+    // setImageURL(imageURL)
     // const path = image.path.split('/')
     // const image_extenstion = path[path.length-1]
     // setImageData(image_extenstion)
