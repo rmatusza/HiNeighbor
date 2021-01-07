@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { useHistory,  Redirect } from 'react-router-dom'
 import PostItem from './PostItem';
-import PostedItems from '../user_dropdown/PostedItems'
+import PostedItems from './PostedItems'
 import { setPostItemFormStatus } from '../../actions/itemsActions';
 
 

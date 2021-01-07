@@ -7,7 +7,7 @@ import setUserCreds from './actions/userCredsAction'
 import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from './components/ProtectedRoute';
 import Items from './components/homepage/Items';
-import PostItem from './components/top-bar/PostItem';
+import PostItem from './components/user_dropdown/PostItem';
 import PostedItems from './components/user_dropdown/PostedItems';
 import PurchaseHistory from './components/user_dropdown/PurchaseHistory';
 import SellerProfile from './components/seller_profile/SellerProfile';

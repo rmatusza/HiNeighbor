@@ -68,7 +68,7 @@ const HomePage = () => {
           </h4>
         </div>
       </div>
-      <Items />
+      {items.length > 0 ? <Items />  : <div className="items-area"></div>}
     </>
 
   )

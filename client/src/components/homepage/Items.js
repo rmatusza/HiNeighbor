@@ -201,7 +201,7 @@ const Items = () => {
   }
 
   const handlePurchase = async () => {
-   
+
     const body = {
       currUserId
     }
@@ -327,10 +327,8 @@ const Items = () => {
           })}
 
       </div>
-
-
+      
       {/* BID MODAL */}
-
 
       <Modal
       open={modalOpen}

@@ -1,6 +1,6 @@
 import React from 'react';
 import './top-bar.css'
-import UserDropdown from './UserDropdown'
+import UserDropdown from '../user_dropdown/UserDropdown'
 import { GiClawSlashes, GiCrackedMask, GiAbstract017 } from "react-icons/gi";
 import { makeStyles } from "@material-ui/core/styles";
 import holyGrail from '../../images/holy_grail.PNG';

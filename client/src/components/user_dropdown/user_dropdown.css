@@ -81,3 +81,11 @@
 .purchase-history-heading{
   margin-left: 20px;
 }
+
+.items-body-container {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(206, 204, 204);
+  border-top: 2px solid black;
+  height: auto
+}

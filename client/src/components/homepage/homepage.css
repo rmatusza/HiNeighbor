@@ -1,6 +1,8 @@
 .category-contents-container{
   display: flex;
   justify-content: center;
+  min-height: 98px;
+  max-height: 98px;
 }
 
 .category-contents{
@@ -15,6 +17,7 @@
 
 .search-container{
   border: 2px solid black;
+  border-bottom: 0px;
   /* border-bottom: 10px solid  #76323F; */
   display: flex;
   justify-content: space-between;
@@ -81,6 +84,13 @@
   /* background-color: rgb(233, 233, 233); */
   /* background-color: #565656; */
   background-color: rgb(206, 204, 204);
+}
+
+.items-area {
+  height: 57.1vh;
+  width: 100vw;
+  background-color: rgb(206, 204, 204);
+  border-top: 2px solid black
 }
 
 .item-image{

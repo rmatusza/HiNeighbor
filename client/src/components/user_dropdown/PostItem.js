@@ -60,14 +60,11 @@ const useStyles = makeStyles((theme) => ({
   },
 
   formControl: {
-    width: '200px',
+    width: '185px',
     marginTop: '10px',
     marginBottom: '10px'
   }
 }));
-
-
-
 
 const PostItem = (props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -91,22 +88,33 @@ const PostItem = (props) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [popupVisible, setPopupVisible] = useState(false)
   const[modalOpen, setModalOpen] = useState(true)
-  const [anchorEl, setAnchorEl] = useState(null);
-
+  const [anchorElOffer, setAnchorElOffer] = useState(null);
+  const [anchorElCategory, setAnchorElCategory] = useState(null);
 
   // console.log('CURRENT USER ID:', userId)
   let generatedImageURL;
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorElOffer(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleCloseOffer = () => {
+    setAnchorElOffer(null);
   };
 
-  const handleOfferTypeSelection = (offerType) => {
-    setItemOfferType(offerType)
-    handleClose()
+  const handleCloseCategory = () => {
+    setAnchorElCategory(null);
+  }
+
+  const handleOfferTypeSelection = (e) => {
+    console.log(e.target.value)
+    setItemOfferType(e.target.value)
+    handleCloseOffer()
+  }
+
+  const handleCategorySelection = (e) => {
+    console.log(e.target.value)
+    setItemCategory(e.target.value)
+    handleCloseCategory()
   }
 
   const handleInputChange = (e) => {
@@ -114,11 +122,9 @@ const PostItem = (props) => {
       setItemName(e.target.value);
     } else if (e.target.id === "description-input") {
       setItemDescription(e.target.value);
-    } else if(e.target.id === "category-input") {
-      setItemCategory(e.target.value);
     } else if(e.target.id === "sell-price-input") {
       setItemPrice(e.target.value)
-    }else if(e.target.id === "quantitiy-input") {
+    } else if(e.target.id === "quantitiy-input") {
       setItemQuantity(e.target.value)
     }
   };
@@ -136,6 +142,7 @@ const PostItem = (props) => {
       dispatch(setPostItemFormStatus(false))
     }, 2500)
   }
+
 
   const postItem = async() => {
 
@@ -173,32 +180,63 @@ const PostItem = (props) => {
     handleCloseModal()
   }
 
-
-  const uploadPhoto = async (e) => {
-    e.preventDefault()
+  const uploadPhoto = async () => {
     console.log(imageFile)
     // console.log(data.image[0].name)
     const fd = new FormData();
     fd.append('file', imageFile)
     // console.log(fd)
-
-    const res = await fetch('http://localhost:5000/api/items-and-services/upload-photo', {
-      method: 'POST',
-      body: fd
-    })
-
-    const { imageURL } = await res.json()
-    generatedImageURL = imageURL
-    console.log(generatedImageURL)
-    // setImageURL(imageURL)
-    // const path = image.path.split('/')
-    // const image_extenstion = path[path.length-1]
-    // setImageData(image_extenstion)
-    // console.log(image_extenstion)
-    alert('Upload Successful!')
-
+    try {
+      const res = await fetch('http://localhost:5000/api/items-and-services/upload-photo', {
+        method: 'POST',
+        body: fd
+      })
+      const { imageURL } = await res.json()
+      generatedImageURL = imageURL
+      console.log(generatedImageURL)
+      postItem()
+    } catch(e) {
+      alert(e)
+      return
+    }
   }
 
+  const validateForm = (e) => {
+    e.preventDefault()
+    let discoveredErrors = []
+    let requiredFields =
+    [
+    imageFile,
+    itemName,
+    itemDescription,
+    itemCategory,
+    itemPrice,
+    itemQuantity,
+    itemOfferType,
+    ]
+    let errorMessages =
+    [
+      'You Must Upload an Image',
+      'You Must Enter an Item Name',
+      'You Must Enter an Item Description',
+      'You Must Pick a Category',
+      'You Must Enter an Item Price',
+      'You Must Enter an Item Quantity',
+      'You Must Pick an Offer Type'
+    ]
+
+    requiredFields.forEach((field, i) => {
+      if(!field) {
+        discoveredErrors.push(errorMessages[i])
+      }
+    })
+
+    if(discoveredErrors.length === 0) {
+      uploadPhoto()
+    } else {
+      alert(discoveredErrors)
+    }
+  }
 
   const postItemBody = (
     <div className={classes.itemFormModal}>
@@ -216,10 +254,26 @@ const PostItem = (props) => {
         </FormControl>
       </div>
       <div>
-        <FormControl>
+      <FormControl className={classes.formControl}>
+          <InputLabel id="offer-type-select">Category</InputLabel>
+          <Select
+            labelId="offer-type-select"
+            id="offer-type"
+            onChange={(e) => handleCategorySelection(e)}
+          >
+            <MenuItem value={"Books"}>Books</MenuItem>
+            <MenuItem value={"Clothing"}>Clothing</MenuItem>
+            <MenuItem value={"Electronics"}>Electronics</MenuItem>
+            <MenuItem value={"Home Decor"}>Home Decor</MenuItem>
+            <MenuItem value={"Kitchen"}>Kitchen</MenuItem>
+            <MenuItem value={"Music"}>Music</MenuItem>
+            <MenuItem value={"Video Games"}>Video Games</MenuItem>
+          </Select>
+        </FormControl>
+        {/* <FormControl>
           <InputLabel htmlFor="category-input">Category</InputLabel>
           <Input id="category-input" onChange={handleInputChange} />
-        </FormControl>
+        </FormControl> */}
       </div>
       <div>
         <FormControl>
@@ -235,7 +289,7 @@ const PostItem = (props) => {
         </FormControl>
       </div>
       <div>
-        <FormControl variant="filled" className={classes.formControl}>
+        <FormControl className={classes.formControl}>
           <InputLabel id="offer-type-select">Offer Type</InputLabel>
           <Select
             labelId="offer-type-select"
@@ -250,7 +304,7 @@ const PostItem = (props) => {
       <div className="photo-upload-container">
         <form onChange={(e) => setImageFile(e.target.files[0])}>
           <input type="file" id="upload-image-input" name='image'/>
-          <button onClick={uploadPhoto} className="confirm-upload-button">Confirm Upload</button>
+          {/* <button onClick={uploadPhoto} className="confirm-upload-button">Confirm Upload</button> */}
         </form>
       </div>
       <div className="post-item-or-service-buttons">
@@ -260,7 +314,7 @@ const PostItem = (props) => {
           style={{ color: "white" }}
           size="small"
           className={classes.submitButton}
-          onClick={postItem}
+          onClick={validateForm}
           type="submit"
           name="post-button"
         >
@@ -282,9 +336,6 @@ const PostItem = (props) => {
     </div>
   );
 
-
-
-
   return(
     <>
     {popupVisible ? <div className="fade-test" style={{display:"block"}}><h2>Post Successful!</h2></div> : <></>}
@@ -303,9 +354,7 @@ const PostItem = (props) => {
     {postItemBody}
     </Modal>
     </>
-
   )
-
 }
 
 export default PostItem;
