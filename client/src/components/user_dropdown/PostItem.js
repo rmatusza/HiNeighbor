@@ -24,14 +24,13 @@ const fs = require('fs')
 
 const useStyles = makeStyles((theme) => ({
   itemFormModal: {
-    // position: 'absolute',
-    position: "absolute",
-    // top: "20rem",
-    top: 100,
-    // left: 350,
-    left: 600,
-    // left: "20rem",
-    width: 400,
+    // position: "absolute",
+    // top: '50rem',
+    // left: '50vh',
+    // top: '50vh',
+    width: '400px',
+    margin: 'auto',
+    marginTop: '14vh',
     backgroundColor: theme.palette.background.paper,
     // // border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -62,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   formControl: {
-    width: '185px',
+    width: '181px',
     marginTop: '10px',
     marginBottom: '10px'
   }
@@ -157,7 +156,7 @@ const PostItem = (props) => {
 
   const postItem = async() => {
 
-    let itemForSale = true
+
     const expiryDate = new Date()
     expiryDate.setDate(expiryDate.getDate() + 30);
     console.log(generatedImageURL)
@@ -168,7 +167,6 @@ const PostItem = (props) => {
       itemDescription,
       itemCategory,
       itemPrice,
-      itemForSale,
       generatedImageURL,
       expiryDate
     }

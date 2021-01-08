@@ -65,7 +65,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       expiry_date: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       },
       category: {
@@ -81,6 +81,10 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       current_bid: {
+        allowNull: true,
+        type: Sequelize.INTEGER
+      },
+      rate: {
         allowNull: true,
         type: Sequelize.INTEGER
       },

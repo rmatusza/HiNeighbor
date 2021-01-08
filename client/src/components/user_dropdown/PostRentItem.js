@@ -24,14 +24,9 @@ const fs = require('fs')
 
 const useStyles = makeStyles((theme) => ({
   itemFormModal: {
-    // position: 'absolute',
-    position: "absolute",
-    // top: "20rem",
-    top: 100,
-    // left: 350,
-    left: 600,
-    // left: "20rem",
-    width: 400,
+    width: '400px',
+    margin: 'auto',
+    marginTop: '14vh',
     backgroundColor: theme.palette.background.paper,
     // // border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -62,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   formControl: {
-    width: '185px',
+    width: '181px',
     marginTop: '10px',
     marginBottom: '10px'
   }
@@ -74,7 +69,7 @@ const PostRentItem = (props) => {
   const [itemDescription, setItemDescription] = useState("");
   const [itemCategory, setItemCategory] = useState("");
   const [itemPrice, setItemPrice] = useState("");
-  const [RentPeriod, setRentPeriod] = useState("");
+  const [rate, setRate] = useState(null)
   const [itemQuantity, setItemQuantity] = useState("");
   // const [imageURL, setImageURL] = useState('')
   const [imageFile, setImageFile] = useState(null)
@@ -117,8 +112,14 @@ const PostRentItem = (props) => {
   }
 
   const handleRentPeriodSelection = (e) => {
-    console.log(e.target.value)
-    setRentPeriod(e.target.value)
+    let period = e.target.value
+    if (period === 'Day') {
+      setRate(itemPrice)
+    } else if(period === 'Week') {
+      setRate(Math.floor(Number(itemPrice)/7))
+    } else {
+      setRate(Math.floor(Number(itemPrice)/30))
+    }
     handleCloseOffer()
   }
 
@@ -157,8 +158,6 @@ const PostRentItem = (props) => {
 
   const postItem = async() => {
 
-    let itemForSale = false
-
     console.log(generatedImageURL)
     const body = {
       userId,
@@ -166,15 +165,13 @@ const PostRentItem = (props) => {
       itemDescription,
       itemCategory,
       itemPrice,
-      RentPeriod,
-      itemQuantity,
-      itemForSale,
+      rate,
       generatedImageURL,
     }
 
     console.log('EXPIRY DATE:', body)
 
-    const res = await fetch('http://localhost:5000/api/items-and-services/post-item', {
+    const res = await fetch('http://localhost:5000/api/items-and-services/post-item-for-rent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -182,7 +179,7 @@ const PostRentItem = (props) => {
       body: JSON.stringify(body)
     })
 
-    const newItem = await res.json()
+    const { newItem } = await res.json()
     console.log(newItem)
     handleCloseModal()
   }
@@ -210,8 +207,8 @@ const PostRentItem = (props) => {
 
   const validateForm = (e) => {
     e.preventDefault()
-    alert('Rent Functionality Still in Progress')
-    return
+    // alert('Rent Functionality Still in Progress')
+    // return
     let discoveredErrors = []
     let requiredFields =
     [
@@ -220,7 +217,7 @@ const PostRentItem = (props) => {
     itemDescription,
     itemCategory,
     itemPrice,
-    itemQuantity,
+    rate
     ]
     let errorMessages =
     [
@@ -229,7 +226,7 @@ const PostRentItem = (props) => {
       'You Must Enter an Item Description',
       'You Must Pick a Category',
       'You Must Enter an Item Price',
-      'You Must Enter an Item Quantity',
+      'You Must Pick a Rent Period'
     ]
 
     requiredFields.forEach((field, i) => {

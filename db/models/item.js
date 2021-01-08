@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE
     },
     expiry_date: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.DATE
     },
     category: {
@@ -79,6 +79,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.INTEGER
     },
+    rate: {
+      allowNull: true,
+      type: DataTypes.INTEGER
+    }
 
   }, {});
   Item.associate = function(models) {

@@ -38,7 +38,6 @@ router.post('/search', asyncHandler(async(req, res) => {
   const bids = await Bid.findAll({
   })
   if(offer_type === 'Services') {
-    console.log('hol up')
 
 
     //-PURCHASE---------------------------------------------------------------
@@ -71,7 +70,7 @@ router.post('/search', asyncHandler(async(req, res) => {
 
 
   } else if(offer_type === 'Rent') {
-    console.log('PRICE RANGE', price_range)
+    console.log('LOOKING FOR ITEMS FOR RENT')
     const items = await Item.findAll({
       where: {
         category: category,
@@ -88,7 +87,7 @@ router.post('/search', asyncHandler(async(req, res) => {
         sold: false
       }
     })
-    res.json({'items': items})
+    res.json({'items': items, 'bids': bids})
 
     //-ANY OFFER TYPE------------------------------------------------------------------------------------------------
   } else {
@@ -179,8 +178,45 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     item_id: newItem.id
   })
 
-  res.json(newReviewObj)
+  res.json(newItem)
 
+}))
+
+router.post('/post-item-for-rent', asyncHandler(async(req,res) => {
+
+  const today = new Date()
+  const day = today.getDate()
+  const month = today.getMonth() + 1
+  const year = today.getFullYear()
+  const date = new Date(month+'-'+day+'-'+year)
+  JSON.stringify(date)
+
+  const {
+    userId,
+    itemName,
+    itemDescription,
+    itemCategory,
+    itemPrice,
+    rate,
+    generatedImageURL,
+  } = req.body
+  // res.json(req.body)
+
+  // console.log('EXPIRY DATE:', expiryDate)
+  const newItem = await Item.create({
+    seller_id: userId,
+    name: itemName,
+    description: itemDescription,
+    category: itemCategory,
+    price: itemPrice,
+    rate: rate,
+    quantity: 1,
+    for_rent: true,
+    for_sale: false,
+    image_url: generatedImageURL,
+  })
+
+  res.json(newItem)
 }))
 
 router.patch('/:id/bid', asyncHandler(async(req, res) => {
