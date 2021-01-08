@@ -89,3 +89,8 @@
   border-top: 2px solid black;
   height: auto
 }
+
+.photo-upload-container {
+  margin-top: 10px;
+  margin-left: 70px;
+}

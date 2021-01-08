@@ -150,18 +150,9 @@ const Items = () => {
 
   const updateSoldItems = (id) => {
     let currItems = []
-    // console.log('SOLD ITEM ID:', id)
     items.forEach((item, i) => {
-      // console.log('CURRENT ITEMS ID:', id)
-      // console.log('UPDATING ITEMS')
       if(Number(item.id) !== Number(id)) {
-        // console.log('IDS DO NOT MATCH')
-        // console.log()
-        // console.log('CURR ITEM:', currItems[i])
         currItems.push(item)
-        // console.log('CURRITEMS:', items)
-
-        // setCurrItemsState(currItems)
       }
       dispatch(setItems(currItems))
     })
@@ -327,7 +318,7 @@ const Items = () => {
           })}
 
       </div>
-      
+
       {/* BID MODAL */}
 
       <Modal

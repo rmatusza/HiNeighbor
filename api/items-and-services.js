@@ -147,8 +147,6 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     itemDescription,
     itemCategory,
     itemPrice,
-    itemQuantity,
-    itemForSale,
     generatedImageURL,
     expiryDate
   } = req.body
@@ -161,9 +159,9 @@ router.post('/post-item', asyncHandler(async(req,res) => {
     description: itemDescription,
     category: itemCategory,
     price: itemPrice,
-    quantity: itemQuantity,
-    for_rent: !itemForSale,
-    for_sale: itemForSale,
+    quantity: 1,
+    for_rent: false,
+    for_sale: true,
     image_url: generatedImageURL,
     expiry_date: expiryDate
   })

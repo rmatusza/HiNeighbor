@@ -3,7 +3,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
-import { setPostItemFormStatus } from '../../actions/itemsActions';
+import { setPostItemRentStatus } from '../../actions/itemsActions';
 import { useDispatch, useSelector } from "react-redux";
 import {
   FormControl,
@@ -68,20 +68,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const PostItem = (props) => {
+const PostRentItem = (props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [itemName, setItemName] = useState("");
   const [itemDescription, setItemDescription] = useState("");
   const [itemCategory, setItemCategory] = useState("");
   const [itemPrice, setItemPrice] = useState("");
-  const [itemOfferType, setItemOfferType] = useState("");
+  const [RentPeriod, setRentPeriod] = useState("");
   const [itemQuantity, setItemQuantity] = useState("");
   // const [imageURL, setImageURL] = useState('')
   const [imageFile, setImageFile] = useState(null)
   const [classTime, setClassTime] = useState("");
   const [modalClosed, setModalClosed] = useState('false')
   const [encodedImg, setEncodedImg] = useState({})
-  const form_state = useSelector(store => store.entities.post_item_form_state.status)
+  const rent_form_state = useSelector(store => store.entities.post_item_rent_state.rentStatus)
   const userId = useSelector(store => store.session.currentUser.id)
   console.log(userId)
   const { register, handleSubmit } = useForm()
@@ -116,9 +116,9 @@ const PostItem = (props) => {
     setAnchorElCategory(null);
   }
 
-  const handleOfferTypeSelection = (e) => {
+  const handleRentPeriodSelection = (e) => {
     console.log(e.target.value)
-    setItemOfferType(e.target.value)
+    setRentPeriod(e.target.value)
     handleCloseOffer()
   }
 
@@ -143,34 +143,33 @@ const PostItem = (props) => {
   const handleCloseModal = (buttonName) => {
     setModalOpen(false)
     // console.log(e)
-    if(buttonName === 'close-button') {
-      dispatch(setPostItemFormStatus(false))
+    if(buttonName === 'close-button-rent') {
+      dispatch(setPostItemRentStatus(false))
       return
     }
     setPopupVisible(true)
     setTimeout(() => {
       setPopupVisible(false)
-      dispatch(setPostItemFormStatus(false))
+      dispatch(setPostItemRentStatus(false))
     }, 2500)
   }
 
 
   const postItem = async() => {
 
-    let itemForSale = true
-    const expiryDate = new Date()
-    expiryDate.setDate(expiryDate.getDate() + 30);
-    console.log(generatedImageURL)
+    let itemForSale = false
 
+    console.log(generatedImageURL)
     const body = {
       userId,
       itemName,
       itemDescription,
       itemCategory,
       itemPrice,
+      RentPeriod,
+      itemQuantity,
       itemForSale,
       generatedImageURL,
-      expiryDate
     }
 
     console.log('EXPIRY DATE:', body)
@@ -211,6 +210,8 @@ const PostItem = (props) => {
 
   const validateForm = (e) => {
     e.preventDefault()
+    alert('Rent Functionality Still in Progress')
+    return
     let discoveredErrors = []
     let requiredFields =
     [
@@ -219,6 +220,7 @@ const PostItem = (props) => {
     itemDescription,
     itemCategory,
     itemPrice,
+    itemQuantity,
     ]
     let errorMessages =
     [
@@ -227,6 +229,7 @@ const PostItem = (props) => {
       'You Must Enter an Item Description',
       'You Must Pick a Category',
       'You Must Enter an Item Price',
+      'You Must Enter an Item Quantity',
     ]
 
     requiredFields.forEach((field, i) => {
@@ -288,24 +291,26 @@ const PostItem = (props) => {
       </div> */}
       <div>
         <FormControl>
-          <InputLabel htmlFor="sell-price-input">Sell Price</InputLabel>
+          <InputLabel htmlFor="sell-price-input">Rent Price</InputLabel>
           <Input id="sell-price-input" onChange={handleInputChange} />
 
         </FormControl>
       </div>
-      {/* <div>
+      <div>
         <FormControl className={classes.formControl}>
-          <InputLabel id="offer-type-select">Offer Type</InputLabel>
+          <InputLabel id="offer-type-select">Rent Period</InputLabel>
           <Select
             labelId="offer-type-select"
             id="offer-type"
-            onChange={(e) => handleOfferTypeSelection(e)}
+            onChange={(e) => handleRentPeriodSelection(e)}
           >
-            <MenuItem value={"Rent"}>Rent</MenuItem>
-            <MenuItem value={"Sell"}>Sell</MenuItem>
+            <MenuItem value={"Day"}>Day</MenuItem>
+            <MenuItem value={"Week"}>Week</MenuItem>
+            <MenuItem value={"Month"}>Month</MenuItem>
+            <MenuItem value={"Year"}>Year</MenuItem>
           </Select>
         </FormControl>
-      </div> */}
+      </div>
       <div className="photo-upload-container">
         <form onChange={(e) => setImageFile(e.target.files[0])}>
           <input type="file" id="upload-image-input" name='image'/>
@@ -331,9 +336,9 @@ const PostItem = (props) => {
           style={{ color: "white" }}
           size="small"
           className={classes.submitButton}
-          onClick={()=>handleCloseModal('close-button')}
+          onClick={()=>handleCloseModal('close-button-rent')}
           type="submit"
-          name="close-button"
+          name="close-button-rent"
         >
          Close
         </Button>
@@ -346,7 +351,7 @@ const PostItem = (props) => {
       {popupVisible ? <div className="fade-test" style={{display:"block"}}><h2>Post Successful!</h2></div> : <></>}
       <Modal
       open={(() => {
-        if(form_state === false || form_state === 'undefined' || modalOpen === false) {
+        if(rent_form_state === false || rent_form_state === 'undefined' || modalOpen === false) {
           console.log('FALSE')
           return false
         }
@@ -381,4 +386,4 @@ const PostItem = (props) => {
   )
 }
 
-export default PostItem;
+export default PostRentItem;

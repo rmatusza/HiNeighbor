@@ -6,8 +6,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { useHistory,  Redirect } from 'react-router-dom'
 import PostItem from './PostItem';
-import PostedItems from './PostedItems'
+import PostRentItem from './PostRentItem';
 import { setPostItemFormStatus } from '../../actions/itemsActions';
+import { setPostItemRentStatus } from '../../actions/itemsActions';
 
 
 
@@ -19,7 +20,8 @@ const UserDropdown = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const form_state = useSelector(store => store.entities.post_item_form_state.status)
-
+  const rent_form_state = useSelector(store => store.entities.post_item_rent_state.rentStatus)
+  console.log(rent_form_state)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -63,6 +65,15 @@ const UserDropdown = (props) => {
    dispatch(setPostItemFormStatus(true))
   };
 
+  const handleDialogRentClose = () => {
+    dispatch(setPostItemRentStatus(false))
+    // setDialogOpen(false);
+  };
+
+  const handleDialogRentOpen = () => {
+   dispatch(setPostItemRentStatus(true))
+  };
+
   return (
     <>
       <div>
@@ -78,18 +89,24 @@ const UserDropdown = (props) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleDialogOpen}> Post an Item </MenuItem>
+          <MenuItem onClick={handleDialogOpen}> Post an Item for Sale</MenuItem>
+          <MenuItem onClick={handleDialogRentOpen}> Post an Item for Rent</MenuItem>
           <MenuItem onClick={handleMyStats}>My Stats</MenuItem>
           <MenuItem onClick={handlePostedItems}>Posted Items</MenuItem>
           <MenuItem onClick={handlePurchaseHistory}>Purchase History</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </div>
+      {rent_form_state === true ? <PostRentItem /> : <> </>}
       {form_state === true ? <PostItem /> : <> </>}
+
+      {/* <PostRentItem /> */}
     </>
 
   );
 }
 
+{/* || rent_form_state.length === 0) */}
+// || form_state.length === 0)
 
 export default UserDropdown;

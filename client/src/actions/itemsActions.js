@@ -1,4 +1,4 @@
-import { SET_ITEMS, SET_POST_ITEM_FORM_STATUS } from './types'
+import { SET_ITEMS, SET_POST_ITEM_FORM_STATUS, SET_POST_ITEM_RENT_STATUS } from './types'
 
 export const setItems = (items) => {
   console.log('ITEMS', items)
@@ -13,5 +13,12 @@ export const setPostItemFormStatus = (status) => {
   return {
     type: SET_POST_ITEM_FORM_STATUS,
     status
+  }
+}
+
+export const setPostItemRentStatus = (rentStatus) => {
+  return {
+    type: SET_POST_ITEM_RENT_STATUS,
+    rentStatus
   }
 }
