@@ -56,6 +56,11 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
+      rented: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       location: {
         allowNull: true,
         type: Sequelize.TEXT

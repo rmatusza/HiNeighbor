@@ -24,6 +24,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -49,34 +50,9 @@ const useStyles = makeStyles((theme) => ({
     width: '200px',
     // border: '2px solid black'
   },
-  itemFormModal: {
-    // position: 'absolute',
-    position: "absolute",
-    // top: "20rem",
-    top: 100,
-    // left: 350,
-    left: 600,
-    // left: "20rem",
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    // // border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    // padding: theme.spacing(2, 4, 3),
-    paddingLeft: "5rem",
-    paddingRight: "5rem",
-    paddingTop: "2rem",
-    paddingBottom: "3rem",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    border: "2px solid white",
-  },
-
   submitButton: {
     marginTop: "2rem",
   },
-
   dialogBox: {
     width: '200px',
     heigth: '200px'
@@ -94,11 +70,6 @@ const useStyles = makeStyles((theme) => ({
   tableRow: {
     backgroundColor: 'whitesmoke'
   },
-  // tableContainer: {
-  //   paddingBottom: '0px',
-  //   backgroundColor: 'white',
-  //   height: '110px'
-  // },
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
@@ -109,32 +80,52 @@ const useStyles = makeStyles((theme) => ({
   },
   cardActionArea: {
     width: '200px'
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  rentDialog: {
+    width: '300px',
+    height: '200px'
+  },
+  confirmButton: {
+    marginBottom: '5px',
+  },
+  cancelButton: {
+    marginBottom: '5px'
   }
-
 }))
 
 function createData(name, rate, available) {
   return { name, rate, available};
 }
 
+// sets the current date as the default date for the date picker
+
+const date = new Date()
+const day = date.getDate()
+const month = date.getMonth() + 1
+const year = date.getFullYear()
+console.log(year)
+console.log(day)
+console.log(month)
+const today = new Date(month+'-'+day+'-'+year)
 
 const RentableItemTable = () => {
-  let rentItems = useSelector(store => store.entities.items_state.rentItems)
-  const currUserId = useSelector(store => store.session.currentUser.id)
-  const [modalOpen, setModalOpen] = useState(false)
-  const [currItemId, setCurrItemId] = useState(null)
-  const [currBid, setCurrBid] = useState(null)
-  const [currItemPrice, setCurrItemPrice] = useState(null)
-  const [bidInput, setBidInput] = useState(null)
+  let rentItems = useSelector(store => store.entities.items_state.rentItems);
+  const currUserId = useSelector(store => store.session.currentUser.id);
+  const [currItem, setCurrItem] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const classes = useStyles()
-  const dispatch = useDispatch()
-  const history = useHistory();
-
-  const updateBidInput = (e) => {
-    // console.log('BID INPUT:', e.target.value)
-    setBidInput(e.target.value)
-  }
+  const [confirmRentDialog, setConfirmRentDialog] = useState(false);
+  const [selectedDate, setSelectedDate] = React.useState(new Date(today));
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
   const updateItems = (updatedItem) => {
     // console.log('CURRENT ITEM OBJECT:', updatedItem)
@@ -161,76 +152,48 @@ const RentableItemTable = () => {
       dispatch(setRentItems(currItems))
     })
   }
-
+  const handleUpdateDate = (e) => {
+    console.log(e.target.value)
+    setSelectedDate(e.target.value)
+  }
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
 
   const handleDialogOpen = (itemData) => {
     console.log('ITEM DATA:', itemData)
-    setCurrItemId(itemData.itemId)
+    setCurrItem(itemData)
     setDialogOpen(true)
   }
 
-  const submitBid = async () => {
-
-    const body = {
-      bidInput,
-      currUserId
-    }
-
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/bid`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-    const updatedItem = await res.json()
-
-    console.log('RETURNED UPDATED ITEM:', updatedItem)
-
-    updateItems(updatedItem)
-    // alert(`bid of $${bidInput} was placed`)
-    setModalOpen(false)
+  const handleConfirmRentDialog = () => {
+    setConfirmRentDialog(true)
   }
 
-  const handlePurchase = async () => {
-
-    const body = {
-      currUserId
-    }
-
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-    const {soldItemId} = await res.json()
-    console.log(soldItemId)
-
-    updateSoldItems(soldItemId)
-    handleDialogClose()
+  const handleCloseConfirmRentDialog = () => {
+    setConfirmRentDialog(false)
   }
 
-  const handleClick = (sellerId) => {
-    history.replace('/seller-profile')
-    console.log(sellerId)
-  }
+  // const handlePurchase = async () => {
 
-  const openBidModal = (itemData) => {
-    console.log('ITEM DATA:', itemData)
-    setCurrItemId(itemData.itemId)
-    setCurrBid(itemData.currentBid)
-    setCurrItemPrice(itemData.itemPrice)
-    setModalOpen(true)
-  }
+  //   const body = {
+  //     currUserId
+  //   }
 
-  const closeModal = () => {
-    setModalOpen(false)
-  }
+  //   const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
+  //     method: 'PATCH',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(body)
+  //   })
+  //   const {soldItemId} = await res.json()
+  //   console.log(soldItemId)
+
+  //   updateSoldItems(soldItemId)
+  //   handleDialogClose()
+  // }
+
   let dataRowsRent = []
   return(
     <div className="items-body-container">
@@ -284,15 +247,15 @@ const RentableItemTable = () => {
                   </Table>
                 </TableContainer>
               <div className="bid-buy-buttons-container">
-                <div className="bid-button">
+                {/* <div className="bid-button">
                 <Button variant="contained" color="primary" variant="outlined" onClick={() => {openBidModal({'itemId': dataRowsRent[idx].item_id, 'currentBid': dataRowsRent[idx].current_bid, 'itemPrice': dataRowsRent[idx].item_price})}}>
                   Bid
                 </Button>
-                </div>
-                <div className="bid-purchase-divider"></div>
+                </div> */}
+                {/* <div className="bid-purchase-divider"></div> */}
                 <div className="buy-button">
-                <Button variant="contained" color="primary" size="medium" variant="outlined" onClick={() => {handleDialogOpen({'itemId': dataRowsRent[idx].item_id, 'currentBid': dataRowsRent[idx].current_bid, 'itemPrice': dataRowsRent[idx].item_price})}}>
-                  Purchase
+                <Button variant="contained" color="primary" size="medium" variant="outlined" onClick={() => {handleDialogOpen(dataRowsRent[idx])}}>
+                  Rent
                 </Button>
                 </div>
               </div>
@@ -301,63 +264,79 @@ const RentableItemTable = () => {
         })}
       </div>
 
-      {/* BID MODAL */}
-
-      <Modal
-      open={modalOpen}
-      onClose={closeModal}
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
+      <Dialog
+      open={dialogOpen}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      scroll='body'
+      fullWidth={true}
+      maxWidth='xs'
+      // className={classes.rentDialog}
       >
-        <div className={classes.itemFormModal}>
-          <h2 id="simple-modal-title">Place Your Bid:</h2>
-          <div>
-            <FormControl>
-              <InputLabel htmlFor="bid-input">Bid Amount</InputLabel>
-              <Input id="bid-input" onChange={updateBidInput} autoFocus />
-            </FormControl>
+        <div className="rent-item-dbox-content-container">
+          <div className="date-picker-container">
+            <div>
+              <h3 className="select-return-date-heading">Select a Return Date:</h3>
+              <form className={classes.container} noValidate>
+                <TextField
+                  id="date"
+                  type="date"
+                  defaultValue={selectedDate}
+                  className={classes.textField}
+                  onChange={handleUpdateDate}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </form>
+            </div>
           </div>
-          <div>
-            <Button
+          <div className="rent-item-buttons-container">
+            <div className="rent-item-buttons">
+              <Button
               variant="contained"
               color="primary"
               style={{ color: "white" }}
               size="small"
-              className={classes.submitButton}
-              onClick={() => {
-                if(Number(bidInput) <= currBid) {
-                  alert('Your bid must be larger than the current bid amount')
-                } else if(Number(bidInput) > currItemPrice) {
-                  alert('Your bid must be less than the item sell price')
-                } else {
-                  submitBid()
-                }
-              }}
+              className={classes.confirmButton}
+              onClick={handleConfirmRentDialog}
               type="submit"
-            >
-              Submit Bid
-            </Button>
+              name="confirm-button">
+                Confirm
+              </Button>
+              <Button
+              variant="contained"
+              color="primary"
+              style={{ color: "white" }}
+              size="small"
+              className={classes.cancelButton}
+              onClick={handleDialogClose}
+              type="submit"
+              name="cancel-button">
+                Cancel
+              </Button>
+            </div>
           </div>
         </div>
-      </Modal>
-
-
-      {/* BUY NOW DIALOG BOX */}
+      </Dialog>
 
       <Dialog
-      open={dialogOpen}
-      onClose={handleDialogClose}
+      open={confirmRentDialog}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      scroll='body'
+      fullWidth={true}
+      maxWidth='xs'
+      // className={classes.rentDialog}
       >
         <DialogTitle id="alert-dialog-title">
           {"Are you sure that you want to purchase this item at its full sale price?"}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
+          <Button onClick={handleCloseConfirmRentDialog} color="primary">
             Cancel
           </Button>
-          <Button color="primary" autoFocus onClick={handlePurchase}>
+          <Button color="primary">
             Purchase Item
           </Button>
         </DialogActions>

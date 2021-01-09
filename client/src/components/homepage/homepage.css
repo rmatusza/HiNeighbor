@@ -170,3 +170,27 @@
   margin-bottom: 160px;
   margin-top: 20px;
 }
+.rent-item-dbox-content-container {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.date-picker-container {
+  display: flex;
+  justify-content: center;
+}
+.rent-item-buttons {
+  width: 204px;
+  display: flex;
+  justify-content: space-between;
+}
+.select-return-date-heading {
+  width: 200px;
+  margin-left: 0px;
+  padding-left: 7px;
+}
+.rent-item-buttons-container {
+  display: flex;
+  justify-content: center;
+}
