@@ -180,14 +180,14 @@ const PurchaseHistory = () => {
 
   return(
     <>
-    {postedItems.items.length === 0 ? <h1>No Purchase History...</h1> :
+    {postedItems.items.length === 0 ? <h1 className="no-purchase-history-heading">No Purchase History...</h1> :
     <>
     <div>
       <h1 className="purchase-history-heading">
         Your Purchase History:
       </h1>
     </div>
-    <div className="items-body-container">
+    <div className="items-body-container-user-dropdown">
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
           {postedItems.items.map((item) => {

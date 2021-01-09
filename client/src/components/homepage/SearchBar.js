@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from "react-redux";
-import { setItems } from '../../actions/itemsActions';
+import { setItems, setRentItems } from '../../actions/itemsActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +50,13 @@ const SearchBar = () => {
 
     const items = await res.json()
     console.log('RETURNED ITEMS:', items)
-    dispatch(setItems(items.items))
+    if (items.saleItems.length > 0) {
+      dispatch(setItems(items.saleItems))
+      dispatch(setRentItems([]))
+    } else {
+      dispatch(setRentItems(items.rentItems))
+      dispatch(setItems([]))
+    }
     console.log(items)
   }
 

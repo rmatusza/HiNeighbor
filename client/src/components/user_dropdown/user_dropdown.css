@@ -57,8 +57,13 @@
   margin-bottom: 120px;
 }
 
+
 .items-for-sale-heading{
-  margin-left: 20px;
+  margin: 0;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  background-color: white;
 }
 
 .item-name-posted-items{
@@ -79,20 +84,32 @@
 }
 
 .purchase-history-heading{
-  margin-left: 20px;
+  margin: 0;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  background-color: white;
 }
 
-.items-body-container {
+.no-purchase-history-heading {
+  margin: 0;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  background-color: white;
+  border-bottom: 2px solid black;
+}
+
+.items-body-container-user-dropdown {
   height: 100%;
   width: 100%;
   background-color: rgb(206, 204, 204);
   border-top: 2px solid black;
-  height: auto
+  height: auto;
+  display: flex;
 }
 
 .photo-upload-container {
   margin-top: 10px;
   margin-left: 70px;
 }
-
-

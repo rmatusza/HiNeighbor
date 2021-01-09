@@ -137,12 +137,12 @@ const PostedItems = () => {
     <>
     {postedItems.length === 0 ? <h1>No Items Posted...</h1> :
     <>
-    <div>
+    <div className="items-for-sale-heading-container">
       <h1 className="items-for-sale-heading">
         Your Items for Sale:
       </h1>
     </div>
-    <div className="items-body-container">
+    <div className="items-body-container-user-dropdown">
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
           {postedItems.map((item) => {

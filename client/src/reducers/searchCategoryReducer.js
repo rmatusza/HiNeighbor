@@ -1,12 +1,13 @@
 const _ = require('lodash')
-const { SET_PRICE_RANGE, SET_CATEGORY, SET_DISTANCE, SET_OFFER_TYPE, SET_ITEMS, SET_POST_ITEM_FORM_STATUS, SET_POST_ITEM_RENT_STATUS  } = require("../actions/types")
+const { SET_PRICE_RANGE, SET_CATEGORY, SET_DISTANCE, SET_OFFER_TYPE, SET_ITEMS, SET_RENT_ITEMS, SET_POST_ITEM_FORM_STATUS, SET_POST_ITEM_RENT_STATUS  } = require("../actions/types")
 
 
 const initialState = {
   search_params: {
   },
   items_state: {
-    items: []
+    saleItems: [],
+    rentItems: []
   },
   post_item_form_state: {
     status: false
@@ -59,11 +60,17 @@ const searchCategoryReducer = (state = initialState, action) => {
         post_item_rent_state: {...state.post_item_rent_state, rentStatus}
       }
     case SET_ITEMS:
-      let items = action.items
+      let saleItems = action.items
     return {
       ...state,
-      items_state: {...state.items_state, items}
+      items_state: {...state.items_state, saleItems}
     }
+    case SET_RENT_ITEMS:
+      let rentItems = action.rentItems
+      return {
+        ...state,
+        items_state: {...state.items_state, rentItems}
+      }
     default:
       return state;
   }

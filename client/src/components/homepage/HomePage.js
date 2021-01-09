@@ -5,16 +5,19 @@ import Distance from './Distance';
 import OfferType from './OfferType';
 import SearchBar from './SearchBar';
 import Category from './Category'
+import RentableItemTable from './RentableItemTable';
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 // import { view, Animated, TouchableOpacity, Text } from 'react-native';
 import Items from './Items';
 
-
-
 const HomePage = () => {
-  const items = useSelector(store => store.entities.items_state.items)
+  const items = useSelector(store => store.entities.items_state.saleItems)
+  const rentItems = useSelector(store => store.entities.items_state.rentItems)
+  const search_params = useSelector((store) => store.entities.search_params)
+
   const [popupVisible, setPopupVisible] = useState(false)
+  const [itemComponent, setItemComponent] = useState(null)
   console.log(items)
 
   const handlePopUp = () => {
@@ -36,7 +39,6 @@ const HomePage = () => {
   //     // setPostedItems(postedItems)
   //   })()
   // }, [])
-
 
   return (
     <>
@@ -68,9 +70,17 @@ const HomePage = () => {
           </h4>
         </div>
       </div>
-      {items.length > 0 ? <Items />  : <div className="items-area"></div>}
-    </>
 
+     {(() => {
+       if(items.length > 0) {
+        return(<Items />)
+      } else if(rentItems.length > 0) {
+        return(<RentableItemTable />)
+      } else {
+        return(<div className="items-area"></div>)
+      }
+     })()}
+    </>
   )
 }
 

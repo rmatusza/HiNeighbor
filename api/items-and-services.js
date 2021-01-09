@@ -44,6 +44,7 @@ router.post('/search', asyncHandler(async(req, res) => {
 
 
   }else if(offer_type === 'Purchase') {
+    console.log('LOOKING FOR ITEMS FOR PURCHASE')
 
     const items = await Item.findAll({
       where: {
@@ -52,7 +53,6 @@ router.post('/search', asyncHandler(async(req, res) => {
         name: {
           [Op.substring]: user_search
         },
-
         price: {
           [Op.between]: price_range
         },
@@ -64,7 +64,7 @@ router.post('/search', asyncHandler(async(req, res) => {
     })
 
     console.log(items)
-    res.json({'items': items, 'bids': bids})
+    res.json({'saleItems': items, 'rentItems': [], 'bids': bids})
 
     //-RENT-----------------------------------------------------------------------
 
@@ -87,10 +87,14 @@ router.post('/search', asyncHandler(async(req, res) => {
         sold: false
       }
     })
-    res.json({'items': items, 'bids': bids})
+    res.json({'saleItems': [], 'rentItems': items, 'bids': bids})
 
     //-ANY OFFER TYPE------------------------------------------------------------------------------------------------
   } else {
+
+    let saleItems = []
+    let rentItems = []
+
     const items = await Item.findAll({
       where: {
         category: category,
@@ -106,7 +110,14 @@ router.post('/search', asyncHandler(async(req, res) => {
         sold: false
       }
     })
-    res.json({'items': items})
+    items.forEach(item => {
+      if (item.for_sale === true) {
+        saleItems.push(item)
+      } else {
+        rentItems.push(item)
+      }
+    })
+    res.json({'saleItems': saleItems, 'rentItems': rentItems, 'bids':bids})
   }
 }))
 
@@ -127,13 +138,6 @@ router.post('/upload-photo', upload.any(), fileFilter, asyncHandler(async (req, 
   const imageURL = uploadedImage.Location
   res.json({'imageURL': imageURL})
 }))
-
-// router.get('/examine-file', async(req,res) => {
-//   // const id = req.params.id
-//   const newImage = await image.findByPk(2)
-//   console.log(newImage)
-//   res.json({'encoded_image': newImage.image_data})
-// })
 
 router.post('/post-item', asyncHandler(async(req,res) => {
 

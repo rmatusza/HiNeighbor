@@ -13,7 +13,7 @@ import {
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector, connect } from "react-redux";
 import Modal from "@material-ui/core/Modal";
-import { setItems } from '../../actions/itemsActions';
+import { setRentItems } from '../../actions/itemsActions';
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -24,7 +24,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { RentableItemTable } from './RentableItemTable';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -95,10 +94,15 @@ const useStyles = makeStyles((theme) => ({
   tableRow: {
     backgroundColor: 'whitesmoke'
   },
+  // tableContainer: {
+  //   paddingBottom: '0px',
+  //   backgroundColor: 'white',
+  //   height: '110px'
+  // },
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
-    height: '110px'
+    height: '70px'
   },
   buyNow: {
     maxHeight: "50px"
@@ -109,15 +113,13 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-function createData(name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price) {
-  return { name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price };
+function createData(name, rate, available) {
+  return { name, rate, available};
 }
 
 
-const Items = () => {
-  let items = useSelector(store => store.entities.items_state.saleItems)
+const RentableItemTable = () => {
   let rentItems = useSelector(store => store.entities.items_state.rentItems)
-  console.log('ITEMS:', items)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [modalOpen, setModalOpen] = useState(false)
   const [currItemId, setCurrItemId] = useState(null)
@@ -128,7 +130,6 @@ const Items = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const history = useHistory();
-  console.log('ITEMS:', items)
 
   const updateBidInput = (e) => {
     // console.log('BID INPUT:', e.target.value)
@@ -139,13 +140,13 @@ const Items = () => {
     // console.log('CURRENT ITEM OBJECT:', updatedItem)
     const id = updatedItem.id
     // console.log('ITEM ID:', id)
-    items.forEach((item, i) => {
+    rentItems.forEach((item, i) => {
       // console.log('UPDATING ITEMS')
       if(item.id === id) {
         // console.log('CURR ITEM:', currItems[i])
-        items[i] = updatedItem
+        rentItems[i] = updatedItem
         // console.log('CURRITEMS:', items)
-        dispatch(setItems(items))
+        dispatch(setRentItems(rentItems))
         // setCurrItemsState(currItems)
       }
     })
@@ -153,11 +154,11 @@ const Items = () => {
 
   const updateSoldItems = (id) => {
     let currItems = []
-    items.forEach((item, i) => {
+    rentItems.forEach((item, i) => {
       if(Number(item.id) !== Number(id)) {
         currItems.push(item)
       }
-      dispatch(setItems(currItems))
+      dispatch(setRentItems(currItems))
     })
   }
 
@@ -230,12 +231,13 @@ const Items = () => {
   const closeModal = () => {
     setModalOpen(false)
   }
-  let dataRows = []
+  let dataRowsRent = []
   return(
     <div className="items-body-container">
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
-          {items.map((item) => {
+          {rentItems.map((item) => {
+            console.log('ITEM:', item)
             let url = item.image_url
             return (
               <Grid item xs={12} md={12}>
@@ -254,62 +256,42 @@ const Items = () => {
         </Grid>
       </div>
       <div className="item-data-container">
-        {items.forEach((item, idx) => {
-
-          const d1 = new Date(item.expiry_date)
-          const today = new Date()
-          today.setDate(today.getDate()+0)
-          const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-          const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
-          if(item.current_bid === null) {
-            dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.id, item.current_bid, item.price))
-          } else {
-            dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price))
-          }
-
+        {rentItems.forEach((item, idx) => {
+          dataRowsRent.push(createData(item.name, item.rate, item.sold))
         })}
           {/* console.log(dataRows) */}
-        {dataRows.map((item, idx) => {
+        {dataRowsRent.map((item, idx) => {
           return(
-            <div className="main-page-items-table-container">
-              <TableContainer className={classes.tableContainer}>
-                <Table className={classes.table} size="small" aria-label="a dense table">
-                  <TableHead className={classes.tableHead}>
-                    <TableRow className={classes.tableHead}>
-                      {/* <TableCell align="right">Item Name</TableCell> */}
-                      <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
-                      <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
-                      <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
-                      <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
-                      <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
+            <div className="main-page-rent-items-table-container">
+                <TableContainer className={classes.tableContainer}>
+                  <Table className={classes.table} size="small" aria-label="a dense table">
+                    <TableHead className={classes.tableHead}>
+                      <TableRow className={classes.tableHead}>
+                        {/* <TableCell align="right">Item Name</TableCell> */}
+                        <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
+                        <TableCell align="right" className={classes.tableCell}>Rate per Day</TableCell>
+                        <TableCell align="right" className={classes.tableCell}>Available</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
 
-                    <TableRow key={dataRows[idx].name}>
-                      {/* <TableCell component="th" scope="row">
-                        {dataRows.name}
-                      </TableCell> */}
-                      {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
-                      <TableCell align="right">{dataRows[idx].name}</TableCell>
-                      <TableCell align="right">${dataRows[idx].price}</TableCell>
-                      <TableCell align="right">${dataRows[idx].bid}</TableCell>
-                      <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
-                      <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
-                    </TableRow>
-
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                      <TableRow key={dataRowsRent[idx].name}>
+                        <TableCell align="right">{dataRowsRent[idx].name}</TableCell>
+                        <TableCell align="right">${dataRowsRent[idx].rate}</TableCell>
+                        <TableCell align="right">{dataRowsRent[idx].sold === false ? 'False' : 'True'}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
               <div className="bid-buy-buttons-container">
                 <div className="bid-button">
-                <Button variant="contained" color="primary" variant="outlined" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}}>
+                <Button variant="contained" color="primary" variant="outlined" onClick={() => {openBidModal({'itemId': dataRowsRent[idx].item_id, 'currentBid': dataRowsRent[idx].current_bid, 'itemPrice': dataRowsRent[idx].item_price})}}>
                   Bid
                 </Button>
                 </div>
                 <div className="bid-purchase-divider"></div>
                 <div className="buy-button">
-                <Button variant="contained" color="primary" size="medium" variant="outlined" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}}>
+                <Button variant="contained" color="primary" size="medium" variant="outlined" onClick={() => {handleDialogOpen({'itemId': dataRowsRent[idx].item_id, 'currentBid': dataRowsRent[idx].current_bid, 'itemPrice': dataRowsRent[idx].item_price})}}>
                   Purchase
                 </Button>
                 </div>
@@ -384,5 +366,4 @@ const Items = () => {
   )
 }
 
-export default Items;
-// onClick={() => {handleClick(item.seller_id)}}
+export default RentableItemTable;
