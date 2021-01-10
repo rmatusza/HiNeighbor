@@ -102,8 +102,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, rate, available) {
-  return { name, rate, available};
+function createData(name, rate, available, id) {
+  return { name, rate, available, id};
 }
 
 // sets the current date as the default date for the date picker
@@ -123,7 +123,7 @@ const RentableItemTable = () => {
   const [currItem, setCurrItem] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [confirmRentDialog, setConfirmRentDialog] = useState(false);
-  const [selectedDate, setSelectedDate] = React.useState(new Date(today));
+  const [selectedDate, setSelectedDate] = useState(null);
   const [rentTotal, setRentTotal] = useState(null)
   const [selectedDateString, setSelectedDateString] = useState(null)
   const classes = useStyles();
@@ -179,33 +179,40 @@ const RentableItemTable = () => {
     const total = rentPeriod * currItem.rate
     console.log(total)
     setRentTotal(total)
+    // setSelectedDate(chosenDateObj)
     setSelectedDateString(chosenDateString)
     setConfirmRentDialog(true)
+  }
+
+  const handleCloseAll = () => {
+    setDialogOpen(false)
+    setConfirmRentDialog(false)
   }
 
   const handleCloseConfirmRentDialog = () => {
     setConfirmRentDialog(false)
   }
 
-  // const handlePurchase = async () => {
+  const handleRentItem = async () => {
+    console.log(currItem)
+    const body = {
+      currUserId,
+      selectedDateString,
+      rentTotal
+    }
 
-  //   const body = {
-  //     currUserId
-  //   }
-
-  //   const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
-  //     method: 'PATCH',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(body)
-  //   })
-  //   const {soldItemId} = await res.json()
-  //   console.log(soldItemId)
-
-  //   updateSoldItems(soldItemId)
-  //   handleDialogClose()
-  // }
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+    const {new_rent_item} = await res.json()
+    console.log(new_rent_item)
+    //   updateSoldItems(soldItemId)
+    handleCloseAll()
+  }
 
   let dataRowsRent = []
   return(
@@ -233,7 +240,7 @@ const RentableItemTable = () => {
       </div>
       <div className="item-data-container">
         {rentItems.forEach((item, idx) => {
-          dataRowsRent.push(createData(item.name, item.rate, item.sold))
+          dataRowsRent.push(createData(item.name, item.rate, item.sold, item.id))
         })}
           {/* console.log(dataRows) */}
         {dataRowsRent.map((item, idx) => {
@@ -349,8 +356,8 @@ const RentableItemTable = () => {
           <Button onClick={handleCloseConfirmRentDialog} color="primary">
             Cancel
           </Button>
-          <Button color="primary">
-            Purchase Item
+          <Button color="primary" onClick={handleRentItem}>
+           Confirm
           </Button>
         </DialogActions>
       </Dialog>

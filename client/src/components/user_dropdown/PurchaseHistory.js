@@ -177,7 +177,7 @@ const PurchaseHistory = (props) => {
 
   return(
     <>
-    {props.postedItems.purchased_items === 0 ? <h1 className="no-purchase-history-heading">No Purchase History...</h1> :
+    {props.postedItems.purchased_items.length === 0 ? <h1 className="no-purchase-history-heading">No Purchase History...</h1> :
     <>
     <div>
       <h1 className="purchase-history-heading">

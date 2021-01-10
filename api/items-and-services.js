@@ -2,7 +2,7 @@ const express = require("express");
 const { asyncHandler } = require('../utils');
 const multer = require('multer');
 const upload = multer();
-const { Item, Service, User, Bid, Review } = require("../db/models");
+const { Item, Service, User, Bid, Review, Rented_Item } = require("../db/models");
 const Sequelize = require('sequelize');
 const fs = require('fs');
 const { encode } = require("punycode");
@@ -311,24 +311,32 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
   res.json({'soldItemId':itemId})
 }))
 
-// router.patch('/:id/unpurchase', asyncHandler(async(req, res) => {
-//   const itemId = req.params.id
-//   let item = await Item.findByPk(itemId)
+router.post('/:id/rent', asyncHandler(async(req, res) => {
+  const itemId = req.params.id
+  const { currUserId, selectedDateString, rentTotal } = req.body
+  console.log(itemId, currUserId, selectedDateString, rentTotal)
+  const dateObj = new Date(selectedDateString)
+  JSON.stringify(dateObj)
+  // const today = new Date()
+  // const day = today.getDate()
+  // const month = today.getMonth() + 1
+  // const year = today.getFullYear()
+  // console.log(year)
+  // console.log(day)
+  // console.log(month)
+  // const date = new Date(month+'-'+day+'-'+year)
+  // JSON.stringify(date)
 
-//   item.update({
-//     purchaser_id: null,
-//     sold: false,
-//     for_sale: true,
-//     date_sold: null
-//   })
-// }))
+  const newRentItem = await Rented_Item.create({
+    item_id: Number(itemId),
+    user_id: currUserId,
+    return_date: dateObj,
+    rent_total: rentTotal,
+    active: false
+  })
 
-// router.get(`/:id/cheese`, asyncHandler(async(req,res) => {
-//   const itemId = req.params.id
-//   let item = await Item.findByPk(itemId)
-
-//   res.json({'date': item.date_sold})
-// }))
+  res.json({'new_rent_item': newRentItem})
+}))
 
 router.patch('/:id/rate-item', asyncHandler(async(req,res) => {
   itemId = req.params.id
