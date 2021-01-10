@@ -266,3 +266,6 @@ const RentHistory = () => {
 }
 
 export default RentHistory;
+
+
+

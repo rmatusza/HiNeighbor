@@ -102,11 +102,11 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
-const PurchaseHistory = () => {
-
+const PurchaseHistory = (props) => {
+  console.log(props.postedItems.purchased_items)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [postedItems, setPostedItems] = useState({'items': [], 'users': []})
-  const [dataRows, setDataRows] = useState([])
+  // const [dataRows, setDataRows] = useState([])
   const[ratingVisibility, setRatingVisibility] = useState({})
   const[currItem, setCurrItem] = useState(null)
   const[itemRating, setItemRating] = useState(null)
@@ -114,32 +114,26 @@ const PurchaseHistory = () => {
   const classes = useStyles()
   let items = []
   let ratingState = {}
-  // console.log('ITEMS:', items)
-  useEffect(() => {
-    (async() => {
-      let rows = []
-      const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
-      const postedItems = await res.json()
-      // items = postedItems
-      // console.log('RETURNED ITEMS:', postedItems)
-      postedItems.items.forEach((item, i) => {
-        ratingState[i] = false
-        let month = item.date_sold.slice(5,7)
-        // console.log(month)
-        let day = item.date_sold.slice(8,10)
-        // console.log(day)
-        let year = item.date_sold.slice(0, 4)
-        if(item.current_bid === null) {
-          rows.push(createData(item.name, postedItems.users[item.seller_id - postedItems.items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))
-        } else {
-          rows.push(createData(item.name, postedItems.users[item.seller_id - postedItems.items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))
-        }
-      })
-      setDataRows(rows)
-      setRatingVisibility(ratingState)
-      setPostedItems(postedItems)
-    })()
-  }, [])
+  let dataRows = []
+
+  let rows = []
+  // const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
+  // const postedItems = await res.json()
+  // items = postedItems
+  console.log('RETURNED ITEMS:', postedItems)
+  props.postedItems.purchased_items.forEach((item, i) => {
+    ratingState[i] = false
+    let month = item.date_sold.slice(5,7)
+    // console.log(month)
+    let day = item.date_sold.slice(8,10)
+    // console.log(day)
+    let year = item.date_sold.slice(0, 4)
+    if(item.current_bid === null) {
+      dataRows.push(createData(item.name, props.postedItems.users[item.seller_id - props.postedItems.purchased_items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))
+    } else {
+      dataRows.push(createData(item.name, props.postedItems.users[item.seller_id - props.postedItems.purchased_items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))
+    }
+  })
 
   const updateItemRating = (e, value) => {
     setItemRating(value)
@@ -156,6 +150,9 @@ const PurchaseHistory = () => {
     setCurrItem(itemId)
     setRatingVisibility(statecpy)
     setSelectedRatingButton(idx)
+    // currItem = itemId
+    // ratingVisibility = statecpy
+    // selectedRatingButton = idx
   }
 
   const submitRating = async(itemId, idx) => {
@@ -180,7 +177,7 @@ const PurchaseHistory = () => {
 
   return(
     <>
-    {postedItems.items.length === 0 ? <h1 className="no-purchase-history-heading">No Purchase History...</h1> :
+    {props.postedItems.purchased_items === 0 ? <h1 className="no-purchase-history-heading">No Purchase History...</h1> :
     <>
     <div>
       <h1 className="purchase-history-heading">
@@ -190,7 +187,7 @@ const PurchaseHistory = () => {
     <div className="items-body-container-user-dropdown">
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
-          {postedItems.items.map((item) => {
+          {props.postedItems.purchased_items.map((item) => {
             // console.log(item)
             let url = item.image_url
             return (
@@ -207,7 +204,7 @@ const PurchaseHistory = () => {
       </div>
       <div className="purchase-history-table-container">
 
-          {postedItems.items.map((item, idx) => {
+          {props.postedItems.purchased_items.map((item, idx) => {
             return(
               <div className="purchase-history-table">
                  <TableContainer className={classes.tableContainer}>
@@ -242,7 +239,7 @@ const PurchaseHistory = () => {
                       Rating:
                     </Typography>
                       <Slider
-                        defaultValue={postedItems.reviews[idx].rating}
+                        defaultValue={props.postedItems.reviews[idx].rating}
                         getAriaValueText={valuetext}
                         aria-labelledby="discrete-slider-small-steps"
                         step={1}
