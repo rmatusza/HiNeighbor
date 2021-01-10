@@ -124,6 +124,8 @@ const RentableItemTable = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [confirmRentDialog, setConfirmRentDialog] = useState(false);
   const [selectedDate, setSelectedDate] = React.useState(new Date(today));
+  const [selectedDateString, setSelectedDateString] = useState(null)
+  const [rentTotal, setRentTotal] = useState(null)
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -153,8 +155,19 @@ const RentableItemTable = () => {
     })
   }
   const handleUpdateDate = (e) => {
-    console.log(e.target.value)
-    setSelectedDate(e.target.value)
+    let chosenDate = e.target.value
+    let chosenMonth = chosenDate.slice(5, 7)
+    let chosenDay = chosenDate.slice(8)
+    let chosenYear = chosenDate.slice(0, 4)
+    let chosenDateObj = new Date(chosenMonth + '-' + chosenDay + '-' + chosenYear)
+    let chosenDateString = chosenMonth + '-' + chosenDay + '-' + chosenYear
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    const rentPeriod = Math.round(Math.abs((chosenDateObj - today) / oneDay));
+    const total = rentPeriod * currItem.rate
+    console.log(total)
+    setRentTotal(total)
+    setSelectedDateString(chosenDateString)
+
   }
   const handleDialogClose = () => {
     setDialogOpen(false);
@@ -167,6 +180,8 @@ const RentableItemTable = () => {
   }
 
   const handleConfirmRentDialog = () => {
+    let rate = currItem.rate
+
     setConfirmRentDialog(true)
   }
 
@@ -330,7 +345,7 @@ const RentableItemTable = () => {
       // className={classes.rentDialog}
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure that you want to purchase this item at its full sale price?"}
+          {`Are you sure that you want to rent the selected item, which is to be returned on ${selectedDateString} for a total of $${rentTotal}?`}
         </DialogTitle>
         <DialogActions>
           <Button onClick={handleCloseConfirmRentDialog} color="primary">
