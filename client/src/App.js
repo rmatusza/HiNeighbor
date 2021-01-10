@@ -12,6 +12,7 @@ import PostedItems from './components/user_dropdown/PostedItems';
 import PurchaseHistory from './components/user_dropdown/PurchaseHistory';
 import SellerProfile from './components/seller_profile/SellerProfile';
 import UserStats from './components/user_dropdown/UserStats';
+import History from './components/user_dropdown/History';
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -71,7 +72,8 @@ const App = () => {
       </ProtectedRoute>
       <ProtectedRoute path="/purchase-history" authenticated={authenticated} exact={true}>
         <TopBar setAuthenticated={setAuthenticated}/>
-        <PurchaseHistory />
+        {/* <PurchaseHistory /> */}
+        <History />
       </ProtectedRoute>
       <ProtectedRoute path="/seller-profile/:id" authenticated={authenticated} exact={true}>
         <TopBar setAuthenticated={setAuthenticated}/>

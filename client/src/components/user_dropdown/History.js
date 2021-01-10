@@ -31,11 +31,12 @@ const History = () => {
   const [selectedRatingButton, setSelectedRatingButton] = useState(null)
   const [purchasedButtonState, setPurchasedButtonState] = useState(true)
   const [rentedButtonState, setRentedButtonState] = useState(false)
+  const [purchasedItems, setPurchasedItems] = useState({'purchased_items': [], 'users': [], 'reviews': []})
 
-  const classes = useStyles()
-  let purchasedItems = []
+  // let purchasedItems;
   let rentedItems = []
   let ratingState = {}
+
 
   const handleClick = (e) => {
     if(e.target.name === 'purchased') {
@@ -53,8 +54,8 @@ const History = () => {
         setPurchasedButtonState(false)
 
       }else {
-        setSalesButtonState(false)
-        setProfitsButtonState(true)
+        setPurchasedButtonState(false)
+        setRentedButtonState(true)
       }
     }
   }
@@ -64,29 +65,36 @@ const History = () => {
       let rows = []
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
       const postedItems = await res.json()
-      purchasedItems = postedItems.purchased_items
+      console.log(postedItems.purchased_items)
+      // let obj = {'purchased_items': postedItems.purchased_items, 'users': postedItems.users}
+      setPurchasedItems({'purchased_items': postedItems.purchased_items, 'users': postedItems.users, 'reviews': postedItems.reviews})
       rentedItems = postedItems.rented_items
     })()
   }, [])
+
+  console.log(purchasedItems)
 
   return (
     <>
       <div className="stats-buttons">
         <div>
-        <Button aria-controls="simple-menu" aria-haspopup="true"  variant={salesButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="purchased">
+        <Button aria-controls="simple-menu" aria-haspopup="true"  variant={purchasedButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="purchased">
          Purchased
         </Button>
         </div>
         <div className="button-divider"></div>
         <div>
-        <Button aria-controls="simple-menu" aria-haspopup="true"  variant={profitsButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="rented">
+        <Button aria-controls="simple-menu" aria-haspopup="true"  variant={rentedButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="rented">
          Rented
         </Button>
         </div>
       </div>
       <div>
-        {PurchasedButtonState ? <PurchaseHistory /> : <RentHistory />}
+        {purchasedButtonState ? <PurchaseHistory props={purchasedItems}/> : <RentHistory />}
       </div>
     </>
   )
 }
+
+
+export default History;

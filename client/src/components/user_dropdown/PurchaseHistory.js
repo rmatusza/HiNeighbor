@@ -102,8 +102,8 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
-const PurchaseHistory = () => {
-
+const PurchaseHistory = (props) => {
+  console.log(props.props.purchased_items)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [postedItems, setPostedItems] = useState({'items': [], 'users': []})
   const [dataRows, setDataRows] = useState([])
@@ -116,13 +116,15 @@ const PurchaseHistory = () => {
   let ratingState = {}
   // console.log('ITEMS:', items)
   useEffect(() => {
-    (async() => {
+    (async () => {
       let rows = []
-      const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
-      const postedItems = await res.json()
+      // const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
+      // const postedItems = await res.json()
       // items = postedItems
       // console.log('RETURNED ITEMS:', postedItems)
-      postedItems.items.forEach((item, i) => {
+      //
+      props.props.purchased_items.forEach((item, i) => {
+        console.log(item.name)
         ratingState[i] = false
         let month = item.date_sold.slice(5,7)
         // console.log(month)
@@ -130,14 +132,14 @@ const PurchaseHistory = () => {
         // console.log(day)
         let year = item.date_sold.slice(0, 4)
         if(item.current_bid === null) {
-          rows.push(createData(item.name, postedItems.users[item.seller_id - postedItems.items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))
+          rows.push(createData(item.name, props.props.users[item.seller_id - props.props.purchased_items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))
         } else {
-          rows.push(createData(item.name, postedItems.users[item.seller_id - postedItems.items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))
+          rows.push(createData(item.name, props.props.users[item.seller_id - props.props.purchased_items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))
         }
       })
-      setDataRows(rows)
-      setRatingVisibility(ratingState)
-      setPostedItems(postedItems)
+     setDataRows(rows)
+     setRatingVisibility(ratingState)
+     setPostedItems(postedItems)
     })()
   }, [])
 
@@ -147,8 +149,8 @@ const PurchaseHistory = () => {
 
   const enableRating = (itemId, idx) => {
     console.log(itemId)
-    let statecpy = {...ratingVisibility}
-    let value = ratingVisibility[idx]
+    let statecpy = {...ratingState}
+    let value = ratingState[idx]
     statecpy[idx] = !value
     if(selectedRatingButton !== null && selectedRatingButton !== idx) {
       statecpy[selectedRatingButton] = false
@@ -180,7 +182,7 @@ const PurchaseHistory = () => {
 
   return(
     <>
-    {postedItems.items.length === 0 ? <h1 className="no-purchase-history-heading">No Purchase History...</h1> :
+    {dataRows.length === 0 ? <h1 className="no-purchase-history-heading">No Purchase History...</h1> :
     <>
     <div>
       <h1 className="purchase-history-heading">
@@ -190,7 +192,7 @@ const PurchaseHistory = () => {
     <div className="items-body-container-user-dropdown">
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
-          {postedItems.items.map((item) => {
+          {props.props.purchased_items.map((item) => {
             // console.log(item)
             let url = item.image_url
             return (
@@ -207,7 +209,8 @@ const PurchaseHistory = () => {
       </div>
       <div className="purchase-history-table-container">
 
-          {postedItems.items.map((item, idx) => {
+          {props.props.purchased_items.map((item, idx) => {
+            console.log(item)
             return(
               <div className="purchase-history-table">
                  <TableContainer className={classes.tableContainer}>
