@@ -14,9 +14,10 @@ const History = () => {
   const [purchasedButtonState, setPurchasedButtonState] = useState(true)
   const [rentedButtonState, setRentedButtonState] = useState(false)
   const [purchasedItems, setPurchasedItems] = useState({'purchased_items': [], 'users': [], 'reviews': []})
+  const [rentedItems, setRentedItems] = useState({'rented_items': [], 'users': []})
 
   // let purchasedItems;
-  let rentedItems = []
+  // let rentedItems = []
   let ratingState = {}
 
 
@@ -47,10 +48,10 @@ const History = () => {
       let rows = []
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
       const postedItems = await res.json()
-      console.log(postedItems.purchased_items)
+      console.log(postedItems)
       // let obj = {'purchased_items': postedItems.purchased_items, 'users': postedItems.users}
       setPurchasedItems({'purchased_items': postedItems.purchased_items, 'users': postedItems.users, 'reviews': postedItems.reviews})
-      rentedItems = postedItems.rented_items
+      setRentedItems({'rented_items': postedItems.rented_items})
     })()
   }, [])
 

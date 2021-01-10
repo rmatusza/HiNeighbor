@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
-const { User, Item, Review } = require("../db/models");
+const { User, Item, Review, Rented_Item } = require("../db/models");
 const { asyncHandler } = require('../utils');
 const { getUserToken, verifyUser } = require('../auth');
 const bearerToken = require("express-bearer-token");
@@ -163,7 +163,13 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
     order: [['id', 'ASC']]
   })
 
-  res.json({'items': items, 'users': users, 'reviews': reviews, 'purchased_items': purchasedItems, 'rent_items': rentItems})
+  const rented_items = await Rented_Item.findAll({
+    where: {
+      user_id: userId
+    }
+  })
+
+  res.json({'items': items, 'users': users, 'reviews': reviews, 'purchased_items': purchasedItems, 'rent_items': rented_items})
   // res.json(items)
 }))
 
