@@ -18,7 +18,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import PurchaseHistory from './PurchaseHistory';
-import RentHistory from './RentHistory';
 
 
 const History = () => {
@@ -90,7 +89,7 @@ const History = () => {
         </div>
       </div>
       <div>
-        {purchasedButtonState ? <PurchaseHistory props={purchasedItems}/> : <RentHistory />}
+        {/* {purchasedButtonState ? <PurchaseHistory props={purchasedItems}/> : <RentHistory />} */}
       </div>
     </>
   )

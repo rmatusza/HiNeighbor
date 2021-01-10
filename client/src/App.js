@@ -72,8 +72,8 @@ const App = () => {
       </ProtectedRoute>
       <ProtectedRoute path="/purchase-history" authenticated={authenticated} exact={true}>
         <TopBar setAuthenticated={setAuthenticated}/>
-        {/* <PurchaseHistory /> */}
-        <History />
+        <PurchaseHistory />
+        {/* <History /> */}
       </ProtectedRoute>
       <ProtectedRoute path="/seller-profile/:id" authenticated={authenticated} exact={true}>
         <TopBar setAuthenticated={setAuthenticated}/>

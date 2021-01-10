@@ -136,17 +136,10 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
   // console.log('ITEMS:', items)
   let ids = []
   let itemIds = []
-  let purchasedItems = []
-  let rentedItems = []
   let userobj = {}
   items.forEach(item => {
     ids.push(item.seller_id)
     itemIds.push(item.id)
-    if(item.for_sale === true) {
-      purchasedItems.push(item)
-    } else {
-      rentedItems.push(item)
-    }
   })
 
   // console.log('ID ARRAY:', ids)
@@ -163,7 +156,7 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
     order: [['id', 'ASC']]
   })
 
-  res.json({'items': items, 'users': users, 'reviews': reviews, 'purchased_items': purchasedItems, 'rented_items': rentedItems})
+  res.json({'items': items, 'users': users, 'reviews': reviews})
   // res.json(items)
 }))
 
