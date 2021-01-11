@@ -94,19 +94,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function createData(name, seller, purchase_price, purchase_date) {
-  return { name, seller, purchase_price, purchase_date };
+function createData(name, seller, rate, start_date, return_date, rent_total) {
+  return { name, seller, rate, start_date, return_date, rent_total };
 }
 
 function valuetext(value) {
   return `${value}°C`;
 }
 
-const RentHistory = () => {
-
+const RentHistory = (props) => {
+  console.log(props.postedItems)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [postedItems, setPostedItems] = useState({'items': [], 'users': []})
-  const [dataRows, setDataRows] = useState([])
+  // const [dataRows, setDataRows] = useState([])
   const[ratingVisibility, setRatingVisibility] = useState({})
   const[currItem, setCurrItem] = useState(null)
   const[itemRating, setItemRating] = useState(null)
@@ -114,32 +114,34 @@ const RentHistory = () => {
   const classes = useStyles()
   let items = []
   let ratingState = {}
-  // console.log('ITEMS:', items)
-  useEffect(() => {
-    (async() => {
-      let rows = []
-      const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
-      const postedItems = await res.json()
-      // items = postedItems
-      // console.log('RETURNED ITEMS:', postedItems)
-      postedItems.items.forEach((item, i) => {
-        ratingState[i] = false
-        let month = item.date_sold.slice(5,7)
-        // console.log(month)
-        let day = item.date_sold.slice(8,10)
-        // console.log(day)
-        let year = item.date_sold.slice(0, 4)
-        if(item.current_bid === null) {
-          rows.push(createData(item.name, postedItems.users[item.seller_id - postedItems.items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))
-        } else {
-          rows.push(createData(item.name, postedItems.users[item.seller_id - postedItems.items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))
-        }
-      })
-      setDataRows(rows)
-      setRatingVisibility(ratingState)
-      setPostedItems(postedItems)
-    })()
-  }, [])
+  let dataRows = []
+
+  let rows = []
+  // const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
+  // const postedItems = await res.json()
+  // items = postedItems
+  console.log('RETURNED ITEMS:', postedItems)
+  props.postedItems.rented_items.forEach((item, i) => {
+    ratingState[i] = false
+    let returnDate = item.return_date
+    let startDate = item.start_date
+
+    let startMonth = startDate.slice(5,7)
+    let startDay = startDate.slice(8,10)
+    let startYear = startDate.slice(0, 4)
+
+    let returnMonth = returnDate.slice(5,7)
+    let returnDay = returnDate.slice(8,10)
+    let returnYear = returnDate.slice(0, 4)
+
+    // startMonth+'-'+startDay+'-'+startYear
+
+    if(item.current_bid === null) {
+      dataRows.push(createData(item.item_name, item.seller_name, item.rate, startMonth+'-'+startDay+'-'+startYear, returnMonth+'-'+returnDay+'-'+returnYear, item.rent_total))
+    } else {
+      dataRows.push(createData(item.item_name, item.seller_name, item.rate, startMonth+'-'+startDay+'-'+startYear, returnMonth+'-'+returnDay+'-'+returnYear, item.rent_total))
+    }
+  })
 
   const updateItemRating = (e, value) => {
     setItemRating(value)
@@ -156,6 +158,9 @@ const RentHistory = () => {
     setCurrItem(itemId)
     setRatingVisibility(statecpy)
     setSelectedRatingButton(idx)
+    // currItem = itemId
+    // ratingVisibility = statecpy
+    // selectedRatingButton = idx
   }
 
   const submitRating = async(itemId, idx) => {
@@ -180,17 +185,17 @@ const RentHistory = () => {
 
   return(
     <>
-    {postedItems.items.length === 0 ? <h1 className="no-purchase-history-heading">No Purchase History...</h1> :
+    {props.postedItems.rented_items.length === 0 ? <h1 className="no-purchase-history-heading">No Rent History...</h1> :
     <>
     <div>
       <h1 className="purchase-history-heading">
-        Your Purchase History:
+        Your Rent History:
       </h1>
     </div>
     <div className="items-body-container-user-dropdown">
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
-          {postedItems.items.map((item) => {
+          {props.postedItems.rented_items.map((item) => {
             // console.log(item)
             let url = item.image_url
             return (
@@ -207,7 +212,7 @@ const RentHistory = () => {
       </div>
       <div className="purchase-history-table-container">
 
-          {postedItems.items.map((item, idx) => {
+          {props.postedItems.rented_items.map((item, idx) => {
             return(
               <div className="purchase-history-table">
                  <TableContainer className={classes.tableContainer}>
@@ -216,16 +221,20 @@ const RentHistory = () => {
                         <TableRow>
                           <TableCell align="right" className={classes.tableCell}>seller</TableCell>
                           <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Purchase Price</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Purchase Date</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Rate Per Day</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Date Rented</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Return Date</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Rent Total</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         <TableRow key={dataRows[idx].name}>
                           <TableCell align="right">{dataRows[idx].seller}</TableCell>
                           <TableCell align="right">{dataRows[idx].name}</TableCell>
-                          <TableCell align="right">${dataRows[idx].purchase_price}</TableCell>
-                          <TableCell align="right">{dataRows[idx].purchase_date}</TableCell>
+                          <TableCell align="right">${dataRows[idx].rate}</TableCell>
+                          <TableCell align="right">{dataRows[idx].start_date}</TableCell>
+                          <TableCell align="right">{dataRows[idx].return_date}</TableCell>
+                          <TableCell align="right">{dataRows[idx].rent_total}</TableCell>
                         </TableRow>
                       </TableBody>
                     </Table>
@@ -242,7 +251,7 @@ const RentHistory = () => {
                       Rating:
                     </Typography>
                       <Slider
-                        defaultValue={postedItems.reviews[idx].rating}
+                        defaultValue={props.postedItems.rent_reviews[idx].rating}
                         getAriaValueText={valuetext}
                         aria-labelledby="discrete-slider-small-steps"
                         step={1}
@@ -266,6 +275,3 @@ const RentHistory = () => {
 }
 
 export default RentHistory;
-
-
-

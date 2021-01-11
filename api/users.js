@@ -142,11 +142,6 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
   items.forEach(item => {
     ids.push(item.seller_id)
     itemIds.push(item.id)
-    if(item.for_sale === true) {
-      purchasedItems.push(item)
-    } else {
-      rentItems.push(item)
-    }
   })
 
   // console.log('ID ARRAY:', ids)
@@ -169,7 +164,34 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
     }
   })
 
-  res.json({'items': items, 'users': users, 'reviews': reviews, 'purchased_items': purchasedItems, 'rent_items': rented_items})
+  res.json({'users': users, 'reviews': reviews, 'purchased_items': items})
+  // res.json(items)
+}))
+
+router.get('/:id/get-rent-history', asyncHandler(async(req,res) => {
+  const userId = req.params.id
+  const rentedItems = await Rented_Item.findAll({
+    where:{
+      user_id: userId,
+    },
+    order: [['id', 'ASC']]
+  })
+
+  // console.log('ITEMS:', items)
+
+  let itemIds = []
+  rentedItems.forEach(item => {
+    itemIds.push(item.id)
+  })
+
+  const reviews = await Review.findAll({
+    where: {
+      item_id: itemIds
+    },
+    order: [['id', 'ASC']]
+  })
+
+  res.json({'reviews': reviews, 'rent_items': rentedItems})
   // res.json(items)
 }))
 

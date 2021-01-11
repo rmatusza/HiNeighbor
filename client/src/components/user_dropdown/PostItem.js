@@ -82,6 +82,7 @@ const PostItem = (props) => {
   const [encodedImg, setEncodedImg] = useState({})
   const form_state = useSelector(store => store.entities.post_item_form_state.status)
   const userId = useSelector(store => store.session.currentUser.id)
+  const username = useSelector(store => store.session.currentUser.username)
   console.log(userId)
   const { register, handleSubmit } = useForm()
   const classes = useStyles()
@@ -163,6 +164,7 @@ const PostItem = (props) => {
 
     const body = {
       userId,
+      username,
       itemName,
       itemDescription,
       itemCategory,

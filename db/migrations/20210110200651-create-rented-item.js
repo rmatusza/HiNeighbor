@@ -18,6 +18,22 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: 'Users' }
       },
+      seller_name: {
+        allowNull: false,
+        type: Sequelize.STRING(50)
+      },
+      item_name: {
+        allowNull: false,
+        type: Sequelize.STRING(50)
+      },
+      rate: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      start_date: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
       return_date: {
         allowNull: false,
         type: Sequelize.DATE
@@ -30,6 +46,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.BOOLEAN,
         defaultValue: false
+      },
+      image_url: {
+        allowNull: false,
+        type: Sequelize.TEXT
+      },
+      category: {
+        allowNull: false,
+        type: Sequelize.STRING(50)
       },
       createdAt: {
         allowNull: false,

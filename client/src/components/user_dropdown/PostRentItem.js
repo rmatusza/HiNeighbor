@@ -78,6 +78,7 @@ const PostRentItem = (props) => {
   const [encodedImg, setEncodedImg] = useState({})
   const rent_form_state = useSelector(store => store.entities.post_item_rent_state.rentStatus)
   const userId = useSelector(store => store.session.currentUser.id)
+  const username = useSelector(store => store.session.currentUser.username)
   console.log(userId)
   const { register, handleSubmit } = useForm()
   const classes = useStyles()
@@ -161,6 +162,7 @@ const PostRentItem = (props) => {
     console.log(generatedImageURL)
     const body = {
       userId,
+      username,
       itemName,
       itemDescription,
       itemCategory,
