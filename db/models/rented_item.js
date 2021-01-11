@@ -9,11 +9,29 @@ module.exports = (sequelize, DataTypes) => {
     },
     item_id: {
       allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      references: { model: 'Items' }
     },
     user_id: {
       allowNull: false,
+      type: DataTypes.INTEGER,
+      references: { model: 'Users' }
+    },
+    seller_name: {
+      allowNull: false,
+      type: DataTypes.STRING(50)
+    },
+    item_name: {
+      allowNull: false,
+      type: DataTypes.STRING(50)
+    },
+    rate: {
+      allowNull: false,
       type: DataTypes.INTEGER
+    },
+    start_date: {
+      allowNull: false,
+      type: DataTypes.DATE
     },
     return_date: {
       allowNull: false,
@@ -28,6 +46,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
+    image_url: {
+      allowNull: false,
+      type: DataTypes.TEXT
+    },
+    category: {
+      allowNull: false,
+      type: DataTypes.STRING(50)
+    },
+
   }, {});
   Rented_Item.associate = function(models) {
     Rented_Item.belongsTo(models.User, { foreignKey: 'user_id'})

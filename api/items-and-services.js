@@ -74,7 +74,7 @@ router.post('/search', asyncHandler(async(req, res) => {
     const items = await Item.findAll({
       where: {
         category: category,
-        for_rent: true,
+
         name: {
           [Op.substring]: user_search
         },
@@ -84,6 +84,7 @@ router.post('/search', asyncHandler(async(req, res) => {
         seller_id: {
           [Op.not]: user_id
         },
+        for_rent: true,
         sold: false
       }
     })
@@ -146,6 +147,7 @@ router.post('/post-item', asyncHandler(async(req,res) => {
 
   const {
     userId,
+    username,
     itemName,
     itemDescription,
     itemCategory,
@@ -158,6 +160,7 @@ router.post('/post-item', asyncHandler(async(req,res) => {
   console.log('EXPIRY DATE:', expiryDate)
   const newItem = await Item.create({
     seller_id: userId,
+    seller_name: username,
     name: itemName,
     description: itemDescription,
     category: itemCategory,
@@ -197,6 +200,7 @@ router.post('/post-item-for-rent', asyncHandler(async(req,res) => {
 
   const {
     userId,
+    username,
     itemName,
     itemDescription,
     itemCategory,
@@ -209,6 +213,7 @@ router.post('/post-item-for-rent', asyncHandler(async(req,res) => {
   // console.log('EXPIRY DATE:', expiryDate)
   const newItem = await Item.create({
     seller_id: userId,
+    seller_name: username,
     name: itemName,
     description: itemDescription,
     category: itemCategory,
@@ -218,6 +223,11 @@ router.post('/post-item-for-rent', asyncHandler(async(req,res) => {
     for_rent: true,
     for_sale: false,
     image_url: generatedImageURL,
+  })
+
+  const newReviewObj = await Review.create({
+    reviewee_id: userId,
+    item_id: newItem.id
   })
 
   res.json(newItem)
@@ -313,10 +323,12 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
 
 router.post('/:id/rent', asyncHandler(async(req, res) => {
   const itemId = req.params.id
-  const { currUserId, selectedDateString, rentTotal } = req.body
+  console.log(req.body)
+  const { currUserId, selectedDateString, rentTotal, today, rate, seller_name, itemName, imageURL, category } = req.body
   console.log(itemId, currUserId, selectedDateString, rentTotal)
   const dateObj = new Date(selectedDateString)
   JSON.stringify(dateObj)
+  JSON.stringify(today)
   // const today = new Date()
   // const day = today.getDate()
   // const month = today.getMonth() + 1
@@ -329,10 +341,21 @@ router.post('/:id/rent', asyncHandler(async(req, res) => {
 
   const newRentItem = await Rented_Item.create({
     item_id: Number(itemId),
+    item_name: itemName,
     user_id: currUserId,
+    seller_name: seller_name,
     return_date: dateObj,
     rent_total: rentTotal,
-    active: false
+    start_date: today,
+    rate: rate,
+    active: true,
+    image_url: imageURL,
+    category: category
+  })
+
+  const updatedItem = await Item.findByPk(itemId)
+  await updatedItem.update({
+    rented: true
   })
 
   res.json({'new_rent_item': newRentItem})

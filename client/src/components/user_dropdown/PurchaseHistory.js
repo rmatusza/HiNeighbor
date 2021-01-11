@@ -103,7 +103,7 @@ function valuetext(value) {
 }
 
 const PurchaseHistory = (props) => {
-  console.log(props.postedItems.purchased_items)
+  console.log(props.postedItems)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [postedItems, setPostedItems] = useState({'items': [], 'users': []})
   // const [dataRows, setDataRows] = useState([])

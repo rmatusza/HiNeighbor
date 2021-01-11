@@ -14,7 +14,7 @@ const History = () => {
   const [purchasedButtonState, setPurchasedButtonState] = useState(true)
   const [rentedButtonState, setRentedButtonState] = useState(false)
   const [purchasedItems, setPurchasedItems] = useState({'purchased_items': [], 'users': [], 'reviews': []})
-  const [rentedItems, setRentedItems] = useState({'rented_items': [], 'users': []})
+  const [rentedItems, setRentedItems] = useState({'rented_items': [], 'users': [], 'rent_reviews': []})
 
   // let purchasedItems;
   // let rentedItems = []
@@ -37,8 +37,8 @@ const History = () => {
         setPurchasedButtonState(false)
 
       }else {
-        setPurchasedButtonState(false)
-        setRentedButtonState(true)
+        setRentedButtonState(false)
+        setPurchasedButtonState(true)
       }
     }
   }
@@ -48,10 +48,12 @@ const History = () => {
       let rows = []
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
       const postedItems = await res.json()
-      console.log(postedItems)
-      // let obj = {'purchased_items': postedItems.purchased_items, 'users': postedItems.users}
+      // console.log(postedItems)
       setPurchasedItems({'purchased_items': postedItems.purchased_items, 'users': postedItems.users, 'reviews': postedItems.reviews})
-      setRentedItems({'rented_items': postedItems.rented_items})
+      const getRentHistory = await fetch(`http://localhost:5000/api/users/${currUserId}/get-rent-history`)
+      const returnedItems = await getRentHistory.json()
+      console.log(returnedItems)
+      setRentedItems({'rented_items': returnedItems.rent_items, 'rent_reviews': returnedItems.reviews})
     })()
   }, [])
 
@@ -73,7 +75,7 @@ const History = () => {
         </div>
       </div>
       <div>
-        {purchasedButtonState ? <PurchaseHistory postedItems={purchasedItems}/> : <RentHistory />}
+        {purchasedButtonState ? <PurchaseHistory postedItems={purchasedItems}/> : <RentHistory postedItems={rentedItems}/>}
       </div>
     </>
   )

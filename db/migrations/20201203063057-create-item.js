@@ -21,6 +21,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: 'Users' }
       },
+      seller_name: {
+        allowNull: false,
+        type: Sequelize.STRING(50)
+      },
       name: {
         allowNull: false,
         type: Sequelize.TEXT
@@ -40,12 +44,10 @@ module.exports = {
       for_rent: {
         allowNull: false,
         type: Sequelize.BOOLEAN,
-
       },
       for_sale: {
         allowNull: false,
         type: Sequelize.BOOLEAN,
-
       },
       image_url: {
         allowNull: true,

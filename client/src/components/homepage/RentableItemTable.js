@@ -102,10 +102,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, rate, available, id) {
-  return { name, rate, available, id};
+function createData(name, rate, available, id, seller_username, image_url, category) {
+  return { name, rate, available, id, seller_username, image_url, category};
 }
-
 // sets the current date as the default date for the date picker
 
 const date = new Date()
@@ -195,10 +194,21 @@ const RentableItemTable = () => {
 
   const handleRentItem = async () => {
     console.log(currItem)
+    let rate = currItem.rate
+    let seller_name = currItem.seller_username
+    let itemName = currItem.name
+    let imageURL = currItem.image_url
+    let category = currItem.category
     const body = {
       currUserId,
+      itemName,
+      seller_name,
+      today,
       selectedDateString,
-      rentTotal
+      rentTotal,
+      imageURL,
+      category,
+      rate
     }
 
     const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
@@ -240,7 +250,7 @@ const RentableItemTable = () => {
       </div>
       <div className="item-data-container">
         {rentItems.forEach((item, idx) => {
-          dataRowsRent.push(createData(item.name, item.rate, item.sold, item.id))
+          dataRowsRent.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category))
         })}
           {/* console.log(dataRows) */}
         {dataRowsRent.map((item, idx) => {
@@ -261,7 +271,7 @@ const RentableItemTable = () => {
                       <TableRow key={dataRowsRent[idx].name}>
                         <TableCell align="right">{dataRowsRent[idx].name}</TableCell>
                         <TableCell align="right">${dataRowsRent[idx].rate}</TableCell>
-                        <TableCell align="right">{dataRowsRent[idx].sold === false ? 'False' : 'True'}</TableCell>
+                        <TableCell align="right">{dataRowsRent[idx].rented === false ? 'True' : 'False'}</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
