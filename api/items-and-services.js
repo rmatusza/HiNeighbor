@@ -1,11 +1,11 @@
 const express = require("express");
 const { asyncHandler } = require('../utils');
+const { check, validationResult } = require("express-validator");
 const multer = require('multer');
 const upload = multer();
 const { Item, Service, User, Bid, Review, Rented_Item } = require("../db/models");
 const Sequelize = require('sequelize');
 const fs = require('fs');
-const { encode } = require("punycode");
 const Op = Sequelize.Op
 const router = express.Router();
 const AWS = require("aws-sdk")
@@ -27,6 +27,48 @@ const fileFilter = (req, res, next) => {
     return
   }
 }
+
+const postRentItemValidations = [
+  check('itemName')
+    .exists()
+    .isLength({min: 3, max: 50})
+    .withMessage('You Must Enter an Item Name'),
+  check('itemDescription')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Enter an Item Description'),
+  check('itemCategory')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Pick a Category'),
+  check('itemPrice')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Enter an Item Price'),
+  check('rate')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Choose a Rent Period and Price'),
+  check('generatedImageURL')
+    .exists()
+    .withMessage('You Must Upload an Image'),
+]
+
+const postItemValidations = [
+  check('itemName')
+    .exists()
+    .isLength({min: 3, max: 50})
+    .withMessage('You Must Enter an Item Name'),
+  check('itemDescription')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Enter an Item Description'),
+  check('itemCategory')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Pick a Category'),
+  check('itemPrice')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Enter an Item Price'),
+  check('generatedImageURL')
+    .exists()
+    .withMessage('You Must Upload an Image'),
+
+]
 
 router.post('/search', asyncHandler(async(req, res) => {
   let {price_range, distance, offer_type, category, user_search, user_id} = req.body
@@ -140,10 +182,17 @@ router.post('/upload-photo', upload.any(), fileFilter, asyncHandler(async (req, 
   res.json({'imageURL': imageURL})
 }))
 
-router.post('/post-item', asyncHandler(async(req,res) => {
+router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
 
   // const today = new Date()
   // today.setDate(today.getDate()+0)
+
+  const valRes = validationResult(req)
+  console.log(valRes.errors)
+  if (valRes.errors.length > 0) {
+    res.json(valRes)
+    return
+  }
 
   const {
     userId,
@@ -189,7 +238,14 @@ router.post('/post-item', asyncHandler(async(req,res) => {
 
 }))
 
-router.post('/post-item-for-rent', asyncHandler(async(req,res) => {
+router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(req,res) => {
+
+  const valRes = validationResult(req)
+  console.log(valRes.errors)
+  if (valRes.errors.length > 0) {
+    res.json(valRes)
+    return
+  }
 
   const today = new Date()
   const day = today.getDate()

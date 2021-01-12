@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const { User, Item, Review, Rented_Item } = require("../db/models");
 const { asyncHandler } = require('../utils');
+const { check } = require("express-validator");
 const { getUserToken, verifyUser } = require('../auth');
 const bearerToken = require("express-bearer-token");
 const { secret, expiresIn } = require('../config').jwtConfig;
@@ -14,7 +15,19 @@ const Op = Sequelize.Op
 const upload = multer({dest: 'uploads/'});
 const router = express.Router();
 
-router.post('/token', asyncHandler(async(req, res) => {
+const signInValidations = [
+  check("email")
+    .exists({ checkFalsy: true })
+    .isEmail()
+    .withMessage("A valid email address is required")
+    .isLength({ max: 100 })
+    .withMessage("Email address must be less than 100 characters"),
+  check("password")
+    .exists({ checkFalsy: true })
+    .withMessage("User password is required"),
+];
+
+router.post('/token', signInValidations, asyncHandler(async(req, res) => {
 
   const {email, password} = req.body;
   const user = await User.findOne({

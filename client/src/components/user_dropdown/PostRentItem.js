@@ -181,8 +181,16 @@ const PostRentItem = (props) => {
       body: JSON.stringify(body)
     })
 
-    const { newItem } = await res.json()
-    console.log(newItem)
+    const response = await res.json()
+    let errors = []
+    if(response.errors) {
+      response.errors.forEach(error => {
+        errors.push(error.msg)
+      })
+      setFormErrors(errors)
+      setDialogOpen(true)
+      return
+    }
     handleCloseModal()
   }
 
@@ -237,7 +245,6 @@ const PostRentItem = (props) => {
       }
       setFormErrors(discoveredErrors)
     })
-
     if(discoveredErrors.length === 0) {
       uploadPhoto()
     } else {
