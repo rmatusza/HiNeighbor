@@ -20,26 +20,19 @@ const corsOptions = {
 
 // Security Middleware
 app.use(cors(corsOptions));
-app.use(bearerToken())
 app.use(logger('dev'));
+app.use(bearerToken())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cookieParser())
 
 
-
-// app.use(bearerToken({
-//   cookie: {
-//     signed: true, // if passed true you must pass secret otherwise will throw error
-//     secret,
-//     key: 'access_token' // default value
-//   }
-// }));
 app.use("/api/users", userRouter);
 app.use("/api/items-and-services", itemsAndServicesRouter)
 app.use("/api/items", itemsRouter)
+
 // Serve React Application
 // This should come after routes, but before 404 and error handling.
 if (process.env.NODE_ENV === "production") {
@@ -48,7 +41,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
-
 
 app.use(function(_req, _res, next) {
   next(createError(404));
