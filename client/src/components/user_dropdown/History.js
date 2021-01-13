@@ -7,6 +7,15 @@ import {
 import { useDispatch, useSelector, connect } from "react-redux";
 import PurchaseHistory from './PurchaseHistory';
 import RentHistory from './RentHistory';
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+
+
+const useStyles = makeStyles((theme) => ({
+  Buttons: {
+    minWidth: '177px;',
+    maxWidth: '177px;',
+  }
+}))
 
 
 const History = () => {
@@ -14,8 +23,8 @@ const History = () => {
   const [purchasedButtonState, setPurchasedButtonState] = useState(true)
   const [rentedButtonState, setRentedButtonState] = useState(false)
   const [purchasedItems, setPurchasedItems] = useState({'purchased_items': [], 'users': [], 'reviews': []})
-  const [rentedItems, setRentedItems] = useState({'rented_items': [], 'users': [], 'rent_reviews': []})
-
+  const [rentedItems, setRentedItems] = useState({'rented_items': [], 'users': [], 'rent_reviews': [], 'returned_rented_items': []})
+  const classes = useStyles()
   // let purchasedItems;
   // let rentedItems = []
   let ratingState = {}
@@ -53,7 +62,7 @@ const History = () => {
       const getRentHistory = await fetch(`http://localhost:5000/api/users/${currUserId}/get-rent-history`)
       const returnedItems = await getRentHistory.json()
       console.log(returnedItems)
-      setRentedItems({'rented_items': returnedItems.rent_items, 'rent_reviews': returnedItems.reviews})
+      setRentedItems({'rented_items': returnedItems.rent_items, 'rent_reviews': returnedItems.reviews, 'returned_rented_items': returnedItems.returned_rented_items})
     })()
   }, [])
 
@@ -63,13 +72,13 @@ const History = () => {
     <>
       <div className="purchase-rent-toggle-buttons">
         <div>
-        <Button aria-controls="simple-menu" aria-haspopup="true"  variant={purchasedButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="purchased">
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={purchasedButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="purchased">
          Purchased
         </Button>
         </div>
         <div className="purchase-rent-toggle-buttons-divider"></div>
         <div>
-        <Button aria-controls="simple-menu" aria-haspopup="true"  variant={rentedButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="rented">
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={rentedButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="rented">
          Rented
         </Button>
         </div>

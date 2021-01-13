@@ -92,10 +92,6 @@ const useStyles = makeStyles((theme) => ({
   tableCell: {
     color: theme.palette.secondary.contrastText
   },
-  Buttons: {
-    minWidth: '177px;',
-    maxWidth: '177px;',
-  }
 }))
 
 function createData(name, seller, rate, start_date, return_date, rent_total) {
@@ -106,7 +102,7 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
-const RentHistory = (props) => {
+const ReturnedRentedItemHistory = (props) => {
   console.log(props.postedItems)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [postedItems, setPostedItems] = useState({'items': [], 'users': []})
@@ -121,16 +117,11 @@ const RentHistory = (props) => {
   let items = []
   let ratingState = {}
   let dataRows = []
-  let rows = []
-  let currentlyRenting = props.postedItems.rented_items
-  let previouslyRented = props.postedItems.returned_rented_items
-  let itemsType;
-  if(currentlyRentingButtonState === true) {
-    itemsType = currentlyRenting
-  } else {
-    itemsType = previouslyRented
-  }
 
+  let rows = []
+  // const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
+  // const postedItems = await res.json()
+  // items = postedItems
   console.log('RETURNED ITEMS:', postedItems)
   props.postedItems.rented_items.forEach((item, i) => {
     ratingState[i] = false
@@ -153,28 +144,6 @@ const RentHistory = (props) => {
       dataRows.push(createData(item.item_name, item.seller_name, item.rate, startMonth+'-'+startDay+'-'+startYear, returnMonth+'-'+returnDay+'-'+returnYear, item.rent_total))
     }
   })
-
-  const changeButtonState = (e) => {
-    if(e.target.name === 'currently-renting') {
-      if(currentlyRentingButtonState === false) {
-        setCurrentlyRentingButtonState(true)
-        setPreviouslyRentedButtonState(false)
-      } else {
-        setCurrentlyRentingButtonState(false)
-        setPreviouslyRentedButtonState(true)
-
-      }
-    } else {
-      if(previouslyRentedButtonState === false) {
-        setPreviouslyRentedButtonState(true)
-        setCurrentlyRentingButtonState(false)
-
-      }else {
-        setPreviouslyRentedButtonState(false)
-        setCurrentlyRentingButtonState(true)
-      }
-    }
-  }
 
   const updateItemRating = (e, value) => {
     setItemRating(value)
@@ -218,34 +187,17 @@ const RentHistory = (props) => {
 
   return(
     <>
-    {itemsType.length === 0 ?
+    {props.postedItems.rented_items.length === 0 ? <h1 className="no-purchase-history-heading">No Rent History...</h1> :
     <>
     <div className="current-and-past-rent-buttons">
-      <div className="currently-renting-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="primary" name="currently-renting" onClick={changeButtonState}>
+      <div>
+        <Button aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="primary" name="purchased">
           Currently Renting
         </Button>
       </div>
-      <div className="current-and-past-rent-buttons-divider"></div>
-      <div className="previously-rented-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="primary" name="previously-rented" onClick={changeButtonState}>
-          Previously Rented
-        </Button>
-      </div>
-    </div>
-    <h1 className="no-purchase-history-heading">No Rent History...</h1>
-    </>
-    :
-    <>
-    <div className="current-and-past-rent-buttons">
-      <div className="currently-renting-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="primary" name="currently-renting" onClick={changeButtonState}>
-          Currently Renting
-        </Button>
-      </div>
-      <div className="current-and-past-rent-buttons-divider"></div>
-      <div className="previously-rented-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="primary" name="previously-rented" onClick={changeButtonState}>
+      <div className="purchase-rent-toggle-buttons-divider"></div>
+      <div>
+        <Button aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="primary" name="rented">
           Previously Rented
         </Button>
       </div>
@@ -258,7 +210,7 @@ const RentHistory = (props) => {
     <div className="items-body-container-user-dropdown">
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
-          {itemsType.map((item) => {
+          {props.postedItems.rented_items.map((item) => {
             // console.log(item)
             let url = item.image_url
             return (
@@ -275,7 +227,7 @@ const RentHistory = (props) => {
       </div>
       <div className="purchase-history-table-container">
 
-          {itemsType.map((item, idx) => {
+          {props.postedItems.rented_items.map((item, idx) => {
             return(
               <div className="purchase-history-table">
                  <TableContainer className={classes.tableContainer}>
@@ -337,4 +289,4 @@ const RentHistory = (props) => {
   )
 }
 
-export default RentHistory;
+export default ReturnedRentedItemHistory;

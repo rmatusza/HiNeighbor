@@ -190,7 +190,26 @@ router.get('/:id/get-rent-history', asyncHandler(async(req,res) => {
     order: [['id', 'ASC']]
   })
 
-  // console.log('ITEMS:', items)
+  const date = new Date()
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+  console.log(year)
+  console.log(day)
+  console.log(month)
+  const today = new Date(month+'-'+day+'-'+year)
+
+  const returnedRentedItems = []
+  const currentRentedItems = []
+
+  rentedItems.forEach(item => {
+    if(item.return_date - today <= 0) {
+      returnedRentedItems.push(item)
+    } else {
+      currentRentedItems.push(item)
+    }
+  })
+
 
   let itemIds = []
   rentedItems.forEach(item => {
@@ -204,7 +223,7 @@ router.get('/:id/get-rent-history', asyncHandler(async(req,res) => {
     order: [['id', 'ASC']]
   })
 
-  res.json({'reviews': reviews, 'rent_items': rentedItems})
+  res.json({'reviews': reviews, 'rent_items': currentRentedItems, 'returned_rented_items': returnedRentedItems})
   // res.json(items)
 }))
 
