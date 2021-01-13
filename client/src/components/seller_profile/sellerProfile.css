@@ -1,18 +1,29 @@
+.seller-items-body-container-background {
+  height: auto;
+  background-color: white;
+  display: block;
+}
+
 .seller-items-body-container{
-  background-color: rgb(206, 204, 204);;
+  background-color: rgb(206, 204, 204);
   padding-bottom: 30px;
-  border-top: 2px solid black;
+  /* margin-top: 20px; */
   height: auto;
   display: flex;
+  margin-right: 30px;
+  margin-left: 30px;
 }
 
 .seller-info {
-  border: 2px solid black;
+  border: 2px solid rgb(206, 204, 204);
+  border-radius: 5px;
   display: flex;
   width: 70%;
   justify-content: space-around;
-  margin-left: 20px;
-  margin-top: 20px;
+  margin-left: 30px;
+  /* margin-top: 20px; */
+  /* background-color: white; */
+  background-color: rgb(206, 204, 204);
 }
 
 .seller-username{
@@ -42,7 +53,6 @@
   display: flex;
   padding-bottom: 20px;
   padding-top: 20px;
-
   /* margin-right: 20px; */
 }
 
@@ -112,11 +122,36 @@
 
 .item-text {
   margin-left: 20px;
+  text-decoration: underline;
+}
+
+.current-items-heading-container {
+  margin-top: 50px;
+  background-color: white;
 }
 
 .current-items-heading{
-  margin-left: 20px;
+  margin-left: 30px;
+  margin-bottom: 0px;
+  /* border-bottom: 2px solid black; */
+  margin-right: 30px;
+  margin-left: 30px;
+  text-decoration: underline;
+  /* width: auto; */
 }
+
+.seller-info-and-current-items-container {
+  display: block;
+  padding-top: 20px;
+  width: 100%;
+  height: auto;
+  background-color: white;
+}
+
+/* .grid-item-container {
+  background-color: rgb(194, 194, 194);
+  border-radius: 5px;
+} */
 
 /* username
 sell-count

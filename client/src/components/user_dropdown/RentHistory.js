@@ -234,7 +234,7 @@ const RentHistory = (props) => {
                           <TableCell align="right">${dataRows[idx].rate}</TableCell>
                           <TableCell align="right">{dataRows[idx].start_date}</TableCell>
                           <TableCell align="right">{dataRows[idx].return_date}</TableCell>
-                          <TableCell align="right">{dataRows[idx].rent_total}</TableCell>
+                          <TableCell align="right">${dataRows[idx].rent_total}</TableCell>
                         </TableRow>
                       </TableBody>
                     </Table>

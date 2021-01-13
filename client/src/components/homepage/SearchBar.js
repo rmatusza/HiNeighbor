@@ -39,10 +39,10 @@ const SearchBar = () => {
       console.log(param)
       body[param] = search_params[param]
     }
-    // if(body.category === undefined) {
-    //   alert('Please Choose a Category')
-    //   return
-    // }
+    if(body.category === undefined) {
+      alert('Please Choose a Category')
+      return
+    }
     body['user_search'] = input
     body['user_id'] = currUserId
     console.log(body)
@@ -73,7 +73,7 @@ const SearchBar = () => {
       </form>
       <div className="go-button-container">
         <Button aria-controls="simple-menu" size='small' aria-haspopup="true" onClick={handleSubmit} variant="outlined" color="primary" className={classes.goButton}>
-          Go
+          Go!
         </Button>
       </div>
     </div>

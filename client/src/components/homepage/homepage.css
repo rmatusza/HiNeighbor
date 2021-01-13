@@ -9,7 +9,6 @@
 .category-contents{
   display: flex;
   align-items: center;
-
 }
 
 /* .category-container{
@@ -29,7 +28,7 @@
   border-right: 2px solid #76323F;
   /* border-right: 2px solid white; */
 
-  height: 50px;
+  height: 35px;
   padding-left: 20px;
   margin-bottom: 10px;
 
@@ -64,19 +63,19 @@
   margin-left: 10px;
 }
 
-.items-container{
+.items-photo-container{
   /* border: 2px solid red; */
   height: 100%;
   box-sizing: border-box;
-  width: 25%;
+  width: 15%;
+  margin-left: 35px;
 }
 
 .item-data-container {
   /* border: 10px solid green; */
-  height: 100%;
+  height: auto;
   /* box-sizing: border-box; */
   /* width: 75%; */
-
 
 }
 
@@ -151,7 +150,6 @@
   /* 90% { top: 0px; } */
   100% {top: -500px }
 }
-
 .bid-buy-buttons-container{
   display: flex;
   margin-right: 20px;
@@ -162,6 +160,9 @@
 .buy-button{
   margin-left: 20px;
   height: 10px;
+}
+.seller-profile-button {
+  margin-left: 20px;
 }
 .main-page-rent-items-table-container{
   padding-bottom: 0px;

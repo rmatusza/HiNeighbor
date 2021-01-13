@@ -102,8 +102,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, rate, available, id, seller_username, image_url, category) {
-  return { name, rate, available, id, seller_username, image_url, category};
+function createData(name, rate,rented, id, seller_username, image_url, category) {
+  return { name, rate,rented, id, seller_username, image_url, category};
 }
 // sets the current date as the default date for the date picker
 
@@ -271,7 +271,7 @@ const RentableItemTable = () => {
                       <TableRow key={dataRowsRent[idx].name}>
                         <TableCell align="right">{dataRowsRent[idx].name}</TableCell>
                         <TableCell align="right">${dataRowsRent[idx].rate}</TableCell>
-                        <TableCell align="right">{dataRowsRent[idx].rented === false ? 'True' : 'False'}</TableCell>
+                        <TableCell align="right">{dataRowsRent[idx].rented === true ? 'False' : 'True'}</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>

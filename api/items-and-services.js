@@ -5,7 +5,6 @@ const multer = require('multer');
 const upload = multer();
 const { Item, Service, User, Bid, Review, Rented_Item } = require("../db/models");
 const Sequelize = require('sequelize');
-const fs = require('fs');
 const Op = Sequelize.Op
 const router = express.Router();
 const AWS = require("aws-sdk")
@@ -279,6 +278,7 @@ router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(r
     for_rent: true,
     for_sale: false,
     image_url: generatedImageURL,
+    rented: false
   })
 
   const newReviewObj = await Review.create({
@@ -385,15 +385,6 @@ router.post('/:id/rent', asyncHandler(async(req, res) => {
   const dateObj = new Date(selectedDateString)
   JSON.stringify(dateObj)
   JSON.stringify(today)
-  // const today = new Date()
-  // const day = today.getDate()
-  // const month = today.getMonth() + 1
-  // const year = today.getFullYear()
-  // console.log(year)
-  // console.log(day)
-  // console.log(month)
-  // const date = new Date(month+'-'+day+'-'+year)
-  // JSON.stringify(date)
 
   const newRentItem = await Rented_Item.create({
     item_id: Number(itemId),

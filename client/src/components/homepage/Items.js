@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     // padding: theme.spacing(2),
     textAlign: 'center',
-    backgroundColor: theme.palette.primary.light,
+    // backgroundColor: theme.palette.primary.light,
+    backgroundColor: 'white',
     background: theme.palette.success.light,
     color: theme.palette.secondary.contrastText,
     height: '200px',
@@ -95,10 +96,17 @@ const useStyles = makeStyles((theme) => ({
   tableRow: {
     backgroundColor: 'whitesmoke'
   },
+  // tableContainer: {
+  //   paddingBottom: '0px',
+  //   backgroundColor: 'white',
+  //   height: '110px'
+  // },
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
-    height: '110px'
+    height: '70px',
+    width: '700px',
+    height: '115px'
   },
   buyNow: {
     maxHeight: "50px"
@@ -109,8 +117,8 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-function createData(name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price) {
-  return { name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price };
+function createData(name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price, sellerId) {
+  return { name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price, sellerId };
 }
 
 
@@ -215,8 +223,7 @@ const Items = () => {
   }
 
   const handleClick = (sellerId) => {
-    history.replace('/seller-profile')
-    console.log(sellerId)
+    history.replace(`/seller-profile/${sellerId}`)
   }
 
   const openBidModal = (itemData) => {
@@ -233,21 +240,21 @@ const Items = () => {
   let dataRows = []
   return(
     <div className="items-body-container">
-      <div className="items-container">
+      <div className="items-photo-container">
         <Grid container spacing={4} className={classes.grid} >
           {items.map((item) => {
             let url = item.image_url
             return (
               <Grid item xs={12} md={12}>
-                <Link to={`/seller-profile/${item.seller_id}`}>
-                <CardActionArea className={classes.cardActionArea}>
+                {/* <Link to={`/seller-profile/${item.seller_id}`}> */}
+                {/* <CardActionArea className={classes.cardActionArea}> */}
                   <Card className={classes.paper}>
                     <CardContent className={classes.image}>
                       <img className="item-image-homepage" src={url} />
                     </CardContent>
                   </Card>
-                </CardActionArea>
-                </Link>
+                {/* </CardActionArea> */}
+                {/* </Link> */}
               </Grid>
             )
           })}
@@ -262,9 +269,9 @@ const Items = () => {
           const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
           const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
           if(item.current_bid === null) {
-            dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.id, item.current_bid, item.price))
+            dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id))
           } else {
-            dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price))
+            dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id))
           }
 
         })}
@@ -303,14 +310,20 @@ const Items = () => {
               </TableContainer>
               <div className="bid-buy-buttons-container">
                 <div className="bid-button">
-                <Button variant="contained" color="primary" variant="outlined" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}}>
+                <Button color="primary" variant="contained" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}}>
                   Bid
                 </Button>
                 </div>
                 <div className="bid-purchase-divider"></div>
                 <div className="buy-button">
-                <Button variant="contained" color="primary" size="medium" variant="outlined" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}}>
+                <Button color="primary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}}>
                   Purchase
+                </Button>
+                </div>
+                <div className="bid-purchase-divider"></div>
+                <div className="seller-profile-button">
+                <Button color="primary" size="medium" variant="contained" onClick={() => {handleClick(dataRows[idx].sellerId)}}>
+                  View Seller's Profile
                 </Button>
                 </div>
               </div>
