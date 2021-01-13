@@ -233,7 +233,7 @@ const RentHistory = (props) => {
         </Button>
       </div>
     </div>
-    <h1 className="no-purchase-history-heading">No Rent History...</h1>
+    <h1 className="no-purchase-history-heading">No History...</h1>
     </>
     :
     <>
@@ -252,7 +252,7 @@ const RentHistory = (props) => {
     </div>
     <div>
       <h1 className="purchase-history-heading">
-        Your Rent History:
+        You Are Currently Renting the Following Items:
       </h1>
     </div>
     <div className="items-body-container-user-dropdown">
@@ -302,6 +302,7 @@ const RentHistory = (props) => {
                       </TableBody>
                     </Table>
                   </TableContainer>
+                  {currentlyRentingButtonState === true ? <> </> :
                   <div className="rating-buttons-and-slider">
                     <div className="rate-and-submit-buttons">
                       <Button variant="outlined" color="primary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
@@ -326,7 +327,9 @@ const RentHistory = (props) => {
                       />
                     </div>}
                   </div>
+                }
               </div>
+
             )
           })}
       </div>

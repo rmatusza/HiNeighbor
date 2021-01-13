@@ -28,7 +28,12 @@ const History = () => {
   // let purchasedItems;
   // let rentedItems = []
   let ratingState = {}
-
+  let divClass;
+  if(purchasedButtonState){
+    divClass = 'purchase-rent-toggle-buttons__purchased'
+  } else {
+    divClass = 'purchase-rent-toggle-buttons'
+  }
 
   const handleClick = (e) => {
     if(e.target.name === 'purchased') {
@@ -70,7 +75,7 @@ const History = () => {
 
   return (
     <>
-      <div className="purchase-rent-toggle-buttons">
+      <div className={divClass}>
         <div>
         <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={purchasedButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="purchased">
          Purchased

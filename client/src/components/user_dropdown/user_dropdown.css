@@ -116,11 +116,19 @@
 .purchase-rent-toggle-buttons{
   display: flex;
   align-items: center;
-  margin-left: 50px;
+  padding-left: 50px;
   padding-top: 10px;
-  width: 270px;
-  margin-bottom: 15px;
-  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 15px;
+}
+.purchase-rent-toggle-buttons__purchased{
+  display: flex;
+  align-items: center;
+  padding-left: 50px;
+  padding-top: 10px;
+  width: 100%;
+  padding-bottom: 15px;
+  border-bottom: 2px solid black;
 }
 .purchase-rent-toggle-buttons-divider {
   border-right: 2px solid black;

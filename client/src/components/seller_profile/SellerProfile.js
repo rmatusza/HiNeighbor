@@ -154,6 +154,7 @@ const SellerProfile = () => {
   return(
     <>
       <div className='seller-info-and-current-items-container'>
+        <h1 className="seller-info-heading">Seller Info:</h1>
         <div className="seller-info">
           <div className="seller-username">
             <h3> Seller: </h3><h4 className="username">{userData.user.username}</h4>
