@@ -38,7 +38,7 @@
 .toggles {
   display: flex;
   justify-content: space-between;
-  width: 600px;
+  width: 700px;
   margin-left: 50px;
 }
 .search-bar-container{
@@ -193,4 +193,11 @@
 .rent-item-buttons-container {
   display: flex;
   justify-content: center;
+}
+.search-bar-and-button-container {
+  display: flex;
+  align-items: center;
+}
+.go-button-container {
+  height: 100%;
 }

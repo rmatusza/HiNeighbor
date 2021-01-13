@@ -36,6 +36,7 @@ module.exports = {
         {
 
           seller_id: 1,
+          seller_name: 'Ryan',
           purchaser_id: null,
           name: 'Baxton Studio Pierre Mid-Century Coffee Table',
           description: "The clean colors and angled, tapered legs of the table are clear hallmarks of its mid-century modern-inspired design. The Pierre's engineered wood frame is finished in a delightful brown and dark grey two-tone color palette. The table features two open shelf spaces with a central divider, giving you many possibilities for storage and display of magazines, books, and decor.",
@@ -59,6 +60,7 @@ module.exports = {
         {
 
           seller_id: 1,
+          seller_name: 'Ryan',
           purchaser_id: null,
           name: 'Lighted Three-Tier Indoor Fountain',
           description: "Soothe your senses with this serene Lighted Three-Tier Indoor Fountain. Designed to resemble cast stone and wood, this resin fountain features a light in the lower basin that creates a warm glow in the evening.",
@@ -82,6 +84,7 @@ module.exports = {
         {
 
           seller_id: 1,
+          seller_name: 'Ryan',
           purchaser_id: null,
           name: 'Hand Painted Abstract Africa Women',
           description: "Home Decoration Wall Art 4Panel Pictures Set.",
@@ -105,6 +108,7 @@ module.exports = {
         {
 
           seller_id: 1,
+          seller_name: 'Ryan',
           purchaser_id: null,
           name: 'Modern Robot Table Lamp',
           description: "Modern Robot Table Lamp Distinctive Unique Adjustable DIY Book Night Light Bedside Lamp Home Decor.",
@@ -128,6 +132,7 @@ module.exports = {
         {
 
           seller_id: 1,
+          seller_name: 'Ryan',
           purchaser_id: null,
           name: 'Fairy Light Spirit Tree',
           description: "This Fairy Light Spirit Tree will give your space a feeling of enchantment and imaginative wanderlust.",
@@ -151,6 +156,7 @@ module.exports = {
         {
 
           seller_id: 1,
+          seller_name: 'Ryan',
           purchaser_id: null,
           name: 'Bose Noise Cancelling Headphones 700',
           description: "Micro USB Conectivity, Bose AR, Adjustable Headband, Built-in Microphone, Built-In On/Off Switch, Call functions, Detachable Cable, Noise Cancellation, Rechargeable Battery, Replaceable Earpads, Touch Control",
@@ -174,6 +180,7 @@ module.exports = {
         {
 
           seller_id: 1,
+          seller_name: 'Ryan',
           purchaser_id: null,
           name: 'Apple MacBook Pro 13 inch Laptop / 8GB / 256GB SSD / 2.3Ghz',
           description: '2.3GHz INTEL CORE i5 with 3.1GHZ TURBO BOOST 4 Core "Hyper Threading" Capable Boots in LESS THAN 10 SECONDS - Super FAST FLASH MEMORY 3 YEAR WARRANTY INCLUDED - FREE SHIPPING',
@@ -197,6 +204,7 @@ module.exports = {
         {
 
           seller_id: 1,
+          seller_name: 'Ryan',
           purchaser_id: null,
           name: 'Bose Surround Speakers 700',
           description: 'The Bose Surround Speakers 700 deliver our most premium surround sound Bose has to offer, while a refined exterior matches the overall aesthetic of the Bose Soundbar 700. That way they not only enhance your audio experience, they also complement your room’s décor and create one beautiful, cohesive system.',

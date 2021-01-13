@@ -5,7 +5,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { MdLocalGroceryStore } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setOfferType} from '../../actions/searchCategoryActions';
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles((theme) => ({
+  offerTypeButton : {
+    minHeight: '64.4px',
+    minWidth: '210px;',
+    maxWidth: '210px;',
+  }
+}));
 
 const OfferType = () => {
 
@@ -14,6 +22,8 @@ const OfferType = () => {
   const [selectedCategory, setSelectedCategory] = useState(null)
   const options = ['Purchase', 'Rent', 'Services']
   const dispatch = useDispatch();
+  const classes = useStyles();
+
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,7 +44,7 @@ const OfferType = () => {
 
   return (
     <div>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} variant="outlined" color="primary">
+      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} variant="outlined" color="primary" className={classes.offerTypeButton}>
         <MdLocalGroceryStore /> OfferType: {defaultOfferType ? defaultOfferType : <p className="offer-type-selection">Any</p>}
       </Button>
       <Menu

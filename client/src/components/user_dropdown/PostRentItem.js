@@ -78,6 +78,7 @@ const PostRentItem = (props) => {
   const [encodedImg, setEncodedImg] = useState({})
   const rent_form_state = useSelector(store => store.entities.post_item_rent_state.rentStatus)
   const userId = useSelector(store => store.session.currentUser.id)
+  const username = useSelector(store => store.session.currentUser.username)
   console.log(userId)
   const { register, handleSubmit } = useForm()
   const classes = useStyles()
@@ -161,6 +162,7 @@ const PostRentItem = (props) => {
     console.log(generatedImageURL)
     const body = {
       userId,
+      username,
       itemName,
       itemDescription,
       itemCategory,
@@ -179,8 +181,16 @@ const PostRentItem = (props) => {
       body: JSON.stringify(body)
     })
 
-    const { newItem } = await res.json()
-    console.log(newItem)
+    const response = await res.json()
+    let errors = []
+    if(response.errors) {
+      response.errors.forEach(error => {
+        errors.push(error.msg)
+      })
+      setFormErrors(errors)
+      setDialogOpen(true)
+      return
+    }
     handleCloseModal()
   }
 
@@ -235,7 +245,6 @@ const PostRentItem = (props) => {
       }
       setFormErrors(discoveredErrors)
     })
-
     if(discoveredErrors.length === 0) {
       uploadPhoto()
     } else {

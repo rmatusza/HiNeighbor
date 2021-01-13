@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from "react-redux";
 import { setItems, setRentItems } from '../../actions/itemsActions';
+import Button from '@material-ui/core/Button';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
       width: '500px'
     },
   },
+  goButton : {
+    height: '50px'
+  }
 }));
 
 const SearchBar = () => {
@@ -24,19 +29,20 @@ const SearchBar = () => {
   const handleInputChange = (e) => {
     setInput(e.target.value)
   }
-
+  console.log(search_params)
 
   const handleSubmit = async(e) => {
+
     e.preventDefault()
     let body = {}
     for(let param in search_params) {
       console.log(param)
       body[param] = search_params[param]
     }
-    if(body.category === undefined) {
-      alert('Please Choose a Category')
-      return
-    }
+    // if(body.category === undefined) {
+    //   alert('Please Choose a Category')
+    //   return
+    // }
     body['user_search'] = input
     body['user_id'] = currUserId
     console.log(body)
@@ -61,9 +67,16 @@ const SearchBar = () => {
   }
 
   return (
-    <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
-      <TextField id="filled-basic" label="Search:" variant="filled" onChange={handleInputChange}/>
-    </form>
+    <div className="search-bar-and-button-container">
+      <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <TextField id="filled-basic" label="Search:" variant="filled" onChange={handleInputChange}/>
+      </form>
+      <div className="go-button-container">
+        <Button aria-controls="simple-menu" size='small' aria-haspopup="true" onClick={handleSubmit} variant="outlined" color="primary" className={classes.goButton}>
+          Go
+        </Button>
+      </div>
+    </div>
   );
 }
 

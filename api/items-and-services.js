@@ -1,11 +1,11 @@
 const express = require("express");
 const { asyncHandler } = require('../utils');
+const { check, validationResult } = require("express-validator");
 const multer = require('multer');
 const upload = multer();
-const { Item, Service, User, Bid, Review } = require("../db/models");
+const { Item, Service, User, Bid, Review, Rented_Item } = require("../db/models");
 const Sequelize = require('sequelize');
 const fs = require('fs');
-const { encode } = require("punycode");
 const Op = Sequelize.Op
 const router = express.Router();
 const AWS = require("aws-sdk")
@@ -27,6 +27,48 @@ const fileFilter = (req, res, next) => {
     return
   }
 }
+
+const postRentItemValidations = [
+  check('itemName')
+    .exists()
+    .isLength({min: 3, max: 50})
+    .withMessage('You Must Enter an Item Name'),
+  check('itemDescription')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Enter an Item Description'),
+  check('itemCategory')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Pick a Category'),
+  check('itemPrice')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Enter an Item Price'),
+  check('rate')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Choose a Rent Period and Price'),
+  check('generatedImageURL')
+    .exists()
+    .withMessage('You Must Upload an Image'),
+]
+
+const postItemValidations = [
+  check('itemName')
+    .exists()
+    .isLength({min: 3, max: 50})
+    .withMessage('You Must Enter an Item Name'),
+  check('itemDescription')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Enter an Item Description'),
+  check('itemCategory')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Pick a Category'),
+  check('itemPrice')
+    .exists({ checkFalsy: true })
+    .withMessage('You Must Enter an Item Price'),
+  check('generatedImageURL')
+    .exists()
+    .withMessage('You Must Upload an Image'),
+
+]
 
 router.post('/search', asyncHandler(async(req, res) => {
   let {price_range, distance, offer_type, category, user_search, user_id} = req.body
@@ -74,7 +116,7 @@ router.post('/search', asyncHandler(async(req, res) => {
     const items = await Item.findAll({
       where: {
         category: category,
-        for_rent: true,
+
         name: {
           [Op.substring]: user_search
         },
@@ -84,6 +126,7 @@ router.post('/search', asyncHandler(async(req, res) => {
         seller_id: {
           [Op.not]: user_id
         },
+        for_rent: true,
         sold: false
       }
     })
@@ -139,13 +182,21 @@ router.post('/upload-photo', upload.any(), fileFilter, asyncHandler(async (req, 
   res.json({'imageURL': imageURL})
 }))
 
-router.post('/post-item', asyncHandler(async(req,res) => {
+router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
 
   // const today = new Date()
   // today.setDate(today.getDate()+0)
 
+  const valRes = validationResult(req)
+  console.log(valRes.errors)
+  if (valRes.errors.length > 0) {
+    res.json(valRes)
+    return
+  }
+
   const {
     userId,
+    username,
     itemName,
     itemDescription,
     itemCategory,
@@ -158,6 +209,7 @@ router.post('/post-item', asyncHandler(async(req,res) => {
   console.log('EXPIRY DATE:', expiryDate)
   const newItem = await Item.create({
     seller_id: userId,
+    seller_name: username,
     name: itemName,
     description: itemDescription,
     category: itemCategory,
@@ -186,7 +238,14 @@ router.post('/post-item', asyncHandler(async(req,res) => {
 
 }))
 
-router.post('/post-item-for-rent', asyncHandler(async(req,res) => {
+router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(req,res) => {
+
+  const valRes = validationResult(req)
+  console.log(valRes.errors)
+  if (valRes.errors.length > 0) {
+    res.json(valRes)
+    return
+  }
 
   const today = new Date()
   const day = today.getDate()
@@ -197,6 +256,7 @@ router.post('/post-item-for-rent', asyncHandler(async(req,res) => {
 
   const {
     userId,
+    username,
     itemName,
     itemDescription,
     itemCategory,
@@ -209,6 +269,7 @@ router.post('/post-item-for-rent', asyncHandler(async(req,res) => {
   // console.log('EXPIRY DATE:', expiryDate)
   const newItem = await Item.create({
     seller_id: userId,
+    seller_name: username,
     name: itemName,
     description: itemDescription,
     category: itemCategory,
@@ -218,6 +279,11 @@ router.post('/post-item-for-rent', asyncHandler(async(req,res) => {
     for_rent: true,
     for_sale: false,
     image_url: generatedImageURL,
+  })
+
+  const newReviewObj = await Review.create({
+    reviewee_id: userId,
+    item_id: newItem.id
   })
 
   res.json(newItem)
@@ -311,24 +377,45 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
   res.json({'soldItemId':itemId})
 }))
 
-// router.patch('/:id/unpurchase', asyncHandler(async(req, res) => {
-//   const itemId = req.params.id
-//   let item = await Item.findByPk(itemId)
+router.post('/:id/rent', asyncHandler(async(req, res) => {
+  const itemId = req.params.id
+  console.log(req.body)
+  const { currUserId, selectedDateString, rentTotal, today, rate, seller_name, itemName, imageURL, category } = req.body
+  console.log(itemId, currUserId, selectedDateString, rentTotal)
+  const dateObj = new Date(selectedDateString)
+  JSON.stringify(dateObj)
+  JSON.stringify(today)
+  // const today = new Date()
+  // const day = today.getDate()
+  // const month = today.getMonth() + 1
+  // const year = today.getFullYear()
+  // console.log(year)
+  // console.log(day)
+  // console.log(month)
+  // const date = new Date(month+'-'+day+'-'+year)
+  // JSON.stringify(date)
 
-//   item.update({
-//     purchaser_id: null,
-//     sold: false,
-//     for_sale: true,
-//     date_sold: null
-//   })
-// }))
+  const newRentItem = await Rented_Item.create({
+    item_id: Number(itemId),
+    item_name: itemName,
+    user_id: currUserId,
+    seller_name: seller_name,
+    return_date: dateObj,
+    rent_total: rentTotal,
+    start_date: today,
+    rate: rate,
+    active: true,
+    image_url: imageURL,
+    category: category
+  })
 
-// router.get(`/:id/cheese`, asyncHandler(async(req,res) => {
-//   const itemId = req.params.id
-//   let item = await Item.findByPk(itemId)
+  const updatedItem = await Item.findByPk(itemId)
+  await updatedItem.update({
+    rented: true
+  })
 
-//   res.json({'date': item.date_sold})
-// }))
+  res.json({'new_rent_item': newRentItem})
+}))
 
 router.patch('/:id/rate-item', asyncHandler(async(req,res) => {
   itemId = req.params.id

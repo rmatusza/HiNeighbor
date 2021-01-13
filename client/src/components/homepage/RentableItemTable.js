@@ -102,10 +102,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, rate, available) {
-  return { name, rate, available};
+function createData(name, rate, available, id, seller_username, image_url, category) {
+  return { name, rate, available, id, seller_username, image_url, category};
 }
-
 // sets the current date as the default date for the date picker
 
 const date = new Date()
@@ -123,7 +122,9 @@ const RentableItemTable = () => {
   const [currItem, setCurrItem] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [confirmRentDialog, setConfirmRentDialog] = useState(false);
-  const [selectedDate, setSelectedDate] = React.useState(new Date(today));
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [rentTotal, setRentTotal] = useState(null)
+  const [selectedDateString, setSelectedDateString] = useState(null)
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -167,32 +168,61 @@ const RentableItemTable = () => {
   }
 
   const handleConfirmRentDialog = () => {
+    let chosenMonth = selectedDate.slice(5, 7)
+    let chosenDay = selectedDate.slice(8)
+    let chosenYear = selectedDate.slice(0, 4)
+    let chosenDateObj = new Date(chosenMonth + '-' + chosenDay + '-' + chosenYear)
+    let chosenDateString = chosenMonth + '-' + chosenDay + '-' + chosenYear
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    const rentPeriod = Math.round(Math.abs((chosenDateObj - today) / oneDay));
+    const total = rentPeriod * currItem.rate
+    console.log(total)
+    setRentTotal(total)
+    // setSelectedDate(chosenDateObj)
+    setSelectedDateString(chosenDateString)
     setConfirmRentDialog(true)
+  }
+
+  const handleCloseAll = () => {
+    setDialogOpen(false)
+    setConfirmRentDialog(false)
   }
 
   const handleCloseConfirmRentDialog = () => {
     setConfirmRentDialog(false)
   }
 
-  // const handlePurchase = async () => {
+  const handleRentItem = async () => {
+    console.log(currItem)
+    let rate = currItem.rate
+    let seller_name = currItem.seller_username
+    let itemName = currItem.name
+    let imageURL = currItem.image_url
+    let category = currItem.category
+    const body = {
+      currUserId,
+      itemName,
+      seller_name,
+      today,
+      selectedDateString,
+      rentTotal,
+      imageURL,
+      category,
+      rate
+    }
 
-  //   const body = {
-  //     currUserId
-  //   }
-
-  //   const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
-  //     method: 'PATCH',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(body)
-  //   })
-  //   const {soldItemId} = await res.json()
-  //   console.log(soldItemId)
-
-  //   updateSoldItems(soldItemId)
-  //   handleDialogClose()
-  // }
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+    const {new_rent_item} = await res.json()
+    console.log(new_rent_item)
+    //   updateSoldItems(soldItemId)
+    handleCloseAll()
+  }
 
   let dataRowsRent = []
   return(
@@ -220,7 +250,7 @@ const RentableItemTable = () => {
       </div>
       <div className="item-data-container">
         {rentItems.forEach((item, idx) => {
-          dataRowsRent.push(createData(item.name, item.rate, item.sold))
+          dataRowsRent.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category))
         })}
           {/* console.log(dataRows) */}
         {dataRowsRent.map((item, idx) => {
@@ -241,7 +271,7 @@ const RentableItemTable = () => {
                       <TableRow key={dataRowsRent[idx].name}>
                         <TableCell align="right">{dataRowsRent[idx].name}</TableCell>
                         <TableCell align="right">${dataRowsRent[idx].rate}</TableCell>
-                        <TableCell align="right">{dataRowsRent[idx].sold === false ? 'False' : 'True'}</TableCell>
+                        <TableCell align="right">{dataRowsRent[idx].rented === false ? 'True' : 'False'}</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -330,14 +360,14 @@ const RentableItemTable = () => {
       // className={classes.rentDialog}
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure that you want to purchase this item at its full sale price?"}
+          {`Are you sure that you want to rent the selected item, which is to be returned on ${selectedDateString}, for a total of $${rentTotal}?`}
         </DialogTitle>
         <DialogActions>
           <Button onClick={handleCloseConfirmRentDialog} color="primary">
             Cancel
           </Button>
-          <Button color="primary">
-            Purchase Item
+          <Button color="primary" onClick={handleRentItem}>
+           Confirm
           </Button>
         </DialogActions>
       </Dialog>

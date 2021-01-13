@@ -1,7 +1,8 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
-const { User, Item, Review } = require("../db/models");
+const { User, Item, Review, Rented_Item } = require("../db/models");
 const { asyncHandler } = require('../utils');
+const { check } = require("express-validator");
 const { getUserToken, verifyUser } = require('../auth');
 const bearerToken = require("express-bearer-token");
 const { secret, expiresIn } = require('../config').jwtConfig;
@@ -14,7 +15,19 @@ const Op = Sequelize.Op
 const upload = multer({dest: 'uploads/'});
 const router = express.Router();
 
-router.post('/token', asyncHandler(async(req, res) => {
+const signInValidations = [
+  check("email")
+    .exists({ checkFalsy: true })
+    .isEmail()
+    .withMessage("A valid email address is required")
+    .isLength({ max: 100 })
+    .withMessage("Email address must be less than 100 characters"),
+  check("password")
+    .exists({ checkFalsy: true })
+    .withMessage("User password is required"),
+];
+
+router.post('/token', signInValidations, asyncHandler(async(req, res) => {
 
   const {email, password} = req.body;
   const user = await User.findOne({
@@ -136,6 +149,8 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
   // console.log('ITEMS:', items)
   let ids = []
   let itemIds = []
+  let purchasedItems = []
+  let rentItems = []
   let userobj = {}
   items.forEach(item => {
     ids.push(item.seller_id)
@@ -156,7 +171,40 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
     order: [['id', 'ASC']]
   })
 
-  res.json({'items': items, 'users': users, 'reviews': reviews})
+  const rented_items = await Rented_Item.findAll({
+    where: {
+      user_id: userId
+    }
+  })
+
+  res.json({'users': users, 'reviews': reviews, 'purchased_items': items})
+  // res.json(items)
+}))
+
+router.get('/:id/get-rent-history', asyncHandler(async(req,res) => {
+  const userId = req.params.id
+  const rentedItems = await Rented_Item.findAll({
+    where:{
+      user_id: userId,
+    },
+    order: [['id', 'ASC']]
+  })
+
+  // console.log('ITEMS:', items)
+
+  let itemIds = []
+  rentedItems.forEach(item => {
+    itemIds.push(item.id)
+  })
+
+  const reviews = await Review.findAll({
+    where: {
+      item_id: itemIds
+    },
+    order: [['id', 'ASC']]
+  })
+
+  res.json({'reviews': reviews, 'rent_items': rentedItems})
   // res.json(items)
 }))
 

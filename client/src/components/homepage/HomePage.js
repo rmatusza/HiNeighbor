@@ -40,6 +40,8 @@ const HomePage = () => {
   //   })()
   // }, [])
 
+
+
   return (
     <>
       {popupVisible ? <div className="fade-test" style={{display:"block"}}><h2>Your purchase was successful</h2></div> : <></>}
