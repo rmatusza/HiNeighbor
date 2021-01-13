@@ -220,7 +220,7 @@ const RentableItemTable = () => {
     })
     const {new_rent_item} = await res.json()
     console.log(new_rent_item)
-    //   updateSoldItems(soldItemId)
+    updateSoldItems(currItem.id)
     handleCloseAll()
   }
 

@@ -126,6 +126,7 @@ router.post('/search', asyncHandler(async(req, res) => {
           [Op.not]: user_id
         },
         for_rent: true,
+        rented: false,
         sold: false
       }
     })
