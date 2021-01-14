@@ -154,3 +154,6 @@
   padding-bottom: 10px;
   border-bottom: 2px solid black;
 }
+.items-container {
+  width: 15%;
+}
