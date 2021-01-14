@@ -33,9 +33,9 @@ const Category = () => {
   return (
     <div className='category-contents'>
       <span>
-        <h2>
+        <h1>
           Category:
-        </h2>
+        </h1>
       </span>
       <div className="chosen-category">
         <h3>

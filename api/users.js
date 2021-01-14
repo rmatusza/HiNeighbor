@@ -86,7 +86,18 @@ router.get('/:id/get-posted-items', asyncHandler(async(req,res) => {
     }
   })
 
-  res.json(items)
+  let itemsForRent = []
+  let itemsForSale = []
+
+  items.forEach(item => {
+    if(item.for_sale === true) {
+      itemsForSale.push(item)
+    } else {
+      itemsForRent.push(item)
+    }
+  })
+
+  res.json({'items_for_sale': itemsForSale, 'items_for_rent': itemsForRent})
 }))
 
 router.get('/:id/get-seller-info', asyncHandler(async(req,res) => {
