@@ -39,7 +39,7 @@ const Category = () => {
       </span>
       <div className="chosen-category">
         <h3>
-        {defaultCategory ? defaultCategory : <p>Any</p>}
+        {defaultCategory ? defaultCategory : <p>Books</p>}
         </h3>
       </div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>

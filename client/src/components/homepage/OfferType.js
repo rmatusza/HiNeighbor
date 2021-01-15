@@ -20,7 +20,7 @@ const OfferType = () => {
   let defaultOfferType = useSelector(store => store.entities.search_params.offer_type)
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null)
-  const options = ['Purchase', 'Rent', 'Services']
+  const options = ['Purchase', 'Rent']
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -45,7 +45,7 @@ const OfferType = () => {
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} variant="outlined" color="primary" className={classes.offerTypeButton}>
-        <MdLocalGroceryStore /> OfferType: {defaultOfferType ? defaultOfferType : <p className="offer-type-selection">Any</p>}
+        <MdLocalGroceryStore /> OfferType: {defaultOfferType ? defaultOfferType : <p className="offer-type-selection">Purchase</p>}
       </Button>
       <Menu
         id="simple-menu"

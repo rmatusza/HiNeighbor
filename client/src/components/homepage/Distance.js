@@ -24,7 +24,8 @@ const Distance = () => {
   const classes = useStyles();
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    alert('Distance Feature in Progress')
+    // setAnchorEl(event.currentTarget);
   };
 
   const handleMenuItemClick = async (e, idx) => {

@@ -4,6 +4,8 @@ const { SET_PRICE_RANGE, SET_CATEGORY, SET_DISTANCE, SET_OFFER_TYPE, SET_ITEMS, 
 
 const initialState = {
   search_params: {
+    category: "Books",
+    offer_type: "Purchase"
   },
   items_state: {
     saleItems: [],
