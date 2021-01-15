@@ -105,6 +105,9 @@ router.post('/search', asyncHandler(async(req, res) => {
     })
 
     console.log(items)
+    if(items.length === 0) {
+      res.json({'saleItems': ['no_results'], 'rentItems': [], 'bids': bids})
+    }
     res.json({'saleItems': items, 'rentItems': [], 'bids': bids})
 
     //-RENT-----------------------------------------------------------------------
@@ -115,10 +118,7 @@ router.post('/search', asyncHandler(async(req, res) => {
     const items = await Item.findAll({
       where: {
         category: category,
-
-        name: {
-          [Op.substring]: user_search
-        },
+        name: { [Op.iLike]: `%${user_search}%` },
         price: {
           [Op.between]: price_range
         },
@@ -130,6 +130,9 @@ router.post('/search', asyncHandler(async(req, res) => {
         sold: false
       }
     })
+    if(items.length === 0) {
+      res.json({'saleItems': [], 'rentItems': ['no_results'], 'bids': bids})
+    }
     res.json({'saleItems': [], 'rentItems': items, 'bids': bids})
 
     //-ANY OFFER TYPE------------------------------------------------------------------------------------------------

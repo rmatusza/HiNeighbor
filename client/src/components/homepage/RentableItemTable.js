@@ -226,6 +226,12 @@ const RentableItemTable = () => {
 
   let dataRowsRent = []
   return(
+    <>
+    {rentItems[0] === 'no_results' ?
+      <div className="items-body-container">
+        <h1 className="no-results-heading">No Results Found</h1>
+      </div>
+    :
     <div className="items-body-container">
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
@@ -372,6 +378,8 @@ const RentableItemTable = () => {
         </DialogActions>
       </Dialog>
     </div>
+    }
+    </>
   )
 }
 

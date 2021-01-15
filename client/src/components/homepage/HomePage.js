@@ -74,9 +74,9 @@ const HomePage = () => {
       </div>
 
      {(() => {
-       if(items.length > 0) {
+       if(search_params.offer_type === 'Purchase') {
         return(<Items />)
-      } else if(rentItems.length > 0) {
+      } else if(search_params.offer_type === 'Rent') {
         return(<RentableItemTable />)
       } else {
         return(<div className="items-area"></div>)
