@@ -414,7 +414,7 @@ router.post('/:id/rent', asyncHandler(async(req, res) => {
 
 router.patch('/:id/rate-item', asyncHandler(async(req,res) => {
   itemId = req.params.id
-  const { itemRating, currUserId } = req.body
+  const { itemRating, currUserId, sellerId } = req.body
 
   const review = await Review.findOne({
     where: {
@@ -422,6 +422,15 @@ router.patch('/:id/rate-item', asyncHandler(async(req,res) => {
     }
   })
 
+  if(!review) {
+    const review = await Review.create({
+      reviewee_id: sellerId,
+      rating: itemRating,
+      author_id: currUserId,
+      item_id: itemId
+    })
+    res.json(review)
+  }
 
   if(review.rating === 0) {
 

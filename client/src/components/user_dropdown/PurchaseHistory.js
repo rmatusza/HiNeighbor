@@ -155,10 +155,11 @@ const PurchaseHistory = (props) => {
     // selectedRatingButton = idx
   }
 
-  const submitRating = async(itemId, idx) => {
+  const submitRating = async(itemId, idx, sellerId) => {
    const body = {
       currUserId,
-      itemRating
+      itemRating,
+      sellerId
     }
 
     const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
@@ -230,7 +231,7 @@ const PurchaseHistory = (props) => {
                   <div className="rating-buttons-and-slider">
                     <div className="rate-and-submit-buttons">
                       <Button variant="outlined" color="primary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
-                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="outlined" color="primary" onClick={() => submitRating(item.id, idx)}>Submit Rating</Button></div>}
+                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="outlined" color="primary" onClick={() => submitRating(item.id, idx, item.seller_id)}>Submit Rating</Button></div>}
                     </div>
                     {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
                     <></>
@@ -239,7 +240,7 @@ const PurchaseHistory = (props) => {
                       Rating:
                     </Typography>
                       <Slider
-                        defaultValue={props.postedItems.reviews[idx].rating}
+                        defaultValue={props.postedItems.reviews.length > 0 ? props.postedItems.reviews[idx].rating : 0}
                         getAriaValueText={valuetext}
                         aria-labelledby="discrete-slider-small-steps"
                         step={1}
