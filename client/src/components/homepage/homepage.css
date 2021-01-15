@@ -202,3 +202,7 @@
 .go-button-container {
   height: 100%;
 }
+.item-image-enlarged {
+  height: 600px;
+  width: 550px;
+}

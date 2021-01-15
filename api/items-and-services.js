@@ -8,7 +8,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op
 const router = express.Router();
 const AWS = require("aws-sdk")
-const { awsKeys } = require ("../config")
+const { awsKeys } = require ("../config");
 
 AWS.config.update({
   secretAccessKey: awsKeys.secretAccessKey,
@@ -86,14 +86,14 @@ router.post('/search', asyncHandler(async(req, res) => {
 
   }else if(offer_type === 'Purchase') {
     console.log('LOOKING FOR ITEMS FOR PURCHASE')
-
+    let uppercaseSearch = user_search.slice(0,1).toUpperCase() + user_search.slice(1).toLowerCase()
+    let allCapsSearch = user_search.toUpperCase()
+    let lowerCaseSearch = user_search.toLowerCase()
     const items = await Item.findAll({
       where: {
         category,
         for_sale: true,
-        name: {
-          [Op.substring]: user_search
-        },
+        name: { [Op.iLike]: `%${user_search}%` },
         price: {
           [Op.between]: price_range
         },

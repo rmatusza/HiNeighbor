@@ -74,11 +74,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     border: "2px solid white",
   },
-
   submitButton: {
     marginTop: "2rem",
   },
-
   dialogBox: {
     width: '200px',
     heigth: '200px'
@@ -96,11 +94,6 @@ const useStyles = makeStyles((theme) => ({
   tableRow: {
     backgroundColor: 'whitesmoke'
   },
-  // tableContainer: {
-  //   paddingBottom: '0px',
-  //   backgroundColor: 'white',
-  //   height: '110px'
-  // },
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
@@ -113,9 +106,10 @@ const useStyles = makeStyles((theme) => ({
   },
   cardActionArea: {
     width: '200px'
-  }
-
+  },
 }))
+
+
 
 function createData(name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price, sellerId) {
   return { name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price, sellerId };
@@ -133,6 +127,8 @@ const Items = () => {
   const [currItemPrice, setCurrItemPrice] = useState(null)
   const [bidInput, setBidInput] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [enlargeImage, setEnlargeImage] = useState(false);
+  const [image, setImage] = useState(null);
   const classes = useStyles()
   const dispatch = useDispatch()
   const history = useHistory();
@@ -167,6 +163,10 @@ const Items = () => {
       }
       dispatch(setItems(currItems))
     })
+  }
+
+  const closeImage = () => {
+    setEnlargeImage(false)
   }
 
   const handleDialogClose = () => {
@@ -226,6 +226,11 @@ const Items = () => {
     history.replace(`/seller-profile/${sellerId}`)
   }
 
+  const handleEnlargeImage = (image) => {
+    setImage(image)
+    setEnlargeImage(true)
+  }
+
   const openBidModal = (itemData) => {
     console.log('ITEM DATA:', itemData)
     setCurrItemId(itemData.itemId)
@@ -247,13 +252,13 @@ const Items = () => {
             return (
               <Grid item xs={12} md={12}>
                 {/* <Link to={`/seller-profile/${item.seller_id}`}> */}
-                {/* <CardActionArea className={classes.cardActionArea}> */}
+                <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(item.image_url)}>
                   <Card className={classes.paper}>
                     <CardContent className={classes.image}>
                       <img className="item-image-homepage" src={url} />
                     </CardContent>
                   </Card>
-                {/* </CardActionArea> */}
+                </CardActionArea>
                 {/* </Link> */}
               </Grid>
             )
@@ -323,7 +328,7 @@ const Items = () => {
                 <div className="bid-purchase-divider"></div>
                 <div className="seller-profile-button">
                 <Button color="primary" size="medium" variant="contained" onClick={() => {handleClick(dataRows[idx].sellerId)}}>
-                  View Seller's Profile
+                  View Seller Info
                 </Button>
                 </div>
               </div>
@@ -392,6 +397,16 @@ const Items = () => {
             Purchase Item
           </Button>
         </DialogActions>
+      </Dialog>
+
+      <Dialog
+      open={enlargeImage}
+      onClose={closeImage}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      >
+        <img className="item-image-enlarged" src={image} />
+
       </Dialog>
     </div>
   )
