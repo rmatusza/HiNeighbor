@@ -5,6 +5,9 @@
   min-height: 98px;
   max-height: 98px;
 }
+/* .enter-item-container {
+  display: flex;
+} */
 
 .category-contents{
   display: flex;
@@ -23,13 +26,21 @@
   display: flex;
   justify-content: space-between;
 }
-
+.divider-container {
+  /* border: 1px solid black; */
+  width: 159px;
+  margin-left: 80px;
+  display: flex;
+  justify-content: center;
+}
 .bid-purchase-divider{
-  border-right: 2px solid #76323F;
+  border-bottom: 2px solid black;
   /* border-right: 2px solid white; */
-
-  height: 35px;
+  height: 2px;
   padding-left: 20px;
+  padding-right: 20px;
+  width: 90px;
+  /* width: 100%; */
   margin-bottom: 10px;
 
 }
@@ -43,26 +54,21 @@
 .search-bar-container{
   margin-right: 100px;
 }
-
 .chosen-category{
   display: flex;
   margin: 5px;
   margin-left: 10px;
   /* align-items: center; */
 }
-
 .price-range-selection{
   margin-left: 10px;
 }
-
 .distance-selection{
   margin-left: 10px;
 }
-
 .offer-type-selection{
   margin-left: 10px;
 }
-
 .items-photo-container{
   /* border: 2px solid red; */
   height: 100%;
@@ -70,7 +76,10 @@
   width: 15%;
   margin-left: 35px;
 }
-
+.inner-grid-photos-container {
+  margin-top: 20px;
+  margin-bottom: 9rem;
+}
 .item-data-container {
   /* border: 10px solid green; */
   height: auto;
@@ -78,7 +87,6 @@
   /* width: 75%; */
 
 }
-
 .items-body-container{
   height: 100%;
   width: 100%;
@@ -153,16 +161,30 @@
 .bid-buy-buttons-container{
   display: flex;
   margin-right: 20px;
+  height: 325px;
+  flex-direction: column;
+  align-items: center;
+  /* border: 1px solid black */
 }
 .bid-button{
-  margin-left: 20px;
+  margin-left: 80px;
+  margin-bottom: 10px;
+  /* margin-top: 6rem; */
+  height: 37px;
+  /* height: 100% */
 }
 .buy-button{
-  margin-left: 20px;
+  margin-left: 80px;
   height: 10px;
+  margin-bottom: 10px;
+  height: 37px;
+
+  /* height: 100% */
+
 }
 .seller-profile-button {
-  margin-left: 20px;
+  margin-left: 80px;
+  height: 37px;
 }
 .main-page-rent-items-table-container{
   padding-bottom: 0px;
@@ -217,3 +239,28 @@
   width: 100%;
   justify-content: center;
 }
+.table-description-and-buttons-container {
+  margin-top: 20px;
+  display: flex;
+}
+.item-description-conatiner-homepage{
+  display: flex;
+  margin-top: 10px;
+  height: 200px;
+  width: 100%;
+  background-color: rgb(206, 204, 204);
+  margin-bottom: 20px;
+
+  justify-content: center;
+}
+.item-description {
+  padding: 10px;
+  background-color: whitesmoke;
+  border-top: 2px solid black;
+  width: 700px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+/* .table-and-description-container{
+
+} */

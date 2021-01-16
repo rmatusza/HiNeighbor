@@ -24,22 +24,19 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { RentableItemTable } from './RentableItemTable';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
     width: '50%',
-    margin: '0px'
+    margin: '0px',
   },
   paper: {
-    // padding: theme.spacing(2),
     textAlign: 'center',
-    // backgroundColor: theme.palette.primary.light,
     backgroundColor: 'white',
     background: theme.palette.success.light,
     color: theme.palette.secondary.contrastText,
     height: '200px',
-    width: '200px'
+    width: '200px',
   },
   typography: {
     fontSize: theme.typography.fontSize
@@ -49,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     height: '210px',
     width: '200px',
-    // border: '2px solid black'
   },
   itemFormModal: {
     // position: 'absolute',
@@ -107,12 +103,15 @@ const useStyles = makeStyles((theme) => ({
   cardActionArea: {
     width: '200px'
   },
+  buttons: {
+    width: '160px'
+  }
 }))
 
 
 
-function createData(name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price, sellerId) {
-  return { name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price, sellerId };
+function createData(name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price, sellerId, description) {
+  return { name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price, sellerId, description };
 }
 
 
@@ -256,6 +255,7 @@ const Items = () => {
           {items.map((item) => {
             let url = item.image_url
             return (
+              <div className="inner-grid-photos-container">
               <Grid item xs={12} md={12}>
                 {/* <Link to={`/seller-profile/${item.seller_id}`}> */}
                 <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(item.image_url)}>
@@ -267,6 +267,7 @@ const Items = () => {
                 </CardActionArea>
                 {/* </Link> */}
               </Grid>
+              </div>
             )
           })}
         </Grid>
@@ -280,60 +281,74 @@ const Items = () => {
           const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
           const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
           if(item.current_bid === null) {
-            dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id))
+            dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
           } else {
-            dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id))
+            dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
           }
 
         })}
           {/* console.log(dataRows) */}
         {dataRows.map((item, idx) => {
+          console.log(item)
           return(
-            <div className="main-page-items-table-container">
-              <TableContainer className={classes.tableContainer}>
-                <Table className={classes.table} size="small" aria-label="a dense table">
-                  <TableHead className={classes.tableHead}>
-                    <TableRow className={classes.tableHead}>
-                      {/* <TableCell align="right">Item Name</TableCell> */}
-                      <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
-                      <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
-                      <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
-                      <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
-                      <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
+            <div className="table-description-and-buttons-container">
+              <div className="table-and-description-container">
+                <TableContainer className={classes.tableContainer}>
+                  <Table className={classes.table} size="small" aria-label="a dense table">
+                    <TableHead className={classes.tableHead}>
+                      <TableRow className={classes.tableHead}>
+                        {/* <TableCell align="right">Item Name</TableCell> */}
+                        <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
+                        <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
+                        <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
+                        <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
+                        <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
 
-                    <TableRow key={dataRows[idx].name}>
-                      {/* <TableCell component="th" scope="row">
-                        {dataRows.name}
-                      </TableCell> */}
-                      {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
-                      <TableCell align="right">{dataRows[idx].name}</TableCell>
-                      <TableCell align="right">${dataRows[idx].price}</TableCell>
-                      <TableCell align="right">${dataRows[idx].bid}</TableCell>
-                      <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
-                      <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
-                    </TableRow>
+                      <TableRow key={dataRows[idx].name}>
+                        {/* <TableCell component="th" scope="row">
+                          {dataRows.name}
+                        </TableCell> */}
+                        {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
+                        <TableCell align="right">{dataRows[idx].name}</TableCell>
+                        <TableCell align="right">${dataRows[idx].price}</TableCell>
+                        <TableCell align="right">${dataRows[idx].bid}</TableCell>
+                        <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
+                        <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
+                      </TableRow>
 
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <div className="item-description-conatiner-homepage">
+                  <div className="item-description">
+                    <p>
+                    {dataRows[idx].description}
+                    </p>
+                  </div>
+                </div>
+              </div>
               <div className="bid-buy-buttons-container">
                 <div className="bid-button">
-                <Button color="primary" variant="contained" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}}>
+                <Button color="primary" variant="contained" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
                   Bid
                 </Button>
                 </div>
-                <div className="bid-purchase-divider"></div>
+                <div className="divider-container">
+                  <div className="bid-purchase-divider"></div>
+                </div>
                 <div className="buy-button">
-                <Button color="primary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}}>
+                <Button color="primary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
                   Purchase
                 </Button>
                 </div>
-                <div className="bid-purchase-divider"></div>
+                <div className="divider-container">
+                  <div className="bid-purchase-divider"></div>
+                </div>
                 <div className="seller-profile-button">
-                <Button color="primary" size="medium" variant="contained" onClick={() => {handleClick(dataRows[idx].sellerId)}}>
+                <Button color="primary" size="medium" variant="contained" onClick={() => {handleClick(dataRows[idx].sellerId)}} className={classes.buttons}>
                   View Seller Info
                 </Button>
                 </div>

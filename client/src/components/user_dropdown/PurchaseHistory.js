@@ -103,7 +103,6 @@ function valuetext(value) {
 }
 
 const PurchaseHistory = (props) => {
-  console.log(props.postedItems)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [postedItems, setPostedItems] = useState({'items': [], 'users': []})
   // const [dataRows, setDataRows] = useState([])
@@ -120,7 +119,6 @@ const PurchaseHistory = (props) => {
   // const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
   // const postedItems = await res.json()
   // items = postedItems
-  console.log('RETURNED ITEMS:', postedItems)
   props.postedItems.purchased_items.forEach((item, i) => {
     ratingState[i] = false
     let month = item.date_sold.slice(5,7)
@@ -161,7 +159,7 @@ const PurchaseHistory = (props) => {
       itemRating,
       sellerId
     }
-
+    try {
     const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
@@ -171,9 +169,16 @@ const PurchaseHistory = (props) => {
     })
 
     const rating = await res.json()
-    console.log('UPDATED RATING OBJECT:', rating)
-
+    const status = await res.status
+    if(!(status >= 200 && status <= 399)) {
+      const err = new Error()
+      err.message = status
+      throw err
+    }
     enableRating(itemId, idx)
+    } catch(e) {
+      alert(`Something went wrong. Error status: ${e.message}`)
+    }
   }
 
   return(
@@ -240,7 +245,7 @@ const PurchaseHistory = (props) => {
                       Rating:
                     </Typography>
                       <Slider
-                        defaultValue={props.postedItems.reviews.length > 0 ? props.postedItems.reviews[idx].rating : 0}
+                        defaultValue={props.postedItems.reviews[idx].rating}
                         getAriaValueText={valuetext}
                         aria-labelledby="discrete-slider-small-steps"
                         step={1}
@@ -264,3 +269,7 @@ const PurchaseHistory = (props) => {
 }
 
 export default PurchaseHistory;
+
+
+
+// defaultValue={props.postedItems.reviews.length > 0 ? props.postedItems.reviews[idx].rating : 0}

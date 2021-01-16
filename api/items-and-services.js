@@ -40,6 +40,7 @@ const postRentItemValidations = [
     .withMessage('You Must Pick a Category'),
   check('itemPrice')
     .exists({ checkFalsy: true })
+    .isInt()
     .withMessage('You Must Enter an Item Price'),
   check('rate')
     .exists({ checkFalsy: true })
@@ -62,6 +63,7 @@ const postItemValidations = [
     .withMessage('You Must Pick a Category'),
   check('itemPrice')
     .exists({ checkFalsy: true })
+    .isInt()
     .withMessage('You Must Enter an Item Price'),
   check('generatedImageURL')
     .exists()
@@ -438,39 +440,9 @@ router.patch('/:id/rate-item', asyncHandler(async(req,res) => {
       rating: itemRating,
       author_id: currUserId
     })
-    // const reviewee = await User.findByPk(review.reviewee_id)
-    // let currAverage = reviewee.average_rating
-    // let numRatings = reviewee.num_ratings
-
-    // numRatings += 1
-    // let newAverage = (currAverage += itemRating)/numRatings
-
-    // await reviewee.update({
-    //   average_rating: newAverage,
-    //   num_ratings: numRatings
-    // })
-
-    // await review.update({
-    //   rating: itemRating,
-    //   author_id: currUserId
-    // })
-
-    // review.update({
-    //   rating: itemRating
-    // })
-
-    // const reviews = Review.findAll()
-
     res.json(review)
-  }else {
-    // const reviewee = await User.findByPk(review.reviewee_id)
-    // let currAverage = reviewee.average_rating
-    // let numRatings = reviewee.num_ratings
-    // let newAverage = (currAverage += itemRating)/numRatings
 
-    // await reviewee.update({
-    //   average_rating: newAverage
-    // })
+  }else {
 
     await review.update({
       rating: itemRating,
