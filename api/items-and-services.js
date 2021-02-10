@@ -234,11 +234,6 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
 
   console.log('NEW ITEM:', newItem)
 
-  const newReviewObj = await Review.create({
-    reviewee_id: userId,
-    item_id: newItem.id
-  })
-
   res.json(newItem)
 
 }))
@@ -285,11 +280,6 @@ router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(r
     for_sale: false,
     image_url: generatedImageURL,
     rented: false
-  })
-
-  const newReviewObj = await Review.create({
-    reviewee_id: userId,
-    item_id: newItem.id
   })
 
   res.json(newItem)
@@ -380,6 +370,11 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
     current_bid: item.price
   })
 
+  const newReviewObj = await Review.create({
+    reviewee_id: item.seller_id,
+    item_id: item.id
+  })
+
   res.json({'soldItemId':itemId})
 }))
 
@@ -409,6 +404,11 @@ router.post('/:id/rent', asyncHandler(async(req, res) => {
   const updatedItem = await Item.findByPk(itemId)
   await updatedItem.update({
     rented: true
+  })
+
+  const newReviewObj = await Review.create({
+    reviewee_id: updatedItem.seller_id,
+    item_id: newRentItem.id
   })
 
   res.json({'new_rent_item': newRentItem})
