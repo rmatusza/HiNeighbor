@@ -12,11 +12,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      // width: '25ch',
-      width: '500px'
+      width: '500px',
+
     },
+    "& .MuiFormLabel-root": {
+      color: "white" // or black
+    }
   },
 }));
+
 
 const Login = (props) => {
   const [email, setEmail] = useState('')
@@ -98,25 +102,28 @@ const Login = (props) => {
 
   return (
     <div className="sign-in-container">
-    <div className="sign-in-page">
-      <div className="site-name-sign-in">
-        <h1 className='site-name-text'>Hi Neighbor!</h1>
+      <div className="background-img-container">
+        <img className="background-img" src={"https://hi-neighbor-item-photos.s3.amazonaws.com/community.jpg"} />
       </div>
-      <form className={classes.root} noValidate autoComplete="off">
-        <TextField id="filled-basic" label="Email:" variant="filled" name="email-input" onChange={updateInput}/>
-        <div className="password-field">
-        <TextField id="filled-basic" label="Password:" type="password" variant="filled" name="password-input" fullWidth={true} onChange={updateInput}/>
+      <div className="sign-in-page">
+        <div className="site-name-sign-in">
+          <h1 className='site-name-text'>Hi Neighbor!</h1>
         </div>
-        <Button onClick={handleSubmit}  variant="contained" color="secondary">
-          Submit
-        </Button>
-        <div>
-        <Button onClick={logInDemoUser}  variant="contained" color="secondary" fullWidth={true}>
-          Log in as Demo User
-        </Button>
-        </div>
-      </form>
-    </div>
+        <form className={classes.root} noValidate autoComplete="off">
+          <TextField  color='primary' id="filled-basic" label="Email:"  variant="filled" name="email-input" onChange={updateInput}/>
+          <div className="password-field">
+          <TextField id="filled-basic" label="Password:" type="password" variant="filled" name="password-input" fullWidth={true} onChange={updateInput}/>
+          </div>
+          <Button onClick={handleSubmit}  variant="contained" color="primary">
+            Submit
+          </Button>
+          <div>
+          <Button onClick={logInDemoUser}  variant="contained" color="primary" fullWidth={true}>
+            Log in as Demo User
+          </Button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }

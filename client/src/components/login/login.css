@@ -1,21 +1,32 @@
 .sign-in-container{
-  display: flex;
+  /* display: flex; */
   width: 100%;
   height: 100%;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .sign-in-page{
-  /* display: flex;
-  justify-content: center; */
-  display: block;
-  margin-left: 100px;
-  /* text-decoration: underline; */
+  /* display: block; */
+  /* margin-left: 100px;
+  position: absolute;
+  z-index: 2; */
+  position: absolute;
+  width: 512px;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  /* border: 1px solid red; */
 }
 
 .site-name-text {
   text-decoration: underline;
+  color: rgb(255, 207, 75);
+  /* color: rgb(255, 196, 34); */
 }
 
 .password-field{
@@ -24,4 +35,20 @@
 
 .site-name-sign-in{
   margin-left: 10px;
+}
+
+.background-img-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.background-img{
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%;
+  margin-top: 50px
 }
