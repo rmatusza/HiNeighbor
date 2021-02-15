@@ -21,11 +21,20 @@
 .search-container{
   border: 2px solid black;
   background-color: white;
-  border-bottom: 0px;
-  /* border-bottom: 10px solid  #76323F; */
+  padding-right: 50px;
+  padding-left: 50px;
+  width: 95%;
+  box-sizing: border-box;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
 }
+
+.search-container-outer{
+  background-color: white;
+
+}
+
 .divider-container {
   /* border: 1px solid black; */
   width: 159px;
@@ -101,9 +110,9 @@
   width: 100%;
   height: 100%;
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   background-color: rgb(206, 204, 204);
-  border-top: 2px solid black;
+  /* border-top: 2px solid black; */
   background-image: url("../../static/memphis-mini.png");
 }
 

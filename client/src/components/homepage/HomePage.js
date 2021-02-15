@@ -48,40 +48,42 @@ const HomePage = () => {
         <div className='category-contents-container'>
         <Category />
       </div>
-      <div className='search-container'>
-        <div className='toggles'>
-          <div className='price-range-container'>
-            <h4>
-              <PriceRange />
-            </h4>
+      <div className="search-container-outer">
+        <div className='search-container'>
+          <div className='toggles'>
+            <div className='price-range-container'>
+              <h4>
+                <PriceRange />
+              </h4>
+            </div>
+            <div className='distance-container'>
+              <h4>
+                <Distance />
+              </h4>
+            </div>
+            <div className='offer-type-container'>
+              <h4>
+                <OfferType />
+              </h4>
+            </div>
           </div>
-          <div className='distance-container'>
+          <div className='search-bar-container'>
             <h4>
-              <Distance />
-            </h4>
-          </div>
-          <div className='offer-type-container'>
-            <h4>
-              <OfferType />
+              <SearchBar />
             </h4>
           </div>
         </div>
-        <div className='search-bar-container'>
-          <h4>
-            <SearchBar />
-          </h4>
-        </div>
-      </div>
 
-     {(() => {
-       if(search_params.offer_type === 'Purchase') {
-        return(<Items />)
-      } else if(search_params.offer_type === 'Rent') {
-        return(<RentableItemTable />)
-      } else {
-        return(<div className="items-area"></div>)
-      }
-     })()}
+      {(() => {
+        if(search_params.offer_type === 'Purchase') {
+          return(<Items />)
+        } else if(search_params.offer_type === 'Rent') {
+          return(<RentableItemTable />)
+        } else {
+          return(<div className="items-area"></div>)
+        }
+      })()}
+     </div>
     </>
   )
 }
