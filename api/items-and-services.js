@@ -372,7 +372,8 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
 
   const newReviewObj = await Review.create({
     reviewee_id: item.seller_id,
-    item_id: item.id
+    item_id: item.id,
+    rating: 0
   })
 
   res.json({'soldItemId':itemId})

@@ -44,7 +44,7 @@ const OfferType = () => {
 
   return (
     <div>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} variant="outlined" color="primary" className={classes.offerTypeButton}>
+      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} variant="outlined" color="secondary" className={classes.offerTypeButton}>
         <MdLocalGroceryStore /> OfferType: {defaultOfferType ? defaultOfferType : <p className="offer-type-selection">Purchase</p>}
       </Button>
       <Menu

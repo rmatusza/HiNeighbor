@@ -2,9 +2,11 @@ html,
 body {
   /* background-color: #f6f5f7; */
   /* background-color: #457B9D; */
+  margin: 0;
   box-sizing: border-box;
   height: auto;
   background-color: rgb(206, 204, 204);
+
   /* margin: 0 auto */
   /* padding: 10px; */
   /* margin-bottom: 0.5rem; */
@@ -15,7 +17,8 @@ body {
     justify-content: center;
     display: flex;
     flex-direction: column; */
-    height: auto;
+    margin: 0;
+    height: 100%;
     background-color: rgb(206, 204, 204);
     /* display: grid;
     grid-gap: 3px;

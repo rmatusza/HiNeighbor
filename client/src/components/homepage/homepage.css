@@ -71,29 +71,48 @@
 }
 .items-photo-container{
   /* border: 2px solid red; */
+  z-index: 1;
   height: 100%;
   box-sizing: border-box;
   width: 15%;
   margin-left: 35px;
+  height: auto;
+  background-image: url("../../static/memphis-mini.png");
+
 }
 .inner-grid-photos-container {
   margin-top: 20px;
   margin-bottom: 9rem;
+
 }
 .item-data-container {
   /* border: 10px solid green; */
+  z-index: 1;
   height: auto;
+  background-image: url("../../static/memphis-mini.png");
+  width: 82%;
   /* box-sizing: border-box; */
   /* width: 75%; */
 
 }
 .items-body-container{
+  margin: 0;
   height: 100%;
   width: 100%;
-  height: auto;
+  height: 100%;
   display: flex;
+  flex-wrap: wrap;
   background-color: rgb(206, 204, 204);
   border-top: 2px solid black;
+  background-image: url("../../static/memphis-mini.png");
+}
+
+.background-photo-container{
+  z-index: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  border: 1px solid red;
 }
 
 .items-area {
@@ -105,7 +124,7 @@
 
 .item-image{
   height: 100%;
-  width: 100%;
+  width: 100rem;
   margin-bottom: 90px;
 }
 
@@ -248,7 +267,8 @@
   margin-top: 10px;
   height: 200px;
   width: 100%;
-  background-color: rgb(206, 204, 204);
+  background-color: rgb(206, 205, 204);
+  /* rgb(206, 204, 204) */
   margin-bottom: 20px;
 
   justify-content: center;

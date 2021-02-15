@@ -16,7 +16,13 @@ const useStyles = makeStyles((theme) => ({
 
     },
     "& .MuiFormLabel-root": {
-      color: "white" // or black
+      color: "white"
+    },
+    "& .MuiButton-containedPrimary": {
+      backgroundColor: "rgba(255,255,255,0.8)"
+    },
+    "& .MuiInputBase-input":{
+      color: "white"
     }
   },
 }));

@@ -14,7 +14,7 @@ import { BsHouseFill } from "react-icons/bs"
 const useStyles = makeStyles((theme) => ({
 
   topBar: {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: "black",
     display: 'flex',
     justifyContent: 'space-between',
     height: '100px',
@@ -40,15 +40,15 @@ const TopBar = (props) => {
   return (
     <>
       <div className="top-bar-container">
-        <div className={classes.topBar}>
+        <div className="top-bar">
           <div className="site-name-home-icon-container">
             <div className='site-name-container' onClick={redirectToHome}>
               {/* <h2 className="site-name-text">
                 Hi Neighbor!
               </h2> */}
-            <h2 className="house-icon">
-              <BsHouseFill />
-            </h2>
+              <h2 className="house-icon">
+                <BsHouseFill />
+              </h2>
             </div>
           </div>
           <div className='top-bar-right'>

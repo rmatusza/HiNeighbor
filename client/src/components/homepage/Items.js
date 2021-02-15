@@ -250,6 +250,9 @@ const Items = () => {
       </div>
     :
     <div className="items-body-container">
+      {/* <div className="background-photo-container">
+        <img className="background-photo" src="https://hi-neighbor-item-photos.s3.amazonaws.com/memphis-mini.png"/>
+      </div> */}
       <div className="items-photo-container">
         <Grid container spacing={4} className={classes.grid} >
           {items.map((item) => {
