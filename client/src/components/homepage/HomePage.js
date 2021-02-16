@@ -73,7 +73,7 @@ const HomePage = () => {
             </h4>
           </div>
         </div>
-
+      </div>
       {(() => {
         if(search_params.offer_type === 'Purchase') {
           return(<Items />)
@@ -83,7 +83,7 @@ const HomePage = () => {
           return(<div className="items-area"></div>)
         }
       })()}
-     </div>
+
     </>
   )
 }

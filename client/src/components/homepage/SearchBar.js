@@ -72,7 +72,7 @@ const SearchBar = () => {
         <TextField id="filled-basic" label="Search:" variant="filled" onChange={handleInputChange}/>
       </form>
       <div className="go-button-container">
-        <Button aria-controls="simple-menu" size='small' aria-haspopup="true" onClick={handleSubmit} variant="outlined" color="primary" className={classes.goButton}>
+        <Button aria-controls="simple-menu" size='small' aria-haspopup="true" onClick={handleSubmit} variant="contained" color="secondary" className={classes.goButton}>
           Go!
         </Button>
       </div>

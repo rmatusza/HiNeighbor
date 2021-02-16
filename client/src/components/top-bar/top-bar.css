@@ -118,7 +118,7 @@
 } */
 
 .house-icon{
-  color: whitesmoke
+  color: white
 }
 
 .confirm-upload-button{
@@ -132,7 +132,7 @@
 }
 
 .top-bar{
-  background-color: #000000;
+  background-color: #262321;
   display: flex;
   justify-content: space-between;
   height: 60px;
