@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 650,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: "#000000",
     color: theme.palette.secondary.contrastText,
   },
   tableCell: {
@@ -335,7 +335,7 @@ const Items = () => {
               </div>
               <div className="bid-buy-buttons-container">
                 <div className="bid-button">
-                <Button color="primary" variant="contained" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
+                <Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
                   Bid
                 </Button>
                 </div>
@@ -343,7 +343,7 @@ const Items = () => {
                   <div className="bid-purchase-divider"></div>
                 </div>
                 <div className="buy-button">
-                <Button color="primary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
+                <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
                   Purchase
                 </Button>
                 </div>
@@ -351,7 +351,7 @@ const Items = () => {
                   <div className="bid-purchase-divider"></div>
                 </div>
                 <div className="seller-profile-button">
-                <Button color="primary" size="medium" variant="contained" onClick={() => {handleClick(dataRows[idx].sellerId)}} className={classes.buttons}>
+                <Button color="secondary" size="medium" variant="contained" onClick={() => {handleClick(dataRows[idx].sellerId)}} className={classes.buttons}>
                   View Seller Info
                 </Button>
                 </div>
