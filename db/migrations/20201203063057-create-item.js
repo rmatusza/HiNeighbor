@@ -95,6 +95,14 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER
       },
+      last_bidder: {
+        allowNull: true,
+        type: Sequelize.INTEGER
+      },
+      expired: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

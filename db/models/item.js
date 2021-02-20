@@ -91,6 +91,14 @@ module.exports = (sequelize, DataTypes) => {
     rate: {
       allowNull: true,
       type: DataTypes.INTEGER
+    },
+    last_bidder:{
+      allowNull: true,
+      type: DataTypes.INTEGER
+    },
+    expired: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN
     }
 
   }, {});

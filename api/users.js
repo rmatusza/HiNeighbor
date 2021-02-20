@@ -79,20 +79,31 @@ router.post('/authenticate', verifyUser, asyncHandler(async(req, res) => {
 
 router.get('/:id/get-posted-items', asyncHandler(async(req,res) => {
   const userId = req.params.id
+  const today = new Date()
   const items = await Item.findAll({
     where:{
       seller_id: userId,
-      sold: false
+      sold: false,
+      expired: false
     }
   })
 
   let itemsForRent = []
   let itemsForSale = []
 
-  items.forEach(item => {
-    if(item.for_sale === true) {
+  items.forEach(async(item) => {
+    if(new Date(item.expiry_date) < today && item.last_bidder !== null){
+      await item.update({
+        sold: true,
+        purchaser_id: item.last_bidder
+      })
+    }else if(new Date(item.expiry_date) < today && item.last_bidder === null){
+      await item.update({
+        expired: true,
+      })
+    }else if(item.for_sale === true) {
       itemsForSale.push(item)
-    } else {
+    } else if(item.for_rent === true) {
       itemsForRent.push(item)
     }
   })

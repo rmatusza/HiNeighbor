@@ -56,7 +56,8 @@ const useStyles = makeStyles((theme) => ({
     left: 600,
     // left: "20rem",
     width: 400,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "whitesmoke",
+    color: "black",
     // // border: '2px solid #000',
     boxShadow: theme.shadows[5],
     // padding: theme.spacing(2, 4, 3),
@@ -72,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submitButton: {
     marginTop: "2rem",
+    backgroundColor: theme.palette.secondary.main
   },
   dialogBox: {
     width: '200px',
@@ -105,6 +107,10 @@ const useStyles = makeStyles((theme) => ({
   },
   buttons: {
     width: '160px'
+  },
+  submitButton: {
+    width: '160px',
+    marginTop: '20px'
   }
 }))
 
@@ -244,7 +250,7 @@ const Items = () => {
   let dataRows = []
   return(
     <>
-    {items[0] === 'no_results' ?
+    {items[0] === 'no_items' ?
       <div className="items-body-container">
         <h1 className="no-results-heading">No Results Found</h1>
       </div>
@@ -373,14 +379,14 @@ const Items = () => {
           <h2 id="simple-modal-title">Place Your Bid:</h2>
           <div>
             <FormControl>
-              <InputLabel htmlFor="bid-input">Bid Amount</InputLabel>
-              <Input id="bid-input" onChange={updateBidInput} autoFocus />
+              <InputLabel htmlFor="bid-input" style={{color: "black"}}>Bid Amount</InputLabel>
+              <Input id="bid-input" onChange={updateBidInput} autoFocus style={{color: "black"}}/>
             </FormControl>
           </div>
           <div>
             <Button
               variant="contained"
-              color="primary"
+              color="secondary"
               style={{ color: "white" }}
               size="small"
               className={classes.submitButton}
@@ -414,10 +420,10 @@ const Items = () => {
           {"Are you sure that you want to purchase this item at its full sale price?"}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
+          <Button onClick={handleDialogClose} className={classes.buttons} color="secondary" variant="contained">
             Cancel
           </Button>
-          <Button color="primary" autoFocus onClick={handlePurchase}>
+          <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={handlePurchase}>
             Purchase Item
           </Button>
         </DialogActions>
