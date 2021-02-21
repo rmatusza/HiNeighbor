@@ -79,7 +79,15 @@ router.post('/authenticate', verifyUser, asyncHandler(async(req, res) => {
 
 router.get('/:id/get-posted-items', asyncHandler(async(req,res) => {
   const userId = req.params.id
-  const today = new Date()
+  const date = new Date()
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+  const today = new Date(month+'-'+day+'-'+year)
+  let test = new Date("2021-02-21T00:27:34.538Z")
+  console.log('TODAY:', today)
+  console.log('EXPIRY DATE:', test)
+  console.log('IS EXPIRED:', test < today)
   const items = await Item.findAll({
     where:{
       seller_id: userId,
@@ -92,12 +100,12 @@ router.get('/:id/get-posted-items', asyncHandler(async(req,res) => {
   let itemsForSale = []
 
   items.forEach(async(item) => {
-    if(new Date(item.expiry_date) < today && item.last_bidder !== null){
+    if(item.for_sale === true && new Date(item.expiry_date) < today && item.last_bidder !== null){
       await item.update({
         sold: true,
         purchaser_id: item.last_bidder
       })
-    }else if(new Date(item.expiry_date) < today && item.last_bidder === null){
+    }else if(item.for_sale === true && new Date(item.expiry_date) < today && item.last_bidder === null){
       await item.update({
         expired: true,
       })
@@ -157,15 +165,21 @@ router.get('/:id/get-seller-info', asyncHandler(async(req,res) => {
 }))
 
 router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
+  const date = new Date()
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+  const today = new Date(month+'-'+day+'-'+year)
   const userId = req.params.id
-  const items = await Item.findAll({
-    where:{
-      purchaser_id: userId,
-      sold: true,
 
+  const items = await Item.findAll({
+    where: {
+      [Op.or]: [
+        { purchaser_id: userId },
+        { last_bidder: userId }
+      ]
     },
     order: [['id', 'ASC']]
-
   })
 
   // console.log('ITEMS:', items)
@@ -174,9 +188,23 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
   let purchasedItems = []
   let rentItems = []
   let userobj = {}
+  let itemsToUpdate = []
   items.forEach(item => {
-    ids.push(item.seller_id)
-    itemIds.push(item.id)
+    if(item.sold === false && new Date(item.expiry_date) < today) {
+      itemsToUpdate.push(item.id)
+      ids.push(item.seller_id)
+      itemIds.push(item.id)
+    }
+    if(item.sold === true) {
+      ids.push(item.seller_id)
+      itemIds.push(item.id)
+    }
+  })
+
+  await Item.update({sold: true}, {
+    where: {
+      id: itemsToUpdate
+    }
   })
 
   // console.log('ID ARRAY:', ids)
@@ -211,27 +239,38 @@ router.get('/:id/get-rent-history', asyncHandler(async(req,res) => {
     },
     order: [['id', 'ASC']]
   })
-
   const date = new Date()
   const day = date.getDate()
   const month = date.getMonth() + 1
   const year = date.getFullYear()
-  console.log(year)
-  console.log(day)
-  console.log(month)
   const today = new Date(month+'-'+day+'-'+year)
 
   const returnedRentedItems = []
+  const returnedRentedItemsIds = []
   const currentRentedItems = []
 
-  rentedItems.forEach(item => {
-    if(item.return_date - today <= 0) {
+  rentedItems.forEach(async(item) => {
+    console.log('CURRENT ITEM:', item)
+    if(new Date(item.return_date) < today) {
       returnedRentedItems.push(item)
+      if(item.active === true){
+        console.log('ITEM MARKED AS ACTIVE')
+        returnedRentedItemsIds.push(item.item_id)
+        await item.update({active: false})
+        console.log('UPDATED ITEM:', item)
+        console.log('ID OF ITEM TO UPDATE:', returnedRentedItemsIds)
+      }
     } else {
       currentRentedItems.push(item)
     }
   })
 
+
+  await Item.update({rented: false}, {
+    where: {
+      id: returnedRentedItemsIds
+    }
+  })
 
   let itemIds = []
   rentedItems.forEach(item => {

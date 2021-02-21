@@ -131,8 +131,8 @@ const RentHistory = (props) => {
     itemsType = previouslyRented
   }
 
-  console.log('RETURNED ITEMS:', postedItems)
-  props.postedItems.rented_items.forEach((item, i) => {
+  console.log('RETURNEDDDDD ITEMS:', props.postedItems.returned_rented_items)
+  itemsType.forEach((item, i) => {
     ratingState[i] = false
     let returnDate = item.return_date
     let startDate = item.start_date
