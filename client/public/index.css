@@ -5,7 +5,9 @@ body {
   margin: 0;
   /* padding: 0; */
   box-sizing: border-box;
-  height: 100%;
+  height: auto;
+  border: 10px solid red;
+
   /* background-color:white; */
   background-image: url('https://hi-neighbor-item-photos.s3.amazonaws.com/memphis-mini.png')
   /* margin: 0 auto */
@@ -13,25 +15,4 @@ body {
   /* margin-bottom: 0.5rem; */
 }
 
-#root {
-  /* align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column; */
-  margin: 0;
-  height: 100%;
-  background-image: url('https://hi-neighbor-item-photos.s3.amazonaws.com/memphis-mini.png')
-  /* display: grid;
-  grid-gap: 3px;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 60px auto 60px;
-  grid-template-areas:
-      "h h h h h h h h h h h h"
-      "m c c c c c c c c c c c"
-      "f f f f f f f f f f f f"; */
-}
 
-:root{
-  background-image: url('https://hi-neighbor-item-photos.s3.amazonaws.com/memphis-mini.png');
-  background-color: white;
-}

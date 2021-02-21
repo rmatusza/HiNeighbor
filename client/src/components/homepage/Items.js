@@ -111,6 +111,9 @@ const useStyles = makeStyles((theme) => ({
   submitButton: {
     width: '160px',
     marginTop: '20px'
+  },
+  gridItem: {
+    backgroundImage: 'url(../../static/memphis-mini.png)'
   }
 }))
 
@@ -256,16 +259,13 @@ const Items = () => {
       </div>
     :
     <div className="items-body-container">
-      {/* <div className="background-photo-container">
-        <img className="background-photo" src="https://hi-neighbor-item-photos.s3.amazonaws.com/memphis-mini.png"/>
-      </div> */}
       <div className="items-photo-container">
-        <Grid container spacing={4} className={classes.grid} >
+        <Grid container spacing={4} className="grid" >
           {items.map((item) => {
             let url = item.image_url
             return (
               <div className="inner-grid-photos-container">
-              <Grid item xs={12} md={12}>
+              <Grid item xs={12} md={12} className={classes.gridItem}>
                 {/* <Link to={`/seller-profile/${item.seller_id}`}> */}
                 <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(item.image_url)}>
                   <Card className={classes.paper}>
@@ -307,7 +307,7 @@ const Items = () => {
                     <TableHead className={classes.tableHead}>
                       <TableRow className={classes.tableHead}>
                         {/* <TableCell align="right">Item Name</TableCell> */}
-                        <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
+                        <TableCell align="left" className={classes.tableCell}>Item Name</TableCell>
                         <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
                         <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
                         <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
@@ -321,7 +321,7 @@ const Items = () => {
                           {dataRows.name}
                         </TableCell> */}
                         {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
-                        <TableCell align="right">{dataRows[idx].name}</TableCell>
+                        <TableCell align="left" className="table-cell">{dataRows[idx].name}</TableCell>
                         <TableCell align="right">${dataRows[idx].price}</TableCell>
                         <TableCell align="right">${dataRows[idx].bid}</TableCell>
                         <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
