@@ -95,10 +95,14 @@ const useStyles = makeStyles((theme) => ({
     height: '200px'
   },
   confirmButton: {
+    color: theme.palette.secondary.main,
     marginBottom: '5px',
+    color: "white"
   },
   cancelButton: {
-    marginBottom: '5px'
+    marginBottom: '5px',
+    color: theme.palette.secondary.main,
+    color: "white"
   }
 }))
 
@@ -290,7 +294,7 @@ const RentableItemTable = () => {
                 </div> */}
                 {/* <div className="bid-purchase-divider"></div> */}
                 <div className="buy-button">
-                <Button variant="contained" color="primary" size="medium" variant="outlined" onClick={() => {handleDialogOpen(dataRowsRent[idx])}}>
+                <Button variant="contained" color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen(dataRowsRent[idx])}}>
                   Rent
                 </Button>
                 </div>
@@ -331,8 +335,8 @@ const RentableItemTable = () => {
             <div className="rent-item-buttons">
               <Button
               variant="contained"
-              color="primary"
-              style={{ color: "white" }}
+              color="secondary"
+              // style={{ color: "white" }}
               size="small"
               className={classes.confirmButton}
               onClick={handleConfirmRentDialog}
@@ -342,8 +346,8 @@ const RentableItemTable = () => {
               </Button>
               <Button
               variant="contained"
-              color="primary"
-              style={{ color: "white" }}
+              color="secondary"
+              // style={{ color: "white" }}
               size="small"
               className={classes.cancelButton}
               onClick={handleDialogClose}
@@ -369,10 +373,10 @@ const RentableItemTable = () => {
           {`Are you sure that you want to rent the selected item, which is to be returned on ${selectedDateString}, for a total of $${rentTotal}?`}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleCloseConfirmRentDialog} color="primary">
+          <Button onClick={handleCloseConfirmRentDialog} color="secondary">
             Cancel
           </Button>
-          <Button color="primary" onClick={handleRentItem}>
+          <Button color="secondary" onClick={handleRentItem}>
            Confirm
           </Button>
         </DialogActions>

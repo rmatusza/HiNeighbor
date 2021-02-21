@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     width: '400px',
     margin: 'auto',
     marginTop: '14vh',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "whitesmoke",
     // // border: '2px solid #000',
     boxShadow: theme.shadows[5],
     // padding: theme.spacing(2, 4, 3),
@@ -257,19 +257,19 @@ const PostRentItem = (props) => {
       <h2 id="simple-modal-title">Item Info:</h2>
       <div>
         <FormControl>
-          <InputLabel htmlFor="name-input">Name</InputLabel>
-          <Input id="name-input" onChange={handleInputChange} autoFocus />
+          <InputLabel htmlFor="name-input" style={{color: "black"}}>Name</InputLabel>
+          <Input id="name-input" onChange={handleInputChange} autoFocus style={{color: "black"}}/>
         </FormControl>
       </div>
       <div>
         <FormControl>
-          <InputLabel htmlFor="description-input">Description</InputLabel>
-          <Input id="description-input" onChange={handleInputChange} />
+          <InputLabel htmlFor="description-input" style={{color: "black"}}>Description</InputLabel>
+          <Input id="description-input" onChange={handleInputChange} style={{color: "black"}}/>
         </FormControl>
       </div>
       <div>
       <FormControl className={classes.formControl}>
-          <InputLabel id="offer-type-select">Category</InputLabel>
+          <InputLabel id="offer-type-select" style={{color: "black"}}>Category</InputLabel>
           <Select
             labelId="offer-type-select"
             id="offer-type"
@@ -297,14 +297,14 @@ const PostRentItem = (props) => {
       </div> */}
       <div>
         <FormControl>
-          <InputLabel htmlFor="sell-price-input">Rent Price</InputLabel>
-          <Input id="sell-price-input" onChange={handleInputChange} />
+          <InputLabel htmlFor="sell-price-input" style={{color: "black"}}>Rent Price</InputLabel>
+          <Input id="sell-price-input" onChange={handleInputChange} style={{color: "black"}}/>
 
         </FormControl>
       </div>
       <div>
         <FormControl className={classes.formControl}>
-          <InputLabel id="offer-type-select">Rent Period</InputLabel>
+          <InputLabel id="offer-type-select" style={{color: "black"}}>Rent Period</InputLabel>
           <Select
             labelId="offer-type-select"
             id="offer-type"
@@ -326,7 +326,7 @@ const PostRentItem = (props) => {
       <div className="post-item-or-service-buttons">
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           style={{ color: "white" }}
           size="small"
           className={classes.submitButton}
@@ -338,7 +338,7 @@ const PostRentItem = (props) => {
         </Button>
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           style={{ color: "white" }}
           size="small"
           className={classes.submitButton}

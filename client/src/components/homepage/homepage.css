@@ -2,8 +2,10 @@
   display: flex;
   justify-content: center;
   background-color: white;
+  /* rgb(255, 255, 255) */
   min-height: 98px;
   max-height: 98px;
+  /* background-image: url("../../static/memphis-mini.png"); */
 }
 /* .enter-item-container {
   display: flex;
@@ -19,13 +21,27 @@
 } */
 
 .search-container{
-  border: 2px solid black;
+  position: relative;
+  z-index: 100;
+  border: 2px solid #ff5e00;
+  border-radius: 5px;
   background-color: white;
-  border-bottom: 0px;
-  /* border-bottom: 10px solid  #76323F; */
+  /* padding-right: 50px;
+  padding-left: 50px;
+  width: 95%; */
+  box-sizing: border-box;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
+  /* box-shadow: 0px 40px 50px -20px rgb(167, 167, 167); */
 }
+
+.search-container-outer{
+  background-color: white;
+  /* padding-bottom: 50px; */
+  /* background-image: url("../../static/memphis-mini.png"); */
+}
+
 .divider-container {
   /* border: 1px solid black; */
   width: 159px;
@@ -97,14 +113,34 @@
 }
 .items-body-container{
   margin: 0;
+  padding-top: 50px;
   height: 100%;
   width: 100%;
   height: 100%;
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   background-color: rgb(206, 204, 204);
-  border-top: 2px solid black;
+  /* border-top: 2px solid black; */
   background-image: url("../../static/memphis-mini.png");
+}
+
+.items-body-container-no-items{
+  margin: 0;
+  padding-top: 50px;
+  height: 100%;
+  width: 100%;
+  height: 100%;
+  background-image: url("../../static/memphis-mini.png");
+}
+
+.no-results-heading{
+  display: flex;
+  margin: 0;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  width: 100%;
+  justify-content: center;
 }
 
 .background-photo-container{
@@ -247,17 +283,7 @@
   height: 600px;
   width: 550px;
 }
-.no-results-heading{
-  display: flex;
-  margin: 0;
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-bottom: 20px;
-  background-color: white;
-  border-bottom: 2px solid black;
-  width: 100%;
-  justify-content: center;
-}
+
 .table-description-and-buttons-container {
   margin-top: 20px;
   display: flex;

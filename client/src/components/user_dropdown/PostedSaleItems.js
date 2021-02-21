@@ -110,7 +110,14 @@ const PostedSaleItems = (props) => {
   return(
     <>
     {props.postedItems.items_for_sale.length === 0 ?
-    <h1 className="no-items-posted-heading">No Items Posted...</h1>
+      <>
+        <h1 className="no-items-posted-heading">No Items Posted for Sale...</h1>
+        <h5 className="no-items-posted-heading">HINT: If you would like to post something click on the dropdown menu located at the
+          top right of the page and choose either "post an item for rent" or "post an item for sale"
+        </h5>
+        <div className="items-body-container-user-dropdown">
+        </div>
+      </>
     :
     <>
     <div className="items-for-sale-heading-container">
