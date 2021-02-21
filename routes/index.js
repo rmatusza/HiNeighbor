@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const api = require('.http://localhost:5000/api');
+const api = require('.');
 
-router.use('http://localhost:5000/api', api);
+router.use('', api);
 
 module.exports = router;

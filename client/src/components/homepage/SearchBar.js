@@ -46,7 +46,7 @@ const SearchBar = () => {
     body['user_search'] = input
     body['user_id'] = currUserId
     console.log(body)
-    const res = await fetch('http://localhost:5000/api/items-and-services/search', {
+    const res = await fetch('/items-and-services/search', {
       method: 'POST',
       headers: {
         'Content-Type':'application/json'
