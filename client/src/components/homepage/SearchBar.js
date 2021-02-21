@@ -22,14 +22,14 @@ const useStyles = makeStyles((theme) => ({
 const SearchBar = () => {
   const classes = useStyles();
   const [input, setInput] = useState('')
-  const search_params = useSelector((store) => store.entities.search_params)
+  const search_params = useSelector(store => store.entities.search_params)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const dispatch = useDispatch()
   console.log('CURRENT USER ID:', currUserId)
   const handleInputChange = (e) => {
     setInput(e.target.value)
   }
-  console.log(search_params)
+  console.log('SEARCH PARAMS:', search_params.category)
 
   const handleSubmit = async(e) => {
 
@@ -69,10 +69,10 @@ const SearchBar = () => {
   return (
     <div className="search-bar-and-button-container">
       <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <TextField id="filled-basic" label="Search:" variant="filled" onChange={handleInputChange}/>
+        <TextField id="filled-basic" label="Search:" variant="filled" placeholder={`Search everything in ${search_params.category}, or type something specific`} onChange={handleInputChange}/>
       </form>
       <div className="go-button-container">
-        <Button aria-controls="simple-menu" size='small' aria-haspopup="true" onClick={handleSubmit} variant="outlined" color="primary" className={classes.goButton}>
+        <Button aria-controls="simple-menu" size='small' aria-haspopup="true" onClick={handleSubmit} variant="contained" color="secondary" className={classes.goButton}>
           Go!
         </Button>
       </div>

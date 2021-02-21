@@ -38,6 +38,10 @@
   justify-content: space-around;
   align-items: center;
   border-radius: 50%;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
+
   /* border: 1px solid white */
 
 }
@@ -55,7 +59,6 @@
   justify-content: space-around;
   align-items: center;
   border-radius: 50%;
-
 }
 
 
@@ -88,7 +91,10 @@
   justify-content: space-around;
   align-items: center;
   border-radius: 50%;
-  border: 1px solid white
+  border: 1px solid white;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+  transition-delay: 0s;
 }
 
 .site-name-container:hover{
@@ -118,7 +124,7 @@
 } */
 
 .house-icon{
-  color: whitesmoke
+  color: white
 }
 
 .confirm-upload-button{
@@ -132,10 +138,27 @@
 }
 
 .top-bar{
-  background-color: #000000;
+  /* background: linear-gradient(to right, #8e0e00, #1f1c18); */
+  /* background: linear-gradient(to right, #4b79a1, #283e51); */
+  background: linear-gradient(to right, #000000, #434343);
+  /* background: linear-gradient(to right, #2196f3, #f44336); */
+  /* background: linear-gradient(to right, #3a6186, #89253e); */
+  /* background: linear-gradient(to right, #200122, #6f0000); */
+  /* background: linear-gradient(to right, #c33764, #1d2671); */
+  /* background-color: #a40606; */
+  /* background: linear-gradient(to right, #1a2a6c, #b21f1f, #fdbb2d); */
+  /* background:linear-gradient(to right, #0f0c29, #302b63, #24243e); */
+
+  /* background: linear-gradient(to right, #c94b4b, #4b134f); */
+  /* background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%); */
+  /* background-color: #0c1624; */
+  background-color: #001a35;
+  /* #262321 */
   display: flex;
   justify-content: space-between;
   height: 60px;
+  /* border-bottom:2px solid rgb(255, 94, 0) */
+  /* rgb(255, 94, 0) */
 }
 
 

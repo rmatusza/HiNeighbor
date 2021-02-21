@@ -88,9 +88,14 @@ router.post('/search', asyncHandler(async(req, res) => {
 
   }else if(offer_type === 'Purchase') {
     console.log('LOOKING FOR ITEMS FOR PURCHASE')
-    let uppercaseSearch = user_search.slice(0,1).toUpperCase() + user_search.slice(1).toLowerCase()
-    let allCapsSearch = user_search.toUpperCase()
-    let lowerCaseSearch = user_search.toLowerCase()
+    // let uppercaseSearch = user_search.slice(0,1).toUpperCase() + user_search.slice(1).toLowerCase()
+    // let allCapsSearch = user_search.toUpperCase()
+    // let lowerCaseSearch = user_search.toLowerCase()
+    const date = new Date()
+    const day = date.getDate()
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
+    const today = new Date(month+'-'+day+'-'+year)
     const items = await Item.findAll({
       where: {
         category,
@@ -102,15 +107,51 @@ router.post('/search', asyncHandler(async(req, res) => {
         seller_id: {
           [Op.not]: user_id
         },
-        sold: false
+        sold: false,
+        expired: false
       },
     })
-
-    console.log(items)
-    if(items.length === 0) {
-      res.json({'saleItems': ['no_results'], 'rentItems': [], 'bids': bids})
+    // console.log('ITEMS:', items)
+    const expired = []
+    const notExpired = ['no_items']
+    items.forEach(item => {
+      console.log('EXPIRY DATE:', item.expiry_date)
+      if (new Date(item.expiry_date) < today) {
+        expired.push(item)
+      } else {
+        if(notExpired[0] === 'no_items') {
+          notExpired.shift()
+          notExpired.push(item)
+        } else {
+          notExpired.push(item)
+        }
+      }
+    })
+    console.log('EXPIRED:', expired)
+    console.log('NOT EXPIRED:', notExpired)
+    console.log('TODAY:', today)
+    if(expired.length > 0){
+      expired.forEach(async(item) => {
+        if(item.last_bidder !== null) {
+          await item.update({
+            sold: true,
+            purchaser_id: item.last_bidder,
+            date_sold: item.expiryDate,
+            price: item.current_bid
+          })
+        } else {
+          item.update({
+            expired: true
+          })
+        }
+      })
     }
-    res.json({'saleItems': items, 'rentItems': [], 'bids': bids})
+
+    if(items.length === 0) {
+      res.json({'saleItems': ['no_items'], 'rentItems': [], 'bids': bids})
+    } else {
+      res.json({'saleItems': notExpired, 'rentItems': [], 'bids': bids})
+    }
 
     //-RENT-----------------------------------------------------------------------
 
@@ -223,7 +264,8 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
     for_rent: false,
     for_sale: true,
     image_url: generatedImageURL,
-    expiry_date: expiryDate
+    expiry_date: expiryDate,
+    expired: false
   })
 
   // const newBidTable = await Bid.create({
@@ -279,7 +321,8 @@ router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(r
     for_rent: true,
     for_sale: false,
     image_url: generatedImageURL,
-    rented: false
+    rented: false,
+    expired: false
   })
 
   res.json(newItem)
@@ -320,6 +363,7 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
       current_bid: bidInput,
       bid_ids: bidIds += newBid.id,
       num_bids: numBids += 1,
+      last_bidder: currUserId
     })
 
 

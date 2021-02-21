@@ -66,15 +66,16 @@ const UserStats = () => {
 
   return (
     <>
+      <div className="background">
       <div className="stats-buttons">
         <div>
-        <Button aria-controls="simple-menu" aria-haspopup="true"  variant={salesButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="sales">
+        <Button aria-controls="simple-menu" aria-haspopup="true"  variant={salesButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="sales">
           Sales
         </Button>
         </div>
         <div className="button-divider"></div>
         <div>
-        <Button aria-controls="simple-menu" aria-haspopup="true"  variant={profitsButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="profits">
+        <Button aria-controls="simple-menu" aria-haspopup="true"  variant={profitsButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="profits">
           Profits
         </Button>
         </div>
@@ -82,6 +83,7 @@ const UserStats = () => {
       <div>
         {/* <CanvasJSChart options={ options } /> */}
         {salesButtonState ? <SalesChart /> : <ProfitsChart />}
+      </div>
       </div>
     </>
   )

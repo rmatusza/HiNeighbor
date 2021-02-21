@@ -84,23 +84,6 @@ const SalesChart = () => {
     }
   }
 
-  const resetItem = async() => {
-    // await fetch(`http://localhost:5000/api/items-and-services/${12}/unpurchase`,{
-      //   method: 'PATCH'
-      // })
-    }
-
-    const getCheese = async() => {
-      // const res = await fetch(`http://localhost:5000/api/items-and-services/${12}/cheese`)
-      // const {date} = await res.json()
-
-      // const dateobj = new Date(date)
-    // const diffDays = Math.round(Math.abs((dateobj - d1) / oneDay));
-
-    // console.log(diffDays)
-  }
-
-
   const options = {
     animationEnabled: true,
     // exportEnabled: true,
