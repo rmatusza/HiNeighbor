@@ -287,6 +287,7 @@
 .table-description-and-buttons-container {
   margin-top: 20px;
   display: flex;
+  /* background-image: url("../../static/memphis-mini.png"); */
 }
 .item-description-conatiner-homepage{
   display: flex;
@@ -307,6 +308,11 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
-/* .table-and-description-container{
-
-} */
+.grid{
+  /* background-image: url("../../static/memphis-mini.png"); */
+  width: 50%;
+  margin: 0px;
+}
+.table-cell{
+  max-width: 250px;
+}

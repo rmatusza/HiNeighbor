@@ -19,11 +19,11 @@ const useStyles = makeStyles((theme) => ({
       color: "white"
     },
     "& .MuiButton-containedPrimary": {
-      backgroundColor: "rgba(255,255,255,0.8)"
+      backgroundColor: "rgba(255,255,255,1)"
     },
     "& .MuiInputBase-input":{
       color: "white"
-    }
+    },
   },
 }));
 
@@ -107,14 +107,29 @@ const Login = (props) => {
   }
 
   return (
+    <>
+
     <div className="sign-in-container">
+      {/* <div className="site-name-sign-in">
+        <h1 className='site-name-text'  style={{fontFamily: 'Arial Rounded MT Bold'}}>Hi Neighbor!</h1>
+      </div> */}
+      {/* <div className="catch-phrase">
+        <h1 style={{fontFamily: 'Arial Rounded MT Bold'}}>
+          See What Your Community Has to Offer
+        </h1>
+      </div> */}
       <div className="background-img-container">
         <img className="background-img" src={"https://hi-neighbor-item-photos.s3.amazonaws.com/community.jpg"} />
       </div>
       <div className="sign-in-page">
-        <div className="site-name-sign-in">
-          <h1 className='site-name-text'>Hi Neighbor!</h1>
-        </div>
+        {/* <div className="site-name-sign-in">
+          <h1 className='site-name-text'  style={{fontFamily: 'Arial Rounded MT Bold'}}>Hi Neighbor!</h1>
+        </div> */}
+        <div className="catch-phrase">
+        <h1 style={{fontFamily: 'Arial Rounded MT Bold'}}>
+          See What Your Community Has to Offer.
+        </h1>
+      </div>
         <form className={classes.root} noValidate autoComplete="off">
           <TextField  color='primary' id="filled-basic" label="Email:"  variant="filled" name="email-input" onChange={updateInput}/>
           <div className="password-field">
@@ -129,8 +144,10 @@ const Login = (props) => {
           </Button>
           </div>
         </form>
+
       </div>
     </div>
+    </>
   )
 }
 

@@ -141,16 +141,17 @@
   height: 100%;
   margin-right: 5px;
   margin-left: 5px;
+
 }
 .current-and-past-rent-buttons {
   display: flex;
-  background-color: rgb(206, 204, 204);;
   height: 60px;
   padding-left: 50px;
   width: 100%;
   align-items: center;
   padding-bottom: 10px;
   border-bottom: 2px solid black;
+  background-image: url("../../static/memphis-mini.png");
 }
 .items-container {
   width: 15%;

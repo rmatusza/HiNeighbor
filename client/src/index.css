@@ -5,11 +5,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: 100%;
+  height: auto;
+  background-image: url('https://hi-neighbor-item-photos.s3.amazonaws.com/memphis-mini.png')
+
 }
 
 html{
-  height: 100%;
+  height: auto;
 }
 
 code {
@@ -18,7 +20,9 @@ code {
 }
 
 #root{
-  height: 100%;
-  background-color: rgb(206, 204, 204);
+  /* height: 100%;
+  background-color: rgb(206, 204, 204); */
+  height: auto;
+  background-image: url('https://hi-neighbor-item-photos.s3.amazonaws.com/memphis-mini.png')
 
 }

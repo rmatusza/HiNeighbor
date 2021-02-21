@@ -77,13 +77,13 @@ const History = () => {
     <>
       <div className={divClass}>
         <div>
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={purchasedButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="purchased">
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={purchasedButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="purchased">
          Purchased
         </Button>
         </div>
         <div className="purchase-rent-toggle-buttons-divider"></div>
         <div>
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={rentedButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="rented">
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={rentedButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="rented">
          Rented
         </Button>
         </div>

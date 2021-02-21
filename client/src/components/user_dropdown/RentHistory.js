@@ -245,13 +245,13 @@ const RentHistory = (props) => {
     <>
     <div className="current-and-past-rent-buttons">
       <div className="currently-renting-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="primary" name="currently-renting" onClick={changeButtonState}>
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="secondary" name="currently-renting" onClick={changeButtonState}>
           Currently Renting
         </Button>
       </div>
       <div className="current-and-past-rent-buttons-divider"></div>
       <div className="previously-rented-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="primary" name="previously-rented" onClick={changeButtonState}>
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="secondary" name="previously-rented" onClick={changeButtonState}>
           Previously Rented
         </Button>
       </div>
@@ -264,13 +264,13 @@ const RentHistory = (props) => {
     <>
     <div className="current-and-past-rent-buttons">
       <div className="currently-renting-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="primary" name="currently-renting" onClick={changeButtonState}>
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="secondary" name="currently-renting" onClick={changeButtonState}>
           Currently Renting
         </Button>
       </div>
       <div className="current-and-past-rent-buttons-divider"></div>
       <div className="previously-rented-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="primary" name="previously-rented" onClick={changeButtonState}>
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="secondary" name="previously-rented" onClick={changeButtonState}>
           Previously Rented
         </Button>
       </div>
