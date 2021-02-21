@@ -251,7 +251,7 @@ const Items = () => {
   return(
     <>
     {items[0] === 'no_items' ?
-      <div className="items-body-container">
+      <div className="items-body-container-no-items">
         <h1 className="no-results-heading">No Results Found</h1>
       </div>
     :

@@ -154,6 +154,29 @@ const RentHistory = (props) => {
     }
   })
 
+  const marks = [
+    {
+      value: 1,
+      label: '1',
+    },
+    {
+      value: 2,
+      label: '2',
+    },
+    {
+      value: 3,
+      label: '3',
+    },
+    {
+      value: 4,
+      label: '4',
+    },
+    {
+      value: 5,
+      label: '5',
+    },
+  ];
+
   const changeButtonState = (e) => {
     if(e.target.name === 'currently-renting') {
       if(currentlyRentingButtonState === false) {
@@ -233,7 +256,9 @@ const RentHistory = (props) => {
         </Button>
       </div>
     </div>
-    <h1 className="no-purchase-history-heading">No History...</h1>
+     <h1 className="no-history-heading">No Rent History...</h1>
+     <div className="items-body-container-user-dropdown">
+     </div>
     </>
     :
     <>
@@ -252,7 +277,7 @@ const RentHistory = (props) => {
     </div>
     <div>
       <h1 className="purchase-history-heading">
-        You Are Currently Renting the Following Items:
+        Items You Have Rented in the Past:
       </h1>
     </div>
     <div className="items-body-container-user-dropdown">
@@ -305,12 +330,13 @@ const RentHistory = (props) => {
                   {currentlyRentingButtonState === true ? <> </> :
                   <div className="rating-buttons-and-slider">
                     <div className="rate-and-submit-buttons">
-                      <Button variant="outlined" color="primary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
-                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="outlined" color="primary" onClick={() => submitRating(item.id, idx)}>Submit Rating</Button></div>}
+                      <Button variant="contained" color="secondary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
+                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx)}>Submit Rating</Button></div>}
                     </div>
                     {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
                     <></>
-                    :  <div className={classes.root}>
+                    :
+                    <div className="slider">
                     <Typography id="discrete-slider-small-steps" gutterBottom>
                       Rating:
                     </Typography>
@@ -319,10 +345,11 @@ const RentHistory = (props) => {
                         getAriaValueText={valuetext}
                         aria-labelledby="discrete-slider-small-steps"
                         step={1}
-                        marks
+                        marks={marks}
                         min={1}
                         max={5}
                         valueLabelDisplay="auto"
+                        color="secondary"
                         onChange={updateItemRating}
                       />
                     </div>}
