@@ -116,7 +116,7 @@ const PurchaseHistory = (props) => {
   let dataRows = []
 
   let rows = []
-  // const res = await fetch(`/api/users/${currUserId}/get-purchase-history`)
+  // const res = await fetch(`/users/${currUserId}/get-purchase-history`)
   // const postedItems = await res.json()
   // items = postedItems
   props.postedItems.purchased_items.forEach((item, i) => {
@@ -160,7 +160,7 @@ const PurchaseHistory = (props) => {
       sellerId
     }
     try {
-    const res = await fetch(`/api/items-and-services/${currItem}/rate-item`, {
+    const res = await fetch(`/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'

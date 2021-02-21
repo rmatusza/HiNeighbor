@@ -32,7 +32,7 @@ const HomePage = () => {
 
   // useEffect(() => {
   //   (async() => {
-  //     const res = await fetch(`/api/users/${2}/get-seller-info`)
+  //     const res = await fetch(`/users/${2}/get-seller-info`)
   //     const sellerInfo = await res.json()
   //     // items = postedItems
   //     console.log('RETURNED ITEMS:', sellerInfo)

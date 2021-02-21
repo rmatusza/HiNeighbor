@@ -225,7 +225,7 @@ const RentHistory = (props) => {
       itemRating
     }
 
-    const res = await fetch(`/api/items-and-services/${currItem}/rate-item`, {
+    const res = await fetch(`/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'

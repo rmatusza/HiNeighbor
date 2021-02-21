@@ -120,7 +120,7 @@ const PostedItems = () => {
   useEffect(() => {
     (async() => {
       let rows = []
-      const res = await fetch(`/api/users/${currUserId}/get-posted-items`)
+      const res = await fetch(`/users/${currUserId}/get-posted-items`)
       const postedItems = await res.json()
       // items = postedItems
       if(postedItems.length === 0) {

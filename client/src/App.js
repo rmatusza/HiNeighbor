@@ -38,7 +38,7 @@ const App = () => {
         if(!token) {
           return
         }
-        const res = await fetch('/api/users/authenticate', {
+        const res = await fetch('/users/authenticate', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
