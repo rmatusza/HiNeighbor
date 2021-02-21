@@ -215,7 +215,7 @@ const RentableItemTable = () => {
       rate
     }
 
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
+    const res = await fetch(`/api/items-and-services/${currItem.id}/rent`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
