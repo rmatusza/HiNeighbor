@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '0px',
     backgroundColor: 'white',
     height: '70px',
-    width: '100%',
+    width: '700px',
     height: '115px'
   },
   buyNow: {
@@ -124,7 +124,7 @@ function createData(name, price, bid, num_bidders, days_remaining, item_id, curr
 }
 
 
-const Items = () => {
+const ItemsGridVersion = () => {
   let items = useSelector(store => store.entities.items_state.saleItems)
   let rentItems = useSelector(store => store.entities.items_state.rentItems)
   //('ITEMS:', items)
@@ -251,115 +251,19 @@ const Items = () => {
     setModalOpen(false)
   }
   let dataRows = []
-
-  {if(items[0] === 'no_items') {
-      return(
-        <div className="items-body-container-no-items">
-          <h1 className="no-results-heading">No Results Found</h1>
-        </div>
-      )
-    }else {
-      return(
-        <div className="home-page-grid">
-          <div className="home-page-grid__photos-container">
-            {items.map((item) => {
-              let url = item.image_url
-              return (
-                <div className="home-page-grid__mui-card-photo-container">
-                  <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(item.image_url)}>
-                    <Card className={classes.paper}>
-                      <CardContent className={classes.image}>
-                        <img className="item-image-homepage" src={url} />
-                      </CardContent>
-                    </Card>
-                  </CardActionArea>
-                </div>
-              )
-            })}
-          </div>
-          <div className="home-page-grid__item-table-and-description-outer-container">
-            {items.forEach((item, idx) => {
-              const d1 = new Date(item.expiry_date)
-              const today = new Date()
-              today.setDate(today.getDate()+0)
-              const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-              const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
-              if(item.current_bid === null) {
-                dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
-              } else {
-                dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
-              }
-
-            })}
-            {dataRows.map((item, idx) => {
-              return(
-                <div className="home-page-grid__item-table-and-description-inner-container">
-                  <TableContainer className={classes.tableContainer}>
-                    <Table className={classes.table} size="small" aria-label="a dense table">
-                      <TableHead className={classes.tableHead}>
-                        <TableRow className={classes.tableHead}>
-                          {/* <TableCell align="right">Item Name</TableCell> */}
-                          <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Number of Bidders</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Days Remaining</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-
-                        <TableRow key={dataRows[idx].name}>
-                          <TableCell align="center" className="table-cell">{dataRows[idx].name}</TableCell>
-                          <TableCell align="center">${dataRows[idx].price}</TableCell>
-                          <TableCell align="center">${dataRows[idx].bid}</TableCell>
-                          <TableCell align="center">{dataRows[idx].num_bidders}</TableCell>
-                          <TableCell align="center">{dataRows[idx].days_remaining}</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  <div className="home-page-grid__item-table-and-description-container__description-container">
-                    <p>
-                      {dataRows[idx].description}
-                    </p>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-          <div className="home-page-grid__buttons-outer-container">
-            {dataRows.map((item, idx) => {
-              return(
-                <div className="home-page-grid__buttons-inner-container">
-                  <div className="bid-button">
-                  <Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
-                    Bid
-                  </Button>
-                  </div>
-                  <div className="divider-container">
-                    <div className="bid-purchase-divider"></div>
-                  </div>
-                  <div className="buy-button">
-                  <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
-                    Purchase
-                  </Button>
-                  </div>
-                  <div className="divider-container">
-                    <div className="bid-purchase-divider"></div>
-                  </div>
-                  <div className="seller-profile-button">
-                  <Button color="secondary" size="medium" variant="contained" onClick={() => {handleClick(dataRows[idx].sellerId)}} className={classes.buttons}>
-                    View Seller Info
-                  </Button>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      )
+  return(
+    <>
+    {items[0] === 'no_items' ?
+      <div className="items-body-container-no-items">
+        <h1 className="no-results-heading">No Results Found</h1>
+      </div>
+    :
+    <div className="items-body-container_grid-version">
+        
+    </div>
     }
-  }
+    </>
+  )
 }
 
-export default Items;
+export default ItemsGridVersion;
