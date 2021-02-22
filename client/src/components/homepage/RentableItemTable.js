@@ -61,8 +61,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 650,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.dark,
-    color: theme.palette.secondary.contrastText,
+    backgroundColor: "black",
   },
   tableCell: {
     color: theme.palette.secondary.contrastText
@@ -106,8 +105,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, rate,rented, id, seller_username, image_url, category) {
-  return { name, rate,rented, id, seller_username, image_url, category};
+function createData(name, rate,rented, id, seller_username, image_url, category, description) {
+  return { name, rate,rented, id, seller_username, image_url, category, description};
 }
 // sets the current date as the default date for the date picker
 
@@ -215,7 +214,7 @@ const RentableItemTable = () => {
       rate
     }
 
-    const res = await fetch(`/api/items-and-services/${currItem.id}/rent`, {
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -237,8 +236,8 @@ const RentableItemTable = () => {
       </div>
     :
     <div className="items-body-container">
-      <div className="items-container">
-        <Grid container spacing={4} className={classes.grid} >
+      <div className="items-photo-container">
+        <Grid container spacing={4} className="grid" >
           {rentItems.map((item) => {
             console.log('ITEM:', item)
             let url = item.image_url
@@ -260,12 +259,13 @@ const RentableItemTable = () => {
       </div>
       <div className="item-data-container">
         {rentItems.forEach((item, idx) => {
-          dataRowsRent.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category))
+          dataRowsRent.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category, item.description))
         })}
           {/* console.log(dataRows) */}
         {dataRowsRent.map((item, idx) => {
           return(
             <div className="main-page-rent-items-table-container">
+               <div className="table-and-description-container">
                 <TableContainer className={classes.tableContainer}>
                   <Table className={classes.table} size="small" aria-label="a dense table">
                     <TableHead className={classes.tableHead}>
@@ -286,6 +286,14 @@ const RentableItemTable = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
+                <div className="item-description-conatiner-homepage">
+                  <div className="item-description">
+                    <p>
+                    {dataRowsRent[idx].description}
+                    </p>
+                  </div>
+                </div>
+                </div>
               <div className="bid-buy-buttons-container">
                 {/* <div className="bid-button">
                 <Button variant="contained" color="primary" variant="outlined" onClick={() => {openBidModal({'itemId': dataRowsRent[idx].item_id, 'currentBid': dataRowsRent[idx].current_bid, 'itemPrice': dataRowsRent[idx].item_price})}}>

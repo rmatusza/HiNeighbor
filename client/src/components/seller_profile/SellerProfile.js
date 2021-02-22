@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 350,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: theme.palette.secondary.main
   },
   tableRow: {
     backgroundColor: 'whitesmoke'
@@ -131,7 +131,7 @@ const SellerProfile = () => {
   useEffect(() => {
     (async() => {
       let rows = []
-      const res = await fetch(`/api/users/${id}/get-seller-info`)
+      const res = await fetch(`http://localhost:5000/api/users/${id}/get-seller-info`)
       const sellerInfo = await res.json()
       console.log('RETURNED ITEMS:', sellerInfo)
       sellerInfo.items.forEach(item => {

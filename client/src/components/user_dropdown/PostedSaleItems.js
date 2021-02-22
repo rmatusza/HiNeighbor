@@ -16,7 +16,7 @@ import TableRow from '@material-ui/core/TableRow';
 const useStyles = makeStyles((theme) => ({
   grid: {
     width: '100%',
-    margin: '0px'
+    marginTop: "30px"
   },
   paper: {
     // padding: theme.spacing(2),
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 650,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: "black",
   },
   tableRow: {
     backgroundColor: 'whitesmoke'
@@ -133,42 +133,46 @@ const PostedSaleItems = (props) => {
             let url = item.image_url
             return (
               <>
-              <Grid item xs={12} md={12}>
-                <div className="item-name-posted-items"><h2 className="item-text">{item.name}</h2></div>
-                <Card className={classes.paper}>
-                  <CardContent className={classes.image}>
-                    <img className="item-image" src={url} />
-                  </CardContent>
-                </Card>
-              </Grid>
-              <div className="item-divider"></div>
+              <div className="item-photo-container">
+                <Grid item xs={12} md={12}>
+                  {/* <div className="item-name-posted-items"><h2 className="item-text">{item.name}</h2></div> */}
+                  <Card className={classes.paper}>
+                    <CardContent className={classes.image}>
+                      <img className="item-image" src={url} />
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </div>
+              {/* <div className="item-divider"></div> */}
               </>
             )
           })}
         </Grid>
       </div>
-      <ul>
+      <div className="for-sale-table-container">
         {props.postedItems.items_for_sale.map((item, idx) => {
           return(
-            <div className="posted-items-table-container">
-              <TableContainer className={classes.tableContainer}>
+            <div className="for-sale-table">
+              <TableContainer className={classes.tableContainer}  style={{marginRight: "20px"}}>
                 <Table className={classes.table} size="small" aria-label="a dense table">
                   <TableHead className={classes.tableHead}>
                     <TableRow>
                       {/* <TableCell align="right">Item Name</TableCell> */}
-                      <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
-                      <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
-                      <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
-                      <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
+                      <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                      <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
+                      <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
+                      <TableCell align="center" className={classes.tableCell}>Number of Bidders</TableCell>
+                      <TableCell align="center" className={classes.tableCell}>Days Remaining</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
 
                     <TableRow key={rows[idx].name}>
-                      <TableCell align="right">${rows[idx].price}</TableCell>
-                      <TableCell align="right">${rows[idx].bid}</TableCell>
-                      <TableCell align="right">{rows[idx].num_bidders}</TableCell>
-                      <TableCell align="right">{rows[idx].days_remaining}</TableCell>
+                      <TableCell align="center">{rows[idx].name}</TableCell>
+                      <TableCell align="center">${rows[idx].price}</TableCell>
+                      <TableCell align="center">${rows[idx].bid}</TableCell>
+                      <TableCell align="center">{rows[idx].num_bidders}</TableCell>
+                      <TableCell align="center">{rows[idx].days_remaining}</TableCell>
                     </TableRow>
 
                   </TableBody>
@@ -177,7 +181,7 @@ const PostedSaleItems = (props) => {
             </div>
           )
         })}
-      </ul>
+      </div>
     </div>
     </>
     }

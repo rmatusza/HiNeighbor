@@ -139,8 +139,13 @@ router.post('/search', asyncHandler(async(req, res) => {
             date_sold: item.expiryDate,
             price: item.current_bid
           })
+          await Review.create({
+            reviewee_id: item.seller_id,
+            item_id: item.id,
+            rating: 0
+          })
         } else {
-          item.update({
+          await item.update({
             expired: true
           })
         }
@@ -169,14 +174,25 @@ router.post('/search', asyncHandler(async(req, res) => {
           [Op.not]: user_id
         },
         for_rent: true,
-        rented: false,
-        sold: false
       }
     })
+
+    let itemsAvaliableForRent = []
+    items.forEach(item => {
+      if(new Date(return_date) < today) {
+        itemsAvaliableForRent.push(item)
+      }
+      if(item.rented === false) {
+        itemsAvaliableForRent.push(item)
+      }
+
+    })
+
     if(items.length === 0) {
       res.json({'saleItems': [], 'rentItems': ['no_results'], 'bids': bids})
+    } else {
+      res.json({'saleItems': [], 'rentItems': nonExpiredRentItems, 'bids': bids})
     }
-    res.json({'saleItems': [], 'rentItems': items, 'bids': bids})
 
     //-ANY OFFER TYPE------------------------------------------------------------------------------------------------
   } else {
@@ -399,20 +415,11 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
   const day = today.getDate()
   const month = today.getMonth() + 1
   const year = today.getFullYear()
-  console.log(year)
-  console.log(day)
-  console.log(month)
   const date = new Date(month+'-'+day+'-'+year)
   JSON.stringify(date)
 
   let item = await Item.findByPk(itemId)
-
-  item.update({
-    purchaser_id: currUserId,
-    sold: true,
-    date_sold: date,
-    current_bid: item.price
-  })
+  await item.update({ purchaser_id: currUserId, sold: true, date_sold: date})
 
   const newReviewObj = await Review.create({
     reviewee_id: item.seller_id,

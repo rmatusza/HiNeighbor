@@ -22,7 +22,8 @@ import { GiFalloutShelter } from 'react-icons/gi';
 const useStyles = makeStyles((theme) => ({
   grid: {
     width: '100%',
-    margin: '0px'
+    marginTop: '30px',
+    // marginLeft: '30px',
   },
   paper: {
     // padding: theme.spacing(2),
@@ -78,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 650,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: "black",
   },
   tableRow: {
     backgroundColor: 'whitesmoke'
@@ -116,10 +117,12 @@ const PurchaseHistory = (props) => {
   let dataRows = []
 
   let rows = []
-  // const res = await fetch(`/api/users/${currUserId}/get-purchase-history`)
+  // const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
   // const postedItems = await res.json()
   // items = postedItems
+  console.log('PURCHASED ITEMS:',  props.postedItems.purchased_items)
   props.postedItems.purchased_items.forEach((item, i) => {
+    console.log('ITEM:', item)
     ratingState[i] = false
     let month = item.date_sold.slice(5,7)
     // console.log(month)
@@ -127,11 +130,35 @@ const PurchaseHistory = (props) => {
     // console.log(day)
     let year = item.date_sold.slice(0, 4)
     if(item.current_bid === null) {
-      dataRows.push(createData(item.name, props.postedItems.users[item.seller_id - props.postedItems.purchased_items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))
+      dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year))
     } else {
-      dataRows.push(createData(item.name, props.postedItems.users[item.seller_id - props.postedItems.purchased_items[0].seller_id].username, item.current_bid, month+'-'+day+'-'+year))
+      dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year))
     }
   })
+
+
+  const marks = [
+    {
+      value: 1,
+      label: '1',
+    },
+    {
+      value: 2,
+      label: '2',
+    },
+    {
+      value: 3,
+      label: '3',
+    },
+    {
+      value: 4,
+      label: '4',
+    },
+    {
+      value: 5,
+      label: '5',
+    },
+  ];
 
   const updateItemRating = (e, value) => {
     setItemRating(value)
@@ -160,7 +187,7 @@ const PurchaseHistory = (props) => {
       sellerId
     }
     try {
-    const res = await fetch(`/api/items-and-services/${currItem}/rate-item`, {
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'
@@ -203,70 +230,78 @@ const PurchaseHistory = (props) => {
             // console.log(item)
             let url = item.image_url
             return (
+              <div className="item-photo-container">
               <Grid item xs={12} md={12}>
                 <Card className={classes.paper}>
                   <CardContent className={classes.image}>
-                    <img className="item-image" src={url} />
+                    <img className="item-image-purchase-history" src={url} />
                   </CardContent>
                 </Card>
               </Grid>
+              </div>
             )
           })}
         </Grid>
+
       </div>
       <div className="purchase-history-table-container">
 
           {props.postedItems.purchased_items.map((item, idx) => {
             return(
-              <div className="purchase-history-table">
-                 <TableContainer className={classes.tableContainer}>
-                    <Table className={classes.table} size="small" aria-label="a dense table">
-                      <TableHead className={classes.tableHead}>
-                        <TableRow>
-                          <TableCell align="right" className={classes.tableCell}>seller</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Purchase Price</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Purchase Date</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        <TableRow key={dataRows[idx].name}>
-                          <TableCell align="right">{dataRows[idx].seller}</TableCell>
-                          <TableCell align="right">{dataRows[idx].name}</TableCell>
-                          <TableCell align="right">${dataRows[idx].purchase_price}</TableCell>
-                          <TableCell align="right">{dataRows[idx].purchase_date}</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  <div className="rating-buttons-and-slider">
-                    <div className="rate-and-submit-buttons">
-                      <Button variant="outlined" color="primary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
-                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="outlined" color="primary" onClick={() => submitRating(item.id, idx, item.seller_id)}>Submit Rating</Button></div>}
+              <>
+                <div className="purchase-history-table">
+                  <TableContainer className={classes.tableContainer}  style={{height: '100px'}}>
+                      <Table className={classes.table} size="small" aria-label="a dense table">
+                        <TableHead className={classes.tableHead}>
+                          <TableRow>
+                            <TableCell align="center" className={classes.tableCell}>seller</TableCell>
+                            <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                            <TableCell align="center" className={classes.tableCell}>Purchase Price</TableCell>
+                            <TableCell align="center" className={classes.tableCell}>Purchase Date</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody >
+                          <TableRow key={dataRows[idx].name}>
+                            <TableCell align="center">{dataRows[idx].seller}</TableCell>
+                            <TableCell align="center">{dataRows[idx].name}</TableCell>
+                            <TableCell align="center">${dataRows[idx].purchase_price}</TableCell>
+                            <TableCell align="center">{dataRows[idx].purchase_date}</TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    <div className="rating-buttons-and-slider">
+                      <div className="rate-and-submit-buttons">
+                        <Button variant="contained" color="secondary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
+                        {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx, item.seller_id)}>Submit Rating</Button></div>}
+                      </div>
+                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
+                      <></>
+                      :
+                      <div className="slider">
+                      <Typography id="discrete-slider-small-steps" gutterBottom>
+                        Rating:
+                      </Typography>
+                        <Slider
+                          defaultValue={props.postedItems.reviews[idx].rating}
+                          getAriaValueText={valuetext}
+                          aria-labelledby="discrete-slider-small-steps"
+                          step={1}
+                          marks={marks}
+                          min={1}
+                          max={5}
+                          color="secondary"
+                          valueLabelDisplay="auto"
+                          onChange={updateItemRating}
+                        />
+                      </div>}
                     </div>
-                    {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
-                    <></>
-                    :  <div className={classes.root}>
-                    <Typography id="discrete-slider-small-steps" gutterBottom>
-                      Rating:
-                    </Typography>
-                      <Slider
-                        defaultValue={props.postedItems.reviews[idx].rating}
-                        getAriaValueText={valuetext}
-                        aria-labelledby="discrete-slider-small-steps"
-                        step={1}
-                        marks
-                        min={1}
-                        max={5}
-                        valueLabelDisplay="auto"
-                        onChange={updateItemRating}
-                      />
-                    </div>}
-                  </div>
-              </div>
+                </div>
+               </>
             )
           })}
       </div>
+
     </div>
     </>
     }

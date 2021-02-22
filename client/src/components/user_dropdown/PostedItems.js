@@ -120,7 +120,7 @@ const PostedItems = () => {
   useEffect(() => {
     (async() => {
       let rows = []
-      const res = await fetch(`/api/users/${currUserId}/get-posted-items`)
+      const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-posted-items`)
       const postedItems = await res.json()
       // items = postedItems
       if(postedItems.length === 0) {
@@ -140,13 +140,13 @@ const PostedItems = () => {
     <>
     <div className="for-rent-or-sale-buttons">
       <div>
-      <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={forSaleButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="for-sale">
+      <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={forSaleButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="for-sale">
         For Sale
       </Button>
       </div>
       <div className="for-sale-rent-toggle-buttons-divider"></div>
       <div>
-      <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={forRentButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="for-rent">
+      <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={forRentButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="for-rent">
         For Rent
       </Button>
       </div>

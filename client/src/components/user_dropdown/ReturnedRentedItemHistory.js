@@ -22,7 +22,8 @@ import { GiFalloutShelter } from 'react-icons/gi';
 const useStyles = makeStyles((theme) => ({
   grid: {
     width: '100%',
-    margin: '0px'
+    margin: '0px',
+    marginTop: "30px"
   },
   paper: {
     // padding: theme.spacing(2),
@@ -119,7 +120,7 @@ const ReturnedRentedItemHistory = (props) => {
   let dataRows = []
 
   let rows = []
-  // const res = await fetch(`/api/users/${currUserId}/get-purchase-history`)
+  // const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
   // const postedItems = await res.json()
   // items = postedItems
   console.log('RETURNED ITEMS:', postedItems)
@@ -171,7 +172,7 @@ const ReturnedRentedItemHistory = (props) => {
       itemRating
     }
 
-    const res = await fetch(`/api/items-and-services/${currItem}/rate-item`, {
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'
@@ -225,11 +226,11 @@ const ReturnedRentedItemHistory = (props) => {
           })}
         </Grid>
       </div>
-      <div className="purchase-history-table-container">
+      <div className="rent-history-table-container">
 
           {props.postedItems.rented_items.map((item, idx) => {
             return(
-              <div className="purchase-history-table">
+              <div className="rent-history-table">
                  <TableContainer className={classes.tableContainer}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
                       <TableHead className={classes.tableHead}>

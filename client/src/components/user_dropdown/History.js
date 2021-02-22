@@ -60,13 +60,13 @@ const History = () => {
   useEffect(() => {
     (async() => {
       let rows = []
-      const res = await fetch(`/api/users/${currUserId}/get-purchase-history`)
+      const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
       const postedItems = await res.json()
+      console.log('RETURNED ITEMS:', postedItems)
       // console.log(postedItems)
       setPurchasedItems({'purchased_items': postedItems.purchased_items, 'users': postedItems.users, 'reviews': postedItems.reviews})
-      const getRentHistory = await fetch(`/api/users/${currUserId}/get-rent-history`)
+      const getRentHistory = await fetch(`http://localhost:5000/api/users/${currUserId}/get-rent-history`)
       const returnedItems = await getRentHistory.json()
-      console.log(returnedItems)
       setRentedItems({'rented_items': returnedItems.rent_items, 'rent_reviews': returnedItems.reviews, 'returned_rented_items': returnedItems.returned_rented_items})
     })()
   }, [])
@@ -77,13 +77,13 @@ const History = () => {
     <>
       <div className={divClass}>
         <div>
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={purchasedButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="purchased">
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={purchasedButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="purchased">
          Purchased
         </Button>
         </div>
         <div className="purchase-rent-toggle-buttons-divider"></div>
         <div>
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={rentedButtonState ? 'contained' : 'outlined'} color="primary" onClick={handleClick} name="rented">
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={rentedButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="rented">
          Rented
         </Button>
         </div>

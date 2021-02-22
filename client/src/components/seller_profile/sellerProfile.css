@@ -2,10 +2,11 @@
   height: auto;
   background-color: white;
   display: block;
+  background-image: url("../../static/memphis-mini.png");
 }
 
 .seller-items-body-container{
-  background-color: rgb(206, 204, 204);
+  background-color: rgba(128, 128, 128, 0.5);
   padding-bottom: 30px;
   /* margin-top: 20px; */
   height: auto;
@@ -18,17 +19,15 @@
   border: 2px solid rgb(206, 204, 204);
   border-radius: 5px;
   display: flex;
-  width: 70%;
-  justify-content: space-around;
+  width: 900px;
+  justify-content: space-between;
   margin-left: 30px;
-  /* margin-top: 20px; */
-  /* background-color: white; */
-  background-color: rgb(206, 204, 204);
   background-color: whitesmoke;
 }
 
 .seller-username{
   display: flex;
+  margin-left: 10px;
 }
 
 .seller-sold-items-count{
@@ -37,9 +36,10 @@
 
 .num-seller-ratings{
   display: flex;
-  /* padding-right: 120px; */
-  width: 50px;
-  /* margin-right: 50px; */
+  margin-right: 10px;
+  /* margin-right: 0;
+  width: 100px;
+  padding-right: 50px; */
 }
 
 .seller-icon{
@@ -58,8 +58,10 @@
 }
 
 .divider{
-  border-bottom: 40px solid white;
+  /* border-bottom: 40px solid white; */
+  height: 40px;
   width: 100%;
+  background-image: url("../../static/memphis-mini.png");
   /* margin-left: 270px;
   margin-top: 50px; */
   /* padding-right: 30px; */
@@ -71,12 +73,12 @@
   height: 200px;
   width: 400px;
   padding: 5px;
-  background-color: whitesmoke;
+  background-color: white;
   margin-bottom: 20px;
   /* border-radius: 10px; */
   border-top: 2px solid black;
   /* border-bottom: 2px solid black; */
-  /* overflow: scroll; */
+  overflow: auto;
 }
 
 .username{
@@ -128,7 +130,9 @@
 
 .current-items-heading-container {
   margin-top: 50px;
-  background-color: white;
+  /* background-color: white; */
+  background-image: url("../../static/memphis-mini.png");
+
 }
 
 .current-items-heading{
@@ -146,7 +150,9 @@
   padding-top: 20px;
   width: 100%;
   height: auto;
-  background-color: white;
+  /* background-color: white; */
+  background-image: url("../../static/memphis-mini.png");
+
 }
 
 .seller-info-heading {

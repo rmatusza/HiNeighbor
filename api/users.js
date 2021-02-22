@@ -105,6 +105,11 @@ router.get('/:id/get-posted-items', asyncHandler(async(req,res) => {
         sold: true,
         purchaser_id: item.last_bidder
       })
+      await Review.create({
+        reviewee_id: item.seller_id,
+        item_id: item.id,
+        rating: 0
+      })
     }else if(item.for_sale === true && new Date(item.expiry_date) < today && item.last_bidder === null){
       await item.update({
         expired: true,
@@ -191,7 +196,7 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
   let itemsToUpdate = []
   items.forEach(item => {
     if(item.sold === false && new Date(item.expiry_date) < today) {
-      itemsToUpdate.push(item.id)
+      itemsToUpdate.push(item)
       ids.push(item.seller_id)
       itemIds.push(item.id)
     }
@@ -201,11 +206,19 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
     }
   })
 
-  await Item.update({sold: true}, {
-    where: {
-      id: itemsToUpdate
-    }
+  itemsToUpdate.forEach(async(item) => {
+    await Item.update({sold: true, purchaser_id: userId, date_sold: item.expiry_date, price: current_bid}, {
+      where: {
+        id: item.id
+      }
+    })
+    await Review.create({
+      reviewee_id: item.seller_id,
+      item_id: item.id,
+      rating: 0
+    })
   })
+
 
   // console.log('ID ARRAY:', ids)
   const users = await User.findAll({
@@ -218,7 +231,7 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
     where: {
       item_id: itemIds
     },
-    order: [['id', 'ASC']]
+    order: [['item_id', 'ASC']]
   })
 
   const rented_items = await Rented_Item.findAll({
@@ -270,6 +283,14 @@ router.get('/:id/get-rent-history', asyncHandler(async(req,res) => {
     where: {
       id: returnedRentedItemsIds
     }
+  })
+
+  returnedRentedItems.forEach(async(item) => {
+    await Review.create({
+      reviewee_id: item.seller_id,
+      item_id: item.id,
+      rating: 0
+    })
   })
 
   let itemIds = []

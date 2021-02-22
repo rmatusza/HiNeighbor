@@ -22,16 +22,72 @@
 }
 
 .purchase-history-table{
-  /* padding-top: 82.5px; */
+  padding-top: 20px;
+  padding-left: 20px;
   padding-bottom: 0px;
   display: flex;
-  margin-top: 20px;
-  margin-bottom: 160px;
-  /* width: 1000px; */
+  height: 232px;
+  margin-bottom: 30px;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+}
+
+.rent-history-table{
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 0px;
+  display: flex;
+  height: 232px;
+  margin-bottom: 30px;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+}
+
+.purchase-history-table-container{
+  padding-top: 30px;
+  margin-right: 300px;
+}
+
+.for-sale-table{
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 0px;
+  display: flex;
+  height: 232px;
+  margin-bottom: 30px;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+}
+
+.for-rent-table {
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 0px;
+  display: flex;
+  height: 232px;
+  margin-bottom: 30px;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+}
+
+.for-sale-table-container{
+  padding-top: 30px;
+  margin-right: 100px;
+}
+
+.for-rent-table-container{
+  padding-top: 30px;
+  margin-right: 450px;
+}
+
+.rent-history-table-container{
+  padding-top: 30px;
+  margin-right: 500px;
 }
 
 .rating-buttons-and-slider{
   margin-left: 70px;
+  margin-right: 30px
 }
 
 .rate-and-submit-buttons{
@@ -64,6 +120,7 @@
   padding-left: 20px;
   padding-bottom: 20px;
   background-color: white;
+  border-bottom: 2px solid black;
 }
 
 .item-name-posted-items{
@@ -83,12 +140,18 @@
   border-bottom: 2px solid black
 }
 
+.item-photo-container{
+  margin-top: 0px;
+  margin-bottom: 62px;
+}
+
 .purchase-history-heading{
   margin: 0;
   padding-top: 20px;
   padding-left: 20px;
   padding-bottom: 20px;
   background-color: white;
+  border-bottom: 2px solid black;
 }
 
 .no-history-heading {
@@ -97,14 +160,18 @@
   padding-left: 20px;
   padding-bottom: 20px;
   background-color: white;
+  border-bottom: 2px solid black
 }
 
 .items-body-container-user-dropdown {
-  height: 500px;
-  width: 100%;
-  background-image: url("../../static/memphis-mini.png");
-  border-top: 2px solid black;
+  height: 100%;
+  width: 95%;
+  /* background-image: url("../../static/memphis-mini.png"); */
+  /* background-color: whitesmoke; */
   display: flex;
+  justify-content: space-around;
+  margin-left: 2.5%;
+  margin-top: 30px
 }
 
 .photo-upload-container {
@@ -141,19 +208,21 @@
   height: 100%;
   margin-right: 5px;
   margin-left: 5px;
+
 }
 .current-and-past-rent-buttons {
   display: flex;
-  background-color: rgb(206, 204, 204);;
   height: 60px;
   padding-left: 50px;
   width: 100%;
   align-items: center;
   padding-bottom: 10px;
   border-bottom: 2px solid black;
+  background-image: url("../../static/memphis-mini.png");
 }
 .items-container {
   width: 15%;
+  /* margin-bottom: 30px; */
 }
 .for-rent-or-sale-buttons {
   display: flex;
@@ -177,7 +246,7 @@
   padding-left: 20px;
   padding-bottom: 20px;
   background-color: white;
-  /* border-bottom: 2px solid black; */
+  border-bottom: 2px solid black;
 }
 
 .slider{
@@ -189,4 +258,8 @@
 .background{
   height: 100%;
   background-image: url("../../static/memphis-mini.png");
+}
+
+.slider{
+  margin-top: 20px;
 }

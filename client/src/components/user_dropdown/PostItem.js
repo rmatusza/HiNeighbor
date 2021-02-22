@@ -175,7 +175,7 @@ const PostItem = (props) => {
 
     console.log('EXPIRY DATE:', body)
 
-    const res = await fetch('/api/items-and-services/post-item', {
+      const res = await fetch('http://localhost:5000/api/items-and-services/post-item', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -203,7 +203,7 @@ const PostItem = (props) => {
     fd.append('file', imageFile)
     // console.log(fd)
     try {
-      const res = await fetch('/api/items-and-services/upload-photo', {
+      const res = await fetch('http://localhost:5000/api/items-and-services/upload-photo', {
         method: 'POST',
         body: fd
       })

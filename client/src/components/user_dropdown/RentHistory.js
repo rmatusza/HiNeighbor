@@ -22,7 +22,8 @@ import { GiFalloutShelter } from 'react-icons/gi';
 const useStyles = makeStyles((theme) => ({
   grid: {
     width: '100%',
-    margin: '0px'
+    margin: '0px',
+    marginTop: "30px"
   },
   paper: {
     // padding: theme.spacing(2),
@@ -78,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 650,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: "black",
   },
   tableRow: {
     backgroundColor: 'whitesmoke'
@@ -225,7 +226,7 @@ const RentHistory = (props) => {
       itemRating
     }
 
-    const res = await fetch(`/api/items-and-services/${currItem}/rate-item`, {
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'
@@ -245,13 +246,13 @@ const RentHistory = (props) => {
     <>
     <div className="current-and-past-rent-buttons">
       <div className="currently-renting-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="primary" name="currently-renting" onClick={changeButtonState}>
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="secondary" name="currently-renting" onClick={changeButtonState}>
           Currently Renting
         </Button>
       </div>
       <div className="current-and-past-rent-buttons-divider"></div>
       <div className="previously-rented-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="primary" name="previously-rented" onClick={changeButtonState}>
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="secondary" name="previously-rented" onClick={changeButtonState}>
           Previously Rented
         </Button>
       </div>
@@ -264,13 +265,13 @@ const RentHistory = (props) => {
     <>
     <div className="current-and-past-rent-buttons">
       <div className="currently-renting-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="primary" name="currently-renting" onClick={changeButtonState}>
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="secondary" name="currently-renting" onClick={changeButtonState}>
           Currently Renting
         </Button>
       </div>
       <div className="current-and-past-rent-buttons-divider"></div>
       <div className="previously-rented-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="primary" name="previously-rented" onClick={changeButtonState}>
+        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="secondary" name="previously-rented" onClick={changeButtonState}>
           Previously Rented
         </Button>
       </div>
@@ -287,6 +288,7 @@ const RentHistory = (props) => {
             // console.log(item)
             let url = item.image_url
             return (
+              <div className="item-photo-container">
               <Grid item xs={12} md={12}>
                 <Card className={classes.paper}>
                   <CardContent className={classes.image}>
@@ -294,35 +296,36 @@ const RentHistory = (props) => {
                   </CardContent>
                 </Card>
               </Grid>
+              </div>
             )
           })}
         </Grid>
       </div>
-      <div className="purchase-history-table-container">
+      <div className="rent-history-table-container">
 
           {itemsType.map((item, idx) => {
             return(
-              <div className="purchase-history-table">
-                 <TableContainer className={classes.tableContainer}>
+              <div className="rent-history-table">
+                 <TableContainer className={classes.tableContainer} style={{marginRight: "20px"}}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
                       <TableHead className={classes.tableHead}>
                         <TableRow>
-                          <TableCell align="right" className={classes.tableCell}>seller</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Rate Per Day</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Date Rented</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Return Date</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Rent Total</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>seller</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Rate Per Day</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Date Rented</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Return Date</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Rent Total</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         <TableRow key={dataRows[idx].name}>
-                          <TableCell align="right">{dataRows[idx].seller}</TableCell>
-                          <TableCell align="right">{dataRows[idx].name}</TableCell>
-                          <TableCell align="right">${dataRows[idx].rate}</TableCell>
-                          <TableCell align="right">{dataRows[idx].start_date}</TableCell>
-                          <TableCell align="right">{dataRows[idx].return_date}</TableCell>
-                          <TableCell align="right">${dataRows[idx].rent_total}</TableCell>
+                          <TableCell align="center">{dataRows[idx].seller}</TableCell>
+                          <TableCell align="center">{dataRows[idx].name}</TableCell>
+                          <TableCell align="center">${dataRows[idx].rate}</TableCell>
+                          <TableCell align="center">{dataRows[idx].start_date}</TableCell>
+                          <TableCell align="center">{dataRows[idx].return_date}</TableCell>
+                          <TableCell align="center">${dataRows[idx].rent_total}</TableCell>
                         </TableRow>
                       </TableBody>
                     </Table>

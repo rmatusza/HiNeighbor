@@ -87,11 +87,12 @@
 }
 .items-photo-container{
   /* border: 2px solid red; */
-  z-index: 1;
+  /* z-index: 1; */
   height: 100%;
   box-sizing: border-box;
   width: 15%;
   margin-left: 35px;
+  margin-top: 15px;
   height: auto;
   background-image: url("../../static/memphis-mini.png");
 
@@ -103,13 +104,19 @@
 }
 .item-data-container {
   /* border: 10px solid green; */
-  z-index: 1;
+  /* z-index: 1; */
   height: auto;
-  background-image: url("../../static/memphis-mini.png");
+  /* background-image: url("../../static/memphis-mini.png"); */
   width: 82%;
   /* box-sizing: border-box; */
   /* width: 75%; */
-
+}
+.main-page-rent-items-table-container{
+  padding-bottom: 0px;
+  display: flex;
+  /* margin-top: 20px; */
+  margin-bottom: 160px;
+  margin-top: 20px;
 }
 .items-body-container{
   margin: 0;
@@ -241,13 +248,7 @@
   margin-left: 80px;
   height: 37px;
 }
-.main-page-rent-items-table-container{
-  padding-bottom: 0px;
-  display: flex;
-  /* margin-top: 20px; */
-  margin-bottom: 160px;
-  margin-top: 20px;
-}
+
 .rent-item-dbox-content-container {
   height: 200px;
   display: flex;
@@ -287,6 +288,7 @@
 .table-description-and-buttons-container {
   margin-top: 20px;
   display: flex;
+  /* background-image: url("../../static/memphis-mini.png"); */
 }
 .item-description-conatiner-homepage{
   display: flex;
@@ -307,6 +309,11 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
-/* .table-and-description-container{
-
-} */
+.grid{
+  /* background-image: url("../../static/memphis-mini.png"); */
+  width: 50%;
+  margin: 0px;
+}
+.table-cell{
+  max-width: 250px;
+}

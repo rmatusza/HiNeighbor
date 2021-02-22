@@ -16,7 +16,7 @@ import TableRow from '@material-ui/core/TableRow';
 const useStyles = makeStyles((theme) => ({
   grid: {
     width: '100%',
-    margin: '0px'
+    marginTop: "30px"
   },
   paper: {
     textAlign: 'center',
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 650,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: "black",
   },
   tableRow: {
     backgroundColor: 'whitesmoke'
@@ -128,40 +128,42 @@ const PostedRentItems = (props) => {
             let url = item.image_url
             return (
               <>
-              <Grid item xs={12} md={12}>
-                <div className="item-name-posted-items"><h2 className="item-text">{item.name}</h2></div>
-                <Card className={classes.paper}>
-                  <CardContent className={classes.image}>
-                    <img className="item-image" src={url} />
-                  </CardContent>
-                </Card>
-              </Grid>
-              <div className="item-divider"></div>
+               <div className="item-photo-container">
+                  <Grid item xs={12} md={12}>
+                    {/* <div className="item-name-posted-items"><h2 className="item-text">{item.name}</h2></div> */}
+                    <Card className={classes.paper}>
+                      <CardContent className={classes.image}>
+                        <img className="item-image" src={url} />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                </div>
+              {/* <div className="item-divider"></div> */}
               </>
             )
           })}
         </Grid>
       </div>
-      <ul>
+      <div className="for-rent-table-container">
         {props.postedItems.items_for_rent.map((item, idx) => {
           return(
-            <div className="posted-items-table-container">
-             <TableContainer className={classes.tableContainer}>
+            <div className="for-rent-table">
+             <TableContainer className={classes.tableContainer} style={{marginRight: "20px"}}>
                   <Table className={classes.table} size="small" aria-label="a dense table">
                     <TableHead className={classes.tableHead}>
                       <TableRow className={classes.tableHead}>
                         {/* <TableCell align="right">Item Name</TableCell> */}
-                        <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
-                        <TableCell align="right" className={classes.tableCell}>Rate per Day</TableCell>
-                        <TableCell align="right" className={classes.tableCell}>Available</TableCell>
+                        <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                        <TableCell align="center" className={classes.tableCell}>Rate per Day</TableCell>
+                        <TableCell align="center" className={classes.tableCell}>Rented</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
 
                       <TableRow key={rows[idx].name}>
-                        <TableCell align="right">{rows[idx].name}</TableCell>
-                        <TableCell align="right">${rows[idx].rate}</TableCell>
-                        <TableCell align="right">{rows[idx].rented === true ? 'False' : 'True'}</TableCell>
+                        <TableCell align="center">{rows[idx].name}</TableCell>
+                        <TableCell align="center">${rows[idx].rate}</TableCell>
+                        <TableCell align="center">{rows[idx].rented === true ? 'True' : 'False'}</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -169,7 +171,7 @@ const PostedRentItems = (props) => {
             </div>
           )
         })}
-      </ul>
+      </div>
     </div>
     </>
     }
