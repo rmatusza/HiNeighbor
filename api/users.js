@@ -85,9 +85,9 @@ router.get('/:id/get-posted-items', asyncHandler(async(req,res) => {
   const year = date.getFullYear()
   const today = new Date(month+'-'+day+'-'+year)
   let test = new Date("2021-02-21T00:27:34.538Z")
-  console.log('TODAY:', today)
-  console.log('EXPIRY DATE:', test)
-  console.log('IS EXPIRED:', test < today)
+  //('TODAY:', today)
+  //('EXPIRY DATE:', test)
+  //('IS EXPIRED:', test < today)
   const items = await Item.findAll({
     where:{
       seller_id: userId,
@@ -187,7 +187,7 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
     order: [['id', 'ASC']]
   })
 
-  // console.log('ITEMS:', items)
+  // //('ITEMS:', items)
   let ids = []
   let itemIds = []
   let purchasedItems = []
@@ -220,7 +220,7 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
   })
 
 
-  // console.log('ID ARRAY:', ids)
+  // //('ID ARRAY:', ids)
   const users = await User.findAll({
     where: {
       id: ids,
@@ -263,15 +263,15 @@ router.get('/:id/get-rent-history', asyncHandler(async(req,res) => {
   const currentRentedItems = []
 
   rentedItems.forEach(async(item) => {
-    console.log('CURRENT ITEM:', item)
+    //('CURRENT ITEM:', item)
     if(new Date(item.return_date) < today) {
       returnedRentedItems.push(item)
       if(item.active === true){
-        console.log('ITEM MARKED AS ACTIVE')
+        //('ITEM MARKED AS ACTIVE')
         returnedRentedItemsIds.push(item.item_id)
         await item.update({active: false})
-        console.log('UPDATED ITEM:', item)
-        console.log('ID OF ITEM TO UPDATE:', returnedRentedItemsIds)
+        //('UPDATED ITEM:', item)
+        //('ID OF ITEM TO UPDATE:', returnedRentedItemsIds)
       }
     } else {
       currentRentedItems.push(item)

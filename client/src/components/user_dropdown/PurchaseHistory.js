@@ -120,14 +120,14 @@ const PurchaseHistory = (props) => {
   // const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
   // const postedItems = await res.json()
   // items = postedItems
-  console.log('PURCHASED ITEMS:',  props.postedItems.purchased_items)
+  //('PURCHASED ITEMS:',  props.postedItems.purchased_items)
   props.postedItems.purchased_items.forEach((item, i) => {
-    console.log('ITEM:', item)
+    //('ITEM:', item)
     ratingState[i] = false
     let month = item.date_sold.slice(5,7)
-    // console.log(month)
+    // //(month)
     let day = item.date_sold.slice(8,10)
-    // console.log(day)
+    // //(day)
     let year = item.date_sold.slice(0, 4)
     if(item.current_bid === null) {
       dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year))
@@ -165,7 +165,7 @@ const PurchaseHistory = (props) => {
   }
 
   const enableRating = (itemId, idx) => {
-    console.log(itemId)
+    //(itemId)
     let statecpy = {...ratingVisibility}
     let value = ratingVisibility[idx]
     statecpy[idx] = !value
@@ -227,7 +227,7 @@ const PurchaseHistory = (props) => {
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
           {props.postedItems.purchased_items.map((item) => {
-            // console.log(item)
+            // //(item)
             let url = item.image_url
             return (
               <div className="item-photo-container">

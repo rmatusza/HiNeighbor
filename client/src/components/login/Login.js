@@ -48,7 +48,7 @@ const Login = (props) => {
       email,
       password
     }
-    console.log(body)
+    //(body)
     const res = await fetch('http://localhost:5000/api/users/token', {
       method: 'POST',
       credentials: 'include',
@@ -77,7 +77,7 @@ const Login = (props) => {
       email: 'testuser@test.com',
       password: 'password'
     }
-    console.log(body)
+    //(body)
     const res = await fetch('http://localhost:5000/api/users/token', {
       method: 'POST',
       credentials: 'include',

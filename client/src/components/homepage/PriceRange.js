@@ -25,7 +25,7 @@ const PriceRange = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  console.log('DEFAULT PRICE RANGE:', defaultPriceRange)
+  //('DEFAULT PRICE RANGE:', defaultPriceRange)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

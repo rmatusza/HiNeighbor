@@ -73,7 +73,7 @@ const postItemValidations = [
 
 router.post('/search', asyncHandler(async(req, res) => {
   let {price_range, distance, offer_type, category, user_search, user_id} = req.body
-  console.log(req.body)
+  //(req.body)
 
   if(!price_range){
     price_range = [0, 1000000000]
@@ -87,7 +87,7 @@ router.post('/search', asyncHandler(async(req, res) => {
 
 
   }else if(offer_type === 'Purchase') {
-    console.log('LOOKING FOR ITEMS FOR PURCHASE')
+    //('LOOKING FOR ITEMS FOR PURCHASE')
     // let uppercaseSearch = user_search.slice(0,1).toUpperCase() + user_search.slice(1).toLowerCase()
     // let allCapsSearch = user_search.toUpperCase()
     // let lowerCaseSearch = user_search.toLowerCase()
@@ -111,11 +111,11 @@ router.post('/search', asyncHandler(async(req, res) => {
         expired: false
       },
     })
-    // console.log('ITEMS:', items)
+    // //('ITEMS:', items)
     const expired = []
     const notExpired = ['no_items']
     items.forEach(item => {
-      console.log('EXPIRY DATE:', item.expiry_date)
+      //('EXPIRY DATE:', item.expiry_date)
       if (new Date(item.expiry_date) < today) {
         expired.push(item)
       } else {
@@ -127,9 +127,9 @@ router.post('/search', asyncHandler(async(req, res) => {
         }
       }
     })
-    console.log('EXPIRED:', expired)
-    console.log('NOT EXPIRED:', notExpired)
-    console.log('TODAY:', today)
+    //('EXPIRED:', expired)
+    //('NOT EXPIRED:', notExpired)
+    //('TODAY:', today)
     if(expired.length > 0){
       expired.forEach(async(item) => {
         if(item.last_bidder !== null) {
@@ -162,7 +162,7 @@ router.post('/search', asyncHandler(async(req, res) => {
 
 
   } else if(offer_type === 'Rent') {
-    console.log('LOOKING FOR ITEMS FOR RENT')
+    //('LOOKING FOR ITEMS FOR RENT')
     const items = await Item.findAll({
       where: {
         category: category,
@@ -250,7 +250,7 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
   // today.setDate(today.getDate()+0)
 
   const valRes = validationResult(req)
-  console.log(valRes.errors)
+  //(valRes.errors)
   if (valRes.errors.length > 0) {
     res.json(valRes)
     return
@@ -268,7 +268,7 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
   } = req.body
   // res.json(req.body)
 
-  console.log('EXPIRY DATE:', expiryDate)
+  //('EXPIRY DATE:', expiryDate)
   const newItem = await Item.create({
     seller_id: userId,
     seller_name: username,
@@ -290,7 +290,7 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
   //   bid_amount: 0
   // })
 
-  console.log('NEW ITEM:', newItem)
+  //('NEW ITEM:', newItem)
 
   res.json(newItem)
 
@@ -299,7 +299,7 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
 router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(req,res) => {
 
   const valRes = validationResult(req)
-  console.log(valRes.errors)
+  //(valRes.errors)
   if (valRes.errors.length > 0) {
     res.json(valRes)
     return
@@ -324,7 +324,7 @@ router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(r
   } = req.body
   // res.json(req.body)
 
-  // console.log('EXPIRY DATE:', expiryDate)
+  // //('EXPIRY DATE:', expiryDate)
   const newItem = await Item.create({
     seller_id: userId,
     seller_name: username,
@@ -348,9 +348,9 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
   const itemId = req.params.id
   const { bidInput, currUserId } = req.body
 
-  console.log('USER BID:', bidInput)
-  console.log('ITEM ID:', itemId)
-  console.log('USER ID:', currUserId)
+  //('USER BID:', bidInput)
+  //('ITEM ID:', itemId)
+  //('USER ID:', currUserId)
 
   const bid = await Bid.findOne({
     where: {
@@ -360,7 +360,7 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
   })
 
   if(!bid) {
-    console.log('NOT ALREADY A BID OBJECT')
+    //('NOT ALREADY A BID OBJECT')
     const newBid = await Bid.create({
       item_id: itemId,
       user_id: currUserId,
@@ -374,7 +374,7 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
     const item = await Item.findByPk(itemId)
     let bidIds = item.bid_ids
     let numBids = item.num_bids
-    console.log('NUM BIDS:', numBids)
+    //('NUM BIDS:', numBids)
     const updatedItem = await item.update({
       current_bid: bidInput,
       bid_ids: bidIds += newBid.id,
@@ -386,7 +386,7 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
 
     res.json(updatedItem)
   } else {
-    console.log('ALREADY A BID OBJECT')
+    //('ALREADY A BID OBJECT')
 
     bid.update({
       bid_amount: bidInput
@@ -432,9 +432,9 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
 
 router.post('/:id/rent', asyncHandler(async(req, res) => {
   const itemId = req.params.id
-  console.log(req.body)
+  //(req.body)
   const { currUserId, selectedDateString, rentTotal, today, rate, seller_name, itemName, imageURL, category } = req.body
-  console.log(itemId, currUserId, selectedDateString, rentTotal)
+  //(itemId, currUserId, selectedDateString, rentTotal)
   const dateObj = new Date(selectedDateString)
   JSON.stringify(dateObj)
   JSON.stringify(today)

@@ -25,18 +25,18 @@ const SearchBar = () => {
   const search_params = useSelector(store => store.entities.search_params)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const dispatch = useDispatch()
-  console.log('CURRENT USER ID:', currUserId)
+  //('CURRENT USER ID:', currUserId)
   const handleInputChange = (e) => {
     setInput(e.target.value)
   }
-  console.log('SEARCH PARAMS:', search_params.category)
+  //('SEARCH PARAMS:', search_params.category)
 
   const handleSubmit = async(e) => {
 
     e.preventDefault()
     let body = {}
     for(let param in search_params) {
-      console.log(param)
+      //(param)
       body[param] = search_params[param]
     }
     if(body.category === undefined) {
@@ -45,7 +45,7 @@ const SearchBar = () => {
     }
     body['user_search'] = input
     body['user_id'] = currUserId
-    console.log(body)
+    //(body)
     const res = await fetch('http://localhost:5000/api/items-and-services/search', {
       method: 'POST',
       headers: {
@@ -55,7 +55,7 @@ const SearchBar = () => {
     })
 
     const items = await res.json()
-    console.log('RETURNED ITEMS:', items)
+    //('RETURNED ITEMS:', items)
     if (items.saleItems.length > 0) {
       dispatch(setItems(items.saleItems))
       dispatch(setRentItems([]))
@@ -63,7 +63,7 @@ const SearchBar = () => {
       dispatch(setRentItems(items.rentItems))
       dispatch(setItems([]))
     }
-    console.log(items)
+    //(items)
   }
 
   return (

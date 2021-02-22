@@ -21,7 +21,7 @@ const UserDropdown = (props) => {
   const history = useHistory();
   const form_state = useSelector(store => store.entities.post_item_form_state.status)
   const rent_form_state = useSelector(store => store.entities.post_item_rent_state.rentStatus)
-  console.log(rent_form_state)
+  //(rent_form_state)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -49,12 +49,12 @@ const UserDropdown = (props) => {
   }
 
   // const togglePostItemForm = () => {
-  //   console.log('here')
+  //   //('here')
   //   setVisibility(true)
   //   return(<PostItem visible={visibility}/>)
   // }
 
-  console.log(form_state)
+  //(form_state)
 
   const handleDialogClose = () => {
     dispatch(setPostItemFormStatus(false))

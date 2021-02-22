@@ -1,7 +1,7 @@
 import { SET_ITEMS, SET_POST_ITEM_FORM_STATUS, SET_POST_ITEM_RENT_STATUS, SET_RENT_ITEMS } from './types'
 
 export const setItems = (items) => {
-  console.log('ITEMS', items)
+  //('ITEMS', items)
   return {
     type: SET_ITEMS,
     items
@@ -9,7 +9,7 @@ export const setItems = (items) => {
 }
 
 export const setRentItems = (rentItems) => {
-  console.log('ITEMS',rentItems)
+  //('ITEMS',rentItems)
   return {
     type: SET_RENT_ITEMS,
    rentItems
@@ -17,7 +17,7 @@ export const setRentItems = (rentItems) => {
 }
 
 export const setPostItemFormStatus = (status) => {
-  console.log('FORM STATUS:', status)
+  //('FORM STATUS:', status)
   return {
     type: SET_POST_ITEM_FORM_STATUS,
     status

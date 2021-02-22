@@ -9,9 +9,9 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
   const itemId = req.params.id
   const { bidInput, currUserId } = req.body
 
-  console.log('USER BID:', bidInput)
-  console.log('ITEM ID:', itemId)
-  console.log('USER ID:', currUserId)
+  //('USER BID:', bidInput)
+  //('ITEM ID:', itemId)
+  //('USER ID:', currUserId)
 
   const bid = await Bid.findOne({
     where: {
@@ -21,7 +21,7 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
   })
 
   if(!bid) {
-    console.log('NOT ALREADY A BID OBJECT')
+    //('NOT ALREADY A BID OBJECT')
     const newBid = await Bid.create({
       item_id: itemId,
       user_id: currUserId,
@@ -35,7 +35,7 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
     const item = await Item.findByPk(itemId)
     let bidIds = item.bid_ids
     let numBids = item.num_bids
-    console.log('NUM BIDS:', numBids)
+    //('NUM BIDS:', numBids)
     const updatedItem = item.update({
       current_bid: bidInput,
       bid_ids: bidIds += newBid.id,
@@ -46,7 +46,7 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
 
     res.json(updatedItem)
   } else {
-    console.log('ALREADY A BID OBJECT')
+    //('ALREADY A BID OBJECT')
 
     bid.update({
       bid_amount: bidInput

@@ -108,7 +108,7 @@ function valuetext(value) {
 }
 
 const RentHistory = (props) => {
-  console.log(props.postedItems)
+  //(props.postedItems)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [postedItems, setPostedItems] = useState({'items': [], 'users': []})
   // const [dataRows, setDataRows] = useState([])
@@ -132,7 +132,7 @@ const RentHistory = (props) => {
     itemsType = previouslyRented
   }
 
-  console.log('RETURNEDDDDD ITEMS:', props.postedItems.returned_rented_items)
+  //('RETURNEDDDDD ITEMS:', props.postedItems.returned_rented_items)
   itemsType.forEach((item, i) => {
     ratingState[i] = false
     let returnDate = item.return_date
@@ -205,7 +205,7 @@ const RentHistory = (props) => {
   }
 
   const enableRating = (itemId, idx) => {
-    console.log(itemId)
+    //(itemId)
     let statecpy = {...ratingVisibility}
     let value = ratingVisibility[idx]
     statecpy[idx] = !value
@@ -235,7 +235,7 @@ const RentHistory = (props) => {
     })
 
     const rating = await res.json()
-    console.log('UPDATED RATING OBJECT:', rating)
+    //('UPDATED RATING OBJECT:', rating)
 
     enableRating(itemId, idx)
   }
@@ -285,7 +285,7 @@ const RentHistory = (props) => {
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
           {itemsType.map((item) => {
-            // console.log(item)
+            // //(item)
             let url = item.image_url
             return (
               <div className="item-photo-container">

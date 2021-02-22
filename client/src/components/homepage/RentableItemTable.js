@@ -114,9 +114,9 @@ const date = new Date()
 const day = date.getDate()
 const month = date.getMonth() + 1
 const year = date.getFullYear()
-console.log(year)
-console.log(day)
-console.log(month)
+//(year)
+//(day)
+//(month)
 const today = new Date(month+'-'+day+'-'+year)
 
 const RentableItemTable = () => {
@@ -132,15 +132,15 @@ const RentableItemTable = () => {
   const dispatch = useDispatch();
 
   const updateItems = (updatedItem) => {
-    // console.log('CURRENT ITEM OBJECT:', updatedItem)
+    // //('CURRENT ITEM OBJECT:', updatedItem)
     const id = updatedItem.id
-    // console.log('ITEM ID:', id)
+    // //('ITEM ID:', id)
     rentItems.forEach((item, i) => {
-      // console.log('UPDATING ITEMS')
+      // //('UPDATING ITEMS')
       if(item.id === id) {
-        // console.log('CURR ITEM:', currItems[i])
+        // //('CURR ITEM:', currItems[i])
         rentItems[i] = updatedItem
-        // console.log('CURRITEMS:', items)
+        // //('CURRITEMS:', items)
         dispatch(setRentItems(rentItems))
         // setCurrItemsState(currItems)
       }
@@ -157,7 +157,7 @@ const RentableItemTable = () => {
     })
   }
   const handleUpdateDate = (e) => {
-    console.log(e.target.value)
+    //(e.target.value)
     setSelectedDate(e.target.value)
   }
   const handleDialogClose = () => {
@@ -165,7 +165,7 @@ const RentableItemTable = () => {
   };
 
   const handleDialogOpen = (itemData) => {
-    console.log('ITEM DATA:', itemData)
+    //('ITEM DATA:', itemData)
     setCurrItem(itemData)
     setDialogOpen(true)
   }
@@ -179,7 +179,7 @@ const RentableItemTable = () => {
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     const rentPeriod = Math.round(Math.abs((chosenDateObj - today) / oneDay));
     const total = rentPeriod * currItem.rate
-    console.log(total)
+    //(total)
     setRentTotal(total)
     // setSelectedDate(chosenDateObj)
     setSelectedDateString(chosenDateString)
@@ -196,7 +196,7 @@ const RentableItemTable = () => {
   }
 
   const handleRentItem = async () => {
-    console.log(currItem)
+    //(currItem)
     let rate = currItem.rate
     let seller_name = currItem.seller_username
     let itemName = currItem.name
@@ -222,7 +222,7 @@ const RentableItemTable = () => {
       body: JSON.stringify(body)
     })
     const {new_rent_item} = await res.json()
-    console.log(new_rent_item)
+    //(new_rent_item)
     updateSoldItems(currItem.id)
     handleCloseAll()
   }
@@ -239,7 +239,7 @@ const RentableItemTable = () => {
       <div className="items-photo-container">
         <Grid container spacing={4} className="grid" >
           {rentItems.map((item) => {
-            console.log('ITEM:', item)
+            //('ITEM:', item)
             let url = item.image_url
             return (
               <Grid item xs={12} md={12}>
@@ -261,7 +261,7 @@ const RentableItemTable = () => {
         {rentItems.forEach((item, idx) => {
           dataRowsRent.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category, item.description))
         })}
-          {/* console.log(dataRows) */}
+          {/* //(dataRows) */}
         {dataRowsRent.map((item, idx) => {
           return(
             <div className="main-page-rent-items-table-container">

@@ -50,13 +50,13 @@ const SalesChart = () => {
     (async() => {
       const res = await fetch(`http://localhost:5000/api/users/${userId}/chart-data`)
       const items = await res.json()
-      console.log('SALES DATA:', data)
+      //('SALES DATA:', data)
       items.forEach(item => {
         let date = item.date_sold.slice(5, 7)
         let idx = findIndex[date]
-        console.log(idx)
+        //(idx)
         data[idx].y += 1
-        console.log(data)
+        //(data)
       })
       setSalesData(data)
     })()

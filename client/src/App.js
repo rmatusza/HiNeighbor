@@ -49,11 +49,11 @@ const App = () => {
           return
         }
         const payload = await res.json()
-        console.log(payload)
+        //(payload)
         dispatch(setUserCreds(payload))
         setAuthenticated(true)
       } catch(err) {
-        console.log(err)
+        //(err)
       }
 
     })()

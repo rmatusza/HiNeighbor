@@ -133,7 +133,7 @@ const SellerProfile = () => {
       let rows = []
       const res = await fetch(`http://localhost:5000/api/users/${id}/get-seller-info`)
       const sellerInfo = await res.json()
-      console.log('RETURNED ITEMS:', sellerInfo)
+      //('RETURNED ITEMS:', sellerInfo)
       sellerInfo.items.forEach(item => {
         const d1 = new Date(item.expiry_date)
         const today = new Date()

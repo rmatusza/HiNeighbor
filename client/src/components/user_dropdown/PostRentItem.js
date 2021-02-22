@@ -79,7 +79,7 @@ const PostRentItem = (props) => {
   const rent_form_state = useSelector(store => store.entities.post_item_rent_state.rentStatus)
   const userId = useSelector(store => store.session.currentUser.id)
   const username = useSelector(store => store.session.currentUser.username)
-  console.log(userId)
+  //(userId)
   const { register, handleSubmit } = useForm()
   const classes = useStyles()
   const dispatch = useDispatch();
@@ -90,7 +90,7 @@ const PostRentItem = (props) => {
   const [anchorElCategory, setAnchorElCategory] = useState(null);
   const [formErrors, setFormErrors] = useState([]);
 
-  // console.log('CURRENT USER ID:', userId)
+  // //('CURRENT USER ID:', userId)
   let generatedImageURL;
   // const handleClick = (event) => {
   //   setAnchorElOffer(event.currentTarget);
@@ -125,7 +125,7 @@ const PostRentItem = (props) => {
   }
 
   const handleCategorySelection = (e) => {
-    console.log(e.target.value)
+    //(e.target.value)
     setItemCategory(e.target.value)
     handleCloseCategory()
   }
@@ -144,7 +144,7 @@ const PostRentItem = (props) => {
 
   const handleCloseModal = (buttonName) => {
     setModalOpen(false)
-    // console.log(e)
+    // //(e)
     if(buttonName === 'close-button-rent') {
       dispatch(setPostItemRentStatus(false))
       return
@@ -159,7 +159,7 @@ const PostRentItem = (props) => {
 
   const postItem = async() => {
 
-    console.log(generatedImageURL)
+    //(generatedImageURL)
     const body = {
       userId,
       username,
@@ -171,7 +171,7 @@ const PostRentItem = (props) => {
       generatedImageURL,
     }
 
-    console.log('EXPIRY DATE:', body)
+    //('EXPIRY DATE:', body)
 
     const res = await fetch('http://localhost:5000/api/items-and-services/post-item-for-rent', {
       method: 'POST',
@@ -195,11 +195,11 @@ const PostRentItem = (props) => {
   }
 
   const uploadPhoto = async () => {
-    console.log(imageFile)
-    // console.log(data.image[0].name)
+    //(imageFile)
+    // //(data.image[0].name)
     const fd = new FormData();
     fd.append('file', imageFile)
-    // console.log(fd)
+    // //(fd)
     try {
       const res = await fetch('http://localhost:5000/api/items-and-services/upload-photo', {
         method: 'POST',
@@ -207,7 +207,7 @@ const PostRentItem = (props) => {
       })
       const { imageURL } = await res.json()
       generatedImageURL = imageURL
-      console.log(generatedImageURL)
+      //(generatedImageURL)
       postItem()
     } catch(e) {
       alert(e)
@@ -358,10 +358,10 @@ const PostRentItem = (props) => {
       <Modal
       open={(() => {
         if(rent_form_state === false || rent_form_state === 'undefined' || modalOpen === false) {
-          console.log('FALSE')
+          //('FALSE')
           return false
         }
-        console.log('TRUE')
+        //('TRUE')
         return true
       })()}
       aria-labelledby="simple-modal-title"

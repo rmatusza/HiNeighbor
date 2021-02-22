@@ -127,7 +127,7 @@ function createData(name, price, bid, num_bidders, days_remaining, item_id, curr
 const Items = () => {
   let items = useSelector(store => store.entities.items_state.saleItems)
   let rentItems = useSelector(store => store.entities.items_state.rentItems)
-  console.log('ITEMS:', items)
+  //('ITEMS:', items)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [modalOpen, setModalOpen] = useState(false)
   const [currItemId, setCurrItemId] = useState(null)
@@ -140,23 +140,23 @@ const Items = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const history = useHistory();
-  console.log('ITEMS:', items)
+  //('ITEMS:', items)
 
   const updateBidInput = (e) => {
-    // console.log('BID INPUT:', e.target.value)
+    // //('BID INPUT:', e.target.value)
     setBidInput(e.target.value)
   }
 
   const updateItems = (updatedItem) => {
-    // console.log('CURRENT ITEM OBJECT:', updatedItem)
+    // //('CURRENT ITEM OBJECT:', updatedItem)
     const id = updatedItem.id
-    // console.log('ITEM ID:', id)
+    // //('ITEM ID:', id)
     items.forEach((item, i) => {
-      // console.log('UPDATING ITEMS')
+      // //('UPDATING ITEMS')
       if(item.id === id) {
-        // console.log('CURR ITEM:', currItems[i])
+        // //('CURR ITEM:', currItems[i])
         items[i] = updatedItem
-        // console.log('CURRITEMS:', items)
+        // //('CURRITEMS:', items)
         dispatch(setItems(items))
         // setCurrItemsState(currItems)
       }
@@ -182,7 +182,7 @@ const Items = () => {
   };
 
   const handleDialogOpen = (itemData) => {
-    console.log('ITEM DATA:', itemData)
+    //('ITEM DATA:', itemData)
     setCurrItemId(itemData.itemId)
     setDialogOpen(true)
   }
@@ -203,7 +203,7 @@ const Items = () => {
     })
     const updatedItem = await res.json()
 
-    console.log('RETURNED UPDATED ITEM:', updatedItem)
+    //('RETURNED UPDATED ITEM:', updatedItem)
 
     updateItems(updatedItem)
     // alert(`bid of $${bidInput} was placed`)
@@ -224,7 +224,7 @@ const Items = () => {
       body: JSON.stringify(body)
     })
     const {soldItemId} = await res.json()
-    console.log(soldItemId)
+    //(soldItemId)
 
     updateSoldItems(soldItemId)
     handleDialogClose()
@@ -240,7 +240,7 @@ const Items = () => {
   }
 
   const openBidModal = (itemData) => {
-    console.log('ITEM DATA:', itemData)
+    //('ITEM DATA:', itemData)
     setCurrItemId(itemData.itemId)
     setCurrBid(itemData.currentBid)
     setCurrItemPrice(itemData.itemPrice)
@@ -296,9 +296,9 @@ const Items = () => {
           }
 
         })}
-          {/* console.log(dataRows) */}
+          {/* //(dataRows) */}
         {dataRows.map((item, idx) => {
-          console.log(item)
+          //(item)
           return(
             <div className="table-description-and-buttons-container">
               <div className="table-and-description-container">

@@ -11,7 +11,7 @@ import Modal from "@material-ui/core/Modal";
 const UploadPhoto = () => {
 
   const handleFileSelect = (e) => {
-    console.log(e.target.files[0])
+    //(e.target.files[0])
   }
 
  return(

@@ -22,7 +22,7 @@ const searchCategoryReducer = (state = initialState, action) => {
 
 
   const stateClone = _.cloneDeep(state)
-  console.log('ACTION:', action)
+  //('ACTION:', action)
 
   switch(action.type) {
     case SET_CATEGORY:

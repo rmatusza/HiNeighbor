@@ -59,14 +59,14 @@ function createData(name, rate,rented, id, seller_username, image_url, category)
 }
 
 const PostedRentItems = (props) => {
-  console.log(props.postedItems.items_for_rent)
+  //(props.postedItems.items_for_rent)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [forSaleButtonState, setForSaleButtonState] = useState(true)
   const [forRentButtonState, setForRentButtonState] = useState(false)
   const [dataRows, setDataRows] = useState([])
   const classes = useStyles()
   let items = []
-  // console.log('ITEMS:', items)
+  // //('ITEMS:', items)
 
   const handleClick = (e) => {
     if(e.target.name === 'for-sale') {
@@ -94,7 +94,7 @@ const PostedRentItems = (props) => {
 
   props.postedItems.items_for_rent.forEach((item, idx) => {
     const d1 = new Date(item.expiry_date)
-    console.log('EXPIRY DATE:', d1)
+    //('EXPIRY DATE:', d1)
     const today = new Date()
     today.setDate(today.getDate()+0)
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
@@ -124,7 +124,7 @@ const PostedRentItems = (props) => {
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
           {props.postedItems.items_for_rent.map((item) => {
-            console.log(item)
+            //(item)
             let url = item.image_url
             return (
               <>

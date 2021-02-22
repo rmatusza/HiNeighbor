@@ -34,7 +34,7 @@ const TopBar = (props) => {
     const today = new Date()
     // today.toLocalDateString()
     // today.setDate(today.getDate())
-    console.log('TODAY:', today)
+    //('TODAY:', today)
     history.replace('/')
   }
   return (
