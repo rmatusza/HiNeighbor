@@ -261,11 +261,11 @@ const Items = () => {
     }else {
       return(
         <div className="home-page-grid">
-          <div className="home-page-grid__photos-container">
+          <div className="home-page-grid__photos-outer-container">
             {items.map((item) => {
               let url = item.image_url
               return (
-                <div className="home-page-grid__mui-card-photo-container">
+                <div className="home-page-grid__photos-inner-container">
                   <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(item.image_url)}>
                     <Card className={classes.paper}>
                       <CardContent className={classes.image}>
@@ -294,8 +294,10 @@ const Items = () => {
             {dataRows.map((item, idx) => {
               return(
                 <div className="home-page-grid__item-table-and-description-inner-container">
-                  <TableContainer className={classes.tableContainer}>
-                    <Table className={classes.table} size="small" aria-label="a dense table">
+                  <TableContainer className="home-page-grid__item-table-and-description-inner-container__table-container">
+                    <Table className="home-page-grid__item-table-and-description-inner-container__table-container__table"
+                    size="small" aria-label="a dense table"
+                    >
                       <TableHead className={classes.tableHead}>
                         <TableRow className={classes.tableHead}>
                           {/* <TableCell align="right">Item Name</TableCell> */}
@@ -309,7 +311,7 @@ const Items = () => {
                       <TableBody>
 
                         <TableRow key={dataRows[idx].name}>
-                          <TableCell align="center" className="table-cell">{dataRows[idx].name}</TableCell>
+                          <TableCell align="center">{dataRows[idx].name}</TableCell>
                           <TableCell align="center">${dataRows[idx].price}</TableCell>
                           <TableCell align="center">${dataRows[idx].bid}</TableCell>
                           <TableCell align="center">{dataRows[idx].num_bidders}</TableCell>
@@ -318,7 +320,7 @@ const Items = () => {
                       </TableBody>
                     </Table>
                   </TableContainer>
-                  <div className="home-page-grid__item-table-and-description-container__description-container">
+                  <div className="home-page-grid__item-table-and-description-inner-container__description-container">
                     <p>
                       {dataRows[idx].description}
                     </p>
@@ -356,10 +358,93 @@ const Items = () => {
               )
             })}
           </div>
+
+          {/* BID MODAL */}
+
+          <Modal
+            open={modalOpen}
+            onClose={closeModal}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            <div className={classes.itemFormModal}>
+              <h2 id="simple-modal-title">Place Your Bid:</h2>
+              <div>
+                <FormControl>
+                  <InputLabel htmlFor="bid-input" style={{color: "black"}}>Bid Amount</InputLabel>
+                  <Input id="bid-input" onChange={updateBidInput} autoFocus style={{color: "black"}}/>
+                </FormControl>
+              </div>
+              <div>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{ color: "white" }}
+                  size="small"
+                  className={classes.submitButton}
+                  onClick={() => {
+                    if(Number(bidInput) <= currBid) {
+                      alert('Your bid must be larger than the current bid amount')
+                    } else if(Number(bidInput) > currItemPrice) {
+                      alert('Your bid must be less than the item sell price')
+                    } else {
+                      submitBid()
+                    }
+                  }}
+                  type="submit"
+                >
+                  Submit Bid
+                </Button>
+              </div>
+            </div>
+          </Modal>
+
+
+          {/* BUY NOW DIALOG BOX */}
+
+          <Dialog
+          open={dialogOpen}
+          onClose={handleDialogClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Are you sure that you want to purchase this item at its full sale price?"}
+            </DialogTitle>
+            <DialogActions>
+              <Button onClick={handleDialogClose} className={classes.buttons} color="secondary" variant="contained">
+                Cancel
+              </Button>
+              <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={handlePurchase}>
+                Purchase Item
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+        {/* ENLARGED IMAGE DIALOG BOX */}
+
+          <Dialog
+          open={enlargeImage}
+          onClose={closeImage}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          >
+            <img className="item-image-enlarged" src={image} />
+
+          </Dialog>
+
         </div>
       )
     }
   }
 }
+
+
+
+
+
+
+
+
 
 export default Items;

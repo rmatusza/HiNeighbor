@@ -53,7 +53,7 @@ const PriceRange = () => {
 
   return (
     <div>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} variant="outlined" color="secondary" className={classes.priceRangeButton}>
+      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} variant="outlined" color="secondary" className="search-container__price-range-button">
         <MdAttachMoney /> Price Range: {selectedCategory ? selectedCategory : <p className="price-range-selection">{defaultPriceRange ? defaultPriceRange : 'Any'}</p>}
       </Button>
       <Menu

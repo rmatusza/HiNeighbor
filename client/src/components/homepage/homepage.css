@@ -20,21 +20,7 @@
   display: block;
 } */
 
-.search-container{
-  position: relative;
-  z-index: 100;
-  border: 2px solid #ff5e00;
-  border-radius: 5px;
-  background-color: white;
-  /* padding-right: 50px;
-  padding-left: 50px;
-  width: 95%; */
-  box-sizing: border-box;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  /* box-shadow: 0px 40px 50px -20px rgb(167, 167, 167); */
-}
+
 
 .search-container-outer{
   background-color: white;
@@ -220,34 +206,6 @@
   /* 90% { top: 0px; } */
   100% {top: -500px }
 }
-.bid-buy-buttons-container{
-  display: flex;
-  margin-right: 20px;
-  height: 325px;
-  flex-direction: column;
-  align-items: center;
-  /* border: 1px solid black */
-}
-.bid-button{
-  margin-left: 80px;
-  margin-bottom: 10px;
-  /* margin-top: 6rem; */
-  height: 37px;
-  /* height: 100% */
-}
-.buy-button{
-  margin-left: 80px;
-  height: 10px;
-  margin-bottom: 10px;
-  height: 37px;
-
-  /* height: 100% */
-
-}
-.seller-profile-button {
-  margin-left: 80px;
-  height: 37px;
-}
 
 .rent-item-dbox-content-container {
   height: 200px;
@@ -273,10 +231,7 @@
   display: flex;
   justify-content: center;
 }
-.search-bar-and-button-container {
-  display: flex;
-  align-items: center;
-}
+
 .go-button-container {
   height: 100%;
 }
@@ -321,52 +276,80 @@
 
 /*----------------------------------------------------------------------------*/
 
-.home-page-grid{
-  /* display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  grid-auto-flow: row; */
-  display: flex
-
-}
-
-.home-page-grid__photos-container{
-  /* height: 100%;
+.search-container{
+  position: relative;
+  z-index: 100;
+  border: 2px solid #ff5e00;
+  border-radius: 5px;
+  background-color: white;
   box-sizing: border-box;
-  width: 15%;
-  margin-left: 35px;
-  margin-top: 15px;
-  height: auto;
-  background-image: url("../../static/memphis-mini.png"); */
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
 
-  /* display: grid;
-  grid-column-start: 0;
-  grid-column-end: 1; */
+.search-container__price-range-button{
+  min-height: 64.4px;
+  width: 220px;
+}
+
+.search-container__distance-button{
+  min-height: 64.4px;
+  width: 220px;
+}
+
+.search-container__offer-type-button{
+  min-height: 64.4px;
+  width: 220px;
+}
+
+.search-container__search-bar-and-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-container__search-bar-and-button-container__search-bar-container{
+  width: 550px;
+  margin-right: 25px;
+}
+
+.home-page-grid{
+  display: flex
+}
+
+.home-page-grid__photos-outer-container{
 
 }
 
-.home-page-grid__mui-card-photo-container {
+.home-page-grid__photos-inner-container {
   margin-top: 20px;
   margin-bottom: 200px;
   margin-left: 20px;
 }
 
 .home-page-grid__item-table-and-description-outer-container {
-  /* height: auto;
-  width: 82%; */
-
   margin-top: 20px;
   margin-left: 20px;
 }
 
 .home-page-grid__item-table-and-description-inner-container {
-
-  /* height: auto;
-  width: 82%; */
   width: 800px;
   margin-bottom: 75px;
 }
 
-.home-page-grid__item-table-and-description-container__description-container{
+.home-page-grid__item-table-and-description-inner-container__table-container{
+  padding-bottom: 0px;
+  background-color: white;
+  height: 70px;
+  width: 100%;
+  height: 115px;
+}
+
+.home-page-grid__item-table-and-description-inner-container__table-container__table{
+  min-width: 650px;
+}
+
+.home-page-grid__item-table-and-description-inner-container__description-container{
   border: 1px solid #ff5e00;
   border-radius: 5px;
   margin-top: 10px;
@@ -378,21 +361,66 @@
 }
 
 .home-page-grid__buttons-outer-container{
-  /* grid-column-start: 2;
-  grid-column-end: 3; */
   margin-top: 20px;
-}
-
-.home-page-grid__buttons-inner-container{
-  /* grid-column-start: 2;
-  grid-column-end: 3; */
-  margin-bottom: 75px;
+  width: 300px;
 }
 
 .home-page-grid__buttons-inner-container{
   display: flex;
-  margin-right: 20px;
   height: 325px;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 75px;
+  width: auto;
+}
+
+.bid-button{
+  margin-left: 0px;
+  margin-bottom: 10px;
+  height: 37px;
+}
+
+.buy-button{
+  margin-left: 0px;
+  height: 10px;
+  margin-bottom: 10px;
+  height: 37px;
+}
+
+.seller-profile-button {
+  margin-left: 0px;
+  height: 37px;
+}
+
+.divider-container {
+  width: 159px;
+  margin-left: 0px;
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 1296px) {
+  .home-page-grid__buttons-outer-container{
+    width: 250px;
+  }
+
+  .search-container__price-range-button{
+    min-height: 64.4px;
+    width: 190px;
+  }
+
+  .search-container__distance-button{
+    min-height: 64.4px;
+    width: 190px;
+  }
+
+  .search-container__offer-type-button{
+    min-height: 64.4px;
+    width: 190px;
+  }
+
+  .search-container__search-bar-and-button-container__search-bar-container{
+    width: 400px;
+    margin-left: 25px;
+  }
 }

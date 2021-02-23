@@ -44,7 +44,7 @@ const Distance = () => {
 
   return (
     <div>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} variant="outlined" color="secondary" className={classes.distanceButton}>
+      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} variant="outlined" color="secondary" className="search-container__distance-button">
         <GiPathDistance /> Distance: {selectedCategory ? selectedCategory : <p className="distance-selection">Any</p>}
       </Button>
       <Menu
