@@ -225,12 +225,12 @@ const PurchaseHistory = (props) => {
             Your Purchase History:
           </h1>
         </div>
-        <div className="body-container-user-dropdown">
-          <div className="body-container-user-dropdown__photos-container">
+        <div className="body-container-purchase-history">
+          <div className="body-container-purchase-history__photos-container">
               {props.postedItems.purchased_items.map((item) => {
                 let url = item.image_url
                 return (
-                  <div className="item-photo-container">
+                  <div className="item-photo-container-purchase-history">
                       <Card className={classes.paper}>
                         <CardContent className={classes.image}>
                           <img className="item-image-purchase-history" src={url} />
@@ -240,11 +240,11 @@ const PurchaseHistory = (props) => {
                 )
               })}
           </div>
-          <div className="body-container-user-dropdown__purchase-history-table-container">
+          <div className="body-container-purchase-history__purchase-history-table-container">
             {props.postedItems.purchased_items.map((item, idx) => {
               return(
                 <>
-                  <div className="body-container-user-dropdown__purchase-history-table-container__purchase-history-table">
+                  <div className="body-container-purchase-history__purchase-history-table-container__purchase-history-table">
                     <TableContainer className={classes.tableContainer}  style={{height: '100px'}}>
                         <Table className={classes.table} size="small" aria-label="a dense table">
                           <TableHead className={classes.tableHead}>
