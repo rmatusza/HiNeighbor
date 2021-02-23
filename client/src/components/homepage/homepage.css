@@ -81,7 +81,6 @@
   margin-top: 15px;
   height: auto;
   background-image: url("../../static/memphis-mini.png");
-
 }
 .inner-grid-photos-container {
   margin-top: 20px;
@@ -103,18 +102,6 @@
   /* margin-top: 20px; */
   margin-bottom: 160px;
   margin-top: 20px;
-}
-.items-body-container{
-  margin: 0;
-  padding-top: 50px;
-  height: 100%;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  /* flex-wrap: wrap; */
-  background-color: rgb(206, 204, 204);
-  /* border-top: 2px solid black; */
-  background-image: url("../../static/memphis-mini.png");
 }
 
 .items-body-container-no-items{

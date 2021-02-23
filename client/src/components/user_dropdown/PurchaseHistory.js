@@ -76,7 +76,8 @@ const useStyles = makeStyles((theme) => ({
     heigth: '200px'
   },
   table: {
-    minWidth: 650,
+   maxWidth: '639px',
+   overflow: 'auto'
   },
   tableHead: {
     backgroundColor: "black",
@@ -88,7 +89,8 @@ const useStyles = makeStyles((theme) => ({
     // width: '800px'
     paddingBottom: '0px',
     backgroundColor: 'white',
-    height: '70px'
+    height: '70px',
+    maxWidth: '639px',
   },
   tableCell: {
     color: theme.palette.secondary.contrastText
@@ -210,101 +212,94 @@ const PurchaseHistory = (props) => {
 
   return(
     <>
-    {props.postedItems.purchased_items.length === 0 ?
-    <>
-     <h1 className="no-history-heading">No Purchase History...</h1>
-     <div className="items-body-container-user-dropdown">
-     </div>
-     </>
-     :
-    <>
-    <div>
-      <h1 className="purchase-history-heading">
-        Your Purchase History:
-      </h1>
-    </div>
-    <div className="items-body-container-user-dropdown">
-      <div className="items-container">
-        <Grid container spacing={4} className={classes.grid} >
-          {props.postedItems.purchased_items.map((item) => {
-            // //(item)
-            let url = item.image_url
-            return (
-              <div className="item-photo-container">
-              <Grid item xs={12} md={12}>
-                <Card className={classes.paper}>
-                  <CardContent className={classes.image}>
-                    <img className="item-image-purchase-history" src={url} />
-                  </CardContent>
-                </Card>
-              </Grid>
-              </div>
-            )
-          })}
-        </Grid>
-
-      </div>
-      <div className="purchase-history-table-container">
-
-          {props.postedItems.purchased_items.map((item, idx) => {
-            return(
-              <>
-                <div className="purchase-history-table">
-                  <TableContainer className={classes.tableContainer}  style={{height: '100px'}}>
-                      <Table className={classes.table} size="small" aria-label="a dense table">
-                        <TableHead className={classes.tableHead}>
-                          <TableRow>
-                            <TableCell align="center" className={classes.tableCell}>seller</TableCell>
-                            <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
-                            <TableCell align="center" className={classes.tableCell}>Purchase Price</TableCell>
-                            <TableCell align="center" className={classes.tableCell}>Purchase Date</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody >
-                          <TableRow key={dataRows[idx].name}>
-                            <TableCell align="center">{dataRows[idx].seller}</TableCell>
-                            <TableCell align="center">{dataRows[idx].name}</TableCell>
-                            <TableCell align="center">${dataRows[idx].purchase_price}</TableCell>
-                            <TableCell align="center">{dataRows[idx].purchase_date}</TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    <div className="rating-buttons-and-slider">
-                      <div className="rate-and-submit-buttons">
-                        <Button variant="contained" color="secondary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
-                        {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx, item.seller_id)}>Submit Rating</Button></div>}
+      {props.postedItems.purchased_items.length === 0 ?
+      <>
+        <h1 className="no-history-heading">No Purchase History...</h1>
+        <div className="items-body-container-user-dropdown">
+        </div>
+      </>
+      :
+      <>
+        <div>
+          <h1 className="purchase-history-heading">
+            Your Purchase History:
+          </h1>
+        </div>
+        <div className="body-container-user-dropdown">
+          <div className="body-container-user-dropdown__photos-container">
+              {props.postedItems.purchased_items.map((item) => {
+                let url = item.image_url
+                return (
+                  <div className="item-photo-container">
+                      <Card className={classes.paper}>
+                        <CardContent className={classes.image}>
+                          <img className="item-image-purchase-history" src={url} />
+                        </CardContent>
+                      </Card>
+                  </div>
+                )
+              })}
+          </div>
+          <div className="body-container-user-dropdown__purchase-history-table-container">
+            {props.postedItems.purchased_items.map((item, idx) => {
+              return(
+                <>
+                  <div className="body-container-user-dropdown__purchase-history-table-container__purchase-history-table">
+                    <TableContainer className={classes.tableContainer}  style={{height: '100px'}}>
+                        <Table className={classes.table} size="small" aria-label="a dense table">
+                          <TableHead className={classes.tableHead}>
+                            <TableRow>
+                              <TableCell align="center" className={classes.tableCell}>seller</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Purchase Price</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Purchase Date</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody >
+                            <TableRow key={dataRows[idx].name}>
+                              <TableCell align="center">{dataRows[idx].seller}</TableCell>
+                              <TableCell align="center">{dataRows[idx].name}</TableCell>
+                              <TableCell align="center">${dataRows[idx].purchase_price}</TableCell>
+                              <TableCell align="center">{dataRows[idx].purchase_date}</TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                      <div className="rating-buttons-and-slider">
+                        <div className="rate-and-submit-buttons">
+                          <Button variant="contained" color="secondary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
+                          {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx, item.seller_id)}>Submit Rating</Button></div>}
+                        </div>
+                        {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
+                        <></>
+                        :
+                        <div className="slider">
+                        <Typography id="discrete-slider-small-steps" gutterBottom>
+                          Rating:
+                        </Typography>
+                          <Slider
+                            defaultValue={props.postedItems.reviews[idx].rating}
+                            getAriaValueText={valuetext}
+                            aria-labelledby="discrete-slider-small-steps"
+                            step={1}
+                            marks={marks}
+                            min={1}
+                            max={5}
+                            color="secondary"
+                            valueLabelDisplay="auto"
+                            onChange={updateItemRating}
+                          />
+                        </div>}
                       </div>
-                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
-                      <></>
-                      :
-                      <div className="slider">
-                      <Typography id="discrete-slider-small-steps" gutterBottom>
-                        Rating:
-                      </Typography>
-                        <Slider
-                          defaultValue={props.postedItems.reviews[idx].rating}
-                          getAriaValueText={valuetext}
-                          aria-labelledby="discrete-slider-small-steps"
-                          step={1}
-                          marks={marks}
-                          min={1}
-                          max={5}
-                          color="secondary"
-                          valueLabelDisplay="auto"
-                          onChange={updateItemRating}
-                        />
-                      </div>}
-                    </div>
-                </div>
-               </>
-            )
-          })}
-      </div>
+                  </div>
+                </>
+              )
+            })}
+          </div>
 
-    </div>
-    </>
-    }
+        </div>
+      </>
+      }
     </>
   )
 }
