@@ -163,7 +163,12 @@ router.post('/search', asyncHandler(async(req, res) => {
 
   } else if(offer_type === 'Rent') {
     //('LOOKING FOR ITEMS FOR RENT')
-    const items = await Item.findAll({
+      const date = new Date()
+      const day = date.getDate()
+      const month = date.getMonth() + 1
+      const year = date.getFullYear()
+      const today = new Date(month+'-'+day+'-'+year)
+      const items = await Item.findAll({
       where: {
         category: category,
         name: { [Op.iLike]: `%${user_search}%` },
@@ -178,20 +183,28 @@ router.post('/search', asyncHandler(async(req, res) => {
     })
 
     let itemsAvaliableForRent = []
-    items.forEach(item => {
-      if(new Date(return_date) < today) {
-        itemsAvaliableForRent.push(item)
-      }
-      if(item.rented === false) {
-        itemsAvaliableForRent.push(item)
-      }
-
+    items.forEach(async(item) => {
+      console.log(item.name)
+      // if(new Date(item.expiry_date) < today) {
+      //   console.log('IF')
+      //   await item.update({rented: false, expiry_date: null})
+      //   itemsAvaliableForRent.push(item)
+      // }else if(item.rented === false) {
+      //   console.log('ELSE IF')
+      //   itemsAvaliableForRent.push(item)
+      // } else {
+      //   console.log('ELSE')
+      //   itemsAvaliableForRent.push(item)
+      // }
+      itemsAvaliableForRent.push(item)
     })
+
+    console.log('ITEMS FOR RENT:', itemsAvaliableForRent)
 
     if(items.length === 0) {
       res.json({'saleItems': [], 'rentItems': ['no_results'], 'bids': bids})
     } else {
-      res.json({'saleItems': [], 'rentItems': nonExpiredRentItems, 'bids': bids})
+      res.json({'saleItems': [], 'rentItems': itemsAvaliableForRent, 'bids': bids})
     }
 
     //-ANY OFFER TYPE------------------------------------------------------------------------------------------------
@@ -433,7 +446,7 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
 router.post('/:id/rent', asyncHandler(async(req, res) => {
   const itemId = req.params.id
   //(req.body)
-  const { currUserId, selectedDateString, rentTotal, today, rate, seller_name, itemName, imageURL, category } = req.body
+  const { currUserId, selectedDateString, rentTotal, today, rate, seller_name, itemName, imageURL, category, seller_id } = req.body
   //(itemId, currUserId, selectedDateString, rentTotal)
   const dateObj = new Date(selectedDateString)
   JSON.stringify(dateObj)
@@ -450,12 +463,14 @@ router.post('/:id/rent', asyncHandler(async(req, res) => {
     rate: rate,
     active: true,
     image_url: imageURL,
-    category: category
+    category: category,
+    seller_id: seller_id
   })
 
   const updatedItem = await Item.findByPk(itemId)
   await updatedItem.update({
-    rented: true
+    rented: true,
+    expiry_date: dateObj
   })
 
   const newReviewObj = await Review.create({

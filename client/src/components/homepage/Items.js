@@ -260,12 +260,12 @@ const Items = () => {
       )
     }else {
       return(
-        <div className="home-page-grid">
-          <div className="home-page-grid__photos-outer-container">
+        <div className="home-page-sale-items-container">
+          <div className="home-page-sale-items-container__photos-outer-container">
             {items.map((item) => {
               let url = item.image_url
               return (
-                <div className="home-page-grid__photos-inner-container">
+                <div className="home-page-sale-items-container__photos-inner-container">
                   <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(item.image_url)}>
                     <Card className={classes.paper}>
                       <CardContent className={classes.image}>
@@ -277,7 +277,7 @@ const Items = () => {
               )
             })}
           </div>
-          <div className="home-page-grid__item-table-and-description-outer-container">
+          <div className="home-page-sale-items-container__item-table-and-description-outer-container">
             {items.forEach((item, idx) => {
               const d1 = new Date(item.expiry_date)
               const today = new Date()
@@ -293,9 +293,9 @@ const Items = () => {
             })}
             {dataRows.map((item, idx) => {
               return(
-                <div className="home-page-grid__item-table-and-description-inner-container">
-                  <TableContainer className="home-page-grid__item-table-and-description-inner-container__table-container">
-                    <Table className="home-page-grid__item-table-and-description-inner-container__table-container__table"
+                <div className="home-page-sale-items-container__item-table-and-description-inner-container">
+                  <TableContainer className="home-page-sale-items-container__item-table-and-description-inner-container__table-container">
+                    <Table className="home-page-sale-items-container__item-table-and-description-inner-container__table-container__table"
                     size="small" aria-label="a dense table"
                     >
                       <TableHead className={classes.tableHead}>
@@ -320,7 +320,7 @@ const Items = () => {
                       </TableBody>
                     </Table>
                   </TableContainer>
-                  <div className="home-page-grid__item-table-and-description-inner-container__description-container">
+                  <div className="home-page-sale-items-container__item-table-and-description-inner-container__description-container">
                     <p>
                       {dataRows[idx].description}
                     </p>
@@ -329,30 +329,30 @@ const Items = () => {
               )
             })}
           </div>
-          <div className="home-page-grid__buttons-outer-container">
+          <div className="home-page-sale-items-container__buttons-outer-container">
             {dataRows.map((item, idx) => {
               return(
-                <div className="home-page-grid__buttons-inner-container">
+                <div className="home-page-sale-items-container__buttons-inner-container">
                   <div className="bid-button">
-                  <Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
-                    Bid
-                  </Button>
+                    <Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
+                      Bid
+                    </Button>
                   </div>
                   <div className="divider-container">
                     <div className="bid-purchase-divider"></div>
                   </div>
                   <div className="buy-button">
-                  <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
-                    Purchase
-                  </Button>
+                    <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
+                      Purchase
+                    </Button>
                   </div>
                   <div className="divider-container">
                     <div className="bid-purchase-divider"></div>
                   </div>
                   <div className="seller-profile-button">
-                  <Button color="secondary" size="medium" variant="contained" onClick={() => {handleClick(dataRows[idx].sellerId)}} className={classes.buttons}>
-                    View Seller Info
-                  </Button>
+                    <Button color="secondary" size="medium" variant="contained" onClick={() => {handleClick(dataRows[idx].sellerId)}} className={classes.buttons}>
+                      View Seller Info
+                    </Button>
                   </div>
                 </div>
               )

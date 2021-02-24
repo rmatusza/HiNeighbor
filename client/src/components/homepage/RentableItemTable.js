@@ -105,8 +105,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, rate,rented, id, seller_username, image_url, category, description) {
-  return { name, rate,rented, id, seller_username, image_url, category, description};
+function createData(name, rate,rented, id, seller_username, image_url, category, description, seller_id) {
+  return { name, rate,rented, id, seller_username, image_url, category, description, seller_id};
 }
 // sets the current date as the default date for the date picker
 
@@ -128,8 +128,11 @@ const RentableItemTable = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [rentTotal, setRentTotal] = useState(null)
   const [selectedDateString, setSelectedDateString] = useState(null)
+  const [enlargeImage, setEnlargeImage] = useState(false);
+  const [image, setImage] = useState(null);
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const updateItems = (updatedItem) => {
     // //('CURRENT ITEM OBJECT:', updatedItem)
@@ -186,9 +189,22 @@ const RentableItemTable = () => {
     setConfirmRentDialog(true)
   }
 
+  const handleEnlargeImage = (image) => {
+    setImage(image)
+    setEnlargeImage(true)
+  }
+
+  const closeImage = () => {
+    setEnlargeImage(false)
+  }
+
   const handleCloseAll = () => {
     setDialogOpen(false)
     setConfirmRentDialog(false)
+  }
+
+  const handleClick = (sellerId) => {
+    history.replace(`/seller-profile/${sellerId}`)
   }
 
   const handleCloseConfirmRentDialog = () => {
@@ -202,6 +218,7 @@ const RentableItemTable = () => {
     let itemName = currItem.name
     let imageURL = currItem.image_url
     let category = currItem.category
+    let seller_id = currItem.seller_id
     const body = {
       currUserId,
       itemName,
@@ -211,7 +228,8 @@ const RentableItemTable = () => {
       rentTotal,
       imageURL,
       category,
-      rate
+      rate,
+      seller_id
     }
 
     const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
@@ -228,171 +246,185 @@ const RentableItemTable = () => {
   }
 
   let dataRowsRent = []
-  return(
-    <>
-    {rentItems[0] === 'no_results' ?
-      <div className="items-body-container">
+
+    {if(rentItems[0] === 'no_results') {
+      return(
+        <div className="items-body-container">
         <h1 className="no-results-heading">No Results Found</h1>
       </div>
-    :
-    <div className="items-body-container">
-      <div className="items-photo-container">
-        <Grid container spacing={4} className="grid" >
-          {rentItems.map((item) => {
-            //('ITEM:', item)
-            let url = item.image_url
-            return (
-              <Grid item xs={12} md={12}>
-                <Link to={`/seller-profile/${item.seller_id}`}>
-                <CardActionArea className={classes.cardActionArea}>
-                  <Card className={classes.paper}>
-                    <CardContent className={classes.image}>
-                      <img className="item-image-homepage" src={url} />
-                    </CardContent>
-                  </Card>
-                </CardActionArea>
-                </Link>
-              </Grid>
-            )
-          })}
-        </Grid>
-      </div>
-      <div className="item-data-container">
-        {rentItems.forEach((item, idx) => {
-          dataRowsRent.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category, item.description))
-        })}
-          {/* //(dataRows) */}
-        {dataRowsRent.map((item, idx) => {
-          return(
-            <div className="main-page-rent-items-table-container">
-               <div className="table-and-description-container">
-                <TableContainer className={classes.tableContainer}>
-                  <Table className={classes.table} size="small" aria-label="a dense table">
-                    <TableHead className={classes.tableHead}>
-                      <TableRow className={classes.tableHead}>
-                        {/* <TableCell align="right">Item Name</TableCell> */}
-                        <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
-                        <TableCell align="right" className={classes.tableCell}>Rate per Day</TableCell>
-                        <TableCell align="right" className={classes.tableCell}>Available</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
+      )
+    } else {
+      return(
+        <div className="home-page-rent-items-container">
+          <div className="home-page-rent-items-container__photos-outer-container">
+              {rentItems.map((item) => {
+                let url = item.image_url
+                return (
+                  <div className="home-page-rent-items-container__photos-inner-container">
+                    <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(url)}>
+                      <Card className={classes.paper}>
+                        <CardContent className={classes.image}>
+                          <img className="item-image-homepage" src={url} />
+                        </CardContent>
+                      </Card>
+                    </CardActionArea>
+                  </div>
+                )
+              })}
+          </div>
+          <div className="home-page-rent-items-container__item-table-and-description-outer-container">
+            {rentItems.forEach((item, idx) => {
+              dataRowsRent.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category, item.description, item.seller_id))
+            })}
+              {/* //(dataRows) */}
+            {dataRowsRent.map((item, idx) => {
+              return(
+                <div className="home-page-rent-items-container__item-table-and-description-inner-container">
+                  <TableContainer className="home-page-rent-items-container__item-table-and-description-inner-container__table-container">
+                    <Table className="home-page-rent-items-container__item-table-and-description-inner-container__table-container__table" size="small" aria-label="a dense table">
+                      <TableHead className={classes.tableHead}>
+                        <TableRow className={classes.tableHead}>
+                          {/* <TableCell align="right">Item Name</TableCell> */}
+                          <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Rate per Day</TableCell>
+                          <TableCell align="right" className={classes.tableCell}>Availablity</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
 
-                      <TableRow key={dataRowsRent[idx].name}>
-                        <TableCell align="right">{dataRowsRent[idx].name}</TableCell>
-                        <TableCell align="right">${dataRowsRent[idx].rate}</TableCell>
-                        <TableCell align="right">{dataRowsRent[idx].rented === true ? 'False' : 'True'}</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <div className="item-description-conatiner-homepage">
-                  <div className="item-description">
+                        <TableRow key={dataRowsRent[idx].name}>
+                          <TableCell align="right">{dataRowsRent[idx].name}</TableCell>
+                          <TableCell align="right">${dataRowsRent[idx].rate}</TableCell>
+                          <TableCell align="right">{dataRowsRent[idx].rented === true ? 'Unavailable' : 'Available'}</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <div className="home-page-rent-items-container__item-table-and-description-inner-container__description-container">
                     <p>
-                    {dataRowsRent[idx].description}
+                      {dataRowsRent[idx].description}
                     </p>
                   </div>
                 </div>
+              )
+            })}
+          </div>
+          <div className="home-page-rent-items-container__buttons-outer-container">
+            {dataRowsRent.map((item, idx) => {
+              return(
+                <div className="home-page-rent-items-container__buttons-inner-container">
+                  <div className="buy-button">
+                    <Button variant="contained" color="secondary" style={{width: "158.03px"}} size="medium" variant="contained" onClick={() => {handleDialogOpen(dataRowsRent[idx])}}>
+                      Rent
+                    </Button>
+                  </div>
+                  <div className="divider-container">
+                    <div className="bid-purchase-divider"></div>
+                  </div>
+                  <div className="seller-profile-button">
+                    <Button color="secondary" size="medium" variant="contained" onClick={() => {handleClick(dataRowsRent[idx].seller_id)}}>
+                      View Seller Info
+                    </Button>
+                  </div>
                 </div>
-              <div className="bid-buy-buttons-container">
-                {/* <div className="bid-button">
-                <Button variant="contained" color="primary" variant="outlined" onClick={() => {openBidModal({'itemId': dataRowsRent[idx].item_id, 'currentBid': dataRowsRent[idx].current_bid, 'itemPrice': dataRowsRent[idx].item_price})}}>
-                  Bid
-                </Button>
-                </div> */}
-                {/* <div className="bid-purchase-divider"></div> */}
-                <div className="buy-button">
-                <Button variant="contained" color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen(dataRowsRent[idx])}}>
-                  Rent
-                </Button>
+
+              )
+            })}
+          </div>
+
+          <Dialog
+          open={dialogOpen}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          scroll='body'
+          fullWidth={true}
+          maxWidth='sm'
+          // className={classes.rentDialog}
+          >
+            <div className="rent-item-dbox-content-container">
+              <div className="date-picker-container">
+                {/* <div className="rent-item-dbox-content-container__inner-container"> */}
+                  <h5>Note: If you choose to rent this item, the beginning of the rent period will start today</h5>
+                  <h3 className="select-return-date-heading">Please Select a Return Date:</h3>
+                  <form className={classes.container} noValidate>
+                    <TextField
+                      id="date"
+                      type="date"
+                      defaultValue={selectedDate}
+                      className={classes.textField}
+                      onChange={handleUpdateDate}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </form>
+                {/* </div> */}
+              </div>
+              <div className="rent-item-buttons-container">
+                <div className="rent-item-buttons">
+                  <Button
+                  variant="contained"
+                  color="secondary"
+                  // style={{ color: "white" }}
+                  size="small"
+                  className={classes.confirmButton}
+                  onClick={handleConfirmRentDialog}
+                  type="submit"
+                  name="confirm-button">
+                    Confirm
+                  </Button>
+                  <Button
+                  variant="contained"
+                  color="secondary"
+                  // style={{ color: "white" }}
+                  size="small"
+                  className={classes.cancelButton}
+                  onClick={handleDialogClose}
+                  type="submit"
+                  name="cancel-button">
+                    Cancel
+                  </Button>
                 </div>
               </div>
             </div>
-          )
-        })}
-      </div>
+          </Dialog>
 
-      <Dialog
-      open={dialogOpen}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      scroll='body'
-      fullWidth={true}
-      maxWidth='xs'
-      // className={classes.rentDialog}
-      >
-        <div className="rent-item-dbox-content-container">
-          <div className="date-picker-container">
-            <div>
-              <h3 className="select-return-date-heading">Select a Return Date:</h3>
-              <form className={classes.container} noValidate>
-                <TextField
-                  id="date"
-                  type="date"
-                  defaultValue={selectedDate}
-                  className={classes.textField}
-                  onChange={handleUpdateDate}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </form>
-            </div>
-          </div>
-          <div className="rent-item-buttons-container">
-            <div className="rent-item-buttons">
-              <Button
-              variant="contained"
-              color="secondary"
-              // style={{ color: "white" }}
-              size="small"
-              className={classes.confirmButton}
-              onClick={handleConfirmRentDialog}
-              type="submit"
-              name="confirm-button">
-                Confirm
-              </Button>
-              <Button
-              variant="contained"
-              color="secondary"
-              // style={{ color: "white" }}
-              size="small"
-              className={classes.cancelButton}
-              onClick={handleDialogClose}
-              type="submit"
-              name="cancel-button">
+          <Dialog
+          open={confirmRentDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          scroll='body'
+          fullWidth={true}
+          maxWidth='xs'
+          // className={classes.rentDialog}
+          >
+            <DialogTitle id="alert-dialog-title">
+              {`Are you sure that you want to rent the selected item, which is to be returned on ${selectedDateString}, for a total of $${rentTotal}?`}
+            </DialogTitle>
+            <DialogActions>
+              <Button onClick={handleCloseConfirmRentDialog} color="secondary">
                 Cancel
               </Button>
-            </div>
-          </div>
-        </div>
-      </Dialog>
+              <Button color="secondary" onClick={handleRentItem}>
+                Confirm
+              </Button>
+            </DialogActions>
+          </Dialog>
 
-      <Dialog
-      open={confirmRentDialog}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      scroll='body'
-      fullWidth={true}
-      maxWidth='xs'
-      // className={classes.rentDialog}
-      >
-        <DialogTitle id="alert-dialog-title">
-          {`Are you sure that you want to rent the selected item, which is to be returned on ${selectedDateString}, for a total of $${rentTotal}?`}
-        </DialogTitle>
-        <DialogActions>
-          <Button onClick={handleCloseConfirmRentDialog} color="secondary">
-            Cancel
-          </Button>
-          <Button color="secondary" onClick={handleRentItem}>
-           Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+          <Dialog
+          open={enlargeImage}
+          onClose={closeImage}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          >
+            <img className="item-image-enlarged" src={image} />
+
+          </Dialog>
+
+        </div>
+      )
     }
-    </>
-  )
+  }
 }
 
 export default RentableItemTable;

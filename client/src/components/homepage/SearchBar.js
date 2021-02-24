@@ -55,7 +55,7 @@ const SearchBar = () => {
     })
 
     const items = await res.json()
-    //('RETURNED ITEMS:', items)
+    console.log('RETURNED ITEMS:', items)
     if (items.saleItems.length > 0) {
       dispatch(setItems(items.saleItems))
       dispatch(setRentItems([]))
