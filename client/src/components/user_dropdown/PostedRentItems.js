@@ -104,77 +104,70 @@ const PostedRentItems = (props) => {
 
   return(
     <>
-    {props.postedItems.items_for_rent.length === 0 ?
+      {props.postedItems.items_for_rent.length === 0 ?
+        <>
+          <h1 className='no-items-posted-heading'>No Items Posted for Rent...</h1>
+          <h5 className="no-items-posted-heading">HINT: If you would like to post something click on the dropdown menu located at the
+            top right of the page and choose either "post an item for rent" or "post an item for sale"
+          </h5>
+          <div className="items-body-container-user-dropdown">
+          </div>
+        </>
+      :
       <>
-      <h1 className='no-items-posted-heading'>No Items Posted for Rent...</h1>
-      <h5 className="no-items-posted-heading">HINT: If you would like to post something click on the dropdown menu located at the
-          top right of the page and choose either "post an item for rent" or "post an item for sale"
-        </h5>
-        <div className="items-body-container-user-dropdown">
+        <div className="items-for-sale-heading-container">
+          <h1 className="items-for-sale-heading">
+            Your Items for Rent:
+          </h1>
+        </div>
+        <div className="body-container-posted-rent-items">
+          <div className="body-container-posted-rent-items__photos-container">
+              {props.postedItems.items_for_rent.map((item) => {
+                let url = item.image_url
+                return (
+                  <>
+                    <div className="item-photo-container-posted-rent-items">
+                        <Card className={classes.paper}>
+                          <CardContent className={classes.image}>
+                            <img className="item-image" src={url} />
+                          </CardContent>
+                        </Card>
+                    </div>
+                  </>
+                )
+              })}
+          </div>
+          <div className="body-container-posted-rent-items__for-rent-table-container">
+            {props.postedItems.items_for_rent.map((item, idx) => {
+              return(
+                <div className="body-container-posted-rent-items__for-rent-table-container__for-rent-table">
+                  <TableContainer className={classes.tableContainer} style={{marginRight: "20px"}}>
+                      <Table className={classes.table} size="small" aria-label="a dense table">
+                        <TableHead className={classes.tableHead}>
+                          <TableRow className={classes.tableHead}>
+                            {/* <TableCell align="right">Item Name</TableCell> */}
+                            <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                            <TableCell align="center" className={classes.tableCell}>Rate per Day</TableCell>
+                            <TableCell align="center" className={classes.tableCell}>Rented</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+
+                          <TableRow key={rows[idx].name}>
+                            <TableCell align="center">{rows[idx].name}</TableCell>
+                            <TableCell align="center">${rows[idx].rate}</TableCell>
+                            <TableCell align="center">{rows[idx].rented === true ? 'True' : 'False'}</TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </>
-    :
-    <>
-    <div className="items-for-sale-heading-container">
-      <h1 className="items-for-sale-heading">
-        Your Items for Rent:
-      </h1>
-    </div>
-    <div className="items-body-container-user-dropdown">
-      <div className="items-container">
-        <Grid container spacing={4} className={classes.grid} >
-          {props.postedItems.items_for_rent.map((item) => {
-            //(item)
-            let url = item.image_url
-            return (
-              <>
-               <div className="item-photo-container">
-                  <Grid item xs={12} md={12}>
-                    {/* <div className="item-name-posted-items"><h2 className="item-text">{item.name}</h2></div> */}
-                    <Card className={classes.paper}>
-                      <CardContent className={classes.image}>
-                        <img className="item-image" src={url} />
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                </div>
-              {/* <div className="item-divider"></div> */}
-              </>
-            )
-          })}
-        </Grid>
-      </div>
-      <div className="for-rent-table-container">
-        {props.postedItems.items_for_rent.map((item, idx) => {
-          return(
-            <div className="for-rent-table">
-             <TableContainer className={classes.tableContainer} style={{marginRight: "20px"}}>
-                  <Table className={classes.table} size="small" aria-label="a dense table">
-                    <TableHead className={classes.tableHead}>
-                      <TableRow className={classes.tableHead}>
-                        {/* <TableCell align="right">Item Name</TableCell> */}
-                        <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
-                        <TableCell align="center" className={classes.tableCell}>Rate per Day</TableCell>
-                        <TableCell align="center" className={classes.tableCell}>Rented</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-
-                      <TableRow key={rows[idx].name}>
-                        <TableCell align="center">{rows[idx].name}</TableCell>
-                        <TableCell align="center">${rows[idx].rate}</TableCell>
-                        <TableCell align="center">{rows[idx].rented === true ? 'True' : 'False'}</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-            </div>
-          )
-        })}
-      </div>
-    </div>
-    </>
-    }
+      }
     </>
   )
 }
