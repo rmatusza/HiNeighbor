@@ -105,8 +105,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, rate,rented, id, seller_username, image_url, category, description, seller_id) {
-  return { name, rate,rented, id, seller_username, image_url, category, description, seller_id};
+function createData(name, rate,rented, id, seller_username, image_url, category, description, seller_id, return_date) {
+  return { name, rate,rented, id, seller_username, image_url, category, description, seller_id, return_date};
 }
 // sets the current date as the default date for the date picker
 
@@ -169,6 +169,10 @@ const RentableItemTable = () => {
 
   const handleDialogOpen = (itemData) => {
     //('ITEM DATA:', itemData)
+    if(itemData.rented === true){
+      alert(`This Item is Being Rented by Another User Until the Specified Return Date`)
+      return
+    }
     setCurrItem(itemData)
     setDialogOpen(true)
   }
@@ -274,7 +278,15 @@ const RentableItemTable = () => {
           </div>
           <div className="home-page-rent-items-container__item-table-and-description-outer-container">
             {rentItems.forEach((item, idx) => {
-              dataRowsRent.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category, item.description, item.seller_id))
+              let date;
+              if(item.expiry_date){
+                let month = item.expiry_date.slice(5,7)
+                let day = item.expiry_date.slice(8,10)
+                let year = item.expiry_date.slice(0, 4)
+                date = month+'-'+day+'-'+year
+              }
+
+              dataRowsRent.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category, item.description, item.seller_id, date))
             })}
               {/* //(dataRows) */}
             {dataRowsRent.map((item, idx) => {
@@ -285,6 +297,7 @@ const RentableItemTable = () => {
                       <TableHead className={classes.tableHead}>
                         <TableRow className={classes.tableHead}>
                           {/* <TableCell align="right">Item Name</TableCell> */}
+                          <TableCell align="right" className={classes.tableCell}>Seller Name</TableCell>
                           <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
                           <TableCell align="right" className={classes.tableCell}>Rate per Day</TableCell>
                           <TableCell align="right" className={classes.tableCell}>Availablity</TableCell>
@@ -293,9 +306,10 @@ const RentableItemTable = () => {
                       <TableBody>
 
                         <TableRow key={dataRowsRent[idx].name}>
+                          <TableCell align="right">{dataRowsRent[idx].seller_username}</TableCell>
                           <TableCell align="right">{dataRowsRent[idx].name}</TableCell>
                           <TableCell align="right">${dataRowsRent[idx].rate}</TableCell>
-                          <TableCell align="right">{dataRowsRent[idx].rented === true ? 'Unavailable' : 'Available'}</TableCell>
+                          <TableCell align="right">{dataRowsRent[idx].rented === true ? `Unavailable Until: ${dataRowsRent[idx].return_date}` : 'Available'}</TableCell>
                         </TableRow>
                       </TableBody>
                     </Table>

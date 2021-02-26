@@ -277,7 +277,7 @@ const RentHistory = (props) => {
       </div>
       <div>
         <h1 className="purchase-history-heading">
-          Items You Have Rented in the Past:
+          {currentlyRentingButtonState ? `Items You Are Currently Renting:` : `Items You Have Rented in the Past`}
         </h1>
       </div>
       <div className="body-container-rent-history">
