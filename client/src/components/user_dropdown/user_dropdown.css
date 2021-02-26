@@ -21,19 +21,6 @@
   height: 50px;
 }
 
-
-
-.rent-history-table{
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-bottom: 0px;
-  display: flex;
-  height: 232px;
-  margin-bottom: 30px;
-  background-color: rgba(128, 128, 128, 0.5);
-  border-radius: 5px;
-}
-
 .for-rent-table {
   padding-top: 20px;
   padding-left: 20px;
@@ -45,16 +32,9 @@
   border-radius: 5px;
 }
 
-
-
 .for-rent-table-container{
   padding-top: 30px;
   margin-right: 450px;
-}
-
-.rent-history-table-container{
-  padding-top: 30px;
-  margin-right: 500px;
 }
 
 .rating-buttons-and-slider{
@@ -297,6 +277,10 @@
 
 
 
+/*--------------------------------------------------------------------------------------*/
+
+
+
 /* POSTED SALE ITEMS */
 
 
@@ -362,6 +346,8 @@
 
 /*---------------------------------------------------------------------------------------*/
 
+/* POSTED RENT ITEMS */
+
 
 .body-container-posted-rent-items{
   height: 100%;
@@ -422,5 +408,63 @@
   .body-container-posted-rent-items__for-rent-table-container{
     padding-top: 30px;
     margin-right: 100px;
+  }
+}
+
+
+
+/*--------------------------------------------------------------------------------------*/
+
+/* RENT HISTORY - CURRENTLY RENTING */
+
+
+.body-container-rent-history{
+  height: 100%;
+  width: 95%;
+  display: flex;
+  justify-content: space-around;
+  margin-left: 2.5%;
+  margin-top: 30px
+}
+
+.body-container-rent-history__photos-container{
+  padding-top: 30px;
+  margin-right: 40px;
+  margin-left: 50px;
+}
+
+.item-photo-container-rent-history{
+  margin-top: 0px;
+  margin-bottom: 62px;
+}
+
+.body-container-rent-history__table-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  margin-right: 290px;
+}
+
+.body-container-rent-history__table-container__table{
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 0px;
+  display: flex;
+  height: 232px;
+  margin-bottom: 30px;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+  width: 1000px;
+}
+
+@media only screen and (max-width: 1296px) {
+
+  .body-container-rent-history__table-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    margin-right: 50px;
   }
 }

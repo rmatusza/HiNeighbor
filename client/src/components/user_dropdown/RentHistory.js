@@ -242,71 +242,65 @@ const RentHistory = (props) => {
 
   return(
     <>
-    {itemsType.length === 0 ?
-    <>
-    <div className="current-and-past-rent-buttons">
-      <div className="currently-renting-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="secondary" name="currently-renting" onClick={changeButtonState}>
-          Currently Renting
-        </Button>
+      {itemsType.length === 0 ?
+      <>
+        <div className="current-and-past-rent-buttons">
+          <div className="currently-renting-button-container">
+            <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="secondary" name="currently-renting" onClick={changeButtonState}>
+              Currently Renting
+            </Button>
+          </div>
+          <div className="current-and-past-rent-buttons-divider"></div>
+          <div className="previously-rented-button-container">
+            <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="secondary" name="previously-rented" onClick={changeButtonState}>
+              Previously Rented
+            </Button>
+          </div>
+        </div>
+        <h1 className="no-history-heading">No Rent History...</h1>
+        <div className="items-body-container-user-dropdown"/>
+      </>
+      :
+      <>
+      <div className="current-and-past-rent-buttons">
+        <div className="currently-renting-button-container">
+          <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="secondary" name="currently-renting" onClick={changeButtonState}>
+            Currently Renting
+          </Button>
+        </div>
+        <div className="current-and-past-rent-buttons-divider"></div>
+        <div className="previously-rented-button-container">
+          <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="secondary" name="previously-rented" onClick={changeButtonState}>
+            Previously Rented
+          </Button>
+        </div>
       </div>
-      <div className="current-and-past-rent-buttons-divider"></div>
-      <div className="previously-rented-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="secondary" name="previously-rented" onClick={changeButtonState}>
-          Previously Rented
-        </Button>
+      <div>
+        <h1 className="purchase-history-heading">
+          Items You Have Rented in the Past:
+        </h1>
       </div>
-    </div>
-     <h1 className="no-history-heading">No Rent History...</h1>
-     <div className="items-body-container-user-dropdown">
-     </div>
-    </>
-    :
-    <>
-    <div className="current-and-past-rent-buttons">
-      <div className="currently-renting-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="secondary" name="currently-renting" onClick={changeButtonState}>
-          Currently Renting
-        </Button>
-      </div>
-      <div className="current-and-past-rent-buttons-divider"></div>
-      <div className="previously-rented-button-container">
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="secondary" name="previously-rented" onClick={changeButtonState}>
-          Previously Rented
-        </Button>
-      </div>
-    </div>
-    <div>
-      <h1 className="purchase-history-heading">
-        Items You Have Rented in the Past:
-      </h1>
-    </div>
-    <div className="items-body-container-user-dropdown">
-      <div className="items-container">
-        <Grid container spacing={4} className={classes.grid} >
-          {itemsType.map((item) => {
-            // //(item)
-            let url = item.image_url
-            return (
-              <div className="item-photo-container">
-              <Grid item xs={12} md={12}>
-                <Card className={classes.paper}>
-                  <CardContent className={classes.image}>
-                    <img className="item-image" src={url} />
-                  </CardContent>
-                </Card>
-              </Grid>
-              </div>
-            )
-          })}
-        </Grid>
-      </div>
-      <div className="rent-history-table-container">
-
+      <div className="body-container-rent-history">
+        <div className="body-container-rent-history__photos-container">
+            {itemsType.map((item) => {
+              //(item)
+              let url = item.image_url
+              return (
+                <div className="item-photo-container-rent-history">
+                  <Card className={classes.paper}>
+                    <CardContent className={classes.image}>
+                      <img className="item-image" src={url} />
+                    </CardContent>
+                  </Card>
+                </div>
+              )
+            })}
+        </div>
+        <div className="body-container-rent-history__table-container">
           {itemsType.map((item, idx) => {
             return(
-              <div className="rent-history-table">
-                 <TableContainer className={classes.tableContainer} style={{marginRight: "20px"}}>
+              <div className="body-container-rent-history__table-container__table">
+                <TableContainer className={classes.tableContainer} style={{marginRight: "20px"}}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
                       <TableHead className={classes.tableHead}>
                         <TableRow>
@@ -330,7 +324,9 @@ const RentHistory = (props) => {
                       </TableBody>
                     </Table>
                   </TableContainer>
-                  {currentlyRentingButtonState === true ? <> </> :
+                  {currentlyRentingButtonState === true ?
+                  <> </>
+                  :
                   <div className="rating-buttons-and-slider">
                     <div className="rate-and-submit-buttons">
                       <Button variant="contained" color="secondary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
@@ -359,13 +355,12 @@ const RentHistory = (props) => {
                   </div>
                 }
               </div>
-
             )
           })}
+        </div>
       </div>
-    </div>
-    </>
-    }
+      </>
+      }
     </>
   )
 }

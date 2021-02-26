@@ -188,7 +188,9 @@ const ReturnedRentedItemHistory = (props) => {
 
   return(
     <>
-    {props.postedItems.rented_items.length === 0 ? <h1 className="no-purchase-history-heading">No Rent History...</h1> :
+      {props.postedItems.rented_items.length === 0 ?
+      <h1 className="no-purchase-history-heading">No Rent History...</h1>
+      :
     <>
     <div className="current-and-past-rent-buttons">
       <div>
@@ -227,7 +229,6 @@ const ReturnedRentedItemHistory = (props) => {
         </Grid>
       </div>
       <div className="rent-history-table-container">
-
           {props.postedItems.rented_items.map((item, idx) => {
             return(
               <div className="rent-history-table">

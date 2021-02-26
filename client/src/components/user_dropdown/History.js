@@ -62,7 +62,7 @@ const History = () => {
       let rows = []
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
       const postedItems = await res.json()
-      //('RETURNED ITEMS:', postedItems)
+      console.log('RETURNED ITEMS:', postedItems)
       // //(postedItems)
       setPurchasedItems({'purchased_items': postedItems.purchased_items, 'users': postedItems.users, 'reviews': postedItems.reviews})
       const getRentHistory = await fetch(`http://localhost:5000/api/users/${currUserId}/get-rent-history`)

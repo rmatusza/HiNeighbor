@@ -148,7 +148,7 @@ const PostedRentItems = (props) => {
                             {/* <TableCell align="right">Item Name</TableCell> */}
                             <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
                             <TableCell align="center" className={classes.tableCell}>Rate per Day</TableCell>
-                            <TableCell align="center" className={classes.tableCell}>Rented</TableCell>
+                            <TableCell align="center" className={classes.tableCell}>Item Status</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -156,7 +156,7 @@ const PostedRentItems = (props) => {
                           <TableRow key={rows[idx].name}>
                             <TableCell align="center">{rows[idx].name}</TableCell>
                             <TableCell align="center">${rows[idx].rate}</TableCell>
-                            <TableCell align="center">{rows[idx].rented === true ? 'True' : 'False'}</TableCell>
+                            <TableCell align="center">{rows[idx].rented === true ? 'Rented' : 'Posted'}</TableCell>
                           </TableRow>
                         </TableBody>
                       </Table>
