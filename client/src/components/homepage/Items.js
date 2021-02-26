@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '0px',
     backgroundColor: 'white',
     height: '70px',
-    width: '700px',
+    width: '100%',
     height: '115px'
   },
   buyNow: {
@@ -251,198 +251,200 @@ const Items = () => {
     setModalOpen(false)
   }
   let dataRows = []
-  return(
-    <>
-    {items[0] === 'no_items' ?
-      <div className="items-body-container-no-items">
-        <h1 className="no-results-heading">No Results Found</h1>
-      </div>
-    :
-    <div className="items-body-container">
-      <div className="items-photo-container">
-        <Grid container spacing={4} className="grid" >
-          {items.map((item) => {
-            let url = item.image_url
-            return (
-              <div className="inner-grid-photos-container">
-              <Grid item xs={12} md={12} className={classes.gridItem}>
-                {/* <Link to={`/seller-profile/${item.seller_id}`}> */}
-                <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(item.image_url)}>
-                  <Card className={classes.paper}>
-                    <CardContent className={classes.image}>
-                      <img className="item-image-homepage" src={url} />
-                    </CardContent>
-                  </Card>
-                </CardActionArea>
-                {/* </Link> */}
-              </Grid>
-              </div>
-            )
-          })}
-        </Grid>
-      </div>
-      <div className="item-data-container">
-        {items.forEach((item, idx) => {
 
-          const d1 = new Date(item.expiry_date)
-          const today = new Date()
-          today.setDate(today.getDate()+0)
-          const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-          const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
-          if(item.current_bid === null) {
-            dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
-          } else {
-            dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
-          }
+  {if(items[0] === 'no_items') {
+      return(
+        <div className="items-body-container-no-items">
+          <h1 className="no-results-heading">No Results Found</h1>
+        </div>
+      )
+    }else {
+      return(
+        <div className="home-page-sale-items-container">
+          <div className="home-page-sale-items-container__photos-outer-container">
+            {items.map((item) => {
+              let url = item.image_url
+              return (
+                <div className="home-page-sale-items-container__photos-inner-container">
+                  <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(item.image_url)}>
+                    <Card className={classes.paper}>
+                      <CardContent className={classes.image}>
+                        <img className="item-image-homepage" src={url} />
+                      </CardContent>
+                    </Card>
+                  </CardActionArea>
+                </div>
+              )
+            })}
+          </div>
+          <div className="home-page-sale-items-container__item-table-and-description-outer-container">
+            {items.forEach((item, idx) => {
+              const d1 = new Date(item.expiry_date)
+              const today = new Date()
+              today.setDate(today.getDate()+0)
+              const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+              const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
+              if(item.current_bid === null) {
+                dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
+              } else {
+                dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
+              }
 
-        })}
-          {/* //(dataRows) */}
-        {dataRows.map((item, idx) => {
-          //(item)
-          return(
-            <div className="table-description-and-buttons-container">
-              <div className="table-and-description-container">
-                <TableContainer className={classes.tableContainer}>
-                  <Table className={classes.table} size="small" aria-label="a dense table">
-                    <TableHead className={classes.tableHead}>
-                      <TableRow className={classes.tableHead}>
-                        {/* <TableCell align="right">Item Name</TableCell> */}
-                        <TableCell align="left" className={classes.tableCell}>Item Name</TableCell>
-                        <TableCell align="right" className={classes.tableCell}>Full Sale Price</TableCell>
-                        <TableCell align="right" className={classes.tableCell}>Current Bid</TableCell>
-                        <TableCell align="right" className={classes.tableCell}>Number of Bidders</TableCell>
-                        <TableCell align="right" className={classes.tableCell}>Days Remaining</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
+            })}
+            {dataRows.map((item, idx) => {
+              return(
+                <div className="home-page-sale-items-container__item-table-and-description-inner-container">
+                  <TableContainer className="home-page-sale-items-container__item-table-and-description-inner-container__table-container">
+                    <Table className="home-page-sale-items-container__item-table-and-description-inner-container__table-container__table"
+                    size="small" aria-label="a dense table"
+                    >
+                      <TableHead className={classes.tableHead}>
+                        <TableRow className={classes.tableHead}>
+                          {/* <TableCell align="right">Item Name</TableCell> */}
+                          <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Number of Bidders</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Days Remaining</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
 
-                      <TableRow key={dataRows[idx].name}>
-                        {/* <TableCell component="th" scope="row">
-                          {dataRows.name}
-                        </TableCell> */}
-                        {/* <TableCell align="right">{dataRows[idx].name}</TableCell> */}
-                        <TableCell align="left" className="table-cell">{dataRows[idx].name}</TableCell>
-                        <TableCell align="right">${dataRows[idx].price}</TableCell>
-                        <TableCell align="right">${dataRows[idx].bid}</TableCell>
-                        <TableCell align="right">{dataRows[idx].num_bidders}</TableCell>
-                        <TableCell align="right">{dataRows[idx].days_remaining}</TableCell>
-                      </TableRow>
-
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <div className="item-description-conatiner-homepage">
-                  <div className="item-description">
+                        <TableRow key={dataRows[idx].name}>
+                          <TableCell align="center">{dataRows[idx].name}</TableCell>
+                          <TableCell align="center">${dataRows[idx].price}</TableCell>
+                          <TableCell align="center">${dataRows[idx].bid}</TableCell>
+                          <TableCell align="center">{dataRows[idx].num_bidders}</TableCell>
+                          <TableCell align="center">{dataRows[idx].days_remaining}</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <div className="home-page-sale-items-container__item-table-and-description-inner-container__description-container">
                     <p>
-                    {dataRows[idx].description}
+                      {dataRows[idx].description}
                     </p>
                   </div>
                 </div>
+              )
+            })}
+          </div>
+          <div className="home-page-sale-items-container__buttons-outer-container">
+            {dataRows.map((item, idx) => {
+              return(
+                <div className="home-page-sale-items-container__buttons-inner-container">
+                  <div className="bid-button">
+                    <Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
+                      Bid
+                    </Button>
+                  </div>
+                  <div className="divider-container">
+                    <div className="bid-purchase-divider"></div>
+                  </div>
+                  <div className="buy-button">
+                    <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
+                      Purchase
+                    </Button>
+                  </div>
+                  <div className="divider-container">
+                    <div className="bid-purchase-divider"></div>
+                  </div>
+                  <div className="seller-profile-button">
+                    <Button color="secondary" size="medium" variant="contained" onClick={() => {handleClick(dataRows[idx].sellerId)}} className={classes.buttons}>
+                      View Seller Info
+                    </Button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* BID MODAL */}
+
+          <Modal
+            open={modalOpen}
+            onClose={closeModal}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            <div className={classes.itemFormModal}>
+              <h2 id="simple-modal-title">Place Your Bid:</h2>
+              <div>
+                <FormControl>
+                  <InputLabel htmlFor="bid-input" style={{color: "black"}}>Bid Amount</InputLabel>
+                  <Input id="bid-input" onChange={updateBidInput} autoFocus style={{color: "black"}}/>
+                </FormControl>
               </div>
-              <div className="bid-buy-buttons-container">
-                <div className="bid-button">
-                <Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
-                  Bid
+              <div>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{ color: "white" }}
+                  size="small"
+                  className={classes.submitButton}
+                  onClick={() => {
+                    if(Number(bidInput) <= currBid) {
+                      alert('Your bid must be larger than the current bid amount')
+                    } else if(Number(bidInput) > currItemPrice) {
+                      alert('Your bid must be less than the item sell price')
+                    } else {
+                      submitBid()
+                    }
+                  }}
+                  type="submit"
+                >
+                  Submit Bid
                 </Button>
-                </div>
-                <div className="divider-container">
-                  <div className="bid-purchase-divider"></div>
-                </div>
-                <div className="buy-button">
-                <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
-                  Purchase
-                </Button>
-                </div>
-                <div className="divider-container">
-                  <div className="bid-purchase-divider"></div>
-                </div>
-                <div className="seller-profile-button">
-                <Button color="secondary" size="medium" variant="contained" onClick={() => {handleClick(dataRows[idx].sellerId)}} className={classes.buttons}>
-                  View Seller Info
-                </Button>
-                </div>
               </div>
             </div>
-          )
-        })}
-      </div>
+          </Modal>
 
-      {/* BID MODAL */}
 
-      <Modal
-      open={modalOpen}
-      onClose={closeModal}
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
-      >
-        <div className={classes.itemFormModal}>
-          <h2 id="simple-modal-title">Place Your Bid:</h2>
-          <div>
-            <FormControl>
-              <InputLabel htmlFor="bid-input" style={{color: "black"}}>Bid Amount</InputLabel>
-              <Input id="bid-input" onChange={updateBidInput} autoFocus style={{color: "black"}}/>
-            </FormControl>
-          </div>
-          <div>
-            <Button
-              variant="contained"
-              color="secondary"
-              style={{ color: "white" }}
-              size="small"
-              className={classes.submitButton}
-              onClick={() => {
-                if(Number(bidInput) <= currBid) {
-                  alert('Your bid must be larger than the current bid amount')
-                } else if(Number(bidInput) > currItemPrice) {
-                  alert('Your bid must be less than the item sell price')
-                } else {
-                  submitBid()
-                }
-              }}
-              type="submit"
-            >
-              Submit Bid
-            </Button>
-          </div>
+          {/* BUY NOW DIALOG BOX */}
+
+          <Dialog
+          open={dialogOpen}
+          onClose={handleDialogClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Are you sure that you want to purchase this item at its full sale price?"}
+            </DialogTitle>
+            <DialogActions>
+              <Button onClick={handleDialogClose} className={classes.buttons} color="secondary" variant="contained">
+                Cancel
+              </Button>
+              <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={handlePurchase}>
+                Purchase Item
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+        {/* ENLARGED IMAGE DIALOG BOX */}
+
+          <Dialog
+          open={enlargeImage}
+          onClose={closeImage}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          >
+            <img className="item-image-enlarged" src={image} />
+
+          </Dialog>
+
         </div>
-      </Modal>
-
-
-      {/* BUY NOW DIALOG BOX */}
-
-      <Dialog
-      open={dialogOpen}
-      onClose={handleDialogClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Are you sure that you want to purchase this item at its full sale price?"}
-        </DialogTitle>
-        <DialogActions>
-          <Button onClick={handleDialogClose} className={classes.buttons} color="secondary" variant="contained">
-            Cancel
-          </Button>
-          <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={handlePurchase}>
-            Purchase Item
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-      open={enlargeImage}
-      onClose={closeImage}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      >
-        <img className="item-image-enlarged" src={image} />
-
-      </Dialog>
-    </div>
+      )
     }
-    </>
-  )
+  }
 }
 
+
+
+
+
+
+
+
+
 export default Items;
-// onClick={() => {handleClick(item.seller_id)}}

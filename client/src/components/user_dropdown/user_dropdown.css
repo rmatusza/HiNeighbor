@@ -21,44 +21,6 @@
   height: 50px;
 }
 
-.purchase-history-table{
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-bottom: 0px;
-  display: flex;
-  height: 232px;
-  margin-bottom: 30px;
-  background-color: rgba(128, 128, 128, 0.5);
-  border-radius: 5px;
-}
-
-.rent-history-table{
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-bottom: 0px;
-  display: flex;
-  height: 232px;
-  margin-bottom: 30px;
-  background-color: rgba(128, 128, 128, 0.5);
-  border-radius: 5px;
-}
-
-.purchase-history-table-container{
-  padding-top: 30px;
-  margin-right: 300px;
-}
-
-.for-sale-table{
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-bottom: 0px;
-  display: flex;
-  height: 232px;
-  margin-bottom: 30px;
-  background-color: rgba(128, 128, 128, 0.5);
-  border-radius: 5px;
-}
-
 .for-rent-table {
   padding-top: 20px;
   padding-left: 20px;
@@ -70,19 +32,9 @@
   border-radius: 5px;
 }
 
-.for-sale-table-container{
-  padding-top: 30px;
-  margin-right: 100px;
-}
-
 .for-rent-table-container{
   padding-top: 30px;
   margin-right: 450px;
-}
-
-.rent-history-table-container{
-  padding-top: 30px;
-  margin-right: 500px;
 }
 
 .rating-buttons-and-slider{
@@ -140,10 +92,7 @@
   border-bottom: 2px solid black
 }
 
-.item-photo-container{
-  margin-top: 0px;
-  margin-bottom: 62px;
-}
+
 
 .purchase-history-heading{
   margin: 0;
@@ -163,16 +112,7 @@
   border-bottom: 2px solid black
 }
 
-.items-body-container-user-dropdown {
-  height: 100%;
-  width: 95%;
-  /* background-image: url("../../static/memphis-mini.png"); */
-  /* background-color: whitesmoke; */
-  display: flex;
-  justify-content: space-around;
-  margin-left: 2.5%;
-  margin-top: 30px
-}
+
 
 .photo-upload-container {
   margin-top: 10px;
@@ -220,10 +160,7 @@
   border-bottom: 2px solid black;
   background-image: url("../../static/memphis-mini.png");
 }
-.items-container {
-  width: 15%;
-  /* margin-bottom: 30px; */
-}
+
 .for-rent-or-sale-buttons {
   display: flex;
   align-items: center;
@@ -262,4 +199,272 @@
 
 .slider{
   margin-top: 20px;
+}
+
+
+/*--------------------------------------------------------------------------------------*/
+
+
+/* PURCHASE HISTORY */
+
+.body-container-purchase-history {
+  height: 100%;
+  width: 95%;
+  display: flex;
+  justify-content: space-around;
+  margin-left: 2.5%;
+  margin-top: 30px
+}
+
+.body-container-purchase-history__purchase-history-table-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  margin-right: 300px;
+}
+
+.body-container-purchase-history__purchase-history-table-container__purchase-history-table{
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 0px;
+  display: flex;
+  height: 232px;
+  margin-bottom: 60px;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+  width: 943px;
+}
+
+.body-container-purchase-history__photos-container {
+  padding-top: 30px;
+  margin-right: 100px;
+  margin-left: 80px;
+}
+
+.item-photo-container-purchase-history{
+  margin-top: 0px;
+  margin-bottom: 62px;
+}
+
+@media only screen and (max-width: 1296px) {
+
+  .body-container-purchase-history__purchase-history-table-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    margin-right: 50px;
+  }
+
+  .body-container-purchase-history__purchase-history-table-container__purchase-history-table{
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+    display: flex;
+    height: 232px;
+    margin-bottom: 60px;
+    background-color: rgba(128, 128, 128, 0.5);
+    border-radius: 5px;
+  }
+
+  .body-container-purchase-history__photos-container {
+    padding-top: 30px;
+    margin-right: 40px;
+    margin-left: 0
+  }
+}
+
+
+
+/*--------------------------------------------------------------------------------------*/
+
+
+
+/* POSTED SALE ITEMS */
+
+
+.body-container-posted-sale-items{
+  height: 100%;
+  width: 95%;
+  display: flex;
+  justify-content: space-around;
+  margin-left: 2.5%;
+  margin-top: 30px
+}
+
+.body-container-posted-sale-items__photos-container{
+  padding-top: 30px;
+  margin-right: 40px;
+  margin-left: 0
+}
+
+.item-photo-container-posted-sale-items{
+  margin-top: 0px;
+  margin-bottom: 62px;
+}
+
+.body-container-posted-sale-items__for-sale-table-container{
+  padding-top: 30px;
+  margin-right: 100px;
+}
+
+.body-container-posted-sale-items__for-sale-table-container__for-sale-table{
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 0px;
+  display: flex;
+  height: 232px;
+  margin-bottom: 30px;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+}
+
+@media only screen and (max-width: 1296px) {
+  .body-container-posted-sale-items__for-sale-table-container__for-sale-table{
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+    display: flex;
+    height: 232px;
+    margin-bottom: 30px;
+    background-color: rgba(128, 128, 128, 0.5);
+    border-radius: 5px;
+    width: 1000px;
+  }
+
+  .body-container-posted-sale-items__photos-container{
+    padding-top: 30px;
+    margin-right: 40px;
+    margin-left: 100px;
+  }
+}
+
+
+
+
+
+/*---------------------------------------------------------------------------------------*/
+
+/* POSTED RENT ITEMS */
+
+
+.body-container-posted-rent-items{
+  height: 100%;
+  width: 95%;
+  display: flex;
+  justify-content: space-around;
+  margin-left: 2.5%;
+  margin-top: 30px
+}
+
+.body-container-posted-rent-items__photos-container{
+  padding-top: 30px;
+  margin-right: 40px;
+  margin-left: 0
+}
+
+.item-photo-container-posted-rent-items{
+  margin-top: 0px;
+  margin-bottom: 62px;
+}
+
+.body-container-posted-rent-items__for-rent-table-container{
+  padding-top: 30px;
+  margin-right: 150px;
+}
+
+.body-container-posted-rent-items__for-rent-table-container__for-rent-table{
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 0px;
+  display: flex;
+  height: 232px;
+  margin-bottom: 30px;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+  width: 1000px;
+}
+
+@media only screen and (max-width: 1296px) {
+  .body-container-posted-rent-items__for-rent-table-container__for-rent-table{
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+    display: flex;
+    height: 232px;
+    margin-bottom: 30px;
+    background-color: rgba(128, 128, 128, 0.5);
+    border-radius: 5px;
+    width: 1000px;
+  }
+
+  .body-container-posted-rent-items__photos-container{
+    padding-top: 30px;
+    margin-right: 40px;
+    margin-left: 100px;
+  }
+
+  .body-container-posted-rent-items__for-rent-table-container{
+    padding-top: 30px;
+    margin-right: 100px;
+  }
+}
+
+
+
+/*--------------------------------------------------------------------------------------*/
+
+/* RENT HISTORY - CURRENTLY RENTING */
+
+
+.body-container-rent-history{
+  height: 100%;
+  width: 95%;
+  display: flex;
+  justify-content: space-around;
+  margin-left: 2.5%;
+  margin-top: 30px
+}
+
+.body-container-rent-history__photos-container{
+  padding-top: 30px;
+  margin-right: 40px;
+  margin-left: 50px;
+}
+
+.item-photo-container-rent-history{
+  margin-top: 0px;
+  margin-bottom: 62px;
+}
+
+.body-container-rent-history__table-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  margin-right: 290px;
+}
+
+.body-container-rent-history__table-container__table{
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 0px;
+  display: flex;
+  height: 232px;
+  margin-bottom: 30px;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+  width: 1000px;
+}
+
+@media only screen and (max-width: 1296px) {
+
+  .body-container-rent-history__table-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    margin-right: 50px;
+  }
 }

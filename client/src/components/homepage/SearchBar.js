@@ -55,7 +55,7 @@ const SearchBar = () => {
     })
 
     const items = await res.json()
-    //('RETURNED ITEMS:', items)
+    console.log('RETURNED ITEMS:', items)
     if (items.saleItems.length > 0) {
       dispatch(setItems(items.saleItems))
       dispatch(setRentItems([]))
@@ -67,9 +67,11 @@ const SearchBar = () => {
   }
 
   return (
-    <div className="search-bar-and-button-container">
-      <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <TextField id="filled-basic" label="Search:" variant="filled" placeholder={`Search everything in ${search_params.category}, or type something specific`} onChange={handleInputChange}/>
+    <div className="search-container__search-bar-and-button-container">
+      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <div className="search-container__search-bar-and-button-container__search-bar-container">
+          <TextField id="filled-basic" label="Search:" variant="filled" placeholder={`Search everything in ${search_params.category}, or type something specific`} onChange={handleInputChange} fullWidth={true}/>
+        </div>
       </form>
       <div className="go-button-container">
         <Button aria-controls="simple-menu" size='small' aria-haspopup="true" onClick={handleSubmit} variant="contained" color="secondary" className={classes.goButton}>

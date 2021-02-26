@@ -55,6 +55,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(50)
       },
+      seller_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -54,6 +54,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING(50)
     },
+    seller_id: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    }
 
   }, {});
   Rented_Item.associate = function(models) {

@@ -20,21 +20,7 @@
   display: block;
 } */
 
-.search-container{
-  position: relative;
-  z-index: 100;
-  border: 2px solid #ff5e00;
-  border-radius: 5px;
-  background-color: white;
-  /* padding-right: 50px;
-  padding-left: 50px;
-  width: 95%; */
-  box-sizing: border-box;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  /* box-shadow: 0px 40px 50px -20px rgb(167, 167, 167); */
-}
+
 
 .search-container-outer{
   background-color: white;
@@ -95,7 +81,6 @@
   margin-top: 15px;
   height: auto;
   background-image: url("../../static/memphis-mini.png");
-
 }
 .inner-grid-photos-container {
   margin-top: 20px;
@@ -117,18 +102,6 @@
   /* margin-top: 20px; */
   margin-bottom: 160px;
   margin-top: 20px;
-}
-.items-body-container{
-  margin: 0;
-  padding-top: 50px;
-  height: 100%;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  /* flex-wrap: wrap; */
-  background-color: rgb(206, 204, 204);
-  /* border-top: 2px solid black; */
-  background-image: url("../../static/memphis-mini.png");
 }
 
 .items-body-container-no-items{
@@ -220,34 +193,6 @@
   /* 90% { top: 0px; } */
   100% {top: -500px }
 }
-.bid-buy-buttons-container{
-  display: flex;
-  margin-right: 20px;
-  height: 325px;
-  flex-direction: column;
-  align-items: center;
-  /* border: 1px solid black */
-}
-.bid-button{
-  margin-left: 80px;
-  margin-bottom: 10px;
-  /* margin-top: 6rem; */
-  height: 37px;
-  /* height: 100% */
-}
-.buy-button{
-  margin-left: 80px;
-  height: 10px;
-  margin-bottom: 10px;
-  height: 37px;
-
-  /* height: 100% */
-
-}
-.seller-profile-button {
-  margin-left: 80px;
-  height: 37px;
-}
 
 .rent-item-dbox-content-container {
   height: 200px;
@@ -259,24 +204,7 @@
   display: flex;
   justify-content: center;
 }
-.rent-item-buttons {
-  width: 204px;
-  display: flex;
-  justify-content: space-between;
-}
-.select-return-date-heading {
-  width: 200px;
-  margin-left: 0px;
-  padding-left: 7px;
-}
-.rent-item-buttons-container {
-  display: flex;
-  justify-content: center;
-}
-.search-bar-and-button-container {
-  display: flex;
-  align-items: center;
-}
+
 .go-button-container {
   height: 100%;
 }
@@ -301,14 +229,7 @@
 
   justify-content: center;
 }
-.item-description {
-  padding: 10px;
-  background-color: whitesmoke;
-  border-top: 2px solid black;
-  width: 700px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
+
 .grid{
   /* background-image: url("../../static/memphis-mini.png"); */
   width: 50%;
@@ -316,4 +237,316 @@
 }
 .table-cell{
   max-width: 250px;
+}
+
+
+/*----------------------------------------------------------------------------*/
+
+
+
+
+/*ITEMS FOR SALE HOMEPAGE*/
+
+
+.search-container{
+  position: relative;
+  z-index: 100;
+  border: 2px solid #ff5e00;
+  border-radius: 5px;
+  background-color: white;
+  box-sizing: border-box;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-container__price-range-button{
+  min-height: 64.4px;
+  width: 220px;
+}
+
+.search-container__distance-button{
+  min-height: 64.4px;
+  width: 220px;
+}
+
+.search-container__offer-type-button{
+  min-height: 64.4px;
+  width: 220px;
+}
+
+.search-container__search-bar-and-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-container__search-bar-and-button-container__search-bar-container{
+  width: 550px;
+  margin-right: 25px;
+}
+
+.home-page-sale-items-container{
+  display: flex
+}
+
+.home-page-sale-items-container__photos-outer-container{
+
+}
+
+.home-page-sale-items-container__photos-inner-container {
+  margin-top: 20px;
+  margin-bottom: 200px;
+  margin-left: 20px;
+}
+
+.home-page-sale-items-container__item-table-and-description-outer-container {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.home-page-sale-items-container__item-table-and-description-inner-container {
+  width: 800px;
+  margin-bottom: 75px;
+}
+
+.home-page-sale-items-container__item-table-and-description-inner-container__table-container{
+  padding-bottom: 0px;
+  background-color: white;
+  height: 70px;
+  width: 100%;
+  height: 115px;
+}
+
+.home-page-sale-items-container__item-table-and-description-inner-container__table-container__table{
+  min-width: 650px;
+}
+
+.home-page-sale-items-container__item-table-and-description-inner-container__description-container{
+  border: 1px solid #ff5e00;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 200px;
+  width: 100%;
+  padding: 10px;
+  background-color: whitesmoke;
+  margin-bottom: 20px;
+}
+
+.home-page-sale-items-container__buttons-outer-container{
+  margin-top: 20px;
+  width: 300px;
+}
+
+.home-page-sale-items-container__buttons-inner-container{
+  display: flex;
+  height: 325px;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 75px;
+  width: auto;
+}
+
+.bid-button{
+  margin-left: 0px;
+  margin-bottom: 10px;
+  height: 37px;
+}
+
+.buy-button{
+  margin-left: 0px;
+  height: 10px;
+  margin-bottom: 10px;
+  height: 37px;
+}
+
+.seller-profile-button {
+  margin-left: 0px;
+  height: 37px;
+}
+
+.divider-container {
+  width: 159px;
+  margin-left: 0px;
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 1296px) {
+  .home-page-sale-items-container__buttons-outer-container{
+    width: 250px;
+  }
+
+  .search-container__price-range-button{
+    min-height: 64.4px;
+    width: 190px;
+  }
+
+  .search-container__distance-button{
+    min-height: 64.4px;
+    width: 190px;
+  }
+
+  .search-container__offer-type-button{
+    min-height: 64.4px;
+    width: 190px;
+  }
+
+  .search-container__search-bar-and-button-container__search-bar-container{
+    width: 400px;
+    margin-left: 25px;
+  }
+}
+
+
+
+/*ITEMS FOR RENT HOMEPAGE*/
+
+
+.home-page-rent-items-container{
+  display: flex
+}
+
+.home-page-rent-items-container__photos-outer-container{
+
+}
+
+.home-page-rent-items-container__photos-inner-container {
+  margin-top: 20px;
+  margin-bottom: 200px;
+  margin-left: 20px;
+}
+
+.home-page-rent-items-container__item-table-and-description-outer-container {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.home-page-rent-items-container__item-table-and-description-inner-container {
+  width: 800px;
+  margin-bottom: 75px;
+}
+
+.home-page-rent-items-container__item-table-and-description-inner-container__table-container{
+  padding-bottom: 0px;
+  background-color: white;
+  height: 70px;
+  width: 100%;
+  height: 115px;
+}
+
+.home-page-rent-items-container__item-table-and-description-inner-container__table-container__table{
+  min-width: 650px;
+}
+
+.home-page-rent-items-container__item-table-and-description-inner-container__description-container{
+  border: 1px solid #ff5e00;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 200px;
+  width: 100%;
+  padding: 10px;
+  background-color: whitesmoke;
+  margin-bottom: 20px;
+}
+
+.home-page-rent-items-container__buttons-outer-container{
+  margin-top: 20px;
+  width: 300px;
+}
+
+.home-page-rent-items-container__buttons-inner-container{
+  display: flex;
+  height: 325px;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 75px;
+  width: auto;
+}
+
+.bid-button{
+  margin-left: 0px;
+  margin-bottom: 10px;
+  height: 37px;
+}
+
+.buy-button{
+  margin-left: 0px;
+  height: 10px;
+  margin-bottom: 10px;
+  height: 37px;
+}
+
+.seller-profile-button {
+  margin-left: 0px;
+  height: 37px;
+}
+
+.divider-container {
+  width: 159px;
+  margin-left: 0px;
+  display: flex;
+  justify-content: center;
+}
+
+.rent-item-dbox-content-container {
+  height: 300px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.date-picker-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.rent-item-buttons {
+  width: 204px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rent-item-buttons-container {
+  /* margin-bottom: 20px; */
+  display: flex;
+  justify-content: center;
+}
+
+.select-return-date-heading {
+  display: flex;
+  justify-content: center;
+  width: 200px;
+  margin-left: 0px;
+  padding-left: 7px;
+}
+
+@media only screen and (max-width: 1296px) {
+  .home-page-rent-items-container__buttons-outer-container{
+    width: 250px;
+  }
+
+  .search-container__price-range-button{
+    min-height: 64.4px;
+    width: 190px;
+  }
+
+  .search-container__distance-button{
+    min-height: 64.4px;
+    width: 190px;
+  }
+
+  .search-container__offer-type-button{
+    min-height: 64.4px;
+    width: 190px;
+  }
+
+  .search-container__search-bar-and-button-container__search-bar-container{
+    width: 400px;
+    margin-left: 25px;
+  }
 }
