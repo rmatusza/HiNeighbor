@@ -10,7 +10,7 @@ import Items from './components/homepage/Items';
 import PostItem from './components/user_dropdown/PostItem';
 import PostedItems from './components/user_dropdown/PostedItems';
 import PurchaseHistory from './components/user_dropdown/PurchaseHistory';
-import SellerProfile from './components/seller_profile/SellerProfile';
+import SellerProfileMain from './components/seller_profile/SellerProfileMain';
 import UserStats from './components/user_dropdown/UserStats';
 import History from './components/user_dropdown/History';
 
@@ -77,7 +77,7 @@ const App = () => {
       </ProtectedRoute>
       <ProtectedRoute path="/seller-profile/:id" authenticated={authenticated} exact={true}>
         <TopBar setAuthenticated={setAuthenticated}/>
-        <SellerProfile />
+        <SellerProfileMain />
       </ProtectedRoute>
       <Route path="/login" exact={true} >
         <Login authenticated={authenticated} setAuthenticated={setAuthenticated}/>

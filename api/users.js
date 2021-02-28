@@ -132,6 +132,18 @@ router.get('/:id/get-seller-info', asyncHandler(async(req,res) => {
       sold: false
     }
   })
+
+  let itemsForSale = []
+  let itemsForRent = []
+
+  items.forEach(item => {
+    if(item.for_sale === true) {
+      itemsForSale.push(item)
+    } else {
+      itemsForRent.push(item)
+    }
+  })
+
   const user = await User.findByPk(userId)
 
   let reviewData = {}
@@ -166,7 +178,7 @@ router.get('/:id/get-seller-info', asyncHandler(async(req,res) => {
     }
   })
 
-  res.json({'items': items, 'user': user, 'reviews': reviewData, 'sold': soldItems})
+  res.json({'items': items, 'items_for_sale': itemsForSale, 'items_for_rent': itemsForRent, 'user': user, 'reviews': reviewData, 'sold': soldItems})
 }))
 
 router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {

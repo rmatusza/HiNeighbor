@@ -159,12 +159,15 @@
   margin-left: 30px;
 }
 
-/* .grid-item-container {
-  background-color: rgb(194, 194, 194);
-  border-radius: 5px;
-} */
+.buttons-container{
+  display: flex;
+  margin-left: 30px;
+  width: 220px;
+  justify-content: space-between;
+  margin-top: 20px;
+}
 
-/* username
-sell-count
-average-ratings
-num-ratings */
+.for-sale-button-container{
+  padding-right: 10px;
+  border-right: 2px solid black;
+}
