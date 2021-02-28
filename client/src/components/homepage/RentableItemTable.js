@@ -178,10 +178,22 @@ const RentableItemTable = () => {
   }
 
   const handleConfirmRentDialog = () => {
+    const date = new Date()
+    const day = date.getDate()
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
+    const today = new Date(month+'-'+day+'-'+year)
+
     let chosenMonth = selectedDate.slice(5, 7)
     let chosenDay = selectedDate.slice(8)
     let chosenYear = selectedDate.slice(0, 4)
     let chosenDateObj = new Date(chosenMonth + '-' + chosenDay + '-' + chosenYear)
+
+    if(chosenDateObj < today) {
+      alert('Please Select a Future Date')
+      return 
+    }
+
     let chosenDateString = chosenMonth + '-' + chosenDay + '-' + chosenYear
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     const rentPeriod = Math.round(Math.abs((chosenDateObj - today) / oneDay));
@@ -285,10 +297,8 @@ const RentableItemTable = () => {
                 let year = item.expiry_date.slice(0, 4)
                 date = month+'-'+day+'-'+year
               }
-
               dataRowsRent.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category, item.description, item.seller_id, date))
             })}
-              {/* //(dataRows) */}
             {dataRowsRent.map((item, idx) => {
               return(
                 <div className="home-page-rent-items-container__item-table-and-description-inner-container">
@@ -304,7 +314,6 @@ const RentableItemTable = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-
                         <TableRow key={dataRowsRent[idx].name}>
                           <TableCell align="right">{dataRowsRent[idx].seller_username}</TableCell>
                           <TableCell align="right">{dataRowsRent[idx].name}</TableCell>
