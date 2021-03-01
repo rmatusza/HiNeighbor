@@ -106,7 +106,6 @@ const useStyles = makeStyles((theme) => ({
 
 const SellerProfileForRent = (props) => {
   let itemData = props.itemData['user_data']['items_for_rent']
-  console.log('ITEM DATA:', props)
   let tableData = props.itemData['table_data']
   const classes = useStyles()
 
@@ -114,70 +113,65 @@ const SellerProfileForRent = (props) => {
     <>
       <div className="divider">
       </div>
-      <div className="seller-items-body-container-background">
-        {itemData ?
-        <div className="seller-items-body-container">
-          {/* <div className="seller-items-container"> */}
-            <Grid container spacing={1} className={classes.grid} >
-              {itemData.map((item, idx) => {
-                let url = item.image_url
-                return (
-                  <>
-                  {/* <div className="grid-item-container"> */}
-                  <Grid item xs={12} md={12} lg={12} className={classes.gridItem}>
-                    <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
-                    {/* <div className="inner-grid-container"> */}
-                      <div className="seller-page-item-cards">
-                        <Card className={classes.paper}>
-                          <CardContent className={classes.image}>
-                            <img className="item-image" src={url} />
-                          </CardContent>
-                        </Card>
-                        <div className="description-table-container">
-                          <div className="table-container">
+      {itemData.length > 0 ?
+        <div className="seller-items-body-container-background">
+          <div className="seller-items-body-container">
+            {/* <div className="seller-items-container"> */}
+              <Grid container spacing={1} className={classes.grid} >
+                {itemData.map((item, idx) => {
+                  let url = item.image_url
+                  return (
+                    <>
+                    {/* <div className="grid-item-container"> */}
+                    <Grid item xs={12} md={12} lg={12} className={classes.gridItem}>
+                      <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
+                      {/* <div className="inner-grid-container"> */}
+                        <div className="seller-page-item-cards">
+                          <Card className={classes.paper}>
+                            <CardContent className={classes.image}>
+                              <img className="item-image" src={url} />
+                            </CardContent>
+                          </Card>
+                          <div className="description-table-container">
+                            <div className="table-container">
 
-                            <TableContainer className={classes.tableContainer}>
-                              <Table className={classes.table} size="small" aria-label="a dense table">
-                                <TableHead className={classes.tableHead}>
-                                  <TableRow>
-                                    {/* <TableCell align="right">Item Name</TableCell> */}
-                                    <TableCell align="center" className={classes.tableCell}>Daily Rate</TableCell>
-                                    <TableCell align="center" className={classes.tableCell}>Availablity</TableCell>
-                                  </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                  <TableRow key={tableData[idx].name}>
-                                    <TableCell align="center">${tableData[idx].rate}</TableCell>
-                                    <TableCell align="center">{tableData[idx].rented === true ? `Unavailable Until: ${tableData[idx].expiry_date}` : 'Available'}</TableCell>
-                                  </TableRow>
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-
-                          </div>
-                          <div className="item-description-conatiner">
-                            {item.description}
+                              <TableContainer className={classes.tableContainer}>
+                                <Table className={classes.table} size="small" aria-label="a dense table">
+                                  <TableHead className={classes.tableHead}>
+                                    <TableRow>
+                                      {/* <TableCell align="right">Item Name</TableCell> */}
+                                      <TableCell align="center" className={classes.tableCell}>Daily Rate</TableCell>
+                                      <TableCell align="center" className={classes.tableCell}>Availablity</TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    <TableRow key={tableData[idx].name}>
+                                      <TableCell align="center">${tableData[idx].rate}</TableCell>
+                                      <TableCell align="center">{tableData[idx].rented === true ? `Unavailable Until: ${tableData[idx].expiry_date}` : 'Available'}</TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </div>
+                            <div className="item-description-conatiner">
+                              {item.description}
+                            </div>
                           </div>
                         </div>
-                      </div>
-
-                    {/* </div> */}
-                  </Grid>
-                  {/* </div> */}
-                  <div className="divider">
-
-                  </div>
-                  </>
-                )
-              })}
-            </Grid>
-          {/* </div> */}
+                    </Grid>
+                    <div className="divider">
+                    </div>
+                    </>
+                  )
+                })}
+              </Grid>
+          </div>
         </div>
         :
-        <>
-        </>
-        }
-      </div>
+        <div className="no-items-message-seller-profile">
+         <h1>No Items Have Been Posted For Rent by This User</h1>
+       </div>
+      }
     </>
   )
 }

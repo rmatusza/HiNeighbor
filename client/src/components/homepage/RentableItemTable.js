@@ -135,17 +135,11 @@ const RentableItemTable = () => {
   const history = useHistory();
 
   const updateItems = (updatedItem) => {
-    // //('CURRENT ITEM OBJECT:', updatedItem)
     const id = updatedItem.id
-    // //('ITEM ID:', id)
     rentItems.forEach((item, i) => {
-      // //('UPDATING ITEMS')
       if(item.id === id) {
-        // //('CURR ITEM:', currItems[i])
         rentItems[i] = updatedItem
-        // //('CURRITEMS:', items)
         dispatch(setRentItems(rentItems))
-        // setCurrItemsState(currItems)
       }
     })
   }
@@ -160,7 +154,6 @@ const RentableItemTable = () => {
     })
   }
   const handleUpdateDate = (e) => {
-    //(e.target.value)
     setSelectedDate(e.target.value)
   }
   const handleDialogClose = () => {
@@ -168,7 +161,6 @@ const RentableItemTable = () => {
   };
 
   const handleDialogOpen = (itemData) => {
-    //('ITEM DATA:', itemData)
     if(itemData.rented === true){
       alert(`This Item is Being Rented by Another User Until the Specified Return Date`)
       return
@@ -191,7 +183,7 @@ const RentableItemTable = () => {
 
     if(chosenDateObj < today) {
       alert('Please Select a Future Date')
-      return 
+      return
     }
 
     let chosenDateString = chosenMonth + '-' + chosenDay + '-' + chosenYear

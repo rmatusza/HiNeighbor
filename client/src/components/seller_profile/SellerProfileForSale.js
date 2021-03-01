@@ -107,82 +107,72 @@ const useStyles = makeStyles((theme) => ({
 const SellerProfileForSale = (props) => {
   let itemData = props.itemData['user_data']['items_for_sale']
   let tableData = props.itemData['table_data']
+  let user = props.itemData['user_data']['user']['username']
+  console.log('USER:', user)
   const classes = useStyles()
-
   return(
     <>
       <div className="divider">
       </div>
-      <div className="seller-items-body-container-background">
-        {itemData ?
-        <div className="seller-items-body-container">
-          {/* <div className="seller-items-container"> */}
-            <Grid container spacing={1} className={classes.grid} >
-              {itemData.map((item, idx) => {
-                let url = item.image_url
-                return (
-                  <>
-                  {/* <div className="grid-item-container"> */}
-                  <Grid item xs={12} md={12} lg={12} className={classes.gridItem}>
-                    <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
-                    {/* <div className="inner-grid-container"> */}
-                      <div className="seller-page-item-cards">
-                        <Card className={classes.paper}>
-                          <CardContent className={classes.image}>
-                            <img className="item-image" src={url} />
-                          </CardContent>
-                        </Card>
-                        <div className="description-table-container">
-                          <div className="table-container">
-
-                            <TableContainer className={classes.tableContainer}>
-                              <Table className={classes.table} size="small" aria-label="a dense table">
-                                <TableHead className={classes.tableHead}>
-                                  <TableRow>
-                                    {/* <TableCell align="right">Item Name</TableCell> */}
-                                    <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
-                                    <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
-                                    <TableCell align="center" className={classes.tableCell}>Number of Bidders</TableCell>
-                                    <TableCell align="center" className={classes.tableCell}>Days Remaining</TableCell>
-                                  </TableRow>
-                                </TableHead>
-                                <TableBody>
-
-                                  <TableRow key={tableData[idx].name}>
-                                    <TableCell align="center">${tableData[idx].price}</TableCell>
-                                    <TableCell align="center">${tableData[idx].bid}</TableCell>
-                                    <TableCell align="center">{tableData[idx].num_bidders}</TableCell>
-                                    <TableCell align="center">{tableData[idx].days_remaining}</TableCell>
-                                  </TableRow>
-
-                                </TableBody>
-                              </Table>
-                            </TableContainer>
-
+      {itemData.length > 0 ?
+        <div className="seller-items-body-container-background">
+          <div className="seller-items-body-container">
+              <Grid container spacing={1} className={classes.grid} >
+                {itemData.map((item, idx) => {
+                  let url = item.image_url
+                  return (
+                    <>
+                      <Grid item xs={12} md={12} lg={12} className={classes.gridItem}>
+                        <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
+                          <div className="seller-page-item-cards">
+                            <Card className={classes.paper}>
+                              <CardContent className={classes.image}>
+                                <img className="item-image" src={url} />
+                              </CardContent>
+                            </Card>
+                            <div className="description-table-container">
+                              <div className="table-container">
+                                <TableContainer className={classes.tableContainer}>
+                                  <Table className={classes.table} size="small" aria-label="a dense table">
+                                    <TableHead className={classes.tableHead}>
+                                      <TableRow>
+                                        {/* <TableCell align="right">Item Name</TableCell> */}
+                                        <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
+                                        <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
+                                        <TableCell align="center" className={classes.tableCell}>Number of Bidders</TableCell>
+                                        <TableCell align="center" className={classes.tableCell}>Days Remaining</TableCell>
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      <TableRow key={tableData[idx].name}>
+                                        <TableCell align="center">${tableData[idx].price}</TableCell>
+                                        <TableCell align="center">${tableData[idx].bid}</TableCell>
+                                        <TableCell align="center">{tableData[idx].num_bidders}</TableCell>
+                                        <TableCell align="center">{tableData[idx].days_remaining}</TableCell>
+                                      </TableRow>
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+                              </div>
+                              <div className="item-description-conatiner">
+                                {item.description}
+                              </div>
+                            </div>
                           </div>
-                          <div className="item-description-conatiner">
-                            {item.description}
-                          </div>
-                        </div>
+                      </Grid>
+                      <div className="divider">
                       </div>
-
-                    {/* </div> */}
-                  </Grid>
-                  {/* </div> */}
-                  <div className="divider">
-
-                  </div>
-                  </>
-                )
-              })}
-            </Grid>
-          {/* </div> */}
+                    </>
+                  )
+                })}
+              </Grid>
+          </div>
         </div>
-        :
-        <>
-        </>
-        }
-      </div>
+       :
+       <div className="no-items-message-seller-profile">
+         <h1>No Items Have Been Posted For Sale by This User</h1>
+       </div>
+      }
     </>
   )
 }

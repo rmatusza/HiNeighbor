@@ -27,7 +27,7 @@ function createRentData(name, rate, rented, expiry_date) {
 
 const SellerProfileMain = () => {
   const { id } = useParams()
-  const [userData, setUserData] = useState({'items': [], 'user': {}, 'sold': {}, 'reviews': {}})
+  const [userData, setUserData] = useState({'items_for_sale': [], 'items_for_rent': [], 'user': {}, 'sold': {}, 'reviews': {}})
   const [dataRows, setDataRows] = useState([])
   const [dataRowsRentItems, setDataRowsRentItems] = useState([])
   const [itemType, setItemType] = useState([])
@@ -143,6 +143,5 @@ const SellerProfileMain = () => {
     </>
   )
 }
-
 
 export default SellerProfileMain;
