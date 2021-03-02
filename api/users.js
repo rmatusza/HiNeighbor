@@ -28,7 +28,6 @@ const signInValidations = [
 ];
 
 router.post('/token', signInValidations, asyncHandler(async(req, res) => {
-
   const {email, password} = req.body;
   const user = await User.findOne({
     where: {
@@ -54,18 +53,6 @@ router.post('/token', signInValidations, asyncHandler(async(req, res) => {
   }
 }))
 
-// const verifyUser = (req, res, next) => {
-//   const token = req.body.access_token
-//   if(!token) return res.sendStatus(401)
-
-//   jwt.verify(token, secret, (err, jwtPayload) => {
-//     if(err) return res.sendStatus(403)
-
-//     req.user = jwtPayload
-//     next()
-//   })
-
-// }
 router.post('/authenticate', verifyUser, asyncHandler(async(req, res) => {
   const user = await User.findByPk(req.user.data.id)
   const userData = {
@@ -85,9 +72,6 @@ router.get('/:id/get-posted-items', asyncHandler(async(req,res) => {
   const year = date.getFullYear()
   const today = new Date(month+'-'+day+'-'+year)
   let test = new Date("2021-02-21T00:27:34.538Z")
-  //('TODAY:', today)
-  //('EXPIRY DATE:', test)
-  //('IS EXPIRED:', test < today)
   const items = await Item.findAll({
     where:{
       seller_id: userId,

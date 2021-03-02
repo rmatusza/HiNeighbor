@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       margin: theme.spacing(1),
       width: '500px',
-
     },
     "& .MuiFormLabel-root": {
       color: "white"
