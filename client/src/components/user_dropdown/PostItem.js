@@ -184,6 +184,7 @@ const PostItem = (props) => {
     })
 
     const response = await res.json()
+    console.log('RESPONSE:', response)
     let errors = []
     if(response.errors) {
       response.errors.forEach(error => {

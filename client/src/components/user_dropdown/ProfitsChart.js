@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {CanvasJSChart} from 'canvasjs-react-charts'
 import './user_dropdown.css'
-import Button from '@material-ui/core/Button';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 
 
@@ -11,9 +10,6 @@ const ProfitsChart = () => {
   const userId = useSelector(store => store.session.currentUser.id)
   const [profitData, setProfitData] = useState([])
 
-
-
-  // const months = {1: 'Janurary', 2: 'Februrary', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
   let data =
   [
   { x: 1, y: 0, label: 'Janurary'},
@@ -49,15 +45,12 @@ const ProfitsChart = () => {
     (async() => {
       const res = await fetch(`http://localhost:5000/api/users/${userId}/chart-data`)
       const items = await res.json()
-      //('SALES DATA:', data)
+      console.log('SALES DATA:', res)
       items.forEach(item => {
+        console.log('ITEM:', item)
         let date = item.date_sold.slice(5, 7)
         let idx = findIndex[date]
-        if(item.price !== item.current_bid) {
-          data[idx].y += item.current_bid
-        }else {
-          data[idx].y += item.price
-        }
+        data[idx].y += item.price
       })
       setProfitData(data)
     })()

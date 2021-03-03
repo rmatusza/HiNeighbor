@@ -275,10 +275,14 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
     generatedImageURL,
     expiryDate
   } = req.body
-  // res.json(req.body)
+  console.log('REQ BODY:', req.body)
 
   //('EXPIRY DATE:', expiryDate)
+
+  let maxId = await Item.max('id') + 1
+
   const newItem = await Item.create({
+    id: maxId,
     seller_id: userId,
     seller_name: username,
     name: itemName,
@@ -293,10 +297,13 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
     expired: false
   })
 
-  const newReviewObj = await Review.create({
+  let maxIdReviews = await Review.max('id') + 1
+
+  await Review.create({
+    id: maxIdReviews,
     reviewee_id: userId,
     item_id: newItem.id,
-    rating: null
+    rating: 0
   })
 
   res.json(newItem)
@@ -460,10 +467,10 @@ router.post('/:id/rent', asyncHandler(async(req, res) => {
     expiry_date: dateObj
   })
 
-  const newReviewObj = await Review.create({
+  await Review.create({
     reviewee_id: updatedItem.seller_id,
     item_id: newRentItem.id,
-    rating: null
+    rating: 0
   })
 
   res.json({'new_rent_item': newRentItem})
