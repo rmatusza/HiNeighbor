@@ -2,19 +2,23 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  width: 200px;
+  width: auto;
   margin-right: 10px;
   /* margin-top: 20px; */
   color: white;
   /* border: 1px solid white; */
 }
 
-.username{
-  margin: 3px;
-  margin-left: 40px
+.username-container{
+  width: auto;
 }
 
-.user-icon{
+.username{
+  margin: 3px;
+  margin-left: 40px;
+}
+
+/* .user-icon{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +28,7 @@
   background-color: whitesmoke;
   height: 30px;
   width: 30px;
-}
+} */
 
 .dropdown-button-container{
   /* margin: 3px; */
@@ -33,6 +37,7 @@
   width: 30px;
   height: 30px;
   margin-top: 19px;
+  margin-left: 10px;
   margin-bottom: 30px;
   display: flex;
   justify-content: space-around;
@@ -51,6 +56,7 @@
   /* align-items: flex-start; */
   background-color: rgb(255, 94, 0);
   margin-right: 25px;
+  margin-left: 10px;
   width: 30px;
   height: 30px;
   margin-top: 20px;
@@ -65,8 +71,11 @@
 .three-dots{
   display: flex;
   height: 30px;
+  width: 30px;
+  height: 30px;
   /* margin-right: 25px; */
-  align-items: flex-start;
+  /* align-items: center; */
+  justify-content: center;
   /* margin-top: 20px; */
   margin-bottom: 10px;
 }
@@ -79,7 +88,7 @@
   display: flex;
 }
 
-.site-name-container{
+.home-icon-container{
   /* color: #76323F; */
   /* color: black; */
   margin-left: 20px;
@@ -97,7 +106,7 @@
   transition-delay: 0s;
 }
 
-.site-name-container:hover{
+.home-icon-container:hover{
   /* color: #76323F; */
   /* color: black; */
   margin-left: 20px;
@@ -113,15 +122,9 @@
   border: 1px solid white
 }
 
-
-.site-name-container:hover{
+.home-icon-container:hover{
   cursor: pointer;
 }
-
-/* .site-name-text{
-  color: black;
-  text-decoration: underline;
-} */
 
 .house-icon{
   color: white
@@ -137,7 +140,7 @@
   justify-content: space-between;
 }
 
-.top-bar{
+.top-bar-container{
   /* background: linear-gradient(to right, #8e0e00, #1f1c18); */
   /* background: linear-gradient(to right, #4b79a1, #283e51); */
   background: linear-gradient(to right, #000000, #434343);
@@ -161,12 +164,15 @@
   /* rgb(255, 94, 0) */
 }
 
+.site-name-container{
+  display: flex;
+  /* border: 2px solid red; */
+  justify-content: center;
+  width: auto;
+  margin-left: 140px;
+  color: red;
+  align-items: center;
+}
 
-
-/* .top-bar-container{
-  position: fixed;
-  display: block;
-  width: 100%;
-  top: 0px;
-  z-index: 1;
-} */
+.site-name{
+}

@@ -40,26 +40,22 @@ const TopBar = (props) => {
   return (
     <>
       <div className="top-bar-container">
-        <div className="top-bar">
-          <div className="site-name-home-icon-container">
-            <div className='site-name-container' onClick={redirectToHome}>
-              {/* <h2 className="site-name-text">
-                Hi Neighbor!
-              </h2> */}
-              <h2 className="house-icon">
-                <BsHouseFill />
-              </h2>
-            </div>
+        <div className='home-icon-container' onClick={redirectToHome}>
+          <h2 className="house-icon">
+            <BsHouseFill />
+          </h2>
+        </div>
+        <div className="site-name-container">
+          <h1 style={{fontFamily: "freestyle script", fontSize: "40px", fontWeight: "bold"}}>Hey Neighbor!</h1>
+        </div>
+        <div className='top-bar-right'>
+          <div className='username-container'>
+            <h2 className='username'>
+              Welcome {firstName}!
+            </h2>
           </div>
-          <div className='top-bar-right'>
-            <div className='username-container'>
-              <h2 className='username'>
-              Hello {firstName}!
-              </h2>
-            </div>
-            <div className='dropdown-button-container'>
-              <UserDropdown setAuthenticated={props.setAuthenticated}/>
-            </div>
+          <div className='dropdown-button-container'>
+            <UserDropdown setAuthenticated={props.setAuthenticated}/>
           </div>
         </div>
       </div>
