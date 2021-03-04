@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Redirect } from 'react-router-dom'
 import setUserCreds from '../../actions/userCredsAction'
@@ -30,6 +35,8 @@ const useStyles = makeStyles((theme) => ({
 const Login = (props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [formErrors, setFormErrors] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -41,6 +48,10 @@ const Login = (props) => {
       setEmail(e.target.value)
     }
   }
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
 
   const handleSubmit = async () => {
     const body = {
@@ -57,7 +68,20 @@ const Login = (props) => {
       body: JSON.stringify(body)
     })
 
-    const { user } = await res.json()
+    const response = await res.json()
+    console.log('RESPONSE:', response)
+
+    let errors = []
+    if(response.errors) {
+      response.errors.forEach(error => {
+        errors.push(error.msg)
+      })
+      setFormErrors(errors)
+      setDialogOpen(true)
+      return
+    }
+
+    let user = response['user']
 
     if(user) {
       const payload = {
@@ -68,6 +92,33 @@ const Login = (props) => {
       }
       dispatch(setUserCreds(payload))
       props.setAuthenticated(true)
+    }
+  }
+
+  const validateForm = (e) => {
+    e.preventDefault()
+    let discoveredErrors = []
+    let requiredFields =
+    [
+      email,
+      password
+    ]
+    let errorMessages =
+    [
+      'You Must Enter a Valid Email',
+      'You Must Enter a Password',
+    ]
+
+    requiredFields.forEach((field, i) => {
+      if(!field) {
+        discoveredErrors.push(errorMessages[i])
+      }
+      setFormErrors(discoveredErrors)
+    })
+    if(discoveredErrors.length === 0) {
+      handleSubmit()
+    } else {
+      setDialogOpen(true)
     }
   }
 
@@ -127,8 +178,8 @@ const Login = (props) => {
           <div className="password-field">
           <TextField id="filled-basic" label="Password:" type="password" variant="filled" name="password-input" fullWidth={true} onChange={updateInput}/>
           </div>
-          <Button onClick={handleSubmit}  variant="contained" color="primary">
-            Submit
+          <Button onClick={validateForm}  variant="contained" color="primary">
+            Login
           </Button>
           <div>
           <Button onClick={logInDemoUser}  variant="contained" color="primary" fullWidth={true}>
@@ -139,6 +190,25 @@ const Login = (props) => {
 
       </div>
     </div>
+      <Dialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        >
+        <DialogTitle id="alert-dialog-title">
+          {"The Following Are Required:"}
+        </DialogTitle>
+        <List>
+          {formErrors.map((error) => (
+            <ListItem>
+              <ListItemText>
+                {error}
+              </ListItemText>
+            </ListItem>
+          ))}
+        </List>
+      </Dialog>
     </>
   )
 }

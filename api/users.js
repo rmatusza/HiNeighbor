@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const { User, Item, Review, Rented_Item } = require("../db/models");
 const { asyncHandler } = require('../utils');
-const { check } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const { getUserToken, verifyUser } = require('../auth');
 const bearerToken = require("express-bearer-token");
 const { secret, expiresIn } = require('../config').jwtConfig;
@@ -28,6 +28,11 @@ const signInValidations = [
 ];
 
 router.post('/token', signInValidations, asyncHandler(async(req, res) => {
+  const valRes = validationResult(req)
+  if (valRes.errors.length > 0) {
+    res.json(valRes)
+    return
+  }
   const {email, password} = req.body;
   const user = await User.findOne({
     where: {

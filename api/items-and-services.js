@@ -183,7 +183,7 @@ router.post('/search', asyncHandler(async(req, res) => {
     // in this case need to reset the expiry date to null (until another person rents it) and change rented from true to false
 
     items.forEach(async(item) => {
-      console.log(item)
+      console.log('ITEM:', item)
       if(new Date(item.expiry_date) < today && item.rented === true) {
         await item.update({rented: false, expiry_date: null})
         itemsAvaliableForRent.push(item)
@@ -254,9 +254,6 @@ router.post('/upload-photo', upload.any(), fileFilter, asyncHandler(async (req, 
 }))
 
 router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
-
-  // const today = new Date()
-  // today.setDate(today.getDate()+0)
 
   const valRes = validationResult(req)
   //(valRes.errors)

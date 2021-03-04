@@ -69,27 +69,27 @@ const PostedSaleItems = (props) => {
   let items = []
   // //('ITEMS:', items)
 
-  const handleClick = (e) => {
-    if(e.target.name === 'for-sale') {
-      if(forSaleButtonState === false) {
-        setForSaleButtonState(true)
-        setForRentButtonState(false)
-      } else {
-        setForSaleButtonState(false)
-        setForRentButtonState(true)
+  // const handleClick = (e) => {
+  //   if(e.target.name === 'for-sale') {
+  //     if(forSaleButtonState === false) {
+  //       setForSaleButtonState(true)
+  //       setForRentButtonState(false)
+  //     } else {
+  //       setForSaleButtonState(false)
+  //       setForRentButtonState(true)
 
-      }
-    } else {
-      if(forRentButtonState === false) {
-        setForRentButtonState(true)
-        setForSaleButtonState(false)
+  //     }
+  //   } else {
+  //     if(forRentButtonState === false) {
+  //       setForRentButtonState(true)
+  //       setForSaleButtonState(false)
 
-      }else {
-        setForRentButtonState(false)
-        setForSaleButtonState(true)
-      }
-    }
-  }
+  //     }else {
+  //       setForRentButtonState(false)
+  //       setForSaleButtonState(true)
+  //     }
+  //   }
+  // }
 
   let rows = []
 
