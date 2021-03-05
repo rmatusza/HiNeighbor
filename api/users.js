@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const { User, Item, Review, Rented_Item } = require("../db/models");
 const { asyncHandler } = require('../utils');
-const { check } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const { getUserToken, verifyUser } = require('../auth');
 const bearerToken = require("express-bearer-token");
 const { secret, expiresIn } = require('../config').jwtConfig;
@@ -28,7 +28,11 @@ const signInValidations = [
 ];
 
 router.post('/token', signInValidations, asyncHandler(async(req, res) => {
-
+  const valRes = validationResult(req)
+  if (valRes.errors.length > 0) {
+    res.json(valRes)
+    return
+  }
   const {email, password} = req.body;
   const user = await User.findOne({
     where: {
@@ -54,18 +58,6 @@ router.post('/token', signInValidations, asyncHandler(async(req, res) => {
   }
 }))
 
-// const verifyUser = (req, res, next) => {
-//   const token = req.body.access_token
-//   if(!token) return res.sendStatus(401)
-
-//   jwt.verify(token, secret, (err, jwtPayload) => {
-//     if(err) return res.sendStatus(403)
-
-//     req.user = jwtPayload
-//     next()
-//   })
-
-// }
 router.post('/authenticate', verifyUser, asyncHandler(async(req, res) => {
   const user = await User.findByPk(req.user.data.id)
   const userData = {
@@ -85,9 +77,6 @@ router.get('/:id/get-posted-items', asyncHandler(async(req,res) => {
   const year = date.getFullYear()
   const today = new Date(month+'-'+day+'-'+year)
   let test = new Date("2021-02-21T00:27:34.538Z")
-  //('TODAY:', today)
-  //('EXPIRY DATE:', test)
-  //('IS EXPIRED:', test < today)
   const items = await Item.findAll({
     where:{
       seller_id: userId,

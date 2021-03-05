@@ -255,7 +255,7 @@ const RentableItemTable = () => {
 
   let dataRowsRent = []
 
-    {if(rentItems[0] === 'no_results') {
+    {if(rentItems[0] === 'no_items') {
       return(
         <div className="items-body-container">
         <h1 className="no-results-heading">No Results Found</h1>

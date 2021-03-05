@@ -10,11 +10,7 @@ const SalesChart = () => {
 
   const userId = useSelector(store => store.session.currentUser.id)
   const [salesData, setSalesData] = useState([])
-  const [salesButtonState, setSalesButtonState] = useState(true)
-  const [profitsButtonState, setProfitsButtonState] = useState(false)
 
-
-  // const months = {1: 'Janurary', 2: 'Februrary', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
   let data =
   [
   { x: 1, y: 0, label: 'Janurary'},
@@ -62,27 +58,6 @@ const SalesChart = () => {
     })()
   }, [])
 
-  const handleClick = (e) => {
-    if(e.target.name === 'profits') {
-      if(profitsButtonState === false) {
-        setProfitsButtonState(true)
-        setSalesButtonState(false)
-      } else {
-        setProfitsButtonState(false)
-        setSalesButtonState(true)
-
-      }
-    } else {
-      if(salesButtonState === false) {
-        setSalesButtonState(true)
-        setProfitsButtonState(false)
-
-      }else {
-        setSalesButtonState(false)
-        setProfitsButtonState(true)
-      }
-    }
-  }
 
   const options = {
     animationEnabled: true,
@@ -106,11 +81,6 @@ const SalesChart = () => {
       dataPoints: salesData
     }]
   }
-  const graph_1 = (
-    <div className="chart-data">
-      <CanvasJSChart options={ options } />
-    </div>
-  )
 
   return (
     <>

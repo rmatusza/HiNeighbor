@@ -25,18 +25,15 @@ const SearchBar = () => {
   const search_params = useSelector(store => store.entities.search_params)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const dispatch = useDispatch()
-  //('CURRENT USER ID:', currUserId)
   const handleInputChange = (e) => {
     setInput(e.target.value)
   }
-  //('SEARCH PARAMS:', search_params.category)
 
   const handleSubmit = async(e) => {
 
     e.preventDefault()
     let body = {}
     for(let param in search_params) {
-      //(param)
       body[param] = search_params[param]
     }
     if(body.category === undefined) {
@@ -45,7 +42,6 @@ const SearchBar = () => {
     }
     body['user_search'] = input
     body['user_id'] = currUserId
-    //(body)
     const res = await fetch('http://localhost:5000/api/items-and-services/search', {
       method: 'POST',
       headers: {
@@ -63,7 +59,6 @@ const SearchBar = () => {
       dispatch(setRentItems(items.rentItems))
       dispatch(setItems([]))
     }
-    //(items)
   }
 
   return (

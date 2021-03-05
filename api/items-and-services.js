@@ -73,7 +73,6 @@ const postItemValidations = [
 
 router.post('/search', asyncHandler(async(req, res) => {
   let {price_range, distance, offer_type, category, user_search, user_id} = req.body
-  //(req.body)
 
   if(!price_range){
     price_range = [0, 1000000000]
@@ -83,19 +82,18 @@ router.post('/search', asyncHandler(async(req, res) => {
   if(offer_type === 'Services') {
 
 
-    //-PURCHASE---------------------------------------------------------------
+
+  //-PURCHASE---------------------------------------------------------------
 
 
   }else if(offer_type === 'Purchase') {
-    //('LOOKING FOR ITEMS FOR PURCHASE')
-    // let uppercaseSearch = user_search.slice(0,1).toUpperCase() + user_search.slice(1).toLowerCase()
-    // let allCapsSearch = user_search.toUpperCase()
-    // let lowerCaseSearch = user_search.toLowerCase()
+    // had trouble with off by one with the date, this fixes that problem. Should try and find a cleaner solution
     const date = new Date()
     const day = date.getDate()
     const month = date.getMonth() + 1
     const year = date.getFullYear()
     const today = new Date(month+'-'+day+'-'+year)
+
     const items = await Item.findAll({
       where: {
         category,
@@ -111,14 +109,17 @@ router.post('/search', asyncHandler(async(req, res) => {
         expired: false
       },
     })
-    // //('ITEMS:', items)
-    const expired = []
+
+    const expiredWithBidder = []
+    const expiredWithoutBidder = []
     const notExpired = ['no_items']
+
     items.forEach(item => {
-      //('EXPIRY DATE:', item.expiry_date)
-      if (new Date(item.expiry_date) < today) {
-        expired.push(item)
-      } else {
+      if (new Date(item.expiry_date) < today && item.last_bidder !== null) {
+        expiredWithBidder.push(item)
+      } else if(new Date(item.expiry_date) < today && item.last_bidder === null) {
+        expiredWithoutBidder.push(item.id)
+      }else {
         if(notExpired[0] === 'no_items') {
           notExpired.shift()
           notExpired.push(item)
@@ -127,47 +128,41 @@ router.post('/search', asyncHandler(async(req, res) => {
         }
       }
     })
-    //('EXPIRED:', expired)
-    //('NOT EXPIRED:', notExpired)
-    //('TODAY:', today)
-    if(expired.length > 0){
-      expired.forEach(async(item) => {
-        if(item.last_bidder !== null) {
-          await item.update({
-            sold: true,
-            purchaser_id: item.last_bidder,
-            date_sold: item.expiryDate,
-            price: item.current_bid
-          })
-          await Review.create({
-            reviewee_id: item.seller_id,
-            item_id: item.id,
-            rating: 0
-          })
-        } else {
-          await item.update({
-            expired: true
-          })
+
+    // if there's a bidder on an expired item, they then purchased the item on the expiration date for the amount that they bid
+    // otherwise, the item is just marked as expired
+
+    expiredWithBidder.forEach(async(item) => {
+      await item.update({
+        sold: true,
+        purchaser_id: item.last_bidder,
+        date_sold: item.expiryDate,
+        price: item.current_bid
+      })
+    })
+    if(expiredWithoutBidder.length > 0) {
+      await Item.update({expired: true}, {
+        where: {
+          id: expiredWithoutBidder
         }
       })
     }
 
-    if(items.length === 0) {
-      res.json({'saleItems': ['no_items'], 'rentItems': [], 'bids': bids})
-    } else {
-      res.json({'saleItems': notExpired, 'rentItems': [], 'bids': bids})
-    }
+
+    res.json({'saleItems': notExpired, 'rentItems': [], 'bids': bids})
+
 
     //-RENT-----------------------------------------------------------------------
 
 
   } else if(offer_type === 'Rent') {
-    //('LOOKING FOR ITEMS FOR RENT')
+      // had trouble with off by one with the date, this fixes that problem. Should try and find a cleaner solution
       const date = new Date()
       const day = date.getDate()
       const month = date.getMonth() + 1
       const year = date.getFullYear()
       const today = new Date(month+'-'+day+'-'+year)
+
       const items = await Item.findAll({
       where: {
         category: category,
@@ -182,64 +177,65 @@ router.post('/search', asyncHandler(async(req, res) => {
       }
     })
 
-    let itemsAvaliableForRent = []
+    let itemsAvaliableForRent = ['no_items']
+
+    // if the rented item is expired then that simultaneously means that someone was renting the item and the rent term has come to an end
+    // in this case need to reset the expiry date to null (until another person rents it) and change rented from true to false
+
     items.forEach(async(item) => {
-      console.log(item)
+      console.log('ITEM:', item)
       if(new Date(item.expiry_date) < today && item.rented === true) {
-        console.log('IF')
         await item.update({rented: false, expiry_date: null})
         itemsAvaliableForRent.push(item)
       }else if(item.rented === false) {
-        console.log('ELSE IF')
         itemsAvaliableForRent.push(item)
       } else {
-        console.log('ELSE')
         itemsAvaliableForRent.push(item)
       }
-      // itemsAvaliableForRent.push(item)
     })
 
-    console.log('ITEMS FOR RENT:', itemsAvaliableForRent)
-
-    if(items.length === 0) {
-      res.json({'saleItems': [], 'rentItems': ['no_results'], 'bids': bids})
-    } else {
-      res.json({'saleItems': [], 'rentItems': itemsAvaliableForRent, 'bids': bids})
+    if(itemsAvaliableForRent.length > 1 && itemsAvaliableForRent[0] === 'no_items') {
+      itemsAvaliableForRent.shift()
     }
 
+    res.json({'saleItems': [], 'rentItems': itemsAvaliableForRent, 'bids': bids})
+
+
     //-ANY OFFER TYPE------------------------------------------------------------------------------------------------
-  } else {
-
-    let saleItems = []
-    let rentItems = []
-
-    const items = await Item.findAll({
-      where: {
-        category: category,
-        name: {
-          [Op.substring]: user_search
-        },
-        price: {
-          [Op.between]: price_range
-        },
-        seller_id: {
-          [Op.not]: user_id
-        },
-        sold: false
-      }
-    })
-    items.forEach(item => {
-      if (item.for_sale === true) {
-        saleItems.push(item)
-      } else {
-        rentItems.push(item)
-      }
-    })
-    res.json({'saleItems': saleItems, 'rentItems': rentItems, 'bids':bids})
   }
+  // else {
+
+  //   let saleItems = []
+  //   let rentItems = []
+
+  //   const items = await Item.findAll({
+  //     where: {
+  //       category: category,
+  //       name: {
+  //         [Op.substring]: user_search
+  //       },
+  //       price: {
+  //         [Op.between]: price_range
+  //       },
+  //       seller_id: {
+  //         [Op.not]: user_id
+  //       },
+  //       sold: false
+  //     }
+  //   })
+  //   items.forEach(item => {
+  //     if (item.for_sale === true) {
+  //       saleItems.push(item)
+  //     } else {
+  //       rentItems.push(item)
+  //     }
+  //   })
+  //   res.json({'saleItems': saleItems, 'rentItems': rentItems, 'bids':bids})
+  // }
 }))
 
-// uploads a photo to react-app/src/uploads
+
+// uploads a photo to Amazon S3
 
 router.post('/upload-photo', upload.any(), fileFilter, asyncHandler(async (req, res) =>{
   const file = req.files[0]
@@ -259,9 +255,6 @@ router.post('/upload-photo', upload.any(), fileFilter, asyncHandler(async (req, 
 
 router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
 
-  // const today = new Date()
-  // today.setDate(today.getDate()+0)
-
   const valRes = validationResult(req)
   //(valRes.errors)
   if (valRes.errors.length > 0) {
@@ -279,10 +272,14 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
     generatedImageURL,
     expiryDate
   } = req.body
-  // res.json(req.body)
+  console.log('REQ BODY:', req.body)
 
   //('EXPIRY DATE:', expiryDate)
+
+  let maxId = await Item.max('id') + 1
+
   const newItem = await Item.create({
+    id: maxId,
     seller_id: userId,
     seller_name: username,
     name: itemName,
@@ -297,16 +294,16 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
     expired: false
   })
 
-  // const newBidTable = await Bid.create({
-  //   user_id: userId,
-  //   item_id: newItem.id,
-  //   bid_amount: 0
-  // })
+  let maxIdReviews = await Review.max('id') + 1
 
-  //('NEW ITEM:', newItem)
+  await Review.create({
+    id: maxIdReviews,
+    reviewee_id: userId,
+    item_id: newItem.id,
+    rating: 0
+  })
 
   res.json(newItem)
-
 }))
 
 router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(req,res) => {
@@ -434,12 +431,6 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
   let item = await Item.findByPk(itemId)
   await item.update({ purchaser_id: currUserId, sold: true, date_sold: date})
 
-  const newReviewObj = await Review.create({
-    reviewee_id: item.seller_id,
-    item_id: item.id,
-    rating: 0
-  })
-
   res.json({'soldItemId':itemId})
 }))
 
@@ -473,9 +464,10 @@ router.post('/:id/rent', asyncHandler(async(req, res) => {
     expiry_date: dateObj
   })
 
-  const newReviewObj = await Review.create({
+  await Review.create({
     reviewee_id: updatedItem.seller_id,
-    item_id: newRentItem.id
+    item_id: newRentItem.id,
+    rating: 0
   })
 
   res.json({'new_rent_item': newRentItem})
@@ -491,26 +483,13 @@ router.patch('/:id/rate-item', asyncHandler(async(req,res) => {
     }
   })
 
-  if(!review) {
-    const review = await Review.create({
-      reviewee_id: sellerId,
-      rating: itemRating,
-      author_id: currUserId,
-      item_id: itemId
-    })
-    res.json(review)
-  }
-
-  if(review.rating === 0) {
-
+  if(review.rating === null) {
     review.update({
       rating: itemRating,
       author_id: currUserId
     })
     res.json(review)
-
   }else {
-
     await review.update({
       rating: itemRating,
     })

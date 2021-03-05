@@ -184,6 +184,7 @@ const PostItem = (props) => {
     })
 
     const response = await res.json()
+    console.log('RESPONSE:', response)
     let errors = []
     if(response.errors) {
       response.errors.forEach(error => {
@@ -282,17 +283,7 @@ const PostItem = (props) => {
             <MenuItem value={"Video Games"}>Video Games</MenuItem>
           </Select>
         </FormControl>
-        {/* <FormControl>
-          <InputLabel htmlFor="category-input">Category</InputLabel>
-          <Input id="category-input" onChange={handleInputChange} />
-        </FormControl> */}
       </div>
-      {/* <div>
-        <FormControl>
-          <InputLabel htmlFor="quantitiy-input">Quantity</InputLabel>
-          <Input id="quantitiy-input" onChange={handleInputChange} />
-        </FormControl>
-      </div> */}
       <div>
         <FormControl>
           <InputLabel htmlFor="sell-price-input" style={{color: "black"}}>Sell Price</InputLabel>
@@ -300,19 +291,6 @@ const PostItem = (props) => {
 
         </FormControl>
       </div>
-      {/* <div>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="offer-type-select">Offer Type</InputLabel>
-          <Select
-            labelId="offer-type-select"
-            id="offer-type"
-            onChange={(e) => handleOfferTypeSelection(e)}
-          >
-            <MenuItem value={"Rent"}>Rent</MenuItem>
-            <MenuItem value={"Sell"}>Sell</MenuItem>
-          </Select>
-        </FormControl>
-      </div> */}
       <div className="photo-upload-container">
         <form onChange={(e) => setImageFile(e.target.files[0])}>
           <input type="file" id="upload-image-input" name='image'/>

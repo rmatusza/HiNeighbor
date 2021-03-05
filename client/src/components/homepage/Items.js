@@ -24,6 +24,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import { CgArrowsExpandLeft } from "react-icons/cg";
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -268,6 +269,11 @@ const Items = () => {
                 <div className="home-page-sale-items-container__photos-inner-container">
                   <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(item.image_url)}>
                     <Card className={classes.paper}>
+                      <div className="home-page-sale-items-container__photos-inner-container__expand-icon-outer-container">
+                        <div className="home-page-sale-items-container__photos-inner-container__expand-icon-inner-container">
+                          <CgArrowsExpandLeft className="expand-icon"/>
+                        </div>
+                      </div>
                       <CardContent className={classes.image}>
                         <img className="item-image-homepage" src={url} />
                       </CardContent>

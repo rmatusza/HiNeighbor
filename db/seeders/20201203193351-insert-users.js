@@ -50,11 +50,11 @@ module.exports = {
         }
       ]
     )
-    return await queryInterface.bulkInsert(
+    await queryInterface.bulkInsert(
       'Items',
       [
         {
-
+          id: 1,
           seller_id: 1,
           seller_name: 'Ryan',
           purchaser_id: null,
@@ -80,7 +80,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-
+          id: 2,
           seller_id: 1,
           seller_name: 'Ryan',
           purchaser_id: null,
@@ -105,7 +105,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-
+          id: 3,
           seller_id: 1,
           seller_name: 'Ryan',
           purchaser_id: null,
@@ -131,7 +131,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-
+          id: 4,
           seller_id: 1,
           seller_name: 'Ryan',
           purchaser_id: null,
@@ -157,7 +157,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-
+          id: 5,
           seller_id: 1,
           seller_name: 'Ryan',
           purchaser_id: null,
@@ -183,7 +183,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-
+          id: 6,
           seller_id: 1,
           seller_name: 'Ryan',
           purchaser_id: null,
@@ -209,7 +209,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-
+          id: 7,
           seller_id: 1,
           seller_name: 'Ryan',
           purchaser_id: null,
@@ -235,6 +235,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 8,
           seller_id: 1,
           seller_name: 'Ryan',
           purchaser_id: null,
@@ -260,6 +261,7 @@ module.exports = {
         },
 
         {
+          id: 9,
           seller_id: 3,
           seller_name: 'John',
           purchaser_id: null,
@@ -284,6 +286,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 10,
           seller_id: 3,
           seller_name: 'John',
           purchaser_id: null,
@@ -308,6 +311,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 11,
           seller_id: 3,
           seller_name: 'John',
           purchaser_id: null,
@@ -332,6 +336,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 12,
           seller_id: 3,
           seller_name: 'John',
           purchaser_id: null,
@@ -356,6 +361,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 13,
           seller_id: 3,
           seller_name: 'John',
           purchaser_id: null,
@@ -380,6 +386,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 14,
           seller_id: 3,
           seller_name: 'John',
           purchaser_id: null,
@@ -404,6 +411,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 15,
           seller_id: 4,
           seller_name: 'George',
           purchaser_id: null,
@@ -428,6 +436,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 16,
           seller_id: 4,
           seller_name: 'George',
           purchaser_id: null,
@@ -452,6 +461,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 17,
           seller_id: 4,
           seller_name: 'George',
           purchaser_id: null,
@@ -476,6 +486,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 18,
           seller_id: 4,
           seller_name: 'George',
           purchaser_id: null,
@@ -500,6 +511,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 19,
           seller_id: 4,
           seller_name: 'George',
           purchaser_id: null,
@@ -524,6 +536,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 20,
           seller_id: 4,
           seller_name: 'George',
           purchaser_id: null,
@@ -576,24 +589,211 @@ module.exports = {
       ]
     );
 
-    // return await queryInterface.bulkInsert(
-    //   'Rented_Items',
-    //   [
-    //     {
-    //       item_id: 10000,
-    //       user_id: 2,
-    //       seller_name: 'Ryan',
-    //       item_name: 'guitar',
-    //       rate: 100,
-    //       start_date: "2021-01-10T00:27:34.538Z",
-    //       return_date: "2021-02-19T00:27:34.538Z",
-    //       rent_total: 700,
-    //       active: true,
-    //       category: 'Electronics',
-    //       image_url: 'https://hi-neighbor-item-photos.s3.amazonaws.com/bose_speakers.webp'
-    //     }
-    //   ]
-    // )
+    return await queryInterface.bulkInsert(
+      'Reviews',
+      [
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 1,
+          item_id: 1,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 1,
+          item_id: 2,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 1,
+          item_id: 3,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 1,
+          item_id: 4,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 1,
+          item_id: 5,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 1,
+          item_id: 6,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 1,
+          item_id: 7,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 1,
+          item_id: 8,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 3,
+          item_id: 9,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 3,
+          item_id: 10,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 3,
+          item_id: 11,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 3,
+          item_id: 12,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 3,
+          item_id: 13,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 3,
+          item_id: 14,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 4,
+          item_id: 15,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 4,
+          item_id: 16,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 4,
+          item_id: 17,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 4,
+          item_id: 18,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 4,
+          item_id: 19,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: null,
+          rating: null,
+          author_id: null,
+          reviewee_id: 4,
+          item_id: 20,
+          service_id: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ]
+    )
 
   },
 
