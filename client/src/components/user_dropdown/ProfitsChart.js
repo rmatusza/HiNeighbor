@@ -59,7 +59,6 @@ const ProfitsChart = () => {
 
   const options = {
     animationEnabled: true,
-    // exportEnabled: true,
     theme: 'light2',
     title: {
       text: 'Profits'
@@ -76,7 +75,6 @@ const ProfitsChart = () => {
     ],
     data: [{
       type: 'line',
-      // toolTipContent: `${months[x]}`,
       dataPoints: profitData
     }]
   }

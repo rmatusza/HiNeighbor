@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Redirect } from 'react-router-dom'
 import setUserCreds from '../../actions/userCredsAction'
+import { BsInfoSquare } from "react-icons/bs";
 import './login.css';
 
 
@@ -122,10 +123,18 @@ const Login = (props) => {
     }
   }
 
-  const logInDemoUser = async () => {
-    const body = {
-      email: 'testuser@test.com',
-      password: 'password'
+  const logInDemoUser = async (num) => {
+    let body;
+    if(num === 2) {
+      body = {
+        email:'ryan@test.com',
+        password: 'password'
+      }
+    } else {
+      body = {
+        email: 'testuser@test.com',
+        password: 'password'
+      }
     }
     //(body)
     const res = await fetch('http://localhost:5000/api/users/token', {
@@ -158,38 +167,47 @@ const Login = (props) => {
 
   return (
     <>
-    <div className="sign-in-container">
-      <div className="background-img-container">
-        <img className="background-img" src={"https://hi-neighbor-item-photos.s3.amazonaws.com/community.jpg"} />
-      </div>
-      <div className="site-name">
-        <h1 style={{fontFamily: "freestyle script", fontSize: "40px", fontWeight: "bold", color: "red", borderRadius: "5px"}}>
-          Hey Neighbor!
-        </h1>
-      </div>
-      <div className="sign-in-page">
-        <div className="catch-phrase">
-          <h1 style={{fontFamily: 'Arial Rounded MT Bold'}}>
-            See What Your Community Has to Offer.
+      <div className="sign-in-container">
+        <div className="background-img-container">
+          <img className="background-img" src={"https://hi-neighbor-item-photos.s3.amazonaws.com/community.jpg"} />
+        </div>
+        <div className="site-name">
+          <h1 style={{fontFamily: "freestyle script", fontSize: "40px", fontWeight: "bold", color: "red", borderRadius: "5px"}}>
+            Hey Neighbor!
           </h1>
         </div>
-        <form className={classes.root} noValidate autoComplete="off">
-          <TextField  color='primary' id="filled-basic" label="Email:"  variant="filled" name="email-input" onChange={updateInput}/>
-          <div className="password-field">
-          <TextField id="filled-basic" label="Password:" type="password" variant="filled" name="password-input" fullWidth={true} onChange={updateInput}/>
+        <div className="sign-in-page">
+          <div className="catch-phrase">
+            <h1 style={{fontFamily: 'Arial Rounded MT Bold'}}>
+              See What Your Community Has to Offer.
+            </h1>
           </div>
-          <Button onClick={validateForm}  variant="contained" color="primary">
-            Login
-          </Button>
-          <div>
-          <Button onClick={logInDemoUser}  variant="contained" color="primary" fullWidth={true}>
-            Log in as Demo User
-          </Button>
+          <div className="info-icon-container">
+            <BsInfoSquare className="info-icon"/>
           </div>
-        </form>
-
+          <form className={classes.root} noValidate autoComplete="off">
+            <TextField  color='primary' id="filled-basic" label="Email:"  variant="filled" name="email-input" onChange={updateInput}/>
+            <div className="password-field">
+              <TextField id="filled-basic" label="Password:" type="password" variant="filled" name="password-input" fullWidth={true} onChange={updateInput}/>
+            </div>
+              <Button onClick={validateForm}  variant="contained" color="primary">
+                Login
+              </Button>
+            <div className="demo-users-login-buttons-container">
+              <div className="demo-user-1-container">
+                <Button onClick={logInDemoUser}  variant="contained" color="primary" fullWidth={true}>
+                  Log in as Demo User 1
+                </Button>
+              </div>
+              <div>
+                <Button onClick={() => logInDemoUser(2)}  variant="contained" color="primary" fullWidth={true}>
+                  Log in as Demo User 2
+                </Button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
       <Dialog
         open={dialogOpen}
         onClose={handleDialogClose}
