@@ -25,6 +25,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { CgArrowsExpandLeft } from "react-icons/cg";
+import './homepage.css'
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -195,7 +196,7 @@ const Items = () => {
       currUserId
     }
 
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/bid`, {
+    const res = await fetch(`/api/items-and-services/${currItemId}/bid`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -217,7 +218,7 @@ const Items = () => {
       currUserId
     }
 
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
+    const res = await fetch(`/api/items-and-services/${currItemId}/purchase`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'

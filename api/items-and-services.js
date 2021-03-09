@@ -315,6 +315,9 @@ router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(r
     return
   }
 
+  console.log('PASSED THE VALIDATION')
+  console.log('REQUEST BODY:', req.body)
+
   const today = new Date()
   const day = today.getDate()
   const month = today.getMonth() + 1
@@ -332,10 +335,12 @@ router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(r
     rate,
     generatedImageURL,
   } = req.body
-  // res.json(req.body)
 
-  // //('EXPIRY DATE:', expiryDate)
+  let maxId = await Item.max('id') + 1
+
+
   const newItem = await Item.create({
+    id: maxId,
     seller_id: userId,
     seller_name: username,
     name: itemName,
@@ -350,6 +355,8 @@ router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(r
     rented: false,
     expired: false
   })
+
+  console.log('CREATED ITEM:', newItem)
 
   res.json(newItem)
 }))

@@ -43,7 +43,7 @@ const ProfitsChart = () => {
 
   useEffect(() => {
     (async() => {
-      const res = await fetch(`http://localhost:5000/api/users/${userId}/chart-data`)
+      const res = await fetch(`/api/users/${userId}/chart-data`)
       const items = await res.json()
       console.log('SALES DATA:', res)
       items.forEach(item => {
