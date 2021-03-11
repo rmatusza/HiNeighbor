@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Redirect } from 'react-router-dom'
 import setUserCreds from '../../actions/userCredsAction'
 import { BsInfoSquare } from "react-icons/bs";
-import './login.css';
+import './signup.css';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,146 +33,112 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Login = (props) => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [formErrors, setFormErrors] = useState([]);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [infoDialogOpen, setInfoDialogOpen] = useState(false);
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const history = useHistory();
+const SignUp = (props) => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [formErrors, setFormErrors] = useState([]);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [infoDialogOpen, setInfoDialogOpen] = useState(false);
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const history = useHistory();
 
-  const updateInput = (e) => {
-    if(e.target.name === 'password-input') {
-      setPassword(e.target.value)
-    } else {
-      setEmail(e.target.value)
-    }
-  }
-
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
-
-  const handleInfoDialogClose = () => {
-    setInfoDialogOpen(false)
-  }
-
-  const openInfoDialog = () => {
-    setInfoDialogOpen(true)
-  }
-
-  const handleSubmit = async () => {
-    const body = {
-      email,
-      password
-    }
-    //(body)
-    const res = await fetch('http://localhost:5000/api/users/token', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-
-    const response = await res.json()
-    console.log('RESPONSE:', response)
-
-    let errors = []
-    if(response.errors) {
-      response.errors.forEach(error => {
-        errors.push(error.msg)
-      })
-      setFormErrors(errors)
-      setDialogOpen(true)
-      return
+    const updateInput = (e) => {
+        if(e.target.name === 'password-input') {
+        setPassword(e.target.value)
+        } else if(e.target.name === 'password-confirmation-input') {
+            setConfirmPassword(e.target.value)
+        } else {
+            setEmail(e.target.value)
+        }
     }
 
-    let user = response['user']
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+    };
 
-    if(user) {
-      const payload = {
-        id: user.id,
-        username: user.userName,
-        firstName: user.firstName,
-        lastName: user.lastName
-      }
-      dispatch(setUserCreds(payload))
-      props.setAuthenticated(true)
+    const handleInfoDialogClose = () => {
+        setInfoDialogOpen(false)
     }
-  }
 
-  const validateForm = (e) => {
-    e.preventDefault()
-    let discoveredErrors = []
-    let requiredFields =
-    [
-      email,
-      password
-    ]
-    let errorMessages =
-    [
-      'You Must Enter a Valid Email',
-      'You Must Enter a Password',
-    ]
-
-    requiredFields.forEach((field, i) => {
-      if(!field) {
-        discoveredErrors.push(errorMessages[i])
-      }
-      setFormErrors(discoveredErrors)
-    })
-    if(discoveredErrors.length === 0) {
-      handleSubmit()
-    } else {
-      setDialogOpen(true)
+    const openInfoDialog = () => {
+        setInfoDialogOpen(true)
     }
-  }
 
-  const logInDemoUser = async (num) => {
-    let body;
-    if(num === 2) {
-      body = {
-        email:'ryan@test.com',
-        password: 'password'
-      }
-    } else {
-      body = {
-        email: 'testuser@test.com',
-        password: 'password'
-      }
+    const handleSubmit = async () => {
+        const body = {
+        email,
+        password
+        }
+        //(body)
+        const res = await fetch('http://localhost:5000/api/users/token', {
+        method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+
+        const response = await res.json()
+        console.log('RESPONSE:', response)
+
+        let errors = []
+        if(response.errors) {
+            response.errors.forEach(error => {
+                errors.push(error.msg)
+            })
+            setFormErrors(errors)
+            setDialogOpen(true)
+            return
+        }
+
+        let user = response['user']
+
+        if(user) {
+            const payload = {
+                id: user.id,
+                username: user.userName,
+                firstName: user.firstName,
+                lastName: user.lastName
+            }
+            dispatch(setUserCreds(payload))
+            props.setAuthenticated(true)
+        }
     }
-    //(body)
-    const res = await fetch('http://localhost:5000/api/users/token', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
 
-    const { user } = await res.json()
+    const validateForm = (e) => {
+        e.preventDefault()
+        let discoveredErrors = []
+        let requiredFields =
+        [
+        email,
+        password
+        ]
+        let errorMessages =
+        [
+        'You Must Enter a Valid Email',
+        'You Must Enter a Password',
+        ]
 
-    if(user) {
-      const payload = {
-        id: user.id,
-        username: user.userName,
-        firstName: user.firstName,
-        lastName: user.lastName
-      }
-      dispatch(setUserCreds(payload))
-      props.setAuthenticated(true)
+        requiredFields.forEach((field, i) => {
+            if(!field) {
+                discoveredErrors.push(errorMessages[i])
+            }
+            setFormErrors(discoveredErrors)
+        })
+        if(discoveredErrors.length === 0) {
+            handleSubmit()
+        } else {
+            setDialogOpen(true)
+        }
     }
-  }
 
-  const redirectToSignUpPage = () => {
-    history.replace('/signup')
-  }
-
+    const redirectToLoginPage = () => {
+        history.replace('/login')
+    }
+    
 
   if(props.authenticated === true) {
     return <Redirect to="/" exact={true}/>
@@ -191,10 +157,10 @@ const Login = (props) => {
             </h1>
           </div>
           <div className="sign-up-and-info-icon-container">
-            <div className="create-acount-container" onClick={redirectToSignUpPage}>
-              <h3 style={{fontFamily: "freestyle script", fontSize: "30px", fontWeight: "bold", color: "red", borderRadius: "5px"}} className="sign-up-text" >
-                Sign Up
-              </h3>
+            <div className="create-acount-container" onClick={redirectToLoginPage}>
+                <h3 style={{fontFamily: "freestyle script", fontSize: "30px", fontWeight: "bold", color: "red", borderRadius: "5px"}} className="sign-up-text">
+                  Login Page
+                </h3>
             </div>
             <div className="info-icon-container" onClick={openInfoDialog}>
               <BsInfoSquare className="info-icon"/>
@@ -212,19 +178,13 @@ const Login = (props) => {
             <div className="password-field">
               <TextField id="filled-basic" label="Password:" type="password" variant="filled" name="password-input" fullWidth={true} onChange={updateInput}/>
             </div>
-              <Button onClick={validateForm}  variant="contained" color="primary">
-                Login
-              </Button>
-              <div className="demo-user-1-container">
-                <Button onClick={logInDemoUser}  variant="contained" color="primary" fullWidth={true}>
-                  Log in as Demo User 1
-                </Button>
-              </div>
-              <div>
-                <Button onClick={() => logInDemoUser(2)}  variant="contained" color="primary" fullWidth={true}>
-                  Log in as Demo User 2
-                </Button>
-              </div>
+            <TextField id="filled-basic" label="Confirm Password:" type="password" variant="filled" name="password-confirmation-input" fullWidth={true} onChange={updateInput}/>
+            <TextField id="filled-basic" label="UserName:" type="password" variant="filled" name="password-confirmation-input" fullWidth={true} onChange={updateInput}/>
+            <TextField id="filled-basic" label="First Name:" type="password" variant="filled" name="password-confirmation-input" fullWidth={true} onChange={updateInput}/>
+            <TextField id="filled-basic" label="Last Name:" type="password" variant="filled" name="password-confirmation-input" fullWidth={true} onChange={updateInput}/>
+            <Button onClick={validateForm}  variant="contained" color="primary">
+                Create Account
+            </Button>
           </form>
         </div>
       </div>
@@ -275,4 +235,4 @@ const Login = (props) => {
 }
 
 
-export default Login;
+export default SignUp;

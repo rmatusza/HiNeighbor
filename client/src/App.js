@@ -13,6 +13,7 @@ import PurchaseHistory from './components/user_dropdown/PurchaseHistory';
 import SellerProfileMain from './components/seller_profile/SellerProfileMain';
 import UserStats from './components/user_dropdown/UserStats';
 import History from './components/user_dropdown/History';
+import SignUp from './components/signup/SignUp';
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -61,7 +62,6 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      {/* {form_state === true ? <PostItem /> : <> </>} */}
       <ProtectedRoute path="/" authenticated={authenticated} exact={true}>
         <TopBar setAuthenticated={setAuthenticated}/>
         <HomePage />
@@ -72,7 +72,6 @@ const App = () => {
       </ProtectedRoute>
       <ProtectedRoute path="/purchase-history" authenticated={authenticated} exact={true}>
         <TopBar setAuthenticated={setAuthenticated}/>
-        {/* <PurchaseHistory /> */}
         <History />
       </ProtectedRoute>
       <ProtectedRoute path="/seller-profile/:id" authenticated={authenticated} exact={true}>
@@ -81,6 +80,9 @@ const App = () => {
       </ProtectedRoute>
       <Route path="/login" exact={true} >
         <Login authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+      </Route>
+      <Route path="/signup" exact={true} >
+        <SignUp authenticated={authenticated} setAuthenticated={setAuthenticated}/>
       </Route>
       <ProtectedRoute path="/user-stats" authenticated={authenticated} exact={true} >
         <TopBar setAuthenticated={setAuthenticated}/>

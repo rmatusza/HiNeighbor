@@ -58,6 +58,16 @@ router.post('/token', signInValidations, asyncHandler(async(req, res) => {
   }
 }))
 
+router.post('/signup', signInValidations, asyncHandler(async(req, res) => {
+  // bcrypt.hashSync('password', 10),
+  const {email, password} = req.body
+  let maxId = await User.max('id') + 1
+  const newUser = await User.create({
+    id: maxId,
+    
+  })
+}))
+
 router.post('/authenticate', verifyUser, asyncHandler(async(req, res) => {
   const user = await User.findByPk(req.user.data.id)
   const userData = {

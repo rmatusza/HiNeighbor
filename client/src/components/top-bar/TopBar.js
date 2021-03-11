@@ -46,7 +46,7 @@ const TopBar = (props) => {
           </h2>
         </div>
         <div className="site-name-container">
-          <h1 style={{fontFamily: "freestyle script", fontSize: "40px", fontWeight: "bold"}}>Hey Neighbor!</h1>
+          <h1 style={{fontFamily: "freestyle script", fontSize: "40px", fontWeight: "bold"}}>Hi Neighbor!</h1>
         </div>
         <div className='top-bar-right'>
           <div className='username-container'>
