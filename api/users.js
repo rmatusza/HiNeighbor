@@ -18,6 +18,7 @@ const router = express.Router();
 const signInValidations = [
   check("email")
     .exists({ checkFalsy: true })
+    .withMessage("An email address is required")
     .isEmail()
     .withMessage("A valid email address is required")
     .isLength({ max: 100 })
@@ -25,6 +26,35 @@ const signInValidations = [
   check("password")
     .exists({ checkFalsy: true })
     .withMessage("User password is required"),
+];
+
+const signUpValidations = [
+  check("email")
+    .exists({ checkFalsy: true })
+    .withMessage("An email address is required")
+    .isEmail()
+    .withMessage("A valid email address is required")
+    .isLength({ max: 100 })
+    .withMessage("Email address must be less than 100 characters"),
+  check("password")
+    .exists({ checkFalsy: true })
+    .withMessage("User password is required"),
+  check("firstName")
+    .exists({ checkFalsy: true })
+    .withMessage("You must provide a first name")
+    .isLength({max: 50})
+    .withMessage("First name must be less than 50 characters"),
+  check("lastName")
+    .exists({ checkFalsy: true })
+    .withMessage("You must provide a last name")
+    .isLength({max: 50})
+    .withMessage("Last name must be less than 50 characters"),
+  check("username")
+    .exists({ checkFalsy: true })
+    .withMessage("You must provide a username")
+    .isLength({max: 25})
+    .withMessage("Your username must be less than 25 characters")
+
 ];
 
 router.post('/token', signInValidations, asyncHandler(async(req, res) => {
@@ -58,14 +88,40 @@ router.post('/token', signInValidations, asyncHandler(async(req, res) => {
   }
 }))
 
-router.post('/signup', signInValidations, asyncHandler(async(req, res) => {
-  // bcrypt.hashSync('password', 10),
-  const {email, password} = req.body
+router.post('/signup', signUpValidations, asyncHandler(async(req, res) => {
+  const {email, password, username, firstName, lastName} = req.body
   let maxId = await User.max('id') + 1
+  const userCheck = await User.findAll({
+    where: {
+     email,
+     username
+    }
+  })
+  userCheck.forEach(discoveredUser => {
+    if(discoveredUser.email === email) {
+      const err = Error
+      err.message = 'This email is already associated with an account'
+      res.json(err)
+      return 
+    } else {
+      const err = Error
+      err.message = 'This username has already been taken'
+      res.json(err)
+      return 
+    }
+  })
   const newUser = await User.create({
     id: maxId,
-    
+    email,
+    first_name: firstName,
+    last_name: lastName,
+    username,
+    hashedPassword: bcrypt.hashSync(password, 10),
   })
+  console.log('NEW USER:', newUser)
+  const token = getUserToken(newUser)
+  res.cookie("access_token", token, { httpOnly: false });
+  res.json({ token, user: { id: newUser.id, userName: newUser.username, firstName: newUser.first_name, lastName: newUser.last_name } });
 }))
 
 router.post('/authenticate', verifyUser, asyncHandler(async(req, res) => {

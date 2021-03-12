@@ -37,6 +37,9 @@ const SignUp = (props) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [username, setUserName] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [formErrors, setFormErrors] = useState([]);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [infoDialogOpen, setInfoDialogOpen] = useState(false);
@@ -46,11 +49,18 @@ const SignUp = (props) => {
 
     const updateInput = (e) => {
         if(e.target.name === 'password-input') {
-        setPassword(e.target.value)
+          setPassword(e.target.value)
         } else if(e.target.name === 'password-confirmation-input') {
-            setConfirmPassword(e.target.value)
-        } else {
-            setEmail(e.target.value)
+          setConfirmPassword(e.target.value)
+        } else if(e.target.name === 'username'){
+          setUserName(e.target.value)
+        }else if(e.target.name === 'first-name'){
+          setFirstName(e.target.value)
+        }else if(e.target.name === 'last-name'){
+          setLastName(e.target.value)
+        }
+        else {
+          setEmail(e.target.value)
         }
     }
 
@@ -67,79 +77,104 @@ const SignUp = (props) => {
     }
 
     const handleSubmit = async () => {
-        const body = {
+      
+      const body = {
         email,
-        password
-        }
-        //(body)
-        const res = await fetch('http://localhost:5000/api/users/token', {
-        method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
+        password,
+        username,
+        firstName,
+        lastName
+      }
+      //(body)
+      const res = await fetch('http://localhost:5000/api/users/signup', {
+      method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+
+      const response = await res.json()
+
+      let errors = []
+      if(response.error) {
+        response.error.errors.forEach(error => {
+          if(error.message === "email must be unique") {
+            errors.push("This email is already associated with an account")
+          } else if(error.message === "username must be unique"){
+            errors.push("This username is already taken")
+          }else{
+            errors.push(error.message)
+          }
         })
+        setFormErrors(errors)
+        setDialogOpen(true)
+        return
+      }
+      if(response.errors) {
+        response.errors.forEach(error => {
+          errors.push(error.msg)
+        })
+        setFormErrors(errors)
+        setDialogOpen(true)
+        return
+      }
 
-        const response = await res.json()
-        console.log('RESPONSE:', response)
+      let user = response['user']
 
-        let errors = []
-        if(response.errors) {
-            response.errors.forEach(error => {
-                errors.push(error.msg)
-            })
-            setFormErrors(errors)
-            setDialogOpen(true)
-            return
-        }
-
-        let user = response['user']
-
-        if(user) {
-            const payload = {
-                id: user.id,
-                username: user.userName,
-                firstName: user.firstName,
-                lastName: user.lastName
-            }
-            dispatch(setUserCreds(payload))
-            props.setAuthenticated(true)
-        }
+      if(user) {
+          const payload = {
+            id: user.id,
+            username: user.userName,
+            firstName: user.firstName,
+            lastName: user.lastName
+          }
+        dispatch(setUserCreds(payload))
+        props.setAuthenticated(true)
+      }
     }
 
     const validateForm = (e) => {
-        e.preventDefault()
-        let discoveredErrors = []
-        let requiredFields =
-        [
-        email,
-        password
-        ]
-        let errorMessages =
-        [
-        'You Must Enter a Valid Email',
-        'You Must Enter a Password',
-        ]
-
-        requiredFields.forEach((field, i) => {
-            if(!field) {
-                discoveredErrors.push(errorMessages[i])
-            }
-            setFormErrors(discoveredErrors)
-        })
-        if(discoveredErrors.length === 0) {
-            handleSubmit()
-        } else {
-            setDialogOpen(true)
+      
+      e.preventDefault()
+      let discoveredErrors = []
+      let requiredFields =
+      [
+      email,
+      password,
+      username,
+      firstName,
+      lastName
+      ]
+      let errorMessages =
+      [
+      'You Must Enter a Valid Email',
+      'You Must Enter a Password',
+      'You Must Enter a Username', 
+      'You Must Enter a First Name',
+      'You Must Enter a Last Name'
+      ]
+      if(password !== confirmPassword){
+        discoveredErrors.push("Your passwords don't match")
+      }
+      requiredFields.forEach((field, i) => {
+        if(!field) {
+          discoveredErrors.push(errorMessages[i])
         }
+        setFormErrors(discoveredErrors)
+      })
+      if(discoveredErrors.length === 0) {
+        handleSubmit()
+      } else {
+        setDialogOpen(true)
+      }
     }
 
-    const redirectToLoginPage = () => {
-        history.replace('/login')
-    }
+  const redirectToLoginPage = () => {
+    history.replace('/login')
+  }
     
-
   if(props.authenticated === true) {
     return <Redirect to="/" exact={true}/>
   }
@@ -179,11 +214,11 @@ const SignUp = (props) => {
               <TextField id="filled-basic" label="Password:" type="password" variant="filled" name="password-input" fullWidth={true} onChange={updateInput}/>
             </div>
             <TextField id="filled-basic" label="Confirm Password:" type="password" variant="filled" name="password-confirmation-input" fullWidth={true} onChange={updateInput}/>
-            <TextField id="filled-basic" label="UserName:" type="password" variant="filled" name="password-confirmation-input" fullWidth={true} onChange={updateInput}/>
-            <TextField id="filled-basic" label="First Name:" type="password" variant="filled" name="password-confirmation-input" fullWidth={true} onChange={updateInput}/>
-            <TextField id="filled-basic" label="Last Name:" type="password" variant="filled" name="password-confirmation-input" fullWidth={true} onChange={updateInput}/>
+            <TextField id="filled-basic" label="UserName:"  variant="filled" name="username" fullWidth={true} onChange={updateInput}/>
+            <TextField id="filled-basic" label="First Name:"  variant="filled" name="first-name" fullWidth={true} onChange={updateInput}/>
+            <TextField id="filled-basic" label="Last Name:"  variant="filled" name="last-name" fullWidth={true} onChange={updateInput}/>
             <Button onClick={validateForm}  variant="contained" color="primary">
-                Create Account
+              Create Account
             </Button>
           </form>
         </div>
