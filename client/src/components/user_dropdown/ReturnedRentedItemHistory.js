@@ -120,7 +120,7 @@ const ReturnedRentedItemHistory = (props) => {
   let dataRows = []
 
   let rows = []
-  // const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
+  // const res = await fetch(`/api/users/${currUserId}/get-purchase-history`)
   // const postedItems = await res.json()
   // items = postedItems
   //('RETURNED ITEMS:', postedItems)
@@ -172,7 +172,7 @@ const ReturnedRentedItemHistory = (props) => {
       itemRating
     }
 
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
+    const res = await fetch(`/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'

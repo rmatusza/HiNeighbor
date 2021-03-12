@@ -26,7 +26,6 @@ Hi Neighbor is a full stack web application that seeks to replicate a simplified
 
 # UPCOMING/IN PROGRESS FEATURES
 
-1. Ability to create a new account
-2. More user statistics such as month with most bids, month with highest number of user ratings, etc.
-3. Incorporate google maps api for users to choose and generate directions to meeting locations so that puchased items can be exchanged 
-4. Incorporate web sockets so that users can instantaneously chat with and ask questions to sellers 
+1. More user statistics such as month with most bids, month with highest number of user ratings, etc.
+2. Incorporate google maps api for users to choose and generate directions to meeting locations so that puchased items can be exchanged 
+3. Incorporate web sockets so that users can instantaneously chat with and ask questions to sellers 
