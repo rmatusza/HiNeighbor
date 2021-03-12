@@ -62,7 +62,7 @@
   padding-left: 10px;
   text-decoration: underline;
   border: 2px solid white;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgb(255, 255, 255);
 }
 
 .sign-up-text:hover{

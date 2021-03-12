@@ -156,6 +156,7 @@ const Login = (props) => {
     })
 
     const { user } = await res.json()
+    console.log(user)
 
     if(user) {
       const payload = {
@@ -166,7 +167,7 @@ const Login = (props) => {
       }
       dispatch(setUserCreds(payload))
       props.setAuthenticated(true)
-    }
+    } 
   }
 
   const redirectToSignUpPage = () => {
@@ -235,7 +236,7 @@ const Login = (props) => {
         aria-describedby="alert-dialog-description"
         >
         <DialogTitle id="alert-dialog-title">
-          {"The Following Are Required:"}
+          {"There are missing fields or incorrect information:"}
         </DialogTitle>
         <List>
           {formErrors.map((error) => (

@@ -78,13 +78,15 @@ router.post('/token', signInValidations, asyncHandler(async(req, res) => {
         const err = Error
         err.status = 401,
         err.message = 'incorect password'
-        res.json(err)
+        res.json({'errors': [{'msg': 'Incorrect password'}]})
       } else {
         const token = getUserToken(user)
         res.cookie("access_token", token, { httpOnly: false });
         res.json({ token, user: { id: user.id, userName: user.username, firstName: user.first_name, lastName: user.last_name } });
       }
     })
+  } else {
+    res.json({'errors': [{'msg': 'Incorrect email'}]})
   }
 }))
 
