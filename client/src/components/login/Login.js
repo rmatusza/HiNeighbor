@@ -69,7 +69,7 @@ const Login = (props) => {
       password
     }
     //(body)
-    const res = await fetch('/api/users/token', {
+    const res = await fetch('http://localhost:5000/api/users/token', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -79,7 +79,7 @@ const Login = (props) => {
     })
 
     const response = await res.json()
-    console.log('RESPONSE:', response)
+    //('RESPONSE:', response)
 
     let errors = []
     if(response.errors) {
@@ -146,7 +146,7 @@ const Login = (props) => {
       }
     }
     //(body)
-    const res = await fetch('/api/users/token', {
+    const res = await fetch('http://localhost:5000/api/users/token', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -156,7 +156,7 @@ const Login = (props) => {
     })
 
     const { user } = await res.json()
-    console.log(user)
+    //(user)
 
     if(user) {
       const payload = {

@@ -117,22 +117,22 @@ router.post('/search', asyncHandler(async(req, res) => {
 
     let itemsAvaliableForRent = []
     items.forEach(async(item) => {
-      console.log(item)
+      //(item)
       if(new Date(item.expiry_date) < today && item.rented === true) {
-        console.log('IF')
+        //('IF')
         await item.update({rented: false, expiry_date: null})
         itemsAvaliableForRent.push(item)
       }else if(item.rented === false) {
-        console.log('ELSE IF')
+        //('ELSE IF')
         itemsAvaliableForRent.push(item)
       } else {
-        console.log('ELSE')
+        //('ELSE')
         itemsAvaliableForRent.push(item)
       }
       // itemsAvaliableForRent.push(item)
     })
 
-    console.log('ITEMS FOR RENT:', itemsAvaliableForRent)
+    //('ITEMS FOR RENT:', itemsAvaliableForRent)
 
     if(items.length === 0) {
       res.json({'saleItems': [], 'rentItems': ['no_results'], 'bids': bids})

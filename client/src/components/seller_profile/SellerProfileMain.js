@@ -61,11 +61,11 @@ const SellerProfileMain = () => {
     (async() => {
       let rows = []
       let rentRows = []
-      const res = await fetch(`/api/users/${id}/get-seller-info`)
+      const res = await fetch(`http://localhost:5000/api/users/${id}/get-seller-info`)
       const sellerInfo = await res.json()
-      console.log('RETURNED ITEMS:', sellerInfo.items_for_sale)
+      //('RETURNED ITEMS:', sellerInfo.items_for_sale)
       sellerInfo.items.forEach(item => {
-        console.log('ITEM FOR SALE?:', item.for_sale)
+        //('ITEM FOR SALE?:', item.for_sale)
         if(item.for_sale === true) {
           const d1 = new Date(item.expiry_date)
           const today = new Date()
@@ -85,7 +85,7 @@ const SellerProfileMain = () => {
             let year = item.expiry_date.slice(0, 4)
             date = month+'-'+day+'-'+year
           }
-          console.log('RENT ITEM:', item)
+          //('RENT ITEM:', item)
           rentRows.push(createRentData(item.name, item.rate, item.rented, date))
         }
       })

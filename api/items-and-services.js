@@ -115,6 +115,8 @@ router.post('/search', asyncHandler(async(req, res) => {
     const notExpired = ['no_items']
 
     items.forEach(item => {
+      console.log(new Date(item.expiry_date))
+      console.log(today)
       if (new Date(item.expiry_date) < today && item.last_bidder !== null) {
         expiredWithBidder.push(item)
       } else if(new Date(item.expiry_date) < today && item.last_bidder === null) {
@@ -149,7 +151,7 @@ router.post('/search', asyncHandler(async(req, res) => {
     }
 
 
-    res.json({'saleItems': notExpired, 'rentItems': [], 'bids': bids})
+    res.json({'saleItems': notExpired, 'rentItems': [], 'bids': bids, 'expiredWithoutBidder': expiredWithoutBidder})
 
 
     //-RENT-----------------------------------------------------------------------
@@ -183,7 +185,7 @@ router.post('/search', asyncHandler(async(req, res) => {
     // in this case need to reset the expiry date to null (until another person rents it) and change rented from true to false
 
     items.forEach(async(item) => {
-      console.log('ITEM:', item)
+      //('ITEM:', item)
       if(new Date(item.expiry_date) < today && item.rented === true) {
         await item.update({rented: false, expiry_date: null})
         itemsAvaliableForRent.push(item)
@@ -272,7 +274,7 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
     generatedImageURL,
     expiryDate
   } = req.body
-  console.log('REQ BODY:', req.body)
+  //('REQ BODY:', req.body)
 
   //('EXPIRY DATE:', expiryDate)
 
@@ -315,8 +317,8 @@ router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(r
     return
   }
 
-  console.log('PASSED THE VALIDATION')
-  console.log('REQUEST BODY:', req.body)
+  //('PASSED THE VALIDATION')
+  //('REQUEST BODY:', req.body)
 
   const today = new Date()
   const day = today.getDate()
@@ -356,7 +358,7 @@ router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(r
     expired: false
   })
 
-  console.log('CREATED ITEM:', newItem)
+  //('CREATED ITEM:', newItem)
 
   res.json(newItem)
 }))

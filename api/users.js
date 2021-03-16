@@ -120,7 +120,7 @@ router.post('/signup', signUpValidations, asyncHandler(async(req, res) => {
     username,
     hashedPassword: bcrypt.hashSync(password, 10),
   })
-  console.log('NEW USER:', newUser)
+  //('NEW USER:', newUser)
   const token = getUserToken(newUser)
   res.cookie("access_token", token, { httpOnly: false });
   res.json({ token, user: { id: newUser.id, userName: newUser.username, firstName: newUser.first_name, lastName: newUser.last_name } });
@@ -272,7 +272,8 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
     if(item.sold === true) {
       ids.push(item.seller_id)
       itemIds.push(item.id)
-    }
+      purchasedItems.push(item)
+    } 
   })
 
   itemsToUpdate.forEach(async(item) => {
@@ -281,6 +282,7 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
         id: item.id
       }
     })
+    purchasedItems.push(item)
     await Review.create({
       reviewee_id: item.seller_id,
       item_id: item.id,
@@ -303,13 +305,13 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
     order: [['item_id', 'ASC']]
   })
 
-  const rented_items = await Rented_Item.findAll({
-    where: {
-      user_id: userId
-    }
-  })
+  // const rented_items = await Rented_Item.findAll({
+  //   where: {
+  //     user_id: userId
+  //   }
+  // })
 
-  res.json({'users': users, 'reviews': reviews, 'purchased_items': items})
+  res.json({'users': users, 'reviews': reviews, 'purchased_items': purchasedItems})
   // res.json(items)
 }))
 

@@ -24,7 +24,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { CgArrowsExpandLeft } from "react-icons/cg";
+import { CgArrowsExpandLeft, CgGoogle } from "react-icons/cg";
+import { Loader } from "@googlemaps/js-api-loader"
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api"
 import './homepage.css'
 
 const useStyles = makeStyles((theme) => ({
@@ -119,12 +126,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-
-
 function createData(name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price, sellerId, description) {
   return { name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price, sellerId, description };
 }
-
 
 const Items = () => {
   let items = useSelector(store => store.entities.items_state.saleItems)
@@ -142,8 +146,7 @@ const Items = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const history = useHistory();
-  //('ITEMS:', items)
-
+  
   const updateBidInput = (e) => {
     // //('BID INPUT:', e.target.value)
     setBidInput(e.target.value)
@@ -196,7 +199,7 @@ const Items = () => {
       currUserId
     }
 
-    const res = await fetch(`/api/items-and-services/${currItemId}/bid`, {
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/bid`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -218,7 +221,7 @@ const Items = () => {
       currUserId
     }
 
-    const res = await fetch(`/api/items-and-services/${currItemId}/purchase`, {
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -253,11 +256,33 @@ const Items = () => {
     setModalOpen(false)
   }
   let dataRows = []
+  
+  // const mapContainerStyle = {
+  //   width: '100vw',
+  //   height: '100vh'
+  // }
+  // const center = {
+  //   lat: 43.653225,
+  //   lng: -79.383186
+  // }
+  // const { isLoaded, loadError } = useLoadScript({
+  //   googleMapsApiKey: "AIzaSyBNW-9DiJB9C-6y-wlRNUcWpar6-7ALcb0"
+  // })
+  
+  // if(loadError) return "Error loading maps";
+  // if(!isLoaded) return "Loading Maps";
 
   {if(items[0] === 'no_items') {
       return(
         <div className="items-body-container-no-items">
-          <h1 className="no-results-heading">No Results Found</h1>
+          {/* <h1 className="no-results-heading">No Results Found</h1>
+          <div style={{width: '100vw', height: '100vh'}}>
+            <GoogleMap 
+            mapContainerStyle={mapContainerStyle} 
+            zoom={8} 
+            center={center}
+            />
+          </div> */}
         </div>
       )
     }else {
@@ -445,13 +470,5 @@ const Items = () => {
     }
   }
 }
-
-
-
-
-
-
-
-
 
 export default Items;

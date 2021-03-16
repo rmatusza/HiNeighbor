@@ -24,6 +24,13 @@ const App = () => {
   const dispatch = useDispatch();
   const history = useHistory()
 
+  const date = new Date()
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+  const today = new Date(month+'-'+day+'-'+year)
+  console.log(today)
+
 
   // AUTHENTICATES THE USER BY CHECKING TO SEE IF THEY HAVE A VALID ACCESS TOKEN
   useEffect(() => {
@@ -39,7 +46,7 @@ const App = () => {
         if(!token) {
           return
         }
-        const res = await fetch('/api/users/authenticate', {
+        const res = await fetch('http://localhost:5000/api/users/authenticate', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

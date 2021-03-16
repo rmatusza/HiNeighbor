@@ -108,7 +108,7 @@ const SellerProfileForSale = (props) => {
   let itemData = props.itemData['user_data']['items_for_sale']
   let tableData = props.itemData['table_data']
   let user = props.itemData['user_data']['user']['username']
-  console.log('USER:', user)
+  //('USER:', user)
   const classes = useStyles()
   return(
     <>

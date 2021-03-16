@@ -20,9 +20,7 @@ code {
 }
 
 #root{
-  /* height: 100%;
-  background-color: rgb(206, 204, 204); */
   height: auto;
   background-image: url('https://hi-neighbor-item-photos.s3.amazonaws.com/memphis-mini.png')
-
 }
+
