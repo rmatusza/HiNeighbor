@@ -48,13 +48,9 @@ const UserDropdown = (props) => {
     history.replace('/user-stats')
   }
 
-  // const togglePostItemForm = () => {
-  //   //('here')
-  //   setVisibility(true)
-  //   return(<PostItem visible={visibility}/>)
-  // }
-
-  //(form_state)
+  const handleBidHistory = () => {
+    history.replace('/bid-history')
+  }
 
   const handleDialogClose = () => {
     dispatch(setPostItemFormStatus(false))
@@ -94,6 +90,7 @@ const UserDropdown = (props) => {
           <MenuItem onClick={handleMyStats}>My Stats</MenuItem>
           <MenuItem onClick={handlePostedItems}>Posted Items</MenuItem>
           <MenuItem onClick={handlePurchaseHistory}>Purchase History</MenuItem>
+          <MenuItem onClick={handleBidHistory}>Bid History</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </div>

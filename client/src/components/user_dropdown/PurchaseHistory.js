@@ -279,7 +279,7 @@ const PurchaseHistory = (props) => {
                         </Typography>
                           <Slider
                             defaultValue={props.postedItems.reviews[idx].rating}
-                            getAriaValueText={valuetext}
+                            // getAriaValueText={valuetext}
                             aria-labelledby="discrete-slider-small-steps"
                             step={1}
                             marks={marks}

@@ -14,6 +14,7 @@ import SellerProfileMain from './components/seller_profile/SellerProfileMain';
 import UserStats from './components/user_dropdown/UserStats';
 import History from './components/user_dropdown/History';
 import SignUp from './components/signup/SignUp';
+import BidHistory from './components/user_dropdown/BidHistory';
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -80,6 +81,10 @@ const App = () => {
       <ProtectedRoute path="/purchase-history" authenticated={authenticated} exact={true}>
         <TopBar setAuthenticated={setAuthenticated}/>
         <History />
+      </ProtectedRoute>
+      <ProtectedRoute path="/bid-history" authenticated={authenticated} exact={true}>
+        <TopBar setAuthenticated={setAuthenticated}/>
+        <BidHistory />
       </ProtectedRoute>
       <ProtectedRoute path="/seller-profile/:id" authenticated={authenticated} exact={true}>
         <TopBar setAuthenticated={setAuthenticated}/>

@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
-const { User, Item, Review, Rented_Item } = require("../db/models");
+const { User, Item, Review, Rented_Item, Bid } = require("../db/models");
 const { asyncHandler } = require('../utils');
 const { check, validationResult } = require("express-validator");
 const { getUserToken, verifyUser } = require('../auth');
@@ -378,6 +378,26 @@ router.get('/:id/get-rent-history', asyncHandler(async(req,res) => {
 
   res.json({'reviews': reviews, 'rent_items': currentRentedItems, 'returned_rented_items': returnedRentedItems})
   // res.json(items)
+}))
+
+router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
+  const userId = req.params.id
+  const bidData = []
+  const bidObjects = await Bid.findAll({
+    where: {
+      user_id: userId
+    },
+    include: {
+      model: Item,
+    }
+  })
+
+  // TODO: loop through the combined bid object/item object array and weed out any expired items
+  // then create an object containing only the data that the front end needs and push this into the bidData array
+  // and return that as a response to the bid history component
+  bidObjects.forEach(bidObject => {
+  })
+
 }))
 
 router.get('/:id/chart-data', asyncHandler(async(req,res) => {
