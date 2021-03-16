@@ -31,7 +31,7 @@ import {
   useLoadScript,
   Marker,
   InfoWindow,
-} from "@react-google-maps/api"
+} from "@react-google-mapshttp://localhost:5000/api"
 import './homepage.css'
 
 const useStyles = makeStyles((theme) => ({
@@ -266,7 +266,7 @@ const Items = () => {
   //   lng: -79.383186
   // }
   // const { isLoaded, loadError } = useLoadScript({
-  //   googleMapsApiKey: "AIzaSyBNW-9DiJB9C-6y-wlRNUcWpar6-7ALcb0"
+  //   googleMapsApiKey: ""
   // })
   
   // if(loadError) return "Error loading maps";
