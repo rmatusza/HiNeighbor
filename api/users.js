@@ -444,7 +444,7 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
     }
   }
 
- res.json({lostAuctions, topBidder, notTopBidder})
+ res.json([lostAuctions, topBidder, notTopBidder])
 
 }))
 

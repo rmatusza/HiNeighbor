@@ -94,122 +94,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function createData(name, seller, purchase_price, purchase_date) {
-  return { name, seller, purchase_price, purchase_date };
-}
-
-function valuetext(value) {
-  return `${value}°C`;
-}
-
 const BidHistory = (props) => {
   const currUserId = useSelector(store => store.session.currentUser.id)
-  const [postedItems, setPostedItems] = useState({'items': [], 'users': []})
   const[ratingVisibility, setRatingVisibility] = useState({})
   const[currItem, setCurrItem] = useState(null)
   const[itemRating, setItemRating] = useState(null)
   const [selectedRatingButton, setSelectedRatingButton] = useState(null)
+  const [lostAuctionData, setLostAuctionData] = useState([])
+  const [topBidderData, setTopBidderData] = useState([])
+  const [notTopBidderData, setNotTopBidderData] = useState([])
   const classes = useStyles()
-  let items = []
-  let ratingState = {}
-  let dataRows = []
-
-  let rows = []
-    //   props.postedItems.purchased_items.forEach((item, i) => {
-    //     ratingState[i] = false
-    //     let month = item.date_sold.slice(5,7)
-    //     let day = item.date_sold.slice(8,10)
-    //     let year = item.date_sold.slice(0, 4)
-    //     if(item.current_bid === null) {
-    //       dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year))
-    //     } else {
-    //       dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year))
-    //     }
-    //   })
-
+  
   useEffect(() => {
     (async() => {
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-bid-history`)
       const bidData = await res.json()
-      console.log(bidData)
+
+      setLostAuctionData(bidData[0])
+      setTopBidderData(bidData[1])
+      setNotTopBidderData(bidData[2])
     })()
   }, [])
 
-  const marks = [
-    {
-      value: 1,
-      label: '1',
-    },
-    {
-      value: 2,
-      label: '2',
-    },
-    {
-      value: 3,
-      label: '3',
-    },
-    {
-      value: 4,
-      label: '4',
-    },
-    {
-      value: 5,
-      label: '5',
-    },
-  ];
-
-  const updateItemRating = (e, value) => {
-    setItemRating(value)
-  }
-
-  const enableRating = (itemId, idx) => {
-    //(itemId)
-    let statecpy = {...ratingVisibility}
-    let value = ratingVisibility[idx]
-    statecpy[idx] = !value
-    if(selectedRatingButton !== null && selectedRatingButton !== idx) {
-      statecpy[selectedRatingButton] = false
-    }
-    setCurrItem(itemId)
-    setRatingVisibility(statecpy)
-    setSelectedRatingButton(idx)
-    // currItem = itemId
-    // ratingVisibility = statecpy
-    // selectedRatingButton = idx
-  }
-
-    const submitRating = async(itemId, idx, sellerId) => {
-        const body = {
-            currUserId,
-            itemRating,
-            sellerId
-        }
-        try {
-        const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type':'application/json'
-        },
-        body: JSON.stringify(body)
-        })
-
-        const rating = await res.json()
-        const status = await res.status
-        if(!(status >= 200 && status <= 399)) {
-        const err = new Error()
-        err.message = status
-        throw err
-        }
-        enableRating(itemId, idx)
-        } catch(e) {
-        alert(`Something went wrong. Error status: ${e.message}`)
-        }
-    }
-
   return(
-    <>
-     
-    </>
+    <div className="bid-history-container">
+      <div className="top-bidder-container">
+        <h2>Items Where You Are the Top Bidder</h2>
+        {topBidderData.map(data => {
+          return (
+            <p>{data.item_name}</p>
+          )
+        })}
+      </div>
+      <div className="not-top-bidder-container">
+        <h2>Items You Have Bid on</h2>
+        {notTopBidderData.map((data, i) => {
+          return(
+            <TableContainer className={classes.tableContainer}  style={{height: '100px'}}>
+              <Table className={classes.table} size="small" aria-label="a dense table">
+                <TableHead className={classes.tableHead}>
+                  <TableRow>
+                    <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody >
+                  <TableCell align="center">{data.item_name}</TableCell>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )
+        })}
+      </div>
+      <div className="lost-auction-container">
+        
+      </div>
+
+    </div>
   )
 }
 
