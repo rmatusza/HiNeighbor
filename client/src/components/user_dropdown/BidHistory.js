@@ -130,6 +130,8 @@ const BidHistory = (props) => {
   useEffect(() => {
     (async() => {
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-bid-history`)
+      const bidData = await res.json()
+      console.log(bidData)
     })()
   }, [])
 

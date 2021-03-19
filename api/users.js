@@ -256,7 +256,6 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
     order: [['id', 'ASC']]
   })
 
-  // //('ITEMS:', items)
   let ids = []
   let itemIds = []
   let purchasedItems = []
@@ -290,8 +289,6 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
     })
   })
 
-
-  // //('ID ARRAY:', ids)
   const users = await User.findAll({
     where: {
       id: ids,
@@ -305,14 +302,7 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
     order: [['item_id', 'ASC']]
   })
 
-  // const rented_items = await Rented_Item.findAll({
-  //   where: {
-  //     user_id: userId
-  //   }
-  // })
-
   res.json({'users': users, 'reviews': reviews, 'purchased_items': purchasedItems})
-  // res.json(items)
 }))
 
 router.get('/:id/get-rent-history', asyncHandler(async(req,res) => {
@@ -334,15 +324,11 @@ router.get('/:id/get-rent-history', asyncHandler(async(req,res) => {
   const currentRentedItems = []
 
   rentedItems.forEach(async(item) => {
-    //('CURRENT ITEM:', item)
     if(new Date(item.return_date) < today) {
       returnedRentedItems.push(item)
       if(item.active === true){
-        //('ITEM MARKED AS ACTIVE')
         returnedRentedItemsIds.push(item.item_id)
         await item.update({active: false})
-        //('UPDATED ITEM:', item)
-        //('ID OF ITEM TO UPDATE:', returnedRentedItemsIds)
       }
     } else {
       currentRentedItems.push(item)
@@ -381,8 +367,15 @@ router.get('/:id/get-rent-history', asyncHandler(async(req,res) => {
 }))
 
 router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
-  const userId = req.params.id
+
+  const date = new Date()
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+  const today = new Date(month+'-'+day+'-'+year)
+  const userId = parseInt(req.params.id, 10)
   const bidData = []
+
   const bidObjects = await Bid.findAll({
     where: {
       user_id: userId
@@ -392,11 +385,66 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
     }
   })
 
-  // TODO: loop through the combined bid object/item object array and weed out any expired items
-  // then create an object containing only the data that the front end needs and push this into the bidData array
-  // and return that as a response to the bid history component
-  bidObjects.forEach(bidObject => {
-  })
+  const lostAuctions = []
+  const topBidder = []
+  const notTopBidder = []
+
+  for(let i=0; i<bidObjects.length; i++){
+   
+    const bidObject = bidObjects[i]
+    const expiryDate = new Date(bidObject.dataValues.Item.expiry_date)
+    const lastBidderId = bidObject.dataValues.Item.last_bidder
+    const bidData = bidObject.dataValues
+    const ItemData = bidObject.dataValues.Item
+    const oneDay = 24 * 60 * 60 * 1000
+    const daysRemainingInAuction = Math.round((expiryDate - today)/oneDay)
+    console.log('LAST BIDDER:', lastBidderId)
+    console.log('USER ID:', userId)
+
+    if(expiryDate < today && lastBidderId === userId){
+      continue
+    } else if(expiryDate < today && lastBidderId !== userId){
+      lostAuctions.push(
+        {
+        'user_bid': bidData.bid_amount, 
+        'bid_date': bidData.updatedAt,
+        'item_photo': ItemData.image_url,
+        'item_name': ItemData.name,
+        'item_description': ItemData.description,
+        'full_price': ItemData.price,
+        'top_bid': ItemData.current_bid,
+        'num_bidders': ItemData.num_bids,
+        'purchase_date': ItemData.date_sold
+      })
+    } else if(lastBidderId === userId){
+      topBidder.push(
+        {
+        'bid_date': bidData.updatedAt,
+        'item_photo': ItemData.image_url,
+        'item_name': ItemData.name,
+        'item_description': ItemData.description,
+        'full_price': ItemData.price,
+        'top_bid': ItemData.current_bid,
+        'num_bidders': ItemData.num_bids,
+        'days_remaining': daysRemainingInAuction
+      })
+    } else {
+      notTopBidder.push(
+        {
+        'bid_date': bidData.updatedAt,
+        'user_bid': bidData.bid_amount,
+        'item_photo': ItemData.image_url,
+        'item_name': ItemData.name,
+        'item_description': ItemData.description,
+        'full_price': ItemData.price,
+        'top_bid': ItemData.current_bid,
+        'num_bidders': ItemData.num_bids,
+        'days_remaining': daysRemainingInAuction
+      })
+    }
+  }
+
+ res.json({lostAuctions, topBidder, notTopBidder})
 
 }))
 
