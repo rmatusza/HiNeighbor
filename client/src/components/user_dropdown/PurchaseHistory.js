@@ -178,7 +178,7 @@ const PurchaseHistory = (props) => {
       sellerId
     }
     try {
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
+    const res = await fetch(`/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'

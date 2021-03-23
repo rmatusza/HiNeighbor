@@ -107,7 +107,7 @@ const BidHistory = (props) => {
   
   useEffect(() => {
     (async() => {
-      const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-bid-history`)
+      const res = await fetch(`/api/users/${currUserId}/get-bid-history`)
       const bidData = await res.json()
 
       setLostAuctionData(bidData[0])
