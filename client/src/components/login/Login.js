@@ -69,7 +69,7 @@ const Login = (props) => {
       password
     }
     //(body)
-    const res = await fetch('/api/users/token', {
+    const res = await fetch('http://localhost:5000/api/users/token', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -146,7 +146,7 @@ const Login = (props) => {
       }
     }
     //(body)
-    const res = await fetch('/api/users/token', {
+    const res = await fetch('http://localhost:5000/api/users/token', {
       method: 'POST',
       credentials: 'include',
       headers: {

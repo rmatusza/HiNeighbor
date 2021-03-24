@@ -131,7 +131,6 @@ const PurchaseHistory = (props) => {
     }
   })
 
-
   const marks = [
     {
       value: 1,
@@ -178,7 +177,7 @@ const PurchaseHistory = (props) => {
       sellerId
     }
     try {
-    const res = await fetch(`/api/items-and-services/${currItem}/rate-item`, {
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'
@@ -204,8 +203,7 @@ const PurchaseHistory = (props) => {
       {props.postedItems.purchased_items.length === 0 ?
       <>
         <h1 className="no-history-heading">No Purchase History...</h1>
-        <div className="items-body-container-user-dropdown">
-        </div>
+        <div className="items-body-container-user-dropdown" />
       </>
       :
       <>

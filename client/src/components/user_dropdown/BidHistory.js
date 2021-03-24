@@ -15,6 +15,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+import TopBidderData from './TopBidderData';
+import NotTopBidderData from './NotTopBidderData';
+
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -82,13 +85,13 @@ const useStyles = makeStyles((theme) => ({
   tableRow: {
     backgroundColor: 'whitesmoke'
   },
-  tableContainer: {
-    // width: '800px'
-    paddingBottom: '0px',
-    backgroundColor: 'white',
-    height: '70px',
-    maxWidth: '639px',
-  },
+  // tableContainer: {
+  //   // width: '800px'
+  //   paddingBottom: '0px',
+  //   backgroundColor: 'white',
+  //   height: '70px',
+  //   maxWidth: '639px',
+  // },
   tableCell: {
     color: theme.palette.secondary.contrastText
   },
@@ -104,10 +107,9 @@ const BidHistory = (props) => {
   const [topBidderData, setTopBidderData] = useState([])
   const [notTopBidderData, setNotTopBidderData] = useState([])
   const classes = useStyles()
-  
   useEffect(() => {
     (async() => {
-      const res = await fetch(`/api/users/${currUserId}/get-bid-history`)
+      const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-bid-history`)
       const bidData = await res.json()
 
       setLostAuctionData(bidData[0])
@@ -118,35 +120,12 @@ const BidHistory = (props) => {
 
   return(
     <div className="bid-history-container">
-      <div className="top-bidder-container">
-        <h2>Items Where You Are the Top Bidder</h2>
-        {topBidderData.map(data => {
-          return (
-            <p>{data.item_name}</p>
-          )
-        })}
-      </div>
-      <div className="not-top-bidder-container">
-        <h2>Items You Have Bid on</h2>
-        {notTopBidderData.map((data, i) => {
-          return(
-            <TableContainer className={classes.tableContainer}  style={{height: '100px'}}>
-              <Table className={classes.table} size="small" aria-label="a dense table">
-                <TableHead className={classes.tableHead}>
-                  <TableRow>
-                    <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody >
-                  <TableCell align="center">{data.item_name}</TableCell>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )
-        })}
-      </div>
+
+      <TopBidderData itemData={topBidderData}/>
+
+      <NotTopBidderData itemData={notTopBidderData} />
+
       <div className="lost-auction-container">
-        
       </div>
 
     </div>
