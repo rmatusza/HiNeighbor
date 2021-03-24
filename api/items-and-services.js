@@ -412,7 +412,8 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
     })
     const updatedItem = await Item.findByPk(itemId)
     updatedItem.update({
-      current_bid: bidInput
+      current_bid: bidInput,
+      last_bidder: currUserId
     })
     res.json(updatedItem)
   }

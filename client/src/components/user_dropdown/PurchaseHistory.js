@@ -119,17 +119,10 @@ const PurchaseHistory = (props) => {
   let dataRows = []
 
   let rows = []
-  // const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
-  // const postedItems = await res.json()
-  // items = postedItems
-  //('PURCHASED ITEMS:',  props.postedItems.purchased_items)
   props.postedItems.purchased_items.forEach((item, i) => {
-    //('ITEM:', item)
     ratingState[i] = false
     let month = item.date_sold.slice(5,7)
-    // //(month)
     let day = item.date_sold.slice(8,10)
-    // //(day)
     let year = item.date_sold.slice(0, 4)
     if(item.current_bid === null) {
       dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year))
@@ -137,7 +130,6 @@ const PurchaseHistory = (props) => {
       dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year))
     }
   })
-
 
   const marks = [
     {
@@ -167,7 +159,6 @@ const PurchaseHistory = (props) => {
   }
 
   const enableRating = (itemId, idx) => {
-    //(itemId)
     let statecpy = {...ratingVisibility}
     let value = ratingVisibility[idx]
     statecpy[idx] = !value
@@ -177,9 +168,6 @@ const PurchaseHistory = (props) => {
     setCurrItem(itemId)
     setRatingVisibility(statecpy)
     setSelectedRatingButton(idx)
-    // currItem = itemId
-    // ratingVisibility = statecpy
-    // selectedRatingButton = idx
   }
 
   const submitRating = async(itemId, idx, sellerId) => {
@@ -215,8 +203,7 @@ const PurchaseHistory = (props) => {
       {props.postedItems.purchased_items.length === 0 ?
       <>
         <h1 className="no-history-heading">No Purchase History...</h1>
-        <div className="items-body-container-user-dropdown">
-        </div>
+        <div className="items-body-container-user-dropdown" />
       </>
       :
       <>
@@ -231,11 +218,11 @@ const PurchaseHistory = (props) => {
                 let url = item.image_url
                 return (
                   <div className="item-photo-container-purchase-history">
-                      <Card className={classes.paper}>
-                        <CardContent className={classes.image}>
-                          <img className="item-image-purchase-history" src={url} />
-                        </CardContent>
-                      </Card>
+                    <Card className={classes.paper}>
+                      <CardContent className={classes.image}>
+                        <img className="item-image-purchase-history" src={url} />
+                      </CardContent>
+                    </Card>
                   </div>
                 )
               })}
@@ -279,7 +266,6 @@ const PurchaseHistory = (props) => {
                         </Typography>
                           <Slider
                             defaultValue={props.postedItems.reviews[idx].rating}
-                            getAriaValueText={valuetext}
                             aria-labelledby="discrete-slider-small-steps"
                             step={1}
                             marks={marks}
@@ -296,7 +282,6 @@ const PurchaseHistory = (props) => {
               )
             })}
           </div>
-
         </div>
       </>
       }
@@ -305,7 +290,3 @@ const PurchaseHistory = (props) => {
 }
 
 export default PurchaseHistory;
-
-
-
-// defaultValue={props.postedItems.reviews.length > 0 ? props.postedItems.reviews[idx].rating : 0}

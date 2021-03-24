@@ -31,7 +31,7 @@ import {
   useLoadScript,
   Marker,
   InfoWindow,
-} from "@react-google-mapshttp://localhost:5000/api"
+} from "@react-google-maps/api"
 import './homepage.css'
 
 const useStyles = makeStyles((theme) => ({

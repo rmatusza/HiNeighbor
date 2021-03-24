@@ -14,6 +14,7 @@
 .category-contents{
   display: flex;
   align-items: center;
+  /* width: 300px; */
 }
 
 /* .category-container{
@@ -60,17 +61,22 @@
   display: flex;
   margin: 5px;
   margin-left: 10px;
+  width: 160px
   /* align-items: center; */
 }
+
 .price-range-selection{
   margin-left: 10px;
 }
+
 .distance-selection{
   margin-left: 10px;
 }
+
 .offer-type-selection{
   margin-left: 10px;
 }
+
 .items-photo-container{
   /* border: 2px solid red; */
   /* z-index: 1; */
@@ -82,11 +88,13 @@
   height: auto;
   background-image: url("../../static/memphis-mini.png");
 }
+
 .inner-grid-photos-container {
   margin-top: 20px;
   margin-bottom: 9rem;
 
 }
+
 .item-data-container {
   /* border: 10px solid green; */
   /* z-index: 1; */
@@ -96,6 +104,7 @@
   /* box-sizing: border-box; */
   /* width: 75%; */
 }
+
 .main-page-rent-items-table-container{
   padding-bottom: 0px;
   display: flex;
@@ -151,7 +160,7 @@
 
 .fade-test {
   z-index: 9;
-  background-color: #bd4545;
+  background-color: #ff5e00;
   top: 20px;
   left: 700px;
   font-size: 12px;
@@ -208,6 +217,7 @@
 .go-button-container {
   height: 100%;
 }
+
 .item-image-enlarged {
   height: 600px;
   width: 550px;
@@ -556,6 +566,26 @@
   width: 200px;
   margin-left: 0px;
   padding-left: 7px;
+}
+
+.category-image-container{
+  margin-top: 5px;
+  width: 60px;
+}
+
+.category-image{
+  width: 60px;
+}
+
+.category-name-container{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.category-name{
+  margin-top: 20px;
+  padding-left: 0px;
 }
 
 @media only screen and (max-width: 1296px) {
