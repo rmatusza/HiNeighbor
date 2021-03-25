@@ -83,17 +83,19 @@ const useStyles = makeStyles((theme) => ({
     },
   }))
 
-const TopBidderData = (props) => {
+  const TopBidderData = (props) => {
 
     const classes = useStyles()
 
-    console.log(props)
-    return(
+    if(props.itemData.length === 0){
+      return(<></>)
+    }else{
+      return(
         <>
-        <div className="top-bidder-heading-container">
+          <div className="top-bidder-heading-container">
             <h2>You're The Top Bidder On The Following Items:</h2>
-        </div>
-        <div className="top-bidder-outter-container">
+          </div>
+          <div className="top-bidder-outter-container">
             {props.itemData.map(data => {
             console.log(data.bid_date)
             let chosenMonth = data.bid_date.slice(5, 7)
@@ -102,54 +104,50 @@ const TopBidderData = (props) => {
             let fullDate = chosenMonth + '-' + chosenDay + '-' + chosenYear
             console.log(fullDate)
             return (
-                <div className="top-bidder-inner-container">
+              <div className="top-bidder-inner-container">
                 <div className="home-page-sale-items-container__photos-inner-container">
-                    <Card className={classes.paper}>
-                    <div className="home-page-sale-items-container__photos-inner-container__expand-icon-outer-container">
-                        <div className="home-page-sale-items-container__photos-inner-container__expand-icon-inner-container">
-                        {/* <CgArrowsExpandLeft className="expand-icon"/> */}
-                        </div>
-                    </div>
+                  <Card className={classes.paper}>
                     <CardContent className={classes.image}>
-                        <img className="item-image-homepage" src={data.item_photo} />
+                      <img className="item-image-homepage" src={data.item_photo} />
                     </CardContent>
-                    </Card>
+                  </Card>
                 </div>
-                    <div className="top-bidder-table-container">
-                    <TableContainer style={{height: '100px', backgroundColor: 'white'}}>
-                        <Table className="top-bidder-table" size="small" aria-label="a dense table">
-                        <TableHead className={classes.tableHead}>
-                            <TableRow>
-                            <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
-                            <TableCell align="center" className={classes.tableCell}>Full Price</TableCell>
-                            <TableCell align="center" className={classes.tableCell}>Total Bidders</TableCell>
-                            <TableCell align="center" className={classes.tableCell}>Your Bid</TableCell>
-                            <TableCell align="center" className={classes.tableCell}>Bid Date</TableCell>
-                            <TableCell align="center" className={classes.tableCell}>Days Remaining in Auction</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableCell align="center" style={{height: '63px'}}>{data.item_name}</TableCell>
-                            <TableCell align="center">${data.full_price}</TableCell>
-                            <TableCell align="center">{data.num_bidders}</TableCell>
-                            <TableCell align="center">${data.top_bid}</TableCell>
-                            <TableCell align="center">{fullDate}</TableCell>
-                            <TableCell align="center">{data.days_remaining}</TableCell>
-                        </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <div className="top-bid-item-description">
-                        <p>
-                        {data.item_description}
-                        </p>
-                    </div>
-                    </div>
+                <div className="top-bidder-table-container">
+                  <TableContainer style={{height: '100px', backgroundColor: 'white'}}>
+                    <Table className="top-bidder-table" size="small" aria-label="a dense table">
+                      <TableHead className={classes.tableHead}>
+                        <TableRow>
+                          <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Full Price</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Total Bidders</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Your Bid</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Bid Date</TableCell>
+                          <TableCell align="center" className={classes.tableCell}>Days Remaining in Auction</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableCell align="center" style={{height: '63px'}}>{data.item_name}</TableCell>
+                        <TableCell align="center">${data.full_price}</TableCell>
+                        <TableCell align="center">{data.num_bidders}</TableCell>
+                        <TableCell align="center">${data.top_bid}</TableCell>
+                        <TableCell align="center">{fullDate}</TableCell>
+                        <TableCell align="center">{data.days_remaining}</TableCell>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <div className="top-bid-item-description">
+                    <p>
+                      {data.item_description}
+                    </p>
+                  </div>
                 </div>
+              </div>
             )
-            })}
+          })}
         </div>
-        </>
+      </>
     )
+  }
 }
 
 export default TopBidderData;
