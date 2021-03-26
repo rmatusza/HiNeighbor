@@ -398,9 +398,9 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
     const ItemData = bidObject.dataValues.Item
     const oneDay = 24 * 60 * 60 * 1000
     const daysRemainingInAuction = Math.round((expiryDate - today)/oneDay)
-    console.log('ITEM NAME:', ItemData)
-    console.log('LAST BIDDER:', lastBidderId)
-    console.log('USER ID:', userId)
+    //('ITEM NAME:', ItemData)
+    //('LAST BIDDER:', lastBidderId)
+    //('USER ID:', userId)
 
     if(expiryDate < today && lastBidderId === userId){
       continue

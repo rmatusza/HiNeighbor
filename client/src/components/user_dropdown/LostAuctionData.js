@@ -87,9 +87,13 @@ const LostAuctionData = (props) => {
 
     const classes = useStyles()
 
-    console.log(props)
+    //(props)
     if(props.itemData.length === 0){
-        return(<></>)
+      return(<div className="no-bid-items">
+      <h2>
+        You Have Not Lost Any Auctions
+      </h2>
+    </div>)
     }else{
         return(
             <>
@@ -98,7 +102,7 @@ const LostAuctionData = (props) => {
                 </div>
                 <div className="top-bidder-outter-container">
                     {props.itemData.map(data => {
-                    console.log(data.bid_date)
+                    //(data.bid_date)
                     let monthOfLastBid = data.bid_date.slice(5, 7)
                     let dayOfLastBid = data.bid_date.slice(8, 10)
                     let yearOfLastBid = data.bid_date.slice(0, 4)

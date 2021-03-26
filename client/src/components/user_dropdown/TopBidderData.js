@@ -88,7 +88,13 @@ const useStyles = makeStyles((theme) => ({
     const classes = useStyles()
 
     if(props.itemData.length === 0){
-      return(<></>)
+      return(
+        <div className="no-bid-items">
+          <h2>
+            You Are Not the Top Bidder On Any Items
+          </h2>
+        </div>
+      )
     }else{
       return(
         <>
@@ -97,12 +103,12 @@ const useStyles = makeStyles((theme) => ({
           </div>
           <div className="top-bidder-outter-container">
             {props.itemData.map(data => {
-            console.log(data.bid_date)
+            //(data)
             let chosenMonth = data.bid_date.slice(5, 7)
             let chosenDay = data.bid_date.slice(8, 10)
             let chosenYear = data.bid_date.slice(0, 4)
             let fullDate = chosenMonth + '-' + chosenDay + '-' + chosenYear
-            console.log(fullDate)
+            //(fullDate)
             return (
               <div className="top-bidder-inner-container">
                 <div className="home-page-sale-items-container__photos-inner-container">

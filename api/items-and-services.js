@@ -115,8 +115,8 @@ router.post('/search', asyncHandler(async(req, res) => {
     const notExpired = ['no_items']
 
     items.forEach(item => {
-      console.log(new Date(item.expiry_date))
-      console.log(today)
+      //(new Date(item.expiry_date))
+      //(today)
       if (new Date(item.expiry_date) < today && item.last_bidder !== null) {
         expiredWithBidder.push(item)
       } else if(new Date(item.expiry_date) < today && item.last_bidder === null) {
