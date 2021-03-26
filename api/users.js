@@ -104,12 +104,12 @@ router.post('/signup', signUpValidations, asyncHandler(async(req, res) => {
       const err = Error
       err.message = 'This email is already associated with an account'
       res.json(err)
-      return 
+      return
     } else {
       const err = Error
       err.message = 'This username has already been taken'
       res.json(err)
-      return 
+      return
     }
   })
   const newUser = await User.create({
@@ -186,7 +186,8 @@ router.get('/:id/get-seller-info', asyncHandler(async(req,res) => {
   const items = await Item.findAll({
     where: {
       seller_id: userId,
-      sold: false
+      sold: false,
+      expired: false
     }
   })
 
@@ -272,7 +273,7 @@ router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
       ids.push(item.seller_id)
       itemIds.push(item.id)
       purchasedItems.push(item)
-    } 
+    }
   })
 
   itemsToUpdate.forEach(async(item) => {
@@ -390,7 +391,7 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
   const notTopBidder = []
 
   for(let i=0; i<bidObjects.length; i++){
-   
+
     const bidObject = bidObjects[i]
     const expiryDate = new Date(bidObject.dataValues.Item.expiry_date)
     const lastBidderId = bidObject.dataValues.Item.last_bidder
@@ -407,7 +408,7 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
     } else if(expiryDate < today && lastBidderId !== userId){
       lostAuctions.push(
         {
-        'user_bid': bidData.bid_amount, 
+        'user_bid': bidData.bid_amount,
         'bid_date': bidData.updatedAt,
         'item_photo': ItemData.image_url,
         'item_name': ItemData.name,

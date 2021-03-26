@@ -59,11 +59,11 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: "center",
       border: "2px solid white",
     },
-  
+
     submitButton: {
       marginTop: "2rem",
     },
-  
+
     dialogBox: {
       width: '200px',
       heigth: '200px'
@@ -89,16 +89,23 @@ const LostAuctionData = (props) => {
 
     //(props)
     if(props.itemData.length === 0){
-      return(<div className="no-bid-items">
-      <h2>
-        You Have Not Lost Any Auctions
-      </h2>
-    </div>)
+      return(
+        <>
+        <div className="top-bidder-heading-container">
+          <h2>You're The Top Bidder On The Following Items:</h2>
+        </div>
+        <div className="no-bid-items">
+        <h2>
+          No Items Found
+        </h2>
+      </div>
+      </>
+    )
     }else{
         return(
             <>
                 <div className="top-bidder-heading-container">
-                    <h2>You're The Top Bidder On The Following Items:</h2>
+                  <h2>You're The Top Bidder On The Following Items:</h2>
                 </div>
                 <div className="top-bidder-outter-container">
                     {props.itemData.map(data => {
@@ -117,7 +124,7 @@ const LostAuctionData = (props) => {
                             <div className="home-page-sale-items-container__photos-inner-container">
                                 <Card className={classes.paper}>
                                     <CardContent className={classes.image}>
-                                        <img className="item-image-homepage" src={data.item_photo} />
+                                      <img className="item-image-homepage" src={data.item_photo} />
                                     </CardContent>
                                 </Card>
                             </div>

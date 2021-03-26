@@ -541,7 +541,6 @@
 }
 
 .no-bid-items{
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  margin-left: 30px;
+  margin-bottom: 50px;
 }

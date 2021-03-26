@@ -59,11 +59,11 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: "center",
       border: "2px solid white",
     },
-  
+
     submitButton: {
       marginTop: "2rem",
     },
-  
+
     dialogBox: {
       width: '200px',
       heigth: '200px'
@@ -89,11 +89,18 @@ const NotTopBidderData = (props) => {
 
   //(props)
   if(props.itemData.length === 0){
-    return(<div className="no-bid-items">
-    <h2>
-      No Items Found
-    </h2>
-  </div>)
+    return(
+      <>
+        <div className="top-bidder-heading-container">
+          <h2>Other Items You've Bid On:</h2>
+        </div>
+        <div className="no-bid-items">
+          <h2>
+            No Items Found
+          </h2>
+        </div>
+      </>
+    )
   }else{
     return(
       <>

@@ -25,13 +25,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { CgArrowsExpandLeft, CgGoogle } from "react-icons/cg";
-import { Loader } from "@googlemaps/js-api-loader"
-import {
-  GoogleMap,
-  useLoadScript,
-  Marker,
-  InfoWindow,
-} from "@react-google-maps/api"
+// import { Loader } from "@googlemaps/js-api-loader/api"
+// import {
+//   GoogleMap,
+//   useLoadScript,
+//   Marker,
+//   InfoWindow,
+// } from "@react-google-maps/api"
 import './homepage.css'
 
 const useStyles = makeStyles((theme) => ({
@@ -146,7 +146,7 @@ const Items = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const history = useHistory();
-  
+
   const updateBidInput = (e) => {
     // //('BID INPUT:', e.target.value)
     setBidInput(e.target.value)
@@ -256,7 +256,7 @@ const Items = () => {
     setModalOpen(false)
   }
   let dataRows = []
-  
+
   // const mapContainerStyle = {
   //   width: '100vw',
   //   height: '100vh'
@@ -268,7 +268,7 @@ const Items = () => {
   // const { isLoaded, loadError } = useLoadScript({
   //   googleMapsApiKey: ""
   // })
-  
+
   // if(loadError) return "Error loading maps";
   // if(!isLoaded) return "Loading Maps";
 
