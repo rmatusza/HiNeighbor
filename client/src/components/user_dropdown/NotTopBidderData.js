@@ -87,9 +87,13 @@ const NotTopBidderData = (props) => {
 
   const classes = useStyles()
 
-  console.log(props)
+  //(props)
   if(props.itemData.length === 0){
-    return(<></>)
+    return(<div className="no-bid-items">
+    <h2>
+      No Items Found
+    </h2>
+  </div>)
   }else{
     return(
       <>
@@ -98,12 +102,12 @@ const NotTopBidderData = (props) => {
         </div>
         <div className="top-bidder-outter-container">
           {props.itemData.map(data => {
-            console.log(data.bid_date)
+            //(data.bid_date)
             let chosenMonth = data.bid_date.slice(5, 7)
             let chosenDay = data.bid_date.slice(8, 10)
             let chosenYear = data.bid_date.slice(0, 4)
             let fullDate = chosenMonth + '-' + chosenDay + '-' + chosenYear
-            console.log(fullDate)
+            //(fullDate)
             return (
               <div className="top-bidder-inner-container">
                 <div className="home-page-sale-items-container__photos-inner-container">

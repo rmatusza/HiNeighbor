@@ -275,14 +275,7 @@ const Items = () => {
   {if(items[0] === 'no_items') {
       return(
         <div className="items-body-container-no-items">
-          {/* <h1 className="no-results-heading">No Results Found</h1>
-          <div style={{width: '100vw', height: '100vh'}}>
-            <GoogleMap 
-            mapContainerStyle={mapContainerStyle} 
-            zoom={8} 
-            center={center}
-            />
-          </div> */}
+          <h1 className="no-results-heading">No Results Found</h1>
         </div>
       )
     }else {
@@ -321,7 +314,6 @@ const Items = () => {
               } else {
                 dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
               }
-
             })}
             {dataRows.map((item, idx) => {
               return(
@@ -341,7 +333,6 @@ const Items = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-
                         <TableRow key={dataRows[idx].name}>
                           <TableCell align="center">{dataRows[idx].name}</TableCell>
                           <TableCell align="center">${dataRows[idx].price}</TableCell>
@@ -464,7 +455,6 @@ const Items = () => {
             <img className="item-image-enlarged" src={image} />
 
           </Dialog>
-
         </div>
       )
     }

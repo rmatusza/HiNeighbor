@@ -513,42 +513,35 @@
   border: 2px solid #ff5e00
 }
 
-.all-bid-history-container__invisible{
-  display: none;
-}
-
-.all-bid-history-container__visible{
-  display: block;
-}
-
-.top-bidder-only-container__invisible{
-  display: none;
-}
-
-.top-bidder-only-container__visible{
-  display: block;
-}
-
-.other-bids-only-container__invisible{
-  display: none;
-}
-
-.other-bids-only-container__visible{
-  display: block;
-}
-
-.lost-auction-only-container__invisible{
-  display: none;
-}
-
-.lost-auction-only-container__visible{
-  display: block;
-}
-
 .bid-info-toggle-buttons-container{
   display: flex;
+  margin-top: 20px;
+  margin-left: 10px;
 }
 
-.all-bids-button{
+.all-bids-button-container{
   border-right: 1px solid black;
+  padding-right: 5px;
+}
+
+.top-bidder-button-container{
+  border-right: 1px solid black;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.other-bids-button-container{
+  border-right: 1px solid black;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.lost-auction-button-container{
+  padding-left: 5px;
+}
+
+.no-bid-items{
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

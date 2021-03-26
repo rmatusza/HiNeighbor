@@ -30,7 +30,7 @@ const App = () => {
   const month = date.getMonth() + 1
   const year = date.getFullYear()
   const today = new Date(month+'-'+day+'-'+year)
-  console.log(today)
+  //(today)
 
 
   // AUTHENTICATES THE USER BY CHECKING TO SEE IF THEY HAVE A VALID ACCESS TOKEN

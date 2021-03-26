@@ -12,11 +12,12 @@ const BidHistory = () => {
   const [lostAuctionData, setLostAuctionData] = useState([])
   const [topBidderData, setTopBidderData] = useState([])
   const [notTopBidderData, setNotTopBidderData] = useState([])
-  const [allBidsContainerVisibility, setAllBidsContainerVisibility] = useState('all-bid-history-container__visible')
-  const [topBidderOnlyContainerVisibility, setBidderOnlyContainerVisibility] = useState('top-bidder-only-container__invisible')
+  const [allBidsContainerVisibility, setAllBidsContainerVisibility] = useState('all-bid-history-container__invisible')
+  const [topBidderOnlyContainerVisibility, setTopBidderOnlyContainerVisibility] = useState('top-bidder-only-container__visible')
   const [otherBidsOnlyContainerVisibility, setOtherBidsOnlyContainerVisibility] = useState('other-bids-only-container__invisible')
   const [lostAuctionOnlyContainerVisibility, setLostAuctionOnlyContainerVisibility] = useState('lost-auction-only-container__invisible')
-
+  const [currentlyActiveView, setCurrentlyActiveView] = useState({'function': setAllBidsContainerVisibility, 'argument': "all-bid-history-container__invisible"})
+  const [selectedView, setSelectedView] = useState('all-bids')
   useEffect(() => {
     (async() => {
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-bid-history`)
@@ -28,30 +29,63 @@ const BidHistory = () => {
     })()
   }, [])
 
+  const toggleButton = (button) => {
+    setSelectedView(button)
+  }
+
   return(
     <>
       <div className="bid-info-toggle-buttons-container">
-        <div>
-          <Button className="all-bids-button">All Bids</Button>
+        <div className="all-bids-button-container">
+          <Button color="secondary" variant={selectedView === "all-bids" ? "contained" : "outlined"} onClick={() => toggleButton('all-bids')}>
+            All Bids
+          </Button>
         </div>
-        <Button className="top-bidder-button">Top Bidder</Button>
-        <Button className="other-bids-button">Other Bids</Button>
-        <Button>Lost Auctions</Button>
+        <div className="top-bidder-button-container">
+          <Button color="secondary" variant={selectedView === "top-bidder" ? "contained" : "outlined"} onClick={() => toggleButton('top-bidder')}>
+            Top Bidder
+          </Button>
+        </div>
+        <div className="other-bids-button-container">
+          <Button color="secondary" variant={selectedView === "other-bids" ? "contained" : "outlined"} onClick={() => toggleButton('other-bids')}>
+            Other Bids
+          </Button>
+        </div>
+        <div className="lost-auction-button-container">
+          <Button color="secondary" variant={selectedView === "lost-auction" ? "contained" : "outlined"} onClick={() => toggleButton('lost-auction')}>
+            Lost Auctions
+          </Button>
+        </div>
       </div>
-      <div className={allBidsContainerVisibility}>
-        <TopBidderData itemData={topBidderData}/>
-        <NotTopBidderData itemData={notTopBidderData} />
-        <LostAuctionData itemData={lostAuctionData} />
-      </div>
-      <div className={topBidderOnlyContainerVisibility}>
-        <topBidderData itemData={topBidderData} />
-      </div>
-      <div className={otherBidsOnlyContainerVisibility}>
-        <NotTopBidderData itemData={notTopBidderData} />
-      </div>
-      <div className={lostAuctionOnlyContainerVisibility}>
-        <LostAuctionData itemData={lostAuctionData} />
-      </div>
+      {(() => {
+        if(selectedView === 'all-bids'){
+          return(
+            <>
+            <TopBidderData itemData={topBidderData} />
+            <NotTopBidderData itemData={notTopBidderData} />
+            <LostAuctionData itemData={lostAuctionData} />
+            </>
+          )
+        } else if(selectedView === 'top-bidder'){
+          return(
+            <>
+              <TopBidderData itemData={topBidderData} />
+            </>
+          )
+        } else if(selectedView === 'other-bids'){
+          return(
+            <>
+              <NotTopBidderData itemData={notTopBidderData} />
+            </>
+          )
+        } else {
+          return(
+            <>
+              <LostAuctionData itemData={lostAuctionData} />
+            </>
+          )
+        }
+      })()}
     </>
   )
 }
