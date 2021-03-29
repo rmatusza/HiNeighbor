@@ -7,10 +7,9 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { useHistory,  Redirect } from 'react-router-dom'
 import PostItem from './PostItem';
 import PostRentItem from './PostRentItem';
-import { setPostItemFormStatus } from '../../actions/itemsActions';
-import { setPostItemRentStatus } from '../../actions/itemsActions';
-
-
+import { setPostItemFormStatus, setPostItemRentStatus } from '../../actions/itemsActions';
+import { logoutUser } from '../../actions/userCredsAction';
+import { clearSearchParams } from '../../actions/searchCategoryActions';
 
 
 const UserDropdown = (props) => {
@@ -34,6 +33,8 @@ const UserDropdown = (props) => {
     setAnchorEl(null);
     document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     props.setAuthenticated(false)
+    dispatch(logoutUser())
+    dispatch(clearSearchParams())
   };
 
   const handlePostedItems = () => {

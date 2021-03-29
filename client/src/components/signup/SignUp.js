@@ -9,7 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Redirect } from 'react-router-dom'
-import setUserCreds from '../../actions/userCredsAction'
+import { setUserCreds } from '../../actions/userCredsAction'
 import { BsInfoSquare } from "react-icons/bs";
 import './signup.css';
 

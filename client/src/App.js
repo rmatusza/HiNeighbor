@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Redirect, useHistory } from "react-router-dom";
 import TopBar from './components/top-bar/TopBar'
 import HomePage from './components/homepage/HomePage';
 import Login from './components/login/Login';
-import setUserCreds from './actions/userCredsAction'
+import { setUserCreds } from './actions/userCredsAction'
 import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from './components/ProtectedRoute';
 import Items from './components/homepage/Items';

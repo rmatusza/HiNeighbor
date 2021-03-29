@@ -25,13 +25,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { CgArrowsExpandLeft, CgGoogle } from "react-icons/cg";
-// import { Loader } from "@googlemaps/js-api-loader/api"
+// import { Loader } from "@googlemaps/js-api-loaderhttp://localhost:5000/api"
 // import {
 //   GoogleMap,
 //   useLoadScript,
 //   Marker,
 //   InfoWindow,
-// } from "@react-google-maps/api"
+// } from "@react-google-mapshttp://localhost:5000/api"
 import './homepage.css'
 
 const useStyles = makeStyles((theme) => ({

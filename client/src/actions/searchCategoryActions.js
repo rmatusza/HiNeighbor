@@ -1,4 +1,4 @@
-import { SET_CATEGORY, SET_PRICE_RANGE, SET_DISTANCE, SET_OFFER_TYPE } from './types'
+import { SET_CATEGORY, SET_PRICE_RANGE, SET_DISTANCE, SET_OFFER_TYPE, CLEAR_SEARCH_PARAMS } from './types'
 
 
 export const setCategory = (category) => {
@@ -28,5 +28,11 @@ export const setOfferType = (offer_type) => {
   return {
     type: SET_OFFER_TYPE,
     offer_type
+  }
+}
+
+export const clearSearchParams = () => {
+  return {
+    type: CLEAR_SEARCH_PARAMS
   }
 }

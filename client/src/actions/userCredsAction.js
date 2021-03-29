@@ -1,10 +1,15 @@
-import { SET_USER_CREDS } from './types';
+import { SET_USER_CREDS, CLEAR_REDUX_STORE } from './types';
 
-const setUserCreds = (currentUserData) => {
+export const setUserCreds = (currentUserData) => {
   return {
     type: SET_USER_CREDS,
     currentUserData
   }
 }
 
-export default setUserCreds;
+export const logoutUser = () => {
+  return {
+    type: CLEAR_REDUX_STORE,
+  }
+}
+
