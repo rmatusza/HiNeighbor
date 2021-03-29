@@ -1,6 +1,6 @@
 # INTRO
 
-Hi Neighbor is a full stack web application that seeks to replicate a simplified version of an ecommerce site and is a sort of combination of craigslist and ebay. The application is only intended to showcase my ability to create a dynamic multi-page web application as well as demonstrate an understanding of the technologies used in its creation. Therefore, users can 'purchase' items on the site, but there is no payment system built in to the application
+Hi Neighbor is a full stack web application that seeks to replicate a simplified version of an ecommerce site and is a sort of combination of craigslist and ebay. The application is only intended to showcase my ability to create a dynamic multi-page web application as well as demonstrate an understanding of the technologies used in its creation.
 
 # FEATURES
 
@@ -27,5 +27,5 @@ Hi Neighbor is a full stack web application that seeks to replicate a simplified
 # UPCOMING/IN PROGRESS FEATURES
 
 1. More user statistics such as month with most bids, month with highest number of user ratings, etc.
-2. Incorporate google maps api for users to choose and generate directions to meeting locations so that puchased items can be exchanged 
+2. Incorporate distance calculations based off of the logitude and latitude of users so that users can filter sellers by their proximity to themselves
 3. Incorporate web sockets so that users can instantaneously chat with and ask questions to sellers 

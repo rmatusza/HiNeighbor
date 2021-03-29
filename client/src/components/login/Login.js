@@ -260,7 +260,20 @@ const Login = (props) => {
               {'Welcome to "Hi Neighbor!"'}
             </DialogTitle>
           </div>
-          <p>Note: There are two demo logins which will allow you to see the results of certain actions from 
+          <p>
+            Hi Neighbor is a full stack web application that seeks to replicate a simplified version of an ecommerce 
+            site and is a sort of combination of craigslist and ebay. The application is intended to showcase my ability 
+            to create a dynamic multi-page web application as well as demonstrate an understanding of the technologies used in its 
+            creation.
+          </p>
+          <p>
+            In its current form, all of the core functionality has been added and what remains to be implemented are stretch goals
+            and code cleanup/making things more efficient. That being said, I still use this project as a means of practicing and 
+            experimenting with different methods of building out certain functionalities, so even once all stretch goals have been
+            added, I still wouldn't consider this project to be "finished".
+          </p>
+          <p>
+            Note: There are two demo logins which will allow you to see the results of certain actions from 
             multiple perspectives.
             For example, you can purchase an item from demo user 1 as demo user 2 and then see the 
             resulting change in demo user 1's user stats. 

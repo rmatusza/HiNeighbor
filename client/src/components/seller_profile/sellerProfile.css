@@ -1,10 +1,3 @@
-.seller-items-body-container-background {
-  height: auto;
-  background-color: white;
-  display: block;
-  background-image: url("../../static/memphis-mini.png");
-}
-
 .seller-items-body-container{
   background-color: rgba(128, 128, 128, 0.5);
   padding-bottom: 30px;
@@ -176,4 +169,10 @@
   border-top: 2px solid black;
   border-bottom: 2px solid black;
   padding-left: 30px;
+}
+
+.bid-buy-buttons-container-seller-profile{
+  width: 200px;
+  border: 1px solid green;
+  margin-left: 20px;
 }
