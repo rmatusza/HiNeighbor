@@ -136,8 +136,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     // border: '2px solid black',
     borderRadius: '5px'
-  }
-
+  },
+  buttons: {
+    width: '160px'
+  },
 }))
 // rgb(206, 204, 204)
 
@@ -159,10 +161,12 @@ const SellerProfileForSale = (props) => {
   const dispatch = useDispatch();
   const largeScreen = useMediaQuery('(min-width:1870px)');
 
-  console.log('TABLE DATA:', tableData)
+  // console.log('TABLE DATA:', tableData)
 
   const handleDialogOpen = (itemData) => {
+    // console.log('ITEM DATA:', itemData)
     setCurrItemId(itemData.itemId)
+    setPropsItemDataArrayIdx(itemData.idx)
     setDialogOpen(true)
   };
 
@@ -207,14 +211,8 @@ const SellerProfileForSale = (props) => {
     setModalOpen(false)
   };
 
-  const updateSoldItems = (id) => {
-    // let currItems = []
-    // items.forEach((item, i) => {
-    //   if(Number(item.id) !== Number(id)) {
-    //     currItems.push(item)
-    //   }
-    //   dispatch(setItems(currItems))
-    // })
+  const updateSoldItems = () => {
+    props.itemData['table_data'].splice(propsItemDataArrayIdx, 1)
   }
 
   const handlePurchase = async () => {
@@ -229,7 +227,7 @@ const SellerProfileForSale = (props) => {
       body: JSON.stringify(body)
     })
     const {soldItemId} = await res.json()
-    updateSoldItems(soldItemId)
+    updateSoldItems()
     handleDialogClose()
   };
 
@@ -240,7 +238,7 @@ const SellerProfileForSale = (props) => {
       {tableData.length > 0 ?
             <Grid container spacing={3} className={classes.grid} >
               {tableData.map((item, idx) => {
-                console.log(item)
+                // console.log(item)
                 bidInfo[item.id] = item.current_bid
                 let url = item.image_url
                 return (
@@ -294,12 +292,9 @@ const SellerProfileForSale = (props) => {
                               <div className="bid-purchase-divider"></div>
                             </div>
                             <div className="buy-button">
-                              <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': item.id, 'currentBid': item.current_bid, 'itemPrice':item.price})}} className={classes.buttons}>
+                              <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': item.item_id, 'currentBid': item.current_bid, 'itemPrice':item.price, 'idx': idx})}} className={classes.buttons}>
                                 Purchase
                               </Button>
-                            </div>
-                            <div className="divider-container">
-                              <div className="bid-purchase-divider"></div>
                             </div>
                           </div>
                         </div>

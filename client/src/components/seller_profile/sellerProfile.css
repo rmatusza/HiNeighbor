@@ -172,9 +172,11 @@
 }
 
 .bid-buy-buttons-container-seller-profile{
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
   width: 200px;
-  border: 1px solid green;
-  margin-left: 20px;
+  /* margin-left: 20px; */
 }
 
 /*=============================================================================================================================*/
@@ -192,8 +194,18 @@
     margin-left: 20px;
   }
   .bid-buy-buttons-container-seller-profile{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 20px;
     width: 180px;
-    border: 2px solid yellow;
     margin-left: 20px;
+  }
+}
+
+@media only screen and (min-width: 1360px) and (max-width: 1869px) {
+  .seller-items-body-container {
+    width: 1200px;
+    margin-left: 100px;
   }
 }

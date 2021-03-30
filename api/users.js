@@ -422,6 +422,7 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
       topBidder.push(
         {
         'bid_date': bidData.updatedAt,
+        'item_id': ItemData.id,
         'item_photo': ItemData.image_url,
         'item_name': ItemData.name,
         'item_description': ItemData.description,
@@ -435,6 +436,7 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
         {
         'bid_date': bidData.updatedAt,
         'user_bid': bidData.bid_amount,
+        'item_id': ItemData.id,
         'item_photo': ItemData.image_url,
         'item_name': ItemData.name,
         'item_description': ItemData.description,
