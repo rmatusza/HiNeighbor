@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, price, bid, num_bidders, days_remaining) {
-  return { name, price, bid, num_bidders, days_remaining };
+function createData(item_id, current_bid, image_url, description, name, price, bid, num_bidders, days_remaining) {
+  return { item_id, current_bid, image_url, description, name, price, bid, num_bidders, days_remaining };
 }
 
 function createRentData(name, rate, rented, expiry_date) {
@@ -66,6 +66,7 @@ const SellerProfileMain = () => {
       //('RETURNED ITEMS:', sellerInfo.items_for_sale)
       sellerInfo.items.forEach(item => {
         //('ITEM FOR SALE?:', item.for_sale)
+        console.log('ITEMS:', item.image_url)
         if(item.for_sale === true) {
           const d1 = new Date(item.expiry_date)
           const today = new Date()
@@ -73,9 +74,9 @@ const SellerProfileMain = () => {
           const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
           const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
           if(item.current_bid === null) {
-            rows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining))
+            rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, 0, item.num_bids, days_remaining))
           } else {
-            rows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining))
+            rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, item.current_bid, item.num_bids, days_remaining))
           }
         } else {
           let date;
