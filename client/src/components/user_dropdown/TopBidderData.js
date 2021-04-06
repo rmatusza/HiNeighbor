@@ -160,12 +160,12 @@ const useStyles = makeStyles((theme) => ({
                     </CardContent>
                   </Card>
                   <div className="bid-buy-buttons-container-top-bidder-page">
-                  <div className="buy-button">
-                    <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': data.item_id, 'itemPrice': data.full_price, 'idx': idx})}} className={classes.buttons}>
-                      Purchase
-                    </Button>
+                    <div className="buy-button">
+                      <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': data.item_id, 'itemPrice': data.full_price, 'idx': idx})}} className={classes.buttons}>
+                        Purchase
+                      </Button>
+                    </div>
                   </div>
-                </div>
                 </div>
                 <div className="top-bidder-table-container">
                   <TableContainer style={{height: '100px', backgroundColor: 'white'}}>

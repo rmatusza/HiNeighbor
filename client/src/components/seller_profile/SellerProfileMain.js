@@ -27,6 +27,7 @@ function createRentData(name, rate, rented, expiry_date) {
 
 const SellerProfileMain = () => {
   const { id } = useParams()
+  const currUserId = useSelector(store => store.session.currentUser.id);
   const [userData, setUserData] = useState({'items_for_sale': [], 'items_for_rent': [], 'user': {}, 'sold': {}, 'reviews': {}})
   const [dataRows, setDataRows] = useState([])
   const [dataRowsRentItems, setDataRowsRentItems] = useState([])
@@ -35,6 +36,7 @@ const SellerProfileMain = () => {
   const [forRent, setForRent] = useState(false)
   const [forSaleItems, setForSaleItems] = useState([])
   const [forRentItems, setForRentItems] = useState([])
+  const [bidOnItems, setBidOnItems] = useState(new Set())
   const classes = useStyles()
 
   const setButtonState = (e) => {
@@ -61,12 +63,19 @@ const SellerProfileMain = () => {
     (async() => {
       let rows = []
       let rentRows = []
-      const res = await fetch(`http://localhost:5000/api/users/${id}/get-seller-info`)
+      const res = await fetch(`http://localhost:5000/api/users/${id}/get-seller-info`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({currUserId, 'sellerId': id})
+      })
       const sellerInfo = await res.json()
-      //('RETURNED ITEMS:', sellerInfo.items_for_sale)
-      sellerInfo.items.forEach(item => {
+      console.log('RETURNED ITEMS:', sellerInfo)
+      let set = new Set()
+      sellerInfo.items.forEach((item, idx) => {
         //('ITEM FOR SALE?:', item.for_sale)
-        console.log('ITEMS:', item.image_url)
+        set.add(sellerInfo.items_bid_on[idx])
         if(item.for_sale === true) {
           const d1 = new Date(item.expiry_date)
           const today = new Date()
@@ -74,7 +83,7 @@ const SellerProfileMain = () => {
           const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
           const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
           if(item.current_bid === null) {
-            rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, 0, item.num_bids, days_remaining))
+            rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, 0, item.num_bids, days_remaining, ))
           } else {
             rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, item.current_bid, item.num_bids, days_remaining))
           }
@@ -90,11 +99,13 @@ const SellerProfileMain = () => {
           rentRows.push(createRentData(item.name, item.rate, item.rented, date))
         }
       })
+      setBidOnItems(set)
       setDataRows(rows)
       setDataRowsRentItems(rentRows)
       setUserData(sellerInfo)
       setForSaleItems(sellerInfo.items_for_sale)
       setForRentItems(sellerInfo.items_for_rent)
+
     })()
   },[])
 
@@ -139,7 +150,7 @@ const SellerProfileMain = () => {
       </>
       }
       <div>
-        {forSale ? <SellerProfileForSale itemData={ {'user_data': userData, 'table_data': dataRows} }/> : <SellerProfileForRent itemData={ {'user_data': userData, 'table_data': dataRowsRentItems} }/>}
+        {forSale ? <SellerProfileForSale itemData={ {'user_data': userData, 'table_data': dataRows, 'bid_on_items': bidOnItems} }/> : <SellerProfileForRent itemData={ {'user_data': userData, 'table_data': dataRowsRentItems} }/>}
       </div>
     </>
   )

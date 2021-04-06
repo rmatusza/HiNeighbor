@@ -5,7 +5,7 @@ import Distance from './Distance';
 import OfferType from './OfferType';
 import SearchBar from './SearchBar';
 import Category from './Category'
-import RentableItemTable from './RentableItemTable';
+import RentItems from './RentItems';
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 // import { view, Animated, TouchableOpacity, Text } from 'react-native';
@@ -26,22 +26,6 @@ const HomePage = () => {
       setPopupVisible(false)
     }, 3900);
   }
-
-  // WAS TESTING THE INCLUDES FUNCTIONALITY OF SEQUELIZE ON THE SELLER PROFILE
-  // HERE SO THAT I COULD AVIOD A FEW CLICKS
-
-  // useEffect(() => {
-  //   (async() => {
-  //     const res = await fetch(`http://localhost:5000/api/users/${2}/get-seller-info`)
-  //     const res = await fetch(`http://localhost:5000/api/users/${2}/get-seller-info`)
-  //     const sellerInfo = await res.json()
-  //     // items = postedItems
-  //     //('RETURNED ITEMS:', sellerInfo)
-  //     // setPostedItems(postedItems)
-  //   })()
-  // }, [])
-
-
 
   return (
     <>
@@ -79,7 +63,7 @@ const HomePage = () => {
         if(search_params.offer_type === 'Purchase') {
           return(<Items />)
         } else if(search_params.offer_type === 'Rent') {
-          return(<RentableItemTable />)
+          return(<RentItems />)
         } else {
           return(<div className="items-area"></div>)
         }

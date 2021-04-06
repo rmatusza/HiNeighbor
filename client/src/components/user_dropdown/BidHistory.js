@@ -17,7 +17,7 @@ const BidHistory = () => {
   const [otherBidsOnlyContainerVisibility, setOtherBidsOnlyContainerVisibility] = useState('other-bids-only-container__invisible')
   const [lostAuctionOnlyContainerVisibility, setLostAuctionOnlyContainerVisibility] = useState('lost-auction-only-container__invisible')
   const [currentlyActiveView, setCurrentlyActiveView] = useState({'function': setAllBidsContainerVisibility, 'argument': "all-bid-history-container__invisible"})
-  const [selectedView, setSelectedView] = useState('all-bids')
+  const [selectedView, setSelectedView] = useState('top-bidder')
   useEffect(() => {
     (async() => {
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-bid-history`)
@@ -36,11 +36,11 @@ const BidHistory = () => {
   return(
     <>
       <div className="bid-info-toggle-buttons-container">
-        <div className="all-bids-button-container">
+        {/* <div className="all-bids-button-container">
           <Button color="secondary" variant={selectedView === "all-bids" ? "contained" : "outlined"} onClick={() => toggleButton('all-bids')}>
             All Bids
           </Button>
-        </div>
+        </div> */}
         <div className="top-bidder-button-container">
           <Button color="secondary" variant={selectedView === "top-bidder" ? "contained" : "outlined"} onClick={() => toggleButton('top-bidder')}>
             Top Bidder
@@ -58,15 +58,7 @@ const BidHistory = () => {
         </div>
       </div>
       {(() => {
-        if(selectedView === 'all-bids'){
-          return(
-            <>
-            <TopBidderData itemData={topBidderData} />
-            <NotTopBidderData itemData={notTopBidderData} />
-            <LostAuctionData itemData={lostAuctionData} />
-            </>
-          )
-        } else if(selectedView === 'top-bidder'){
+        if(selectedView === 'top-bidder'){
           return(
             <>
               <TopBidderData itemData={topBidderData} />
@@ -75,7 +67,7 @@ const BidHistory = () => {
         } else if(selectedView === 'other-bids'){
           return(
             <>
-              <NotTopBidderData itemData={notTopBidderData} />
+              <NotTopBidderData itemData={notTopBidderData} topBids={topBidderData} />
             </>
           )
         } else {

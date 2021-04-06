@@ -179,6 +179,20 @@
   /* margin-left: 20px; */
 }
 
+.rent-button-seller-profile{
+  margin-left: 20px;
+}
+
+.seller-info-rent-item-container{
+  background-color: rgba(128, 128, 128, 0.5);
+  padding-bottom: 30px;
+  /* margin-top: 20px; */
+  height: auto;
+  display: flex;
+  margin-right: 30px;
+  margin-left: 30px;
+}
+
 /*=============================================================================================================================*/
 
 

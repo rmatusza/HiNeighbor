@@ -26,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
   Bid.associate = function(models) {
     Bid.belongsTo(models.Item, { foreignKey: 'item_id'})
     Bid.belongsTo(models.User, { foreignKey: 'user_id'})
-
   };
   return Bid;
 };

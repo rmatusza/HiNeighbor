@@ -119,7 +119,7 @@ const year = date.getFullYear()
 //(month)
 const today = new Date(month+'-'+day+'-'+year)
 
-const RentableItemTable = () => {
+const RentItems = () => {
   let rentItems = useSelector(store => store.entities.items_state.rentItems);
   const currUserId = useSelector(store => store.session.currentUser.id);
   const [currItem, setCurrItem] = useState(null);
@@ -442,4 +442,4 @@ const RentableItemTable = () => {
   }
 }
 
-export default RentableItemTable;
+export default RentItems;

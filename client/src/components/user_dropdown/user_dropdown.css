@@ -549,3 +549,19 @@
   margin-left: 40px;
   margin-top: 20px;
 }
+
+.bid-buy-buttons-container-other-bids-page{
+  display: flex;
+  justify-content: space-between;
+  margin-left: 0;
+  margin-top: 20px;
+  width: 200px;
+}
+
+.buy-button-other-bids-page{
+  width: 80px;
+}
+
+.bid-button-other-bids-page{
+  width: 80px;
+}
