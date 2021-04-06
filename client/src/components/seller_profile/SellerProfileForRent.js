@@ -18,7 +18,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { setRentItems } from '../../actions/itemsActions';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -41,6 +41,19 @@ const useStyles = makeStyles((theme) => ({
   typography: {
     fontSize: theme.typography.fontSize
   },
+  paper_large_screen: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    backgroundColor: 'white',
+    background: 'white',
+    color: theme.palette.secondary.contrastText,
+    height: '200px',
+    width: '200px',
+    marginLeft: '20px',
+    paddingTop: '50px',
+    paddingBottom: '50px',
+    paddingLeft: '20px'
+  },
   image: {
     display: "flex",
     justifyContent: "center",
@@ -49,6 +62,17 @@ const useStyles = makeStyles((theme) => ({
     padding: '10px',
     height: '300px',
     width: '300px',
+    marginBottom: '200px',
+    paddingRight: '50px'
+  },
+  image_large_screen: {
+    display: "flex",
+    justifyContent: "center",
+    alignSelf: 'center',
+    alignItems: "center",
+    padding: '10px',
+    height: '200px',
+    width: '200px',
     marginBottom: '200px',
     paddingRight: '50px'
   },
@@ -145,7 +169,7 @@ const SellerProfileForRent = (props) => {
   const [image, setImage] = useState(null);
   const [selectedItemIndex, setSelectedItemIndex] = useState(null)
   const classes = useStyles()
-  const dispatch = useDispatch();
+  const largeScreen = useMediaQuery('(min-width:1870px)');
 
   const updateSoldItems = (id) => {
     tableData[id].expiry_date = selectedDateString
@@ -253,29 +277,26 @@ const SellerProfileForRent = (props) => {
       <div className="divider">
       </div>
       {itemData.length > 0 ?
-        <div className="seller-items-body-container-background">
-          <div className="seller-items-body-container">
-            {/* <div className="seller-items-container"> */}
-              <Grid container spacing={1} className={classes.grid} >
+              <Grid container spacing={3} className={classes.grid}>
                 {itemData.map((item, idx) => {
                   console.log('ITEM:', item)
                   console.log('TABLE DATA ITEM:', tableData[idx])
                   let url = item.image_url
                   return (
                     <>
-                    {/* <div className="grid-item-container"> */}
-                    <Grid item xs={12} md={12} lg={12} className={classes.gridItem}>
-                      <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
-                      {/* <div className="inner-grid-container"> */}
+                    <Grid item xs={12} md={12} lg={largeScreen ? 6 : 12} className={classes.gridItem} key={idx}>
+                      <div className="seller-items-body-container">
                         <div className="seller-page-item-cards">
-                          <Card className={classes.paper}>
-                            <CardContent className={classes.image}>
-                              <img className="item-image" src={url} />
-                            </CardContent>
-                          </Card>
+                          <div className="image-container-seller-profile">
+                            <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
+                            <Card className={largeScreen ? classes.paper_large_screen : classes.paper}>
+                              <CardContent className={largeScreen ? classes.image_large_screen : classes.image}>
+                                <img className="item-image" src={url} />
+                              </CardContent>
+                            </Card>
+                          </div>
                           <div className="description-table-container">
                             <div className="table-container">
-
                               <TableContainer className={classes.tableContainer}>
                                 <Table className={classes.table} size="small" aria-label="a dense table">
                                   <TableHead className={classes.tableHead}>
@@ -304,6 +325,7 @@ const SellerProfileForRent = (props) => {
                             </Button>
                           </div>
                         </div>
+                      </div>
                     </Grid>
                     <div className="divider">
                     </div>
@@ -311,8 +333,6 @@ const SellerProfileForRent = (props) => {
                   )
                 })}
               </Grid>
-          </div>
-        </div>
         :
         <div className="no-items-message-seller-profile">
          <h1>No Items Have Been Posted For Rent by This User</h1>
@@ -410,6 +430,6 @@ const SellerProfileForRent = (props) => {
 
     </>
   )
-}
+};
 
 export default SellerProfileForRent;

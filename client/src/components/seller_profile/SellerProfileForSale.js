@@ -117,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 350,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: '#ff5e00'
   },
   tableRow: {
     backgroundColor: 'whitesmoke'
@@ -149,6 +149,7 @@ const SellerProfileForSale = (props) => {
   let itemData = props.itemData['user_data']['items_for_sale'];
   let tableData = props.itemData['table_data'];
   let user = props.itemData['user_data']['user']['username'];
+  let itemsBidOn = props.itemData.bid_on_items
   const [bidInfo, setBidInfo] = useState({})
   const [bidInput, setBidInput] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -158,13 +159,10 @@ const SellerProfileForSale = (props) => {
   const [currItemPrice, setCurrItemPrice] = useState(null);
   const [propsItemDataArrayIdx, setPropsItemDataArrayIdx] = useState(null)
   const classes = useStyles();
-  const dispatch = useDispatch();
   const largeScreen = useMediaQuery('(min-width:1870px)');
 
-  // console.log('TABLE DATA:', tableData)
-
+  console.log('ITEM DATA:', props.itemData['table_data'])
   const handleDialogOpen = (itemData) => {
-    // console.log('ITEM DATA:', itemData)
     setCurrItemId(itemData.itemId)
     setPropsItemDataArrayIdx(itemData.idx)
     setDialogOpen(true)
@@ -192,6 +190,10 @@ const SellerProfileForSale = (props) => {
 
   const updateItems = (updatedItem) => {
     props.itemData['table_data'][propsItemDataArrayIdx].current_bid = updatedItem.current_bid
+    if(!itemsBidOn.has(props.itemData['table_data'][propsItemDataArrayIdx].item_id)) {
+      props.itemData['table_data'][propsItemDataArrayIdx].num_bidders++
+      itemsBidOn.add(props.itemData['table_data'][propsItemDataArrayIdx].item_id)
+    }
   };
 
   const submitBid = async () => {
@@ -245,61 +247,61 @@ const SellerProfileForSale = (props) => {
                   <>
                   <Grid item xs={12} md={12} lg={largeScreen ? 6 : 12} className={classes.gridItem} key={idx}>
                     <div className="seller-items-body-container">
-                        <div className="seller-page-item-cards">
-                          <div className="image-container-seller-profile">
+                      <div className="seller-page-item-cards">
+                        <div className="image-container-seller-profile">
                           <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
-                            <Card className={largeScreen ? classes.paper_large_screen : classes.paper}>
-                              <CardContent className={largeScreen ? classes.image_large_screen : classes.image}>
-                                <img className="item-image" src={url} />
-                              </CardContent>
-                            </Card>
+                          <Card className={largeScreen ? classes.paper_large_screen : classes.paper}>
+                            <CardContent className={largeScreen ? classes.image_large_screen : classes.image}>
+                              <img className="item-image" src={url} />
+                            </CardContent>
+                          </Card>
+                        </div>
+                        <div className="description-table-container">
+                          <div className="table-container">
+                            <TableContainer className={classes.tableContainer}>
+                              <Table className={classes.table} size="small" aria-label="a dense table">
+                                <TableHead className={classes.tableHead}>
+                                  <TableRow>
+                                    {/* <TableCell align="right">Item Name</TableCell> */}
+                                    <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
+                                    <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
+                                    <TableCell align="center" className={classes.tableCell}>Number of Bidders</TableCell>
+                                    <TableCell align="center" className={classes.tableCell}>Days Remaining</TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                  <TableRow key={tableData[idx].name}>
+                                    <TableCell align="center">${item.price}</TableCell> 
+                                    <TableCell align="center">${item.current_bid ? item.current_bid : 0}</TableCell>
+                                    <TableCell align="center">{item.num_bidders}</TableCell>
+                                    <TableCell align="center">{item.days_remaining}</TableCell>
+                                  </TableRow>
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
                           </div>
-                          <div className="description-table-container">
-                            <div className="table-container">
-                              <TableContainer className={classes.tableContainer}>
-                                <Table className={classes.table} size="small" aria-label="a dense table">
-                                  <TableHead className={classes.tableHead}>
-                                    <TableRow>
-                                      {/* <TableCell align="right">Item Name</TableCell> */}
-                                      <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
-                                      <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
-                                      <TableCell align="center" className={classes.tableCell}>Number of Bidders</TableCell>
-                                      <TableCell align="center" className={classes.tableCell}>Days Remaining</TableCell>
-                                    </TableRow>
-                                  </TableHead>
-                                  <TableBody>
-                                    <TableRow key={tableData[idx].name}>
-                                      <TableCell align="center">${item.price}</TableCell> 
-                                      <TableCell align="center">${item.current_bid}</TableCell>
-                                      <TableCell align="center">{item.num_bidders}</TableCell>
-                                      <TableCell align="center">{item.days_remaining}</TableCell>
-                                    </TableRow>
-                                  </TableBody>
-                                </Table>
-                              </TableContainer>
-                            </div>
-                            <div className="item-description-conatiner">
-                              {item.description}
-                            </div>
-                          </div>
-                          <div className="bid-buy-buttons-container-seller-profile">
-                            <div className="bid-button">
-                              <Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': item.item_id, 'currentBid': item.current_bid, 'itemPrice': item.price, 'idx': idx})}} className={classes.buttons}>
-                                Bid
-                              </Button>
-                            </div>
-                            <div className="divider-container">
-                              <div className="bid-purchase-divider"></div>
-                            </div>
-                            <div className="buy-button">
-                              <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': item.item_id, 'currentBid': item.current_bid, 'itemPrice':item.price, 'idx': idx})}} className={classes.buttons}>
-                                Purchase
-                              </Button>
-                            </div>
+                          <div className="item-description-conatiner">
+                            {item.description}
                           </div>
                         </div>
+                        <div className="bid-buy-buttons-container-seller-profile">
+                          <div className="bid-button">
+                            <Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': item.item_id, 'currentBid': item.current_bid, 'itemPrice': item.price, 'idx': idx})}} className={classes.buttons}>
+                              Bid
+                            </Button>
+                          </div>
+                          <div className="divider-container">
+                            <div className="bid-purchase-divider"></div>
+                          </div>
+                          <div className="buy-button">
+                            <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': item.item_id, 'currentBid': item.current_bid, 'itemPrice':item.price, 'idx': idx})}} className={classes.buttons}>
+                              Purchase
+                            </Button>
+                          </div>
                         </div>
-                    </Grid>
+                      </div>
+                    </div>
+                  </Grid>
                     {/* <div className="divider">
                     </div> */}
                   </>
@@ -351,23 +353,23 @@ const SellerProfileForSale = (props) => {
       </Modal>
 
       <Dialog
-          open={dialogOpen}
-          onClose={handleDialogClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Are you sure that you want to purchase this item at its full sale price?"}
-            </DialogTitle>
-            <DialogActions>
-              <Button onClick={handleDialogClose} className={classes.buttons} color="secondary" variant="contained">
-                Cancel
-              </Button>
-              <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={handlePurchase}>
-                Purchase Item
-              </Button>
-            </DialogActions>
-          </Dialog>
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure that you want to purchase this item at its full sale price?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleDialogClose} className={classes.buttons} color="secondary" variant="contained">
+            Cancel
+          </Button>
+          <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={handlePurchase}>
+            Purchase Item
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   )
 };
