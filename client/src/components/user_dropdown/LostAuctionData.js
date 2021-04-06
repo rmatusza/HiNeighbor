@@ -92,7 +92,7 @@ const LostAuctionData = (props) => {
       return(
         <>
         <div className="top-bidder-heading-container">
-          <h2>You're The Top Bidder On The Following Items:</h2>
+          <h2>Auctions That You Have Lost:</h2>
         </div>
         <div className="no-bid-items">
         <h2>

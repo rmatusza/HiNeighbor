@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from 'react';
+import { useDispatch, useSelector, connect } from "react-redux";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { 
@@ -22,7 +23,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useDispatch, useSelector, connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   grid: {

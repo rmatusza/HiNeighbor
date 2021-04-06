@@ -379,7 +379,7 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
 
   const bidObjects = await Bid.findAll({
     where: {
-      user_id: userId
+      user_id: userId,
     },
     include: {
       model: Item,
@@ -403,9 +403,10 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
     //('LAST BIDDER:', lastBidderId)
     //('USER ID:', userId)
 
-    if(expiryDate < today && lastBidderId === userId){
+    if(expiryDate < today && lastBidderId === userId || ItemData.sold === true){
       continue
     } else if(expiryDate < today && lastBidderId !== userId){
+     
       lostAuctions.push(
         {
         'user_bid': bidData.bid_amount,
