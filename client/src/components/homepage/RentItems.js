@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import {
   CardActionArea,
-  Grid,
-  Paper,
   Button,
-  FormControl,
-  InputLabel,
-  Input,
 } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector, connect } from "react-redux";
-import Modal from "@material-ui/core/Modal";
+import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
 import { setRentItems } from '../../actions/itemsActions';
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { useHistory, Link, Switch } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -94,13 +88,11 @@ const useStyles = makeStyles((theme) => ({
     height: '200px'
   },
   confirmButton: {
-    color: theme.palette.secondary.main,
     marginBottom: '5px',
     color: "white"
   },
   cancelButton: {
     marginBottom: '5px',
-    color: theme.palette.secondary.main,
     color: "white"
   }
 }))
@@ -133,16 +125,6 @@ const RentItems = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const updateItems = (updatedItem) => {
-    const id = updatedItem.id
-    rentItems.forEach((item, i) => {
-      if(item.id === id) {
-        rentItems[i] = updatedItem
-        dispatch(setRentItems(rentItems))
-      }
-    })
-  }
 
   const updateSoldItems = (id) => {
     let currItems = []
@@ -240,14 +222,13 @@ const RentItems = () => {
       seller_id
     }
 
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
+    await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
     })
-    const {new_rent_item} = await res.json()
     //(new_rent_item)
     updateSoldItems(currItem.id)
     handleCloseAll()
@@ -255,7 +236,7 @@ const RentItems = () => {
 
   let dataRowsRent = []
 
-    {if(rentItems[0] === 'no_items') {
+    if(rentItems[0] === 'no_items') {
       return(
         <div className="items-body-container">
         <h1 className="no-results-heading">No Results Found</h1>
@@ -272,7 +253,7 @@ const RentItems = () => {
                     <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(url)}>
                       <Card className={classes.paper}>
                         <CardContent className={classes.image}>
-                          <img className="item-image-homepage" src={url} />
+                          <img alt="rent-item-homepage" className="item-image-homepage" src={url} />
                         </CardContent>
                       </Card>
                     </CardActionArea>
@@ -329,7 +310,7 @@ const RentItems = () => {
               return(
                 <div className="home-page-rent-items-container__buttons-inner-container">
                   <div className="buy-button">
-                    <Button variant="contained" color="secondary" style={{width: "158.03px"}} size="medium" variant="contained" onClick={() => {handleDialogOpen(dataRowsRent[idx])}}>
+                    <Button color="secondary" style={{width: "158.03px"}} size="medium" variant="contained" onClick={() => {handleDialogOpen(dataRowsRent[idx])}}>
                       Rent
                     </Button>
                   </div>
@@ -432,14 +413,11 @@ const RentItems = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           >
-            <img className="item-image-enlarged" src={image} />
-
+            <img alt="enlarged-rent-item-homepage" className="item-image-enlarged" src={image} />
           </Dialog>
-
         </div>
       )
     }
-  }
 }
 
 export default RentItems;

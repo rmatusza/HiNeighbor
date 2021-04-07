@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import {
-  Button,
-} from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -124,7 +121,7 @@ const LostAuctionData = (props) => {
                             <div className="home-page-sale-items-container__photos-inner-container">
                                 <Card className={classes.paper}>
                                     <CardContent className={classes.image}>
-                                      <img className="item-image-homepage" src={data.item_photo} />
+                                      <img alt={data.item_name} className="item-image-homepage" src={data.item_photo} />
                                     </CardContent>
                                 </Card>
                             </div>

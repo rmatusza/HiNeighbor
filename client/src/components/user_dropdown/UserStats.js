@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import {CanvasJSChart} from 'canvasjs-react-charts'
+import React, { useState } from 'react';
 import './user_dropdown.css'
 import Button from '@material-ui/core/Button';
-import { useDispatch, useSelector } from "react-redux";
 import SalesChart from './SalesChart';
 import ProfitsChart from './ProfitsChart';
 
 
 const UserStats = () => {
 
-  const userId = useSelector(store => store.session.currentUser.id)
-  const [salesData, setSalesData] = useState([])
+  // const [salesData, setSalesData] = useState([])
   const [salesButtonState, setSalesButtonState] = useState(true)
   const [profitsButtonState, setProfitsButtonState] = useState(false)
 
@@ -35,34 +32,6 @@ const UserStats = () => {
       }
     }
   }
-
-  const options = {
-    animationEnabled: true,
-    // exportEnabled: true,
-    theme: 'light2',
-    title: {
-      text: 'Sales'
-    },
-    axisY: {
-      title: 'Number of Sales'
-    },
-    axisX: [
-      {
-        title: 'Month of the Year',
-        interval: 1
-      },
-    ],
-    data: [{
-      type: 'line',
-      // toolTipContent: `${months[x]}`,
-      dataPoints: salesData
-    }]
-  }
-  const graph_1 = (
-    <div className="chart-data">
-      <CanvasJSChart options={ options } />
-    </div>
-  )
 
   return (
     <>

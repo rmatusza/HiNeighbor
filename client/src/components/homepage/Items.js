@@ -1,30 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import {
   CardActionArea,
-  Grid,
-  Paper,
   Button,
   FormControl,
   InputLabel,
   Input,
 } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "@material-ui/core/Modal";
 import { setItems } from '../../actions/itemsActions';
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { useHistory, Link, Switch } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { CgArrowsExpandLeft, CgGoogle } from "react-icons/cg";
+import { CgArrowsExpandLeft, /*CgGoogle*/ } from "react-icons/cg";
 // import { Loader } from "@googlemaps/js-api-loaderhttp://localhost:5000/api"
 // import {
 //   GoogleMap,
@@ -80,10 +78,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     border: "2px solid white",
   },
-  submitButton: {
-    marginTop: "2rem",
-    backgroundColor: theme.palette.secondary.main
-  },
+  // submitButton: {
+  //   marginTop: "2rem",
+  //   backgroundColor: theme.palette.secondary.main
+  // },
   dialogBox: {
     width: '200px',
     heigth: '200px'
@@ -104,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
-    height: '70px',
+    // height: '70px',
     width: '100%',
     height: '115px'
   },
@@ -132,7 +130,6 @@ function createData(name, price, bid, num_bidders, days_remaining, item_id, curr
 
 const Items = () => {
   let items = useSelector(store => store.entities.items_state.saleItems)
-  let rentItems = useSelector(store => store.entities.items_state.rentItems)
   //('ITEMS:', items)
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [modalOpen, setModalOpen] = useState(false)
@@ -272,7 +269,7 @@ const Items = () => {
   // if(loadError) return "Error loading maps";
   // if(!isLoaded) return "Loading Maps";
 
-  {if(items[0] === 'no_items') {
+  if(items[0] === 'no_items') {
       return(
         <div className="items-body-container-no-items">
           <h1 className="no-results-heading">No Results Found</h1>
@@ -294,7 +291,7 @@ const Items = () => {
                         </div>
                       </div>
                       <CardContent className={classes.image}>
-                        <img className="item-image-homepage" src={url} />
+                        <img alt="item" className="item-image-homepage" src={url} />
                       </CardContent>
                     </Card>
                   </CardActionArea>
@@ -452,13 +449,12 @@ const Items = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           >
-            <img className="item-image-enlarged" src={image} />
-
+            <img alt="enlarged-item" className="item-image-enlarged" src={image} />
           </Dialog>
         </div>
       )
     }
-  }
+  
 }
 
 export default Items;

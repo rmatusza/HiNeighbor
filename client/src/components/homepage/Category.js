@@ -5,7 +5,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { setCategory } from '../../actions/searchCategoryActions';
 import { useDispatch, useSelector } from "react-redux";
-const book = require('../../static/books.png')
 
 const Category = () => {
 
@@ -50,7 +49,7 @@ const Category = () => {
       </span>
       <div className="chosen-category">
         <div className="category-image-container">
-          <img className="category-image" src={images[selectedCategory].default} />
+          <img className="category-image" alt="category-icon" src={images[selectedCategory].default} />
         </div>
         <div className="category-name-container">
           <h3 className="category-name">

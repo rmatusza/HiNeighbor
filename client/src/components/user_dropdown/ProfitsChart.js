@@ -56,7 +56,6 @@ const ProfitsChart = () => {
     })()
   }, [])
 
-
   const options = {
     animationEnabled: true,
     theme: 'light2',

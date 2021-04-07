@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {CanvasJSChart} from 'canvasjs-react-charts'
 import './user_dropdown.css'
-import Button from '@material-ui/core/Button';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 
 

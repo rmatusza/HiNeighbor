@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  CardActionArea,
-  Grid,
-  Button,
-} from "@material-ui/core";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { Button } from "@material-ui/core";
+import { useSelector } from "react-redux";
 import PurchaseHistory from './PurchaseHistory';
 import RentHistory from './RentHistory';
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +23,6 @@ const History = () => {
   const classes = useStyles()
   // let purchasedItems;
   // let rentedItems = []
-  let ratingState = {}
   let divClass;
   if(purchasedButtonState){
     divClass = 'purchase-rent-toggle-buttons__purchased'
@@ -59,7 +54,6 @@ const History = () => {
 
   useEffect(() => {
     (async() => {
-      let rows = []
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
       const postedItems = await res.json()
       //('PURCHASED ITEMS:', postedItems)
@@ -70,7 +64,7 @@ const History = () => {
       //('RENTED ITEMS:', returnedItems)
       setRentedItems({'rented_items': returnedItems.rent_items, 'rent_reviews': returnedItems.reviews, 'returned_rented_items': returnedItems.returned_rented_items})
     })()
-  }, [])
+  }, /*[]*/)
 
   //(purchasedItems)
 

@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  CardActionArea,
-  Grid,
-  Button,
-} from "@material-ui/core";
-import { useDispatch, useSelector, connect } from "react-redux";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { Button } from "@material-ui/core";
+import { useSelector } from "react-redux";
 import SellerProfileForSale from './SellerProfileForSale';
 import SellerProfileForRent from './SellerProfileForRent';
 import { useParams } from 'react-router';
-
-const useStyles = makeStyles((theme) => ({
-  Buttons: {
-    minWidth: '177px;',
-    maxWidth: '177px;',
-  }
-}))
 
 function createData(item_id, current_bid, image_url, description, name, price, bid, num_bidders, days_remaining) {
   return { item_id, current_bid, image_url, description, name, price, bid, num_bidders, days_remaining };
@@ -31,13 +19,12 @@ const SellerProfileMain = () => {
   const [userData, setUserData] = useState({'items_for_sale': [], 'items_for_rent': [], 'user': {}, 'sold': {}, 'reviews': {}})
   const [dataRows, setDataRows] = useState([])
   const [dataRowsRentItems, setDataRowsRentItems] = useState([])
-  const [itemType, setItemType] = useState([])
+  // const [itemType, setItemType] = useState([])
   const [forSale, setForSale] = useState(true)
   const [forRent, setForRent] = useState(false)
-  const [forSaleItems, setForSaleItems] = useState([])
-  const [forRentItems, setForRentItems] = useState([])
+  // const [forSaleItems, setForSaleItems] = useState([])
+  // const [forRentItems, setForRentItems] = useState([])
   const [bidOnItems, setBidOnItems] = useState(new Set())
-  const classes = useStyles()
 
   const setButtonState = (e) => {
     if(e.target.name === 'for-sale') {
@@ -71,7 +58,7 @@ const SellerProfileMain = () => {
         body: JSON.stringify({currUserId, 'sellerId': id})
       })
       const sellerInfo = await res.json()
-      console.log('RETURNED ITEMS:', sellerInfo)
+      // console.log('RETURNED ITEMS:', sellerInfo)
       let set = new Set()
       sellerInfo.items.forEach((item, idx) => {
         //('ITEM FOR SALE?:', item.for_sale)
@@ -103,11 +90,10 @@ const SellerProfileMain = () => {
       setDataRows(rows)
       setDataRowsRentItems(rentRows)
       setUserData(sellerInfo)
-      setForSaleItems(sellerInfo.items_for_sale)
-      setForRentItems(sellerInfo.items_for_rent)
-
+      // setForSaleItems(sellerInfo.items_for_sale)
+      // setForRentItems(sellerInfo.items_for_rent)
     })()
-  },[])
+  },/*[]*/)
 
 
   //(purchasedItems)
@@ -138,10 +124,10 @@ const SellerProfileMain = () => {
         </div>
         <div className="buttons-container">
           <div className="for-sale-button-container">
-            <Button variant="contained" color="secondary" name="for-sale" onClick={setButtonState} variant={forSale ? 'contained' : 'outlined'}>For Sale</Button>
+            <Button color="secondary" name="for-sale" onClick={setButtonState} variant={forSale ? 'contained' : 'outlined'}>For Sale</Button>
           </div>
           <div className="for-rent-button-container">
-            <Button variant="contained" color="secondary" onClick={setButtonState} variant={forRent ? 'contained' : 'outlined'}>For Rent</Button>
+            <Button color="secondary" onClick={setButtonState} variant={forRent ? 'contained' : 'outlined'}>For Rent</Button>
           </div>
         </div>
       </div>

@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import {
-  CardActionArea,
-  Grid,
-  Button,
-} from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
-import { GiFalloutShelter } from 'react-icons/gi';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -108,10 +102,7 @@ function valuetext(value) {
 }
 
 const RentHistory = (props) => {
-  //(props.postedItems)
   const currUserId = useSelector(store => store.session.currentUser.id)
-  const [postedItems, setPostedItems] = useState({'items': [], 'users': []})
-  // const [dataRows, setDataRows] = useState([])
   const [ratingVisibility, setRatingVisibility] = useState({})
   const [currItem, setCurrItem] = useState(null)
   const [itemRating, setItemRating] = useState(null)
@@ -119,10 +110,8 @@ const RentHistory = (props) => {
   const [currentlyRentingButtonState, setCurrentlyRentingButtonState] = useState(true)
   const [previouslyRentedButtonState, setPreviouslyRentedButtonState] = useState(false)
   const classes = useStyles()
-  let items = []
   let ratingState = {}
   let dataRows = []
-  let rows = []
   let currentlyRenting = props.postedItems.rented_items
   let previouslyRented = props.postedItems.returned_rented_items
   let itemsType;
@@ -226,17 +215,13 @@ const RentHistory = (props) => {
       itemRating
     }
 
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
+    await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'
       },
       body: JSON.stringify(body)
     })
-
-    const rating = await res.json()
-    //('UPDATED RATING OBJECT:', rating)
-
     enableRating(itemId, idx)
   }
 
@@ -289,7 +274,7 @@ const RentHistory = (props) => {
                 <div className="item-photo-container-rent-history">
                   <Card className={classes.paper}>
                     <CardContent className={classes.image}>
-                      <img className="item-image" src={url} />
+                      <img alt={item.name} className="item-image" src={url} />
                     </CardContent>
                   </Card>
                 </div>

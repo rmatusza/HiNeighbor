@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
@@ -7,7 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory, Redirect } from 'react-router-dom'
 import { setUserCreds } from '../../actions/userCredsAction'
 import { BsInfoSquare } from "react-icons/bs";
@@ -183,7 +183,7 @@ const SignUp = (props) => {
     <>
       <div className="sign-in-container">
         <div className="background-img-container">
-          <img className="background-img" src={"https://hi-neighbor-item-photos.s3.amazonaws.com/community.jpg"} />
+          <img className="background-img" alt="background-sign-up-page" src={"https://hi-neighbor-item-photos.s3.amazonaws.com/community.jpg"} />
         </div>
         <div className="top-bar-login-page-container">
           <div className="site-name">
@@ -262,7 +262,7 @@ const SignUp = (props) => {
             and then verify that it is searchable when logged in as the other demo user
           </p>
           <p>If you would like to checkout the code or have a look at the README file click the following link!</p>
-          <a href="https://github.com/rmatusza/HiNeighbor" target="_blank">Show Me the Code!</a>
+          <a href="https://github.com/rmatusza/HiNeighbor" target="_blank" rel="noopener noreferrer">Show Me the Code!</a>
         </div>
       </Dialog>
     </>
