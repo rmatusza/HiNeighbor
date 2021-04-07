@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import {
-  Grid,
-} from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -60,45 +56,35 @@ function createData(name, rate,rented, id, seller_username, image_url, category)
 
 const PostedRentItems = (props) => {
   //(props.postedItems.items_for_rent)
-  const currUserId = useSelector(store => store.session.currentUser.id)
-  const [forSaleButtonState, setForSaleButtonState] = useState(true)
-  const [forRentButtonState, setForRentButtonState] = useState(false)
-  const [dataRows, setDataRows] = useState([])
   const classes = useStyles()
-  let items = []
-  // //('ITEMS:', items)
 
-  const handleClick = (e) => {
-    if(e.target.name === 'for-sale') {
-      if(forSaleButtonState === false) {
-        setForSaleButtonState(true)
-        setForRentButtonState(false)
-      } else {
-        setForSaleButtonState(false)
-        setForRentButtonState(true)
+  // const handleClick = (e) => {
+  //   if(e.target.name === 'for-sale') {
+  //     if(forSaleButtonState === false) {
+  //       setForSaleButtonState(true)
+  //       setForRentButtonState(false)
+  //     } else {
+  //       setForSaleButtonState(false)
+  //       setForRentButtonState(true)
 
-      }
-    } else {
-      if(forRentButtonState === false) {
-        setForRentButtonState(true)
-        setForSaleButtonState(false)
+  //     }
+  //   } else {
+  //     if(forRentButtonState === false) {
+  //       setForRentButtonState(true)
+  //       setForSaleButtonState(false)
 
-      }else {
-        setForRentButtonState(false)
-        setForSaleButtonState(true)
-      }
-    }
-  }
+  //     }else {
+  //       setForRentButtonState(false)
+  //       setForSaleButtonState(true)
+  //     }
+  //   }
+  // }
 
   let rows = []
 
   props.postedItems.items_for_rent.forEach((item, idx) => {
-    const d1 = new Date(item.expiry_date)
-    //('EXPIRY DATE:', d1)
     const today = new Date()
     today.setDate(today.getDate()+0)
-    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-    const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
     rows.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category))
   })
 
@@ -129,7 +115,7 @@ const PostedRentItems = (props) => {
                     <div className="item-photo-container-posted-rent-items">
                         <Card className={classes.paper}>
                           <CardContent className={classes.image}>
-                            <img className="item-image" src={url} />
+                            <img alt={item.name} className="item-image" src={url} />
                           </CardContent>
                         </Card>
                     </div>

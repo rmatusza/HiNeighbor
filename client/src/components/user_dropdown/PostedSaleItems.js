@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import {
-  Grid,
-} from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -61,12 +57,7 @@ function createData(name, price, bid, num_bidders, days_remaining) {
 
 const PostedSaleItems = (props) => {
   //(props.postedItems.items_for_sale)
-  const currUserId = useSelector(store => store.session.currentUser.id)
-  const [forSaleButtonState, setForSaleButtonState] = useState(true)
-  const [forRentButtonState, setForRentButtonState] = useState(false)
-  const [dataRows, setDataRows] = useState([])
   const classes = useStyles()
-  let items = []
   // //('ITEMS:', items)
 
   // const handleClick = (e) => {
@@ -134,7 +125,7 @@ const PostedSaleItems = (props) => {
                     <div className="item-photo-container-posted-sale-items">
                         <Card className={classes.paper}>
                           <CardContent className={classes.image}>
-                            <img className="item-image" src={url} />
+                            <img alt={item.name} className="item-image" src={url} />
                           </CardContent>
                         </Card>
                     </div>

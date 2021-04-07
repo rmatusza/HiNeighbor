@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -12,7 +12,7 @@ import {
   Input,
   InputLabel
 } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -123,7 +123,7 @@ const NotTopBidderData = (props) => {
     const body = {
       currUserId
     }
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
+    await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -164,16 +164,13 @@ const NotTopBidderData = (props) => {
       currUserId
     }
 
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/bid`, {
+   await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/bid`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
     })
-    const updatedItem = await res.json()
-
-    //('RETURNED UPDATED ITEM:', updatedItem)
 
     updateItems()
     setModalOpen(false)
@@ -212,7 +209,7 @@ const NotTopBidderData = (props) => {
                 <div className="home-page-sale-items-container__photos-inner-container">
                   <Card className={classes.paper}>
                     <CardContent className={classes.image}>
-                      <img className="item-image-homepage" src={data.item_photo} />
+                      <img alt={data.item_name} className="item-image-homepage" src={data.item_photo} />
                     </CardContent>
                   </Card>
                   <div className="bid-buy-buttons-container-other-bids-page">

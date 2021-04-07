@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
 import { setPostItemRentStatus } from '../../actions/itemsActions';
@@ -12,15 +11,11 @@ import {
   Button
 } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
-import { useForm } from 'react-hook-form';
-import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from "@material-ui/core/Select";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
-const fs = require('fs')
 
 const useStyles = makeStyles((theme) => ({
   itemFormModal: {
@@ -70,24 +65,18 @@ const PostRentItem = (props) => {
   const [itemCategory, setItemCategory] = useState("");
   const [itemPrice, setItemPrice] = useState("");
   const [rate, setRate] = useState(null)
-  const [itemQuantity, setItemQuantity] = useState("");
-  // const [imageURL, setImageURL] = useState('')
+  // const [itemQuantity, setItemQuantity] = useState("");
   const [imageFile, setImageFile] = useState(null)
-  const [classTime, setClassTime] = useState("");
-  const [modalClosed, setModalClosed] = useState('false')
-  const [encodedImg, setEncodedImg] = useState({})
   const rent_form_state = useSelector(store => store.entities.post_item_rent_state.rentStatus)
   const userId = useSelector(store => store.session.currentUser.id)
   const username = useSelector(store => store.session.currentUser.username)
   //(userId)
-  const { register, handleSubmit } = useForm()
   const classes = useStyles()
   const dispatch = useDispatch();
-  const [selectedFile, setSelectedFile] = useState(null);
   const [popupVisible, setPopupVisible] = useState(false)
   const[modalOpen, setModalOpen] = useState(true)
-  const [anchorElOffer, setAnchorElOffer] = useState(null);
-  const [anchorElCategory, setAnchorElCategory] = useState(null);
+  // const [anchorElOffer, setAnchorElOffer] = useState(null);
+  // const [anchorElCategory, setAnchorElCategory] = useState(null);
   const [formErrors, setFormErrors] = useState([]);
 
   // //('CURRENT USER ID:', userId)
@@ -100,17 +89,13 @@ const PostRentItem = (props) => {
     setDialogOpen(false);
   };
 
-  const handleDialogOpen = (itemData) => {
-    setDialogOpen(true)
-  }
+  // const handleCloseOffer = () => {
+  //   setAnchorElOffer(null);
+  // };
 
-  const handleCloseOffer = () => {
-    setAnchorElOffer(null);
-  };
-
-  const handleCloseCategory = () => {
-    setAnchorElCategory(null);
-  }
+  // const handleCloseCategory = () => {
+  //   setAnchorElCategory(null);
+  // }
 
   const handleRentPeriodSelection = (e) => {
     let period = e.target.value
@@ -121,13 +106,13 @@ const PostRentItem = (props) => {
     } else {
       setRate(Math.floor(Number(itemPrice)/30))
     }
-    handleCloseOffer()
+    // handleCloseOffer()
   }
 
   const handleCategorySelection = (e) => {
     //(e.target.value)
     setItemCategory(e.target.value)
-    handleCloseCategory()
+    // handleCloseCategory()
   }
 
   const handleInputChange = (e) => {
@@ -137,9 +122,9 @@ const PostRentItem = (props) => {
       setItemDescription(e.target.value);
     } else if(e.target.id === "sell-price-input") {
       setItemPrice(e.target.value)
-    } else if(e.target.id === "quantitiy-input") {
-      setItemQuantity(e.target.value)
-    }
+    } //else if(e.target.id === "quantitiy-input") {
+    //   setItemQuantity(e.target.value)
+    // }
   };
 
   const handleCloseModal = (buttonName) => {

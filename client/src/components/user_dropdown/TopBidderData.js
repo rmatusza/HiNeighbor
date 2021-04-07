@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import {
@@ -7,14 +7,14 @@ import {
   DialogActions,
   DialogTitle
 } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     grid: {
@@ -113,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
       const body = {
         currUserId
       }
-      const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
+      await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -156,7 +156,7 @@ const useStyles = makeStyles((theme) => ({
                 <div className="home-page-sale-items-container__photos-inner-container">
                   <Card className={classes.paper}>
                     <CardContent className={classes.image}>
-                      <img className="item-image-homepage" src={data.item_photo} />
+                      <img alt={data.item_name} className="item-image-homepage" src={data.item_photo} />
                     </CardContent>
                   </Card>
                   <div className="bid-buy-buttons-container-top-bidder-page">

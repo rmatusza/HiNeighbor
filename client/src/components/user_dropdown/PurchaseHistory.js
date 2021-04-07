@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import {
-  CardActionArea,
-  Grid,
-  Button,
-} from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
-import { GiFalloutShelter } from 'react-icons/gi';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -101,24 +95,17 @@ function createData(name, seller, purchase_price, purchase_date) {
   return { name, seller, purchase_price, purchase_date };
 }
 
-function valuetext(value) {
-  return `${value}°C`;
-}
-
 const PurchaseHistory = (props) => {
   const currUserId = useSelector(store => store.session.currentUser.id)
-  const [postedItems, setPostedItems] = useState({'items': [], 'users': []})
   // const [dataRows, setDataRows] = useState([])
   const[ratingVisibility, setRatingVisibility] = useState({})
   const[currItem, setCurrItem] = useState(null)
   const[itemRating, setItemRating] = useState(null)
   const [selectedRatingButton, setSelectedRatingButton] = useState(null)
   const classes = useStyles()
-  let items = []
   let ratingState = {}
   let dataRows = []
 
-  let rows = []
   props.postedItems.purchased_items.forEach((item, i) => {
     ratingState[i] = false
     let month = item.date_sold.slice(5,7)
@@ -185,7 +172,6 @@ const PurchaseHistory = (props) => {
       body: JSON.stringify(body)
     })
 
-    const rating = await res.json()
     const status = await res.status
     if(!(status >= 200 && status <= 399)) {
       const err = new Error()
@@ -220,7 +206,7 @@ const PurchaseHistory = (props) => {
                   <div className="item-photo-container-purchase-history">
                     <Card className={classes.paper}>
                       <CardContent className={classes.image}>
-                        <img className="item-image-purchase-history" src={url} />
+                        <img alt={item.name} className="item-image-purchase-history" src={url} />
                       </CardContent>
                     </Card>
                   </div>

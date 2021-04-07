@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector, connect } from "react-redux";
+import { useSelector } from "react-redux";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { 
@@ -54,17 +54,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '50px',
     paddingLeft: '20px'
   },
-  image: {
-    display: "flex",
-    justifyContent: "center",
-    alignSelf: 'center',
-    alignItems: "center",
-    padding: '10px',
-    height: '300px',
-    width: '300px',
-    marginBottom: '200px',
-    paddingRight: '50px'
-  },
+  
   image_large_screen: {
     display: "flex",
     justifyContent: "center",
@@ -121,7 +111,6 @@ const useStyles = makeStyles((theme) => ({
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
-    height: '70px',
     width: '400px',
     height: '94px'
   },
@@ -156,7 +145,6 @@ const today = new Date(month+'-'+day+'-'+year)
 
 const SellerProfileForRent = (props) => {
   const currUserId = useSelector(store => store.session.currentUser.id);
-  let rentItems = useSelector(store => store.entities.items_state.rentItems);
   let itemData = props.itemData['user_data']['items_for_rent']
   let tableData = props.itemData['table_data']
   const [currItem, setCurrItem] = useState()
@@ -165,9 +153,7 @@ const SellerProfileForRent = (props) => {
   const [rentTotal, setRentTotal] = useState(null)
   const [selectedDateString, setSelectedDateString] = useState(null)
   const [confirmRentDialog, setConfirmRentDialog] = useState(false);
-  const [enlargeImage, setEnlargeImage] = useState(false);
-  const [image, setImage] = useState(null);
-  const [selectedItemIndex, setSelectedItemIndex] = useState(null)
+  // const [image, setImage] = useState(null);
   const classes = useStyles()
   const largeScreen = useMediaQuery('(min-width:1870px)');
 
@@ -185,15 +171,11 @@ const SellerProfileForRent = (props) => {
     setDialogOpen(true)
   };
 
-  console.log('CURR ITEM:', currItem)
+  // console.log('CURR ITEM:', currItem)
 
   const handleCloseAll = () => {
     setDialogOpen(false)
     setConfirmRentDialog(false)
-  }
-
-  const closeImage = () => {
-    setEnlargeImage(false)
   }
 
   const handleUpdateDate = (e) => {
@@ -257,17 +239,15 @@ const SellerProfileForRent = (props) => {
       seller_id
     }
 
-    console.log('BODY:', body)
+    // console.log('BODY:', body)
 
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
+    await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
     })
-    const {new_rent_item} = await res.json()
-    //(new_rent_item)
     updateSoldItems(currItem.id)
     handleCloseAll()
   }
@@ -279,21 +259,26 @@ const SellerProfileForRent = (props) => {
       {itemData.length > 0 ?
               <Grid container spacing={3} className={classes.grid}>
                 {itemData.map((item, idx) => {
-                  console.log('ITEM:', item)
-                  console.log('TABLE DATA ITEM:', tableData[idx])
+                  // console.log('ITEM:', item)
+                  // console.log('TABLE DATA ITEM:', tableData[idx])
                   let url = item.image_url
                   return (
                     <>
                     <Grid item xs={12} md={12} lg={largeScreen ? 6 : 12} className={classes.gridItem} key={idx}>
                       <div className="seller-items-body-container">
                         <div className="seller-page-item-cards">
+                        <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
                           <div className="image-container-seller-profile">
-                            <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
                             <Card className={largeScreen ? classes.paper_large_screen : classes.paper}>
                               <CardContent className={largeScreen ? classes.image_large_screen : classes.image}>
-                                <img className="item-image" src={url} />
+                                <img alt="for-rent-item-seller-profile" className="item-image" src={url} />
                               </CardContent>
                             </Card>
+                            <div className="rent-button-seller-profile">
+                              <Button color="secondary" style={{width: "158.03px"}} size="medium" variant="contained" onClick={() => {handleDialogOpen(item, idx)}}>
+                                Rent
+                              </Button>
+                            </div>
                           </div>
                           <div className="description-table-container">
                             <div className="table-container">
@@ -319,11 +304,11 @@ const SellerProfileForRent = (props) => {
                               {item.description}
                             </div>
                           </div>
-                          <div className="rent-button-seller-profile">
+                          {/* <div className="rent-button-seller-profile">
                             <Button variant="contained" color="secondary" style={{width: "158.03px"}} size="medium" variant="contained" onClick={() => {handleDialogOpen(item, idx)}}>
                               Rent
                             </Button>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </Grid>
@@ -418,15 +403,14 @@ const SellerProfileForRent = (props) => {
           </DialogActions>
         </Dialog>
 
-          <Dialog
+          {/* <Dialog
           open={enlargeImage}
           onClose={closeImage}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           >
             <img className="item-image-enlarged" src={image} />
-
-          </Dialog>
+          </Dialog> */}
 
     </>
   )

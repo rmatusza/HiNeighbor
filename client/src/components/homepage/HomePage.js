@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './homepage.css';
 import PriceRange from './PriceRange';
 import Distance from './Distance';
@@ -6,26 +6,12 @@ import OfferType from './OfferType';
 import SearchBar from './SearchBar';
 import Category from './Category'
 import RentItems from './RentItems';
-import { useDispatch, useSelector } from "react-redux";
-import { Button } from "@material-ui/core";
-// import { view, Animated, TouchableOpacity, Text } from 'react-native';
+import { useSelector } from "react-redux";
 import Items from './Items';
 
 const HomePage = () => {
-  const items = useSelector(store => store.entities.items_state.saleItems)
-  const rentItems = useSelector(store => store.entities.items_state.rentItems)
   const search_params = useSelector((store) => store.entities.search_params)
-
   const [popupVisible, setPopupVisible] = useState(false)
-  const [itemComponent, setItemComponent] = useState(null)
-  //(items)
-
-  const handlePopUp = () => {
-    setPopupVisible(true)
-    setTimeout(() => {
-      setPopupVisible(false)
-    }, 3900);
-  }
 
   return (
     <>

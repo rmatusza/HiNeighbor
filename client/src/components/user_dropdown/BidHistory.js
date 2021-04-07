@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Button,
-} from "@material-ui/core";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { Button } from "@material-ui/core";
+import { useSelector } from "react-redux";
 import TopBidderData from './TopBidderData';
 import NotTopBidderData from './NotTopBidderData';
 import LostAuctionData from './LostAuctionData';
@@ -12,11 +10,6 @@ const BidHistory = () => {
   const [lostAuctionData, setLostAuctionData] = useState([])
   const [topBidderData, setTopBidderData] = useState([])
   const [notTopBidderData, setNotTopBidderData] = useState([])
-  const [allBidsContainerVisibility, setAllBidsContainerVisibility] = useState('all-bid-history-container__invisible')
-  const [topBidderOnlyContainerVisibility, setTopBidderOnlyContainerVisibility] = useState('top-bidder-only-container__visible')
-  const [otherBidsOnlyContainerVisibility, setOtherBidsOnlyContainerVisibility] = useState('other-bids-only-container__invisible')
-  const [lostAuctionOnlyContainerVisibility, setLostAuctionOnlyContainerVisibility] = useState('lost-auction-only-container__invisible')
-  const [currentlyActiveView, setCurrentlyActiveView] = useState({'function': setAllBidsContainerVisibility, 'argument': "all-bid-history-container__invisible"})
   const [selectedView, setSelectedView] = useState('top-bidder')
   useEffect(() => {
     (async() => {
@@ -27,7 +20,7 @@ const BidHistory = () => {
       setTopBidderData(bidData[1])
       setNotTopBidderData(bidData[2])
     })()
-  }, [])
+  }, /*[]*/)
 
   const toggleButton = (button) => {
     setSelectedView(button)

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { useHistory,  Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import PostItem from './PostItem';
 import PostRentItem from './PostRentItem';
 import { setPostItemFormStatus, setPostItemRentStatus } from '../../actions/itemsActions';
@@ -53,18 +52,8 @@ const UserDropdown = (props) => {
     history.replace('/bid-history')
   }
 
-  const handleDialogClose = () => {
-    dispatch(setPostItemFormStatus(false))
-    // setDialogOpen(false);
-  };
-
   const handleDialogOpen = () => {
    dispatch(setPostItemFormStatus(true))
-  };
-
-  const handleDialogRentClose = () => {
-    dispatch(setPostItemRentStatus(false))
-    // setDialogOpen(false);
   };
 
   const handleDialogRentOpen = () => {
@@ -104,7 +93,6 @@ const UserDropdown = (props) => {
   );
 }
 
-{/* || rent_form_state.length === 0) */}
 // || form_state.length === 0)
 
 export default UserDropdown;

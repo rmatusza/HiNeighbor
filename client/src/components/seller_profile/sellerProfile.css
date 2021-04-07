@@ -6,6 +6,7 @@
   display: flex;
   margin-right: 30px;
   margin-left: 30px;
+  width: 1000px;
 }
 
 .seller-info {
@@ -93,11 +94,11 @@
 }
 
 .item-name-seller-profile{
-  /* margin-left: 170px; */
-  /* padding-bottom: 50px; */
   display: flex;
+  position: absolute;
   justify-content: flex-start;
   height: 100px;
+  width: 400px;
 }
 
 .table-container{
@@ -114,6 +115,7 @@
   flex-direction: column;
   align-items: center;
   margin-left: 150px;
+  margin-top: 100px;
 }
 
 .item-text {
@@ -174,8 +176,9 @@
 .bid-buy-buttons-container-seller-profile{
   display: flex;
   flex-direction: column;
-  margin-left: 100px;
+  margin-left: 90px;
   width: 200px;
+  margin-top: 20px;
   /* margin-left: 20px; */
 }
 
@@ -193,6 +196,16 @@
   margin-left: 30px;
 }
 
+.image-container-seller-profile{
+  margin-top: 100px;
+}
+
+.rent-button-seller-profile{
+  margin-left: 90px;
+  margin-top: 20px;
+
+}
+
 /*=============================================================================================================================*/
 
 
@@ -205,21 +218,35 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 20px;
+    margin-left: 100px;
+    margin-top: 100px;
   }
   .bid-buy-buttons-container-seller-profile{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding-right: 20px;
-    width: 180px;
+    width: 210px;
+    height: 140px;
     margin-left: 20px;
+  }
+  .seller-items-body-container{
+    width: 900px;
+  }
+  .rent-button-seller-profile{
+    margin-left: 40px;
+    margin-top: 20px;
   }
 }
 
 @media only screen and (min-width: 1360px) and (max-width: 1869px) {
   .seller-items-body-container {
-    width: 1200px;
+    width: 1000px;
     margin-left: 100px;
+  }
+  .rent-button-seller-profile{
+    margin-left: 90px;
+    margin-top: 20px;
   }
 }

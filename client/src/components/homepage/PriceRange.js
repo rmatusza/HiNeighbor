@@ -5,25 +5,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { MdAttachMoney } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setPriceRange } from '../../actions/searchCategoryActions';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-  priceRangeButton : {
-    minHeight: '64.4px',
-    minWidth: '210px;',
-    maxWidth: '210px;',
-  }
-}));
 
 const PriceRange = () => {
-
   let defaultPriceRange = useSelector(store => store.entities.search_params.price_range)
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null)
   const options = ['ANY', '$5 - $20', '$20 - $50', '$50 - $100', '$100 +']
   const prices = [[0, 1000000000], [5, 20], [20, 50], [50, 100], [100, 10000000000]]
   const dispatch = useDispatch();
-  const classes = useStyles();
 
   //('DEFAULT PRICE RANGE:', defaultPriceRange)
   const handleClick = (event) => {

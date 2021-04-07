@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Redirect, useHistory } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import TopBar from './components/top-bar/TopBar'
 import HomePage from './components/homepage/HomePage';
 import Login from './components/login/Login';
 import { setUserCreds } from './actions/userCredsAction'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ProtectedRoute from './components/ProtectedRoute';
-import Items from './components/homepage/Items';
-import PostItem from './components/user_dropdown/PostItem';
 import PostedItems from './components/user_dropdown/PostedItems';
-import PurchaseHistory from './components/user_dropdown/PurchaseHistory';
 import SellerProfileMain from './components/seller_profile/SellerProfileMain';
 import UserStats from './components/user_dropdown/UserStats';
 import History from './components/user_dropdown/History';
@@ -18,21 +15,8 @@ import BidHistory from './components/user_dropdown/BidHistory';
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
-  const items = useSelector(store => store.entities.items_state)
-  const form_state = useSelector(store => store.entities.post_item_form_state.status)
-
-  // const[items, setItems] = useState([])
   const dispatch = useDispatch();
-  const history = useHistory()
-
-  const date = new Date()
-  const day = date.getDate()
-  const month = date.getMonth() + 1
-  const year = date.getFullYear()
-  const today = new Date(month+'-'+day+'-'+year)
-  //(today)
-
-
+  
   // AUTHENTICATES THE USER BY CHECKING TO SEE IF THEY HAVE A VALID ACCESS TOKEN
   useEffect(() => {
     (async () => {
@@ -66,7 +50,7 @@ const App = () => {
       }
 
     })()
-  }, [])
+  }, /*[]*/)
 
   return (
     <BrowserRouter>

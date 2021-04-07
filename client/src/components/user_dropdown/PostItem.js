@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
 import { setPostItemFormStatus } from '../../actions/itemsActions';
@@ -12,22 +11,14 @@ import {
   Button
 } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
-import { useForm } from 'react-hook-form';
-import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from "@material-ui/core/Select";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const fs = require('fs')
-
 const useStyles = makeStyles((theme) => ({
   itemFormModal: {
-    // position: "absolute",
-    // top: '50rem',
-    // left: '50vh',
-    // top: '50vh',
     width: '400px',
     margin: 'auto',
     marginTop: '14vh',
@@ -73,53 +64,34 @@ const PostItem = (props) => {
   const [itemDescription, setItemDescription] = useState("");
   const [itemCategory, setItemCategory] = useState("");
   const [itemPrice, setItemPrice] = useState("");
-  const [itemOfferType, setItemOfferType] = useState("");
-  const [itemQuantity, setItemQuantity] = useState("");
-  // const [imageURL, setImageURL] = useState('')
   const [imageFile, setImageFile] = useState(null)
-  const [classTime, setClassTime] = useState("");
-  const [modalClosed, setModalClosed] = useState('false')
-  const [encodedImg, setEncodedImg] = useState({})
   const form_state = useSelector(store => store.entities.post_item_form_state.status)
   const userId = useSelector(store => store.session.currentUser.id)
   const username = useSelector(store => store.session.currentUser.username)
   //(userId)
-  const { register, handleSubmit } = useForm()
   const classes = useStyles()
   const dispatch = useDispatch();
-  const [selectedFile, setSelectedFile] = useState(null);
   const [popupVisible, setPopupVisible] = useState(false)
   const[modalOpen, setModalOpen] = useState(true)
-  const [anchorElOffer, setAnchorElOffer] = useState(null);
-  const [anchorElCategory, setAnchorElCategory] = useState(null);
+  // const [anchorElOffer, setAnchorElOffer] = useState(null);
+  // const [anchorElCategory, setAnchorElCategory] = useState(null);
   const [formErrors, setFormErrors] = useState([]);
-
-  // //('CURRENT USER ID:', userId)
   let generatedImageURL;
-  // const handleClick = (event) => {
-  //   setAnchorElOffer(event.currentTarget);
-  // };
-
+ 
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
 
-  const handleDialogOpen = (itemData) => {
-    setDialogOpen(true)
-  }
+  // const handleDialogOpen = (itemData) => {
+  //   setDialogOpen(true)
+  // }
 
-  const handleCloseOffer = () => {
-    setAnchorElOffer(null);
-  };
+  // const handleCloseOffer = () => {
+  //   setAnchorElOffer(null);
+  // };
 
   const handleCloseCategory = () => {
-    setAnchorElCategory(null);
-  }
-
-  const handleOfferTypeSelection = (e) => {
-    //(e.target.value)
-    setItemOfferType(e.target.value)
-    handleCloseOffer()
+    // setAnchorElCategory(null);
   }
 
   const handleCategorySelection = (e) => {
@@ -136,7 +108,7 @@ const PostItem = (props) => {
     } else if(e.target.id === "sell-price-input") {
       setItemPrice(e.target.value)
     } else if(e.target.id === "quantitiy-input") {
-      setItemQuantity(e.target.value)
+      // setItemQuantity(e.target.value)
     }
   };
 

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {
   Button,
 } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector, connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
 import PostedSaleItems from './PostedSaleItems';
 import PostedRentItems from './PostedRentItems';
 
@@ -82,19 +82,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, price, bid, num_bidders, days_remaining) {
-  return { name, price, bid, num_bidders, days_remaining };
-}
-
 const PostedItems = () => {
-
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [forSaleButtonState, setForSaleButtonState] = useState(true)
   const [forRentButtonState, setForRentButtonState] = useState(false)
-  const [postedItems, setPostedItems] = useState([])
   const [saleItems, setSaleItems] = useState({'items_for_sale': []})
   const [rentItems, setRentItems] = useState({'items_for_rent': []})
-  const [dataRows, setDataRows] = useState([])
+  // const [dataRows, setDataRows] = useState([])
   const classes = useStyles()
 
   const handleClick = (e) => {
@@ -119,14 +113,12 @@ const PostedItems = () => {
 
   useEffect(() => {
     (async() => {
-      let rows = []
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-posted-items`)
       const postedItems = await res.json()
-      // items = postedItems
       if(postedItems.length === 0) {
         return
       }
-      setDataRows(rows)
+      // setDataRows(rows)
       let forSaleObj = {}
       let forRentObj = {}
       forSaleObj['items_for_sale'] = postedItems.items_for_sale
@@ -134,7 +126,7 @@ const PostedItems = () => {
       setRentItems(forRentObj)
       setSaleItems(forSaleObj)
     })()
-  }, [])
+  }, [currUserId])
 
   return(
     <>
