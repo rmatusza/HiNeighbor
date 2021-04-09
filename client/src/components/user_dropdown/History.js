@@ -64,7 +64,7 @@ const History = () => {
       //('RENTED ITEMS:', returnedItems)
       setRentedItems({'rented_items': returnedItems.rent_items, 'rent_reviews': returnedItems.reviews, 'returned_rented_items': returnedItems.returned_rented_items})
     })()
-  }, /*[]*/)
+  }, [])
 
   //(purchasedItems)
 
@@ -72,15 +72,15 @@ const History = () => {
     <>
       <div className={divClass}>
         <div>
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={purchasedButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="purchased">
-         Purchased
-        </Button>
+          <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={purchasedButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="purchased">
+          Purchased
+          </Button>
         </div>
         <div className="purchase-rent-toggle-buttons-divider"></div>
         <div>
-        <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={rentedButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="rented">
-         Rented
-        </Button>
+          <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={rentedButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="rented">
+          Rented
+          </Button>
         </div>
       </div>
       <div>

@@ -213,11 +213,11 @@ const ReturnedRentedItemHistory = (props) => {
     <div className="items-body-container-user-dropdown">
       <div className="items-container">
         <Grid container spacing={4} className={classes.grid} >
-          {props.postedItems.rented_items.map((item) => {
+          {props.postedItems.rented_items.map((item, idx) => {
             // //(item)
             let url = item.image_url
             return (
-              <Grid item xs={12} md={12}>
+              <Grid item xs={12} md={12} key={idx}>
                 <Card className={classes.paper}>
                   <CardContent className={classes.image}>
                     <img className="item-image" src={url} />
@@ -231,7 +231,7 @@ const ReturnedRentedItemHistory = (props) => {
       <div className="rent-history-table-container">
           {props.postedItems.rented_items.map((item, idx) => {
             return(
-              <div className="rent-history-table">
+              <div className="rent-history-table" key={idx}>
                  <TableContainer className={classes.tableContainer}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
                       <TableHead className={classes.tableHead}>

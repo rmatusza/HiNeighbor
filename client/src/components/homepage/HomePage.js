@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './homepage.css';
 import PriceRange from './PriceRange';
 import Distance from './Distance';
@@ -11,12 +11,12 @@ import Items from './Items';
 
 const HomePage = () => {
   const search_params = useSelector((store) => store.entities.search_params)
-  const [popupVisible, setPopupVisible] = useState(false)
+  // const [popupVisible, setPopupVisible] = useState(false)
 
   return (
     <>
-      {popupVisible ? <div className="fade-test" style={{display:"block"}}><h2>Your purchase was successful</h2></div> : <></>}
-        <div className='category-contents-container'>
+      {/* {popupVisible ? <div className="fade-test" style={{display:"block"}}><h2>Your purchase was successful</h2></div> : <></>} */}
+      <div className='category-contents-container'>
         <Category />
       </div>
       <div className="search-container-outer">

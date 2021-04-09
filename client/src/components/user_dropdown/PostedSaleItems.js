@@ -118,16 +118,16 @@ const PostedSaleItems = (props) => {
         </div>
         <div className="body-container-posted-sale-items">
           <div className="body-container-posted-sale-items__photos-container">
-              {props.postedItems.items_for_sale.map((item) => {
+              {props.postedItems.items_for_sale.map((item, idx) => {
                 let url = item.image_url
                 return (
                   <>
-                    <div className="item-photo-container-posted-sale-items">
-                        <Card className={classes.paper}>
-                          <CardContent className={classes.image}>
-                            <img alt={item.name} className="item-image" src={url} />
-                          </CardContent>
-                        </Card>
+                    <div className="item-photo-container-posted-sale-items" key={idx}>
+                      <Card className={classes.paper}>
+                        <CardContent className={classes.image}>
+                          <img alt={item.name} className="item-image" src={url} />
+                        </CardContent>
+                      </Card>
                     </div>
                   </>
                 )
@@ -136,7 +136,7 @@ const PostedSaleItems = (props) => {
           <div className="body-container-posted-sale-items__for-sale-table-container">
             {props.postedItems.items_for_sale.map((item, idx) => {
               return(
-                <div className="body-container-posted-sale-items__for-sale-table-container__for-sale-table">
+                <div className="body-container-posted-sale-items__for-sale-table-container__for-sale-table" key={idx}>
                   <TableContainer className={classes.tableContainer}  style={{marginRight: "20px"}}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
                       <TableHead className={classes.tableHead}>

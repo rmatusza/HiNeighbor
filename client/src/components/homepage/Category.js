@@ -70,7 +70,7 @@ const Category = () => {
         onClose={handleClose}
       >
         {options.map((option, idx) => (
-          <MenuItem onClick={(event) => handleMenuItemClick(event, idx)}>
+          <MenuItem onClick={(event) => handleMenuItemClick(event, idx)} key={idx}>
             {options[idx]}
           </MenuItem>
         ))}

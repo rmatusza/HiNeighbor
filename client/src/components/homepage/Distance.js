@@ -45,7 +45,7 @@ const Distance = () => {
         onClose={handleClose}
       >
         {options.map((option, idx) => (
-          <MenuItem onClick={(event) => handleMenuItemClick(event, idx)}>
+          <MenuItem onClick={(event) => handleMenuItemClick(event, idx)} key={idx}>
             {option}
           </MenuItem>
         ))}

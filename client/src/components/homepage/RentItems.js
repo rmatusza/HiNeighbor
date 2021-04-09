@@ -246,10 +246,10 @@ const RentItems = () => {
       return(
         <div className="home-page-rent-items-container">
           <div className="home-page-rent-items-container__photos-outer-container">
-              {rentItems.map((item) => {
+              {rentItems.map((item, idx) => {
                 let url = item.image_url
                 return (
-                  <div className="home-page-rent-items-container__photos-inner-container">
+                  <div className="home-page-rent-items-container__photos-inner-container" key={idx}>
                     <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(url)}>
                       <Card className={classes.paper}>
                         <CardContent className={classes.image}>
@@ -274,7 +274,7 @@ const RentItems = () => {
             })}
             {dataRowsRent.map((item, idx) => {
               return(
-                <div className="home-page-rent-items-container__item-table-and-description-inner-container">
+                <div className="home-page-rent-items-container__item-table-and-description-inner-container" key={idx}>
                   <TableContainer className="home-page-rent-items-container__item-table-and-description-inner-container__table-container">
                     <Table className="home-page-rent-items-container__item-table-and-description-inner-container__table-container__table" size="small" aria-label="a dense table">
                       <TableHead className={classes.tableHead}>
@@ -308,7 +308,7 @@ const RentItems = () => {
           <div className="home-page-rent-items-container__buttons-outer-container">
             {dataRowsRent.map((item, idx) => {
               return(
-                <div className="home-page-rent-items-container__buttons-inner-container">
+                <div className="home-page-rent-items-container__buttons-inner-container" key={idx}>
                   <div className="buy-button">
                     <Button color="secondary" style={{width: "158.03px"}} size="medium" variant="contained" onClick={() => {handleDialogOpen(dataRowsRent[idx])}}>
                       Rent
