@@ -27,5 +27,5 @@ Hi Neighbor is a full stack web application that seeks to replicate a simplified
 # UPCOMING/IN PROGRESS FEATURES
 
 1. More user statistics such as month with most bids, month with highest number of user ratings, etc.
-2. Incorporate distance calculations based off of the logitude and latitude of users so that users can filter sellers by their proximity to themselves
+2. Incorporate distance calculations based off of the longitude and latitude of users so that users can filter sellers by their proximity to themselves
 3. Incorporate web sockets so that users can instantaneously chat with and ask questions to sellers 
