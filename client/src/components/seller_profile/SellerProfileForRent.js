@@ -263,58 +263,57 @@ const SellerProfileForRent = (props) => {
                   // console.log('TABLE DATA ITEM:', tableData[idx])
                   let url = item.image_url
                   return (
-                    <>
-                    <Grid item xs={12} md={12} lg={largeScreen ? 6 : 12} className={classes.gridItem} key={idx}>
-                      <div className="seller-items-body-container">
-                        <div className="seller-page-item-cards">
-                        <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
-                          <div className="image-container-seller-profile">
-                            <Card className={largeScreen ? classes.paper_large_screen : classes.paper}>
-                              <CardContent className={largeScreen ? classes.image_large_screen : classes.image}>
-                                <img alt="for-rent-item-seller-profile" className="item-image" src={url} />
-                              </CardContent>
-                            </Card>
-                            <div className="rent-button-seller-profile">
-                              <Button color="secondary" style={{width: "158.03px"}} size="medium" variant="contained" onClick={() => {handleDialogOpen(item, idx)}}>
+                    <div key={idx}>
+                      <Grid item xs={12} md={12} lg={largeScreen ? 6 : 12} className={classes.gridItem}>
+                        <div className="seller-items-body-container">
+                          <div className="seller-page-item-cards">
+                          <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
+                            <div className="image-container-seller-profile">
+                              <Card className={largeScreen ? classes.paper_large_screen : classes.paper}>
+                                <CardContent className={largeScreen ? classes.image_large_screen : classes.image}>
+                                  <img alt="for-rent-item-seller-profile" className="item-image" src={url} />
+                                </CardContent>
+                              </Card>
+                              <div className="rent-button-seller-profile">
+                                <Button color="secondary" style={{width: "158.03px"}} size="medium" variant="contained" onClick={() => {handleDialogOpen(item, idx)}}>
+                                  Rent
+                                </Button>
+                              </div>
+                            </div>
+                            <div className="description-table-container">
+                              <div className="table-container">
+                                <TableContainer className={classes.tableContainer}>
+                                  <Table className={classes.table} size="small" aria-label="a dense table">
+                                    <TableHead className={classes.tableHead}>
+                                      <TableRow>
+                                        {/* <TableCell align="right">Item Name</TableCell> */}
+                                        <TableCell align="center" className={classes.tableCell}>Daily Rate</TableCell>
+                                        <TableCell align="center" className={classes.tableCell}>Availablity</TableCell>
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      <TableRow key={tableData[idx].name}>
+                                        <TableCell align="center">${tableData[idx].rate}</TableCell>
+                                        <TableCell align="center">{tableData[idx].rented === true ? `Unavailable Until: ${tableData[idx].expiry_date}` : 'Available'}</TableCell>
+                                      </TableRow>
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+                              </div>
+                              <div className="item-description-conatiner">
+                                {item.description}
+                              </div>
+                            </div>
+                            {/* <div className="rent-button-seller-profile">
+                              <Button variant="contained" color="secondary" style={{width: "158.03px"}} size="medium" variant="contained" onClick={() => {handleDialogOpen(item, idx)}}>
                                 Rent
                               </Button>
-                            </div>
+                            </div> */}
                           </div>
-                          <div className="description-table-container">
-                            <div className="table-container">
-                              <TableContainer className={classes.tableContainer}>
-                                <Table className={classes.table} size="small" aria-label="a dense table">
-                                  <TableHead className={classes.tableHead}>
-                                    <TableRow>
-                                      {/* <TableCell align="right">Item Name</TableCell> */}
-                                      <TableCell align="center" className={classes.tableCell}>Daily Rate</TableCell>
-                                      <TableCell align="center" className={classes.tableCell}>Availablity</TableCell>
-                                    </TableRow>
-                                  </TableHead>
-                                  <TableBody>
-                                    <TableRow key={tableData[idx].name}>
-                                      <TableCell align="center">${tableData[idx].rate}</TableCell>
-                                      <TableCell align="center">{tableData[idx].rented === true ? `Unavailable Until: ${tableData[idx].expiry_date}` : 'Available'}</TableCell>
-                                    </TableRow>
-                                  </TableBody>
-                                </Table>
-                              </TableContainer>
-                            </div>
-                            <div className="item-description-conatiner">
-                              {item.description}
-                            </div>
-                          </div>
-                          {/* <div className="rent-button-seller-profile">
-                            <Button variant="contained" color="secondary" style={{width: "158.03px"}} size="medium" variant="contained" onClick={() => {handleDialogOpen(item, idx)}}>
-                              Rent
-                            </Button>
-                          </div> */}
                         </div>
-                      </div>
-                    </Grid>
-                    <div className="divider">
+                      </Grid>
+                      <div className="divider" />
                     </div>
-                    </>
                   )
                 })}
               </Grid>
