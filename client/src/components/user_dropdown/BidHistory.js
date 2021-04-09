@@ -20,7 +20,7 @@ const BidHistory = () => {
       setTopBidderData(bidData[1])
       setNotTopBidderData(bidData[2])
     })()
-  }, /*[]*/)
+  }, [])
 
   const toggleButton = (button) => {
     setSelectedView(button)

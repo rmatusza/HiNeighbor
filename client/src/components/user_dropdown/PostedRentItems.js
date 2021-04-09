@@ -126,7 +126,7 @@ const PostedRentItems = (props) => {
           <div className="body-container-posted-rent-items__for-rent-table-container">
             {props.postedItems.items_for_rent.map((item, idx) => {
               return(
-                <div className="body-container-posted-rent-items__for-rent-table-container__for-rent-table">
+                <div className="body-container-posted-rent-items__for-rent-table-container__for-rent-table" key={idx}>
                   <TableContainer className={classes.tableContainer} style={{marginRight: "20px"}}>
                       <Table className={classes.table} size="small" aria-label="a dense table">
                         <TableHead className={classes.tableHead}>

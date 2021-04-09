@@ -235,7 +235,6 @@ const SellerProfileForSale = (props) => {
               {tableData.map((item, idx) => {
                 let url = item.image_url
                 return (
-                  <>
                   <Grid item xs={12} md={12} lg={largeScreen ? 6 : 12} className={classes.gridItem} key={idx}>
                     <div className="seller-items-body-container">
                       <div className="seller-page-item-cards">
@@ -308,9 +307,6 @@ const SellerProfileForSale = (props) => {
                       </div>
                     </div>
                   </Grid>
-                    {/* <div className="divider">
-                    </div> */}
-                  </>
                 )
               })}
             </Grid>

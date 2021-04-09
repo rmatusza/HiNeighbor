@@ -279,10 +279,10 @@ const Items = () => {
       return(
         <div className="home-page-sale-items-container">
           <div className="home-page-sale-items-container__photos-outer-container">
-            {items.map((item) => {
+            {items.map((item, idx) => {
               let url = item.image_url
               return (
-                <div className="home-page-sale-items-container__photos-inner-container">
+                <div className="home-page-sale-items-container__photos-inner-container" key={idx}>
                   <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(item.image_url)}>
                     <Card className={classes.paper}>
                       <div className="home-page-sale-items-container__photos-inner-container__expand-icon-outer-container">
@@ -314,7 +314,7 @@ const Items = () => {
             })}
             {dataRows.map((item, idx) => {
               return(
-                <div className="home-page-sale-items-container__item-table-and-description-inner-container">
+                <div className="home-page-sale-items-container__item-table-and-description-inner-container" key={idx}>
                   <TableContainer className="home-page-sale-items-container__item-table-and-description-inner-container__table-container">
                     <Table className="home-page-sale-items-container__item-table-and-description-inner-container__table-container__table"
                     size="small" aria-label="a dense table"
@@ -352,7 +352,7 @@ const Items = () => {
           <div className="home-page-sale-items-container__buttons-outer-container">
             {dataRows.map((item, idx) => {
               return(
-                <div className="home-page-sale-items-container__buttons-inner-container">
+                <div className="home-page-sale-items-container__buttons-inner-container" key={idx}>
                   <div className="bid-button">
                     <Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
                       Bid

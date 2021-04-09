@@ -93,7 +93,7 @@ const SellerProfileMain = () => {
       // setForSaleItems(sellerInfo.items_for_sale)
       // setForRentItems(sellerInfo.items_for_rent)
     })()
-  },/*[]*/)
+  },[])
 
 
   //(purchasedItems)

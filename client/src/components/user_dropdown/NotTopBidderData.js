@@ -205,7 +205,7 @@ const NotTopBidderData = (props) => {
             let fullDate = chosenMonth + '-' + chosenDay + '-' + chosenYear
             //(fullDate)
             return (
-              <div className="top-bidder-inner-container">
+              <div className="top-bidder-inner-container" key={idx}>
                 <div className="home-page-sale-items-container__photos-inner-container">
                   <Card className={classes.paper}>
                     <CardContent className={classes.image}>

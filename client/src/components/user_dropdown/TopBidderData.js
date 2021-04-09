@@ -181,12 +181,14 @@ const useStyles = makeStyles((theme) => ({
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        <TableCell align="center" style={{height: '63px'}}>{data.item_name}</TableCell>
-                        <TableCell align="center">${data.full_price}</TableCell>
-                        <TableCell align="center">{data.num_bidders}</TableCell>
-                        <TableCell align="center">${data.top_bid}</TableCell>
-                        <TableCell align="center">{fullDate}</TableCell>
-                        <TableCell align="center">{data.days_remaining}</TableCell>
+                        <TableRow>
+                          <TableCell align="center" style={{height: '63px'}}>{data.item_name}</TableCell>
+                          <TableCell align="center">${data.full_price}</TableCell>
+                          <TableCell align="center">{data.num_bidders}</TableCell>
+                          <TableCell align="center">${data.top_bid}</TableCell>
+                          <TableCell align="center">{fullDate}</TableCell>
+                          <TableCell align="center">{data.days_remaining}</TableCell>
+                        </TableRow>
                       </TableBody>
                     </Table>
                   </TableContainer>

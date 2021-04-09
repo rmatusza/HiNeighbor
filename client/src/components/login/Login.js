@@ -209,9 +209,9 @@ const Login = (props) => {
             </h1>
           </div>
           <form className={classes.root} noValidate autoComplete="off">
-            <TextField  color='primary' id="filled-basic" label="Email:"  variant="filled" name="email-input" onChange={updateInput}/>
+            <TextField  color='primary' label="Email:"  variant="filled" name="email-input" onChange={updateInput}/>
             <div className="password-field">
-              <TextField id="filled-basic" label="Password:" type="password" variant="filled" name="password-input" fullWidth={true} onChange={updateInput}/>
+              <TextField label="Password:" type="password" variant="filled" name="password-input" fullWidth={true} onChange={updateInput}/>
             </div>
               <Button onClick={validateForm}  variant="contained" color="primary">
                 Login

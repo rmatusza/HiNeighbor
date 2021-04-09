@@ -355,25 +355,26 @@ const SellerProfileForRent = (props) => {
             <div className="rent-item-buttons-container">
               <div className="rent-item-buttons">
                 <Button
-                variant="contained"
-                color="secondary"
-                // style={{ color: "white" }}
-                size="small"
-                className={classes.confirmButton}
-                onClick={handleConfirmRentDialog}
-                type="submit"
-                name="confirm-button">
-                  Confirm
-                </Button>
-                <Button
-                variant="contained"
-                color="secondary"
-                // style={{ color: "white" }}
-                size="small"
-                className={classes.cancelButton}
-                onClick={handleDialogClose}
-                type="submit"
-                name="cancel-button">
+                  variant="contained"
+                  color="secondary"
+                  // style={{ color: "white" }}
+                  size="small"
+                  className={classes.confirmButton}
+                  onClick={handleConfirmRentDialog}
+                  type="submit"
+                  name="confirm-button">
+                    Confirm
+                  </Button>
+                  <Button
+                  variant="contained"
+                  color="secondary"
+                  // style={{ color: "white" }}
+                  size="small"
+                  className={classes.cancelButton}
+                  onClick={handleDialogClose}
+                  type="submit"
+                  name="cancel-button"
+                >
                   Cancel
                 </Button>
               </div>

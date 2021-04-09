@@ -364,8 +364,8 @@ const PostRentItem = (props) => {
           {"The Following Are Required:"}
         </DialogTitle>
         <List>
-          {formErrors.map((error) => (
-            <ListItem>
+          {formErrors.map((error, idx) => (
+            <ListItem key={idx}>
               <ListItemText>
                 {error}
               </ListItemText>

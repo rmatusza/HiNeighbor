@@ -267,11 +267,11 @@ const RentHistory = (props) => {
       </div>
       <div className="body-container-rent-history">
         <div className="body-container-rent-history__photos-container">
-            {itemsType.map((item) => {
+            {itemsType.map((item, idx) => {
               //(item)
               let url = item.image_url
               return (
-                <div className="item-photo-container-rent-history">
+                <div className="item-photo-container-rent-history" key={idx}>
                   <Card className={classes.paper}>
                     <CardContent className={classes.image}>
                       <img alt={item.name} className="item-image" src={url} />
