@@ -70,21 +70,21 @@ const History = () => {
 
   return (
     <>
-      <div className={divClass}>
-        <div>
-          <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={purchasedButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="purchased">
+      <div className={divClass} key={0}>
+        <div key={1}>
+          <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={purchasedButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="purchased" key={2}>
           Purchased
           </Button>
         </div>
-        <div className="purchase-rent-toggle-buttons-divider"></div>
-        <div>
-          <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={rentedButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="rented">
+        <div className="purchase-rent-toggle-buttons-divider" key={3}></div>
+        <div key={4}>
+          <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={rentedButtonState ? 'contained' : 'outlined'} color="secondary" onClick={handleClick} name="rented" key={5}>
           Rented
           </Button>
         </div>
       </div>
-      <div>
-        {purchasedButtonState ? <PurchaseHistory postedItems={purchasedItems}/> : <RentHistory postedItems={rentedItems}/>}
+      <div key={6}>
+        {purchasedButtonState ? <PurchaseHistory postedItems={purchasedItems} key={7}/> : <RentHistory postedItems={rentedItems} key={8}/>}
       </div>
     </>
   )

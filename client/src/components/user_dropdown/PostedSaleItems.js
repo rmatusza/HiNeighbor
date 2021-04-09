@@ -121,15 +121,13 @@ const PostedSaleItems = (props) => {
               {props.postedItems.items_for_sale.map((item, idx) => {
                 let url = item.image_url
                 return (
-                  <>
-                    <div className="item-photo-container-posted-sale-items" key={idx}>
-                      <Card className={classes.paper}>
-                        <CardContent className={classes.image}>
-                          <img alt={item.name} className="item-image" src={url} />
-                        </CardContent>
-                      </Card>
-                    </div>
-                  </>
+                  <div className="item-photo-container-posted-sale-items" key={idx}>
+                    <Card className={classes.paper}>
+                      <CardContent className={classes.image}>
+                        <img alt={item.name} className="item-image" src={url} />
+                      </CardContent>
+                    </Card>
+                  </div>
                 )
               })}
           </div>

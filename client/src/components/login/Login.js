@@ -239,8 +239,8 @@ const Login = (props) => {
           {"There are missing fields or incorrect information:"}
         </DialogTitle>
         <List>
-          {formErrors.map((error) => (
-            <ListItem>
+          {formErrors.map((error, idx) => (
+            <ListItem key={idx}>
               <ListItemText>
                 {error}
               </ListItemText>
