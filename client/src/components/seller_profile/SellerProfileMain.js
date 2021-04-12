@@ -58,7 +58,7 @@ const SellerProfileMain = () => {
         body: JSON.stringify({currUserId, 'sellerId': id})
       })
       const sellerInfo = await res.json()
-      // console.log('RETURNED ITEMS:', sellerInfo)
+      // //('RETURNED ITEMS:', sellerInfo)
       let set = new Set()
       sellerInfo.items.forEach((item, idx) => {
         //('ITEM FOR SALE?:', item.for_sale)

@@ -206,7 +206,7 @@ router.post('/:id/get-seller-info', asyncHandler(async(req,res) => {
     }
   })
 
-  console.log('ITEM IDS:', itemIds)
+  //('ITEM IDS:', itemIds)
 
   const bids = await Bid.findAll({
     where: {
@@ -215,13 +215,13 @@ router.post('/:id/get-seller-info', asyncHandler(async(req,res) => {
     }
   })
 
-  console.log('BIDS:', bids)
+  //('BIDS:', bids)
 
   bids.forEach(bid => {
     itemsBidOn.push(bid.id)
   })
 
-  console.log('ITEMS BID ON:', itemsBidOn)
+  //('ITEMS BID ON:', itemsBidOn)
 
   const user = await User.findByPk(sellerId)
 
