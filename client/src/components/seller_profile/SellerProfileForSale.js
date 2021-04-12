@@ -1,18 +1,13 @@
 import { React, useState } from 'react';
-import { useSelector } from "react-redux";
+import { useSelector, connect } from "react-redux";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { 
   Grid, 
   Button, 
-  Modal, 
-  FormControl, 
-  InputLabel, 
-  Input,
   Dialog,
   DialogTitle,
   DialogActions
-
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import './sellerProfile.css';
@@ -23,6 +18,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Bid from '../bid_functionality/Bid';
+import { setSellerProfileItemsForSale } from '../../actions/itemsActions';
+
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -80,30 +78,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '200px',
     paddingRight: '50px'
   },
-  itemFormModal: {
-    // position: 'absolute',
-    position: "absolute",
-    // top: "20rem",
-    top: 100,
-    // left: 350,
-    left: 600,
-    // left: "20rem",
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    // // border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    // padding: theme.spacing(2, 4, 3),
-    paddingLeft: "5rem",
-    paddingRight: "5rem",
-    paddingTop: "2rem",
-    paddingBottom: "3rem",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    border: "2px solid white",
-  },
-
   submitButton: {
     marginTop: "2rem",
   },
@@ -142,16 +116,15 @@ const useStyles = makeStyles((theme) => ({
 }))
 // rgb(206, 204, 204)
 
+let test = []
+
+
 const SellerProfileForSale = (props) => {
+
   const currUserId = useSelector(store => store.session.currentUser.id);
   let tableData = props.itemData['table_data'];
-  let itemsBidOn = props.itemData.bid_on_items
-  const [bidInput, setBidInput] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [currItemId, setCurrItemId] = useState(null);
-  const [currBid, setCurrBid] = useState(null);
-  const [currItemPrice, setCurrItemPrice] = useState(null);
   const [propsItemDataArrayIdx, setPropsItemDataArrayIdx] = useState(null)
   const classes = useStyles();
   const largeScreen = useMediaQuery('(min-width:1870px)');
@@ -164,47 +137,6 @@ const SellerProfileForSale = (props) => {
 
   const handleDialogClose = () => {
     setDialogOpen(false);
-  };
-
-  const openBidModal = (itemData) => {
-    setCurrItemId(itemData.itemId)
-    setCurrBid(itemData.currentBid)
-    setCurrItemPrice(itemData.itemPrice)
-    setPropsItemDataArrayIdx(itemData.idx)
-    setModalOpen(true)
-  };
-
-  const closeModal = () => {
-    setModalOpen(false)
-  };
-
-  const updateBidInput = (e) => {
-    setBidInput(e.target.value)
-  };
-
-  const updateItems = (updatedItem) => {
-    props.itemData['table_data'][propsItemDataArrayIdx].current_bid = updatedItem.current_bid
-    if(!itemsBidOn.has(props.itemData['table_data'][propsItemDataArrayIdx].item_id)) {
-      props.itemData['table_data'][propsItemDataArrayIdx].num_bidders++
-      itemsBidOn.add(props.itemData['table_data'][propsItemDataArrayIdx].item_id)
-    }
-  };
-
-  const submitBid = async () => {
-    const body = {
-      bidInput,
-      currUserId
-    }
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/bid`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-    const updatedItem = await res.json()
-    updateItems(updatedItem)
-    setModalOpen(false)
   };
 
   const updateSoldItems = () => {
@@ -246,11 +178,7 @@ const SellerProfileForSale = (props) => {
                             </CardContent>
                           </Card>
                           <div className="bid-buy-buttons-container-seller-profile">
-                            <div className="bid-button">
-                              <Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': item.item_id, 'currentBid': item.current_bid, 'itemPrice': item.price, 'idx': idx})}} className={classes.buttons}>
-                                Bid
-                              </Button>
-                            </div>
+                            <Bid dataRows={props.items} idx={idx} action={props.updateItems} arr={props.arr}/>
                             <div className="divider-container">
                               <div className="bid-purchase-divider"></div>
                             </div>
@@ -278,7 +206,7 @@ const SellerProfileForSale = (props) => {
                                   <TableRow key={tableData[idx].name}>
                                     <TableCell align="center">${item.price}</TableCell> 
                                     <TableCell align="center">${item.current_bid ? item.current_bid : 0}</TableCell>
-                                    <TableCell align="center">{item.num_bidders}</TableCell>
+                                    <TableCell align="center">{item.num_bids}</TableCell>
                                     <TableCell align="center">{item.days_remaining}</TableCell>
                                   </TableRow>
                                 </TableBody>
@@ -289,21 +217,6 @@ const SellerProfileForSale = (props) => {
                             {item.description}
                           </div>
                         </div>
-                        {/* <div className="bid-buy-buttons-container-seller-profile">
-                          <div className="bid-button">
-                            <Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': item.item_id, 'currentBid': item.current_bid, 'itemPrice': item.price, 'idx': idx})}} className={classes.buttons}>
-                              Bid
-                            </Button>
-                          </div>
-                          <div className="divider-container">
-                            <div className="bid-purchase-divider"></div>
-                          </div>
-                          <div className="buy-button">
-                            <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': item.item_id, 'currentBid': item.current_bid, 'itemPrice':item.price, 'idx': idx})}} className={classes.buttons}>
-                              Purchase
-                            </Button>
-                          </div>
-                        </div> */}
                       </div>
                     </div>
                   </Grid>
@@ -315,44 +228,6 @@ const SellerProfileForSale = (props) => {
          <h1>No Items Have Been Posted For Sale by This User</h1>
        </div>
       }
-
-      <Modal
-        open={modalOpen}
-        onClose={closeModal}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <div className={classes.itemFormModal}>
-          <h2 id="simple-modal-title">Place Your Bid:</h2>
-          <div>
-            <FormControl>
-              <InputLabel htmlFor="bid-input" style={{color: "black"}}>Bid Amount:</InputLabel>
-              <Input id="bid-input" onChange={updateBidInput} autoFocus style={{color: "black"}}/>
-            </FormControl>
-          </div>
-          <div>
-            <Button
-              variant="contained"
-              color="secondary"
-              style={{ color: "white" }}
-              size="small"
-              className={classes.submitButton}
-              onClick={() => {
-                if(Number(bidInput) <= currBid) {
-                  alert('Your bid must be larger than the current bid amount')
-                } else if(Number(bidInput) > currItemPrice) {
-                  alert('Your bid must be less than the item sell price')
-                } else {
-                  submitBid()
-                }
-              }}
-              type="submit"
-            >
-              Submit Bid
-            </Button>
-          </div>
-        </div>
-      </Modal>
 
       <Dialog
         open={dialogOpen}
@@ -376,4 +251,21 @@ const SellerProfileForSale = (props) => {
   )
 };
 
-export default SellerProfileForSale;
+const mapStateToProps = state => {
+  return {
+    items: state.entities.seller_profile.saleItems,
+    arr: test,
+    length: test.length
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateItems: (items) => dispatch(setSellerProfileItemsForSale(items))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SellerProfileForSale)

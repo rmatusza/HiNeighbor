@@ -102,10 +102,10 @@ const NotTopBidderData = (props) => {
   const [propsItemDataArrayIdx, setPropsItemDataArrayIdx] = useState(null);
   const classes = useStyles();
 
-  console.log('TOP BIDDER DATA:', props.topBids)
+  //('TOP BIDDER DATA:', props.topBids)
 
   const handleDialogOpen = (itemData) => {
-    console.log('ITEM DATA:', itemData)
+    //('ITEM DATA:', itemData)
     setCurrItemId(itemData.itemId)
     setPropsItemDataArrayIdx(itemData.idx)
     setDialogOpen(true)

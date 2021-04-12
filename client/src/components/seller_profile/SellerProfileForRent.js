@@ -171,7 +171,7 @@ const SellerProfileForRent = (props) => {
     setDialogOpen(true)
   };
 
-  // console.log('CURR ITEM:', currItem)
+  // //('CURR ITEM:', currItem)
 
   const handleCloseAll = () => {
     setDialogOpen(false)
@@ -239,7 +239,7 @@ const SellerProfileForRent = (props) => {
       seller_id
     }
 
-    // console.log('BODY:', body)
+    // //('BODY:', body)
 
     await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
       method: 'POST',
@@ -259,8 +259,8 @@ const SellerProfileForRent = (props) => {
       {itemData.length > 0 ?
               <Grid container spacing={3} className={classes.grid}>
                 {itemData.map((item, idx) => {
-                  // console.log('ITEM:', item)
-                  // console.log('TABLE DATA ITEM:', tableData[idx])
+                  // //('ITEM:', item)
+                  // //('TABLE DATA ITEM:', tableData[idx])
                   let url = item.image_url
                   return (
                     <div key={idx}>

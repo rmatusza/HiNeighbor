@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
     const classes = useStyles()
 
     const handleDialogOpen = (itemData) => {
-      console.log('ITEM DATA:', itemData)
+      //('ITEM DATA:', itemData)
       setCurrItemId(itemData.itemId)
       setPropsItemDataArrayIdx(itemData.idx)
       setDialogOpen(true)
@@ -145,7 +145,7 @@ const useStyles = makeStyles((theme) => ({
           </div>
           <div className="top-bidder-outter-container">
             {props.itemData.map((data, idx) => {
-            // console.log('DATA IN MAP:', data)
+            // //('DATA IN MAP:', data)
             let chosenMonth = data.bid_date.slice(5, 7)
             let chosenDay = data.bid_date.slice(8, 10)
             let chosenYear = data.bid_date.slice(0, 4)

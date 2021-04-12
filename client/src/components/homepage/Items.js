@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector, connect } from "react-redux";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import {
   CardActionArea,
   Button,
-  FormControl,
-  InputLabel,
-  Input,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from "react-redux";
-import Modal from "@material-ui/core/Modal";
 import { setItems } from '../../actions/itemsActions';
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -23,13 +19,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { CgArrowsExpandLeft, /*CgGoogle*/ } from "react-icons/cg";
-// import { Loader } from "@googlemaps/js-api-loaderhttp://localhost:5000/api"
-// import {
-//   GoogleMap,
-//   useLoadScript,
-//   Marker,
-//   InfoWindow,
-// } from "@react-google-mapshttp://localhost:5000/api"
+import Bid from '../bid_functionality/Bid';
 import './homepage.css'
 
 const useStyles = makeStyles((theme) => ({
@@ -54,34 +44,6 @@ const useStyles = makeStyles((theme) => ({
     height: '210px',
     width: '200px',
   },
-  itemFormModal: {
-    // position: 'absolute',
-    position: "absolute",
-    // top: "20rem",
-    top: 100,
-    // left: 350,
-    left: 600,
-    // left: "20rem",
-    width: 400,
-    backgroundColor: "whitesmoke",
-    color: "black",
-    // // border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    // padding: theme.spacing(2, 4, 3),
-    paddingLeft: "5rem",
-    paddingRight: "5rem",
-    paddingTop: "2rem",
-    paddingBottom: "3rem",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    border: "2px solid white",
-  },
-  // submitButton: {
-  //   marginTop: "2rem",
-  //   backgroundColor: theme.palette.secondary.main
-  // },
   dialogBox: {
     width: '200px',
     heigth: '200px'
@@ -128,43 +90,19 @@ function createData(name, price, bid, num_bidders, days_remaining, item_id, curr
   return { name, price, bid, num_bidders, days_remaining, item_id, current_bid, item_price, sellerId, description };
 }
 
-const Items = () => {
+let test = []
+
+const Items = (props) => {
   let items = useSelector(store => store.entities.items_state.saleItems)
-  //('ITEMS:', items)
   const currUserId = useSelector(store => store.session.currentUser.id)
-  const [modalOpen, setModalOpen] = useState(false)
   const [currItemId, setCurrItemId] = useState(null)
-  const [currBid, setCurrBid] = useState(null)
-  const [currItemPrice, setCurrItemPrice] = useState(null)
-  const [bidInput, setBidInput] = useState(null)
   const [dialogOpen, setDialogOpen] = useState(false);
   const [enlargeImage, setEnlargeImage] = useState(false);
   const [image, setImage] = useState(null);
   const classes = useStyles()
   const dispatch = useDispatch()
   const history = useHistory();
-
-  const updateBidInput = (e) => {
-    // //('BID INPUT:', e.target.value)
-    setBidInput(e.target.value)
-  }
-
-  const updateItems = (updatedItem) => {
-    // //('CURRENT ITEM OBJECT:', updatedItem)
-    const id = updatedItem.id
-    // //('ITEM ID:', id)
-    items.forEach((item, i) => {
-      // //('UPDATING ITEMS')
-      if(item.id === id) {
-        // //('CURR ITEM:', currItems[i])
-        items[i] = updatedItem
-        // //('CURRITEMS:', items)
-        dispatch(setItems(items))
-        // setCurrItemsState(currItems)
-      }
-    })
-  }
-
+  
   const updateSoldItems = (id) => {
     let currItems = []
     items.forEach((item, i) => {
@@ -187,29 +125,6 @@ const Items = () => {
     //('ITEM DATA:', itemData)
     setCurrItemId(itemData.itemId)
     setDialogOpen(true)
-  }
-
-  const submitBid = async () => {
-
-    const body = {
-      bidInput,
-      currUserId
-    }
-
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/bid`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-    const updatedItem = await res.json()
-
-    //('RETURNED UPDATED ITEM:', updatedItem)
-
-    updateItems(updatedItem)
-    // alert(`bid of $${bidInput} was placed`)
-    setModalOpen(false)
   }
 
   const handlePurchase = async () => {
@@ -241,33 +156,7 @@ const Items = () => {
     setEnlargeImage(true)
   }
 
-  const openBidModal = (itemData) => {
-    //('ITEM DATA:', itemData)
-    setCurrItemId(itemData.itemId)
-    setCurrBid(itemData.currentBid)
-    setCurrItemPrice(itemData.itemPrice)
-    setModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setModalOpen(false)
-  }
   let dataRows = []
-
-  // const mapContainerStyle = {
-  //   width: '100vw',
-  //   height: '100vh'
-  // }
-  // const center = {
-  //   lat: 43.653225,
-  //   lng: -79.383186
-  // }
-  // const { isLoaded, loadError } = useLoadScript({
-  //   googleMapsApiKey: ""
-  // })
-
-  // if(loadError) return "Error loading maps";
-  // if(!isLoaded) return "Loading Maps";
 
   if(items[0] === 'no_items') {
       return(
@@ -279,7 +168,7 @@ const Items = () => {
       return(
         <div className="home-page-sale-items-container">
           <div className="home-page-sale-items-container__photos-outer-container">
-            {items.map((item, idx) => {
+            {props.items.map((item, idx) => {
               let url = item.image_url
               return (
                 <div className="home-page-sale-items-container__photos-inner-container" key={idx}>
@@ -300,7 +189,7 @@ const Items = () => {
             })}
           </div>
           <div className="home-page-sale-items-container__item-table-and-description-outer-container">
-            {items.forEach((item, idx) => {
+            {props.items.forEach((item, idx) => {
               const d1 = new Date(item.expiry_date)
               const today = new Date()
               today.setDate(today.getDate()+0)
@@ -312,7 +201,7 @@ const Items = () => {
                 dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
               }
             })}
-            {dataRows.map((item, idx) => {
+            {props.items.map((item, idx) => {
               return(
                 <div className="home-page-sale-items-container__item-table-and-description-inner-container" key={idx}>
                   <TableContainer className="home-page-sale-items-container__item-table-and-description-inner-container__table-container">
@@ -350,14 +239,10 @@ const Items = () => {
             })}
           </div>
           <div className="home-page-sale-items-container__buttons-outer-container">
-            {dataRows.map((item, idx) => {
+            {props.items.map((item, idx) => {
               return(
                 <div className="home-page-sale-items-container__buttons-inner-container" key={idx}>
-                  <div className="bid-button">
-                    <Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
-                      Bid
-                    </Button>
-                  </div>
+                  <Bid dataRows={props.items} idx={idx} action={props.updateItems} arr={props.arr}/>
                   <div className="divider-container">
                     <div className="bid-purchase-divider"></div>
                   </div>
@@ -378,47 +263,6 @@ const Items = () => {
               )
             })}
           </div>
-
-          {/* BID MODAL */}
-
-          <Modal
-            open={modalOpen}
-            onClose={closeModal}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-          >
-            <div className={classes.itemFormModal}>
-              <h2 id="simple-modal-title">Place Your Bid:</h2>
-              <div>
-                <FormControl>
-                  <InputLabel htmlFor="bid-input" style={{color: "black"}}>Bid Amount</InputLabel>
-                  <Input id="bid-input" onChange={updateBidInput} autoFocus style={{color: "black"}}/>
-                </FormControl>
-              </div>
-              <div>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  style={{ color: "white" }}
-                  size="small"
-                  className={classes.submitButton}
-                  onClick={() => {
-                    if(Number(bidInput) <= currBid) {
-                      alert('Your bid must be larger than the current bid amount')
-                    } else if(Number(bidInput) > currItemPrice) {
-                      alert('Your bid must be less than the item sell price')
-                    } else {
-                      submitBid()
-                    }
-                  }}
-                  type="submit"
-                >
-                  Submit Bid
-                </Button>
-              </div>
-            </div>
-          </Modal>
-
 
           {/* BUY NOW DIALOG BOX */}
 
@@ -457,4 +301,21 @@ const Items = () => {
   
 }
 
-export default Items;
+const mapStateToProps = state => {
+  return {
+    items: state.entities.items_state.saleItems,
+    arr: test,
+    length: test.length
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateItems: (items) => dispatch(setItems(items))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Items)

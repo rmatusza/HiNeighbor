@@ -11,6 +11,7 @@ import Items from './Items';
 
 const HomePage = () => {
   const search_params = useSelector((store) => store.entities.search_params)
+
   // const [popupVisible, setPopupVisible] = useState(false)
 
   return (
