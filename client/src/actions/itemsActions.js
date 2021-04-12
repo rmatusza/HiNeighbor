@@ -1,7 +1,7 @@
 import { SET_ITEMS, SET_POST_ITEM_FORM_STATUS, SET_POST_ITEM_RENT_STATUS, SET_RENT_ITEMS } from './types'
 
 export const setItems = (items) => {
-  //('ITEMS', items)
+  console.log('ITEMS', items)
   return {
     type: SET_ITEMS,
     items

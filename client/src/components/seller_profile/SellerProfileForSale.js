@@ -182,12 +182,11 @@ const SellerProfileForSale = (props) => {
     setBidInput(e.target.value)
   };
 
-  const updateItems = (updatedItem) => {
-    props.itemData['table_data'][propsItemDataArrayIdx].current_bid = updatedItem.current_bid
-    if(!itemsBidOn.has(props.itemData['table_data'][propsItemDataArrayIdx].item_id)) {
-      props.itemData['table_data'][propsItemDataArrayIdx].num_bidders++
-      itemsBidOn.add(props.itemData['table_data'][propsItemDataArrayIdx].item_id)
-    }
+  const updateItems = (newBidder) => {
+    props.itemData['table_data'][propsItemDataArrayIdx].current_bid = parseInt(bidInput, 10)
+    if(newBidder === true){
+			props.itemData['table_data'][propsItemDataArrayIdx].num_bidders += 1
+		}
   };
 
   const submitBid = async () => {
@@ -203,7 +202,8 @@ const SellerProfileForSale = (props) => {
       body: JSON.stringify(body)
     })
     const updatedItem = await res.json()
-    updateItems(updatedItem)
+    const newBidder = updatedItem.new_bidder
+    updateItems(newBidder)
     setModalOpen(false)
   };
 
