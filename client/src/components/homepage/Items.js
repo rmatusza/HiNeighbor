@@ -102,9 +102,7 @@ const Items = (props) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const history = useHistory();
-
-  console.log('ITEMS:', props)
-
+  
   const updateSoldItems = (id) => {
     let currItems = []
     items.forEach((item, i) => {

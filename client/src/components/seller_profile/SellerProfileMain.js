@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@material-ui/core";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import SellerProfileForSale from './SellerProfileForSale';
 import SellerProfileForRent from './SellerProfileForRent';
 import { useParams } from 'react-router';
+import { setSellerProfileItemsForSale } from '../../actions/itemsActions';
 
-function createData(item_id, current_bid, image_url, description, name, price, bid, num_bidders, days_remaining) {
-  return { item_id, current_bid, image_url, description, name, price, bid, num_bidders, days_remaining };
+function createData(item_id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining) {
+  return { item_id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining };
 }
 
 function createRentData(name, rate, rented, expiry_date) {
   return { name, rate, rented, expiry_date };
 }
+
 
 const SellerProfileMain = () => {
   const { id } = useParams()
@@ -25,6 +27,7 @@ const SellerProfileMain = () => {
   // const [forSaleItems, setForSaleItems] = useState([])
   // const [forRentItems, setForRentItems] = useState([])
   const [bidOnItems, setBidOnItems] = useState(new Set())
+  const dispatch = useDispatch()
 
   const setButtonState = (e) => {
     if(e.target.name === 'for-sale') {
@@ -90,6 +93,7 @@ const SellerProfileMain = () => {
       setDataRows(rows)
       setDataRowsRentItems(rentRows)
       setUserData(sellerInfo)
+      dispatch(setSellerProfileItemsForSale(rows))
       // setForSaleItems(sellerInfo.items_for_sale)
       // setForRentItems(sellerInfo.items_for_rent)
     })()

@@ -1,9 +1,15 @@
-import { SET_ITEMS, SET_POST_ITEM_FORM_STATUS, SET_POST_ITEM_RENT_STATUS, SET_RENT_ITEMS } from './types'
+import { SET_ITEMS, SET_POST_ITEM_FORM_STATUS, SET_POST_ITEM_RENT_STATUS, SET_RENT_ITEMS, SET_SELLER_PROFILE_ITEMS_FOR_SALE } from './types'
 
 export const setItems = (items) => {
-  console.log('ITEMS', items)
   return {
     type: SET_ITEMS,
+    items
+  }
+}
+
+export const setSellerProfileItemsForSale = (items) => {
+  return {
+    type: SET_SELLER_PROFILE_ITEMS_FOR_SALE,
     items
   }
 }

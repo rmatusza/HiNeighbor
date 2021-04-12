@@ -1,4 +1,4 @@
-const { SET_PRICE_RANGE, SET_CATEGORY, SET_DISTANCE, SET_OFFER_TYPE, SET_ITEMS, SET_RENT_ITEMS, SET_POST_ITEM_FORM_STATUS, SET_POST_ITEM_RENT_STATUS, CLEAR_SEARCH_PARAMS  } = require("../actions/types")
+const { SET_PRICE_RANGE, SET_CATEGORY, SET_DISTANCE, SET_OFFER_TYPE, SET_ITEMS, SET_RENT_ITEMS, SET_POST_ITEM_FORM_STATUS, SET_POST_ITEM_RENT_STATUS, CLEAR_SEARCH_PARAMS, SET_SELLER_PROFILE_ITEMS_FOR_SALE  } = require("../actions/types")
 
 
 const initialState = {
@@ -10,15 +10,18 @@ const initialState = {
     saleItems: [],
     rentItems: []
   },
+  seller_profile: {
+    saleItems: [],
+    rentItems: []
+  },
   post_item_form_state: {
     status: false
   },
   post_item_rent_state: {
     rentStatus: false
-  }
+  },
 }
 const searchCategoryReducer = (state = initialState, action) => {
-
 
   //('ACTION:', action)
 
@@ -65,6 +68,12 @@ const searchCategoryReducer = (state = initialState, action) => {
       ...state,
       // items_state: {...state.items_state, saleItems}
       items_state: {saleItems, rentItems: []}
+    }
+    case SET_SELLER_PROFILE_ITEMS_FOR_SALE:
+      let sellerProfileSaleItems = action.items
+    return {
+      ...state,
+      seller_profile: {saleItems: sellerProfileSaleItems, rentItems: []}
     }
     case SET_RENT_ITEMS:
       let rentItems = action.rentItems
