@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -8,7 +7,7 @@ import {
 	DialogTitle
 } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	buttons: {
     width: '160px'
   },
@@ -17,47 +16,34 @@ const useStyles = makeStyles((theme) => ({
 const Purchase = (props) => {
 	const [currItemId, setCurrItemId] = useState(null);
 	const [dialogOpen, setDialogOpen] = useState(false);
-	const dispatch = useDispatch();
 	const classes = useStyles()
-
 	const handleDialogClose = () => {
     setDialogOpen(false)
   };
 
 	const handleDialogOpen = (itemData) => {
-		//('ITEM DATA:', itemData)
 		setCurrItemId(itemData.itemId)
 		setDialogOpen(true)
 	};
 
 	const updateSoldItems = () => {
-    // let currItems = []
-    // items.forEach((item, i) => {
-    //   if(Number(item.id) !== Number(id)) {
-    //     currItems.push(item)
-    //   }
-    //   dispatch(setItems(currItems))
-    // })
 		props.dataRows.splice(props.idx, 1)
 		props.arr.push(1)
 		props.action(props.dataRows)
   };
 
 	const handlePurchase = async () => {
-    // const body = {
-    //   currUserId: props.currUserId
-    // }
+    const body = {
+      currUserId: props.currUserId
+    }
 
-    // const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
-    //   method: 'PATCH',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(body)
-    // })
-    // const {soldItemId} = await res.json()
-    //(soldItemId)
-
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
     updateSoldItems()
     handleDialogClose()
   };
@@ -66,7 +52,7 @@ const Purchase = (props) => {
 	return(
 		<>
 			<div className="buy-button">
-				<Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': props.dataRows[props.idx].item_id, 'currentBid': props.dataRows[props.idx].current_bid, 'itemPrice': props.dataRows[props.idx].item_price})}} className={classes.buttons}>
+				<Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': props.dataRows[props.idx].id, 'currentBid': props.dataRows[props.idx].current_bid, 'itemPrice': props.dataRows[props.idx].price})}} className={classes.buttons}>
 					Purchase
 				</Button>
       </div>
