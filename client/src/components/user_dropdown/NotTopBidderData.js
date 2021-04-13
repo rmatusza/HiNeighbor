@@ -126,12 +126,10 @@ const NotTopBidderData = (props) => {
         </div>
         <div className="top-bidder-outter-container">
           {props.items.map((data, idx) => {
-            //(data.bid_date)
             let chosenMonth = data.bid_date.slice(5, 7)
             let chosenDay = data.bid_date.slice(8, 10)
             let chosenYear = data.bid_date.slice(0, 4)
             let fullDate = chosenMonth + '-' + chosenDay + '-' + chosenYear
-            //(fullDate)
             return (
               <div className="top-bidder-inner-container" key={idx}>
                 <div className="home-page-sale-items-container__photos-inner-container">
