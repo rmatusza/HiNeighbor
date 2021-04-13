@@ -1,26 +1,25 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector, connect } from "react-redux";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import { useSelector, connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import './homepage.css'
+import { CgArrowsExpandLeft, /*CgGoogle*/ } from "react-icons/cg";
+import { makeStyles } from "@material-ui/core/styles";
 import {
+  Card,
+  CardContent,
   CardActionArea,
   Button,
+  Dialog,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { setItems } from '../../actions/itemsActions';
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { useHistory } from "react-router-dom";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { CgArrowsExpandLeft, /*CgGoogle*/ } from "react-icons/cg";
 import Bid from '../bid_functionality/Bid';
-import './homepage.css'
+import Purchase from '../purchase_functionality/Purchase';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -64,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
-    // height: '70px',
     width: '100%',
     height: '115px'
   },
@@ -94,57 +92,13 @@ let test = []
 
 const Items = (props) => {
   let items = useSelector(store => store.entities.items_state.saleItems)
-  const currUserId = useSelector(store => store.session.currentUser.id)
-  const [currItemId, setCurrItemId] = useState(null)
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [enlargeImage, setEnlargeImage] = useState(false);
   const [image, setImage] = useState(null);
   const classes = useStyles()
-  const dispatch = useDispatch()
   const history = useHistory();
   
-  const updateSoldItems = (id) => {
-    let currItems = []
-    items.forEach((item, i) => {
-      if(Number(item.id) !== Number(id)) {
-        currItems.push(item)
-      }
-      dispatch(setItems(currItems))
-    })
-  }
-
   const closeImage = () => {
     setEnlargeImage(false)
-  }
-
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
-
-  const handleDialogOpen = (itemData) => {
-    //('ITEM DATA:', itemData)
-    setCurrItemId(itemData.itemId)
-    setDialogOpen(true)
-  }
-
-  const handlePurchase = async () => {
-
-    const body = {
-      currUserId
-    }
-
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-    const {soldItemId} = await res.json()
-    //(soldItemId)
-
-    updateSoldItems(soldItemId)
-    handleDialogClose()
   }
 
   const handleClick = (sellerId) => {
@@ -246,11 +200,7 @@ const Items = (props) => {
                   <div className="divider-container">
                     <div className="bid-purchase-divider"></div>
                   </div>
-                  <div className="buy-button">
-                    <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': dataRows[idx].item_id, 'currentBid': dataRows[idx].current_bid, 'itemPrice': dataRows[idx].item_price})}} className={classes.buttons}>
-                      Purchase
-                    </Button>
-                  </div>
+                  <Purchase dataRows={props.items} idx={idx} action={props.updateItems} arr={props.arr} currUserId={props.currUserId}/>
                   <div className="divider-container">
                     <div className="bid-purchase-divider"></div>
                   </div>
@@ -263,27 +213,6 @@ const Items = (props) => {
               )
             })}
           </div>
-
-          {/* BUY NOW DIALOG BOX */}
-
-          <Dialog
-          open={dialogOpen}
-          onClose={handleDialogClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Are you sure that you want to purchase this item at its full sale price?"}
-            </DialogTitle>
-            <DialogActions>
-              <Button onClick={handleDialogClose} className={classes.buttons} color="secondary" variant="contained">
-                Cancel
-              </Button>
-              <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={handlePurchase}>
-                Purchase Item
-              </Button>
-            </DialogActions>
-          </Dialog>
 
         {/* ENLARGED IMAGE DIALOG BOX */}
 
@@ -305,7 +234,8 @@ const mapStateToProps = state => {
   return {
     items: state.entities.items_state.saleItems,
     arr: test,
-    length: test.length
+    length: test.length,
+    currUserId: state.session.currentUser.id
   }
 }
 

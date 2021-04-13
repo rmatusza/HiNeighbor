@@ -1,4 +1,16 @@
-const { SET_PRICE_RANGE, SET_CATEGORY, SET_DISTANCE, SET_OFFER_TYPE, SET_ITEMS, SET_RENT_ITEMS, SET_POST_ITEM_FORM_STATUS, SET_POST_ITEM_RENT_STATUS, CLEAR_SEARCH_PARAMS, SET_SELLER_PROFILE_ITEMS_FOR_SALE  } = require("../actions/types")
+const { 
+  SET_PRICE_RANGE, 
+  SET_CATEGORY, 
+  SET_DISTANCE, 
+  SET_OFFER_TYPE, 
+  SET_ITEMS, 
+  SET_RENT_ITEMS, 
+  SET_POST_ITEM_FORM_STATUS, 
+  SET_POST_ITEM_RENT_STATUS, 
+  CLEAR_SEARCH_PARAMS, 
+  SET_SELLER_PROFILE_ITEMS_FOR_SALE,
+  SET_BID_HISTORY
+} = require("../actions/types")
 
 
 const initialState = {
@@ -13,6 +25,10 @@ const initialState = {
   seller_profile: {
     saleItems: [],
     rentItems: []
+  },
+  bid_history: {
+    otherBids: [],
+    topBidder: []
   },
   post_item_form_state: {
     status: false
@@ -74,6 +90,13 @@ const searchCategoryReducer = (state = initialState, action) => {
     return {
       ...state,
       seller_profile: {saleItems: sellerProfileSaleItems, rentItems: []}
+    }
+    case SET_BID_HISTORY:
+      let notTopBidderItems = action.items[0]
+      let topBidderItems = action.items[1]
+    return {
+      ...state,
+      bid_history: {otherBids: notTopBidderItems, topBidder: topBidderItems}
     }
     case SET_RENT_ITEMS:
       let rentItems = action.rentItems

@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
 	buttons: {
     width: '160px'
   },
+	bidHistoryButtons: {
+		width: '80px'
+	},
 	itemBidModalHomepage: {
     position: "absolute",
     top: 100,
@@ -45,14 +48,11 @@ const Bid = (props) => {
 
 	const classes = useStyles();
 
-	console.log('PROPS:', props)
-
 	const updateBidInput = (e) => {
     setBidInput(e.target.value)
   };
 
 	const openBidModal = (itemData) => {
-		// console.log('ITEM DATA:', itemData)
 		setCurrItemId(itemData.itemId)
 		setCurrBid(itemData.currentBid)
 		setCurrItemPrice(itemData.itemPrice)
@@ -65,6 +65,13 @@ const Bid = (props) => {
   };
 
 	const updateItems = (newBidder) => {
+		if(props.onBidHistoryPage){
+			let item = props.dataRows.splice(selectedItemIdx, 1)
+			props.topBidderItems.push(item[0])
+			props.arr.push(1)
+			props.action([props.dataRows, props.topBidderItems])
+			return
+		}
 		if(newBidder === true){
 			props.dataRows[selectedItemIdx].num_bids += 1
 		}
@@ -88,7 +95,6 @@ const Bid = (props) => {
     })
     const updatedItem = await res.json()
 		const newBidder = updatedItem.new_bidder
-		console.log('NEW BIDDER:', newBidder)
     updateItems(newBidder)
     setModalOpen(false)
   };
@@ -96,7 +102,16 @@ const Bid = (props) => {
 	return(
 		<>
 			<div className="bid-button">
-				<Button color="secondary" variant="contained" onClick={() => {openBidModal({'itemId': props.dataRows[props.idx].id, 'currentBid': props.dataRows[props.idx].current_bid, 'itemPrice': props.dataRows[props.idx].price, 'itemIdx': props.idx})}} className={classes.buttons}>
+				<Button 
+				color="secondary" 
+				variant="contained" 
+				onClick={() => {openBidModal({
+				'itemId': props.dataRows[props.idx].id, 
+				'currentBid': props.dataRows[props.idx].current_bid, 
+				'itemPrice': props.dataRows[props.idx].price, 
+				'itemIdx': props.idx})}} 
+				className={props.onBidHistoryPage ? classes.bidHistoryButtons : classes.buttons}
+				>
 					Bid
 				</Button>
 			</div>

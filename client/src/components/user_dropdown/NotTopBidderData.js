@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import {
   Button,
-  Modal,
-  FormControl,
   Dialog,
   DialogActions,
   DialogTitle,
-  Input,
-  InputLabel
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
@@ -19,15 +15,15 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Bid from '../bid_functionality/Bid';
+import { setBidHistory } from '../../actions/itemsActions';
 
 const useStyles = makeStyles((theme) => ({
     grid: {
       width: '100%',
       marginTop: '30px',
-      // marginLeft: '30px',
     },
     paper: {
-      // padding: theme.spacing(2),
       textAlign: 'center',
       backgroundColor: theme.palette.primary.light,
       background: theme.palette.success.light,
@@ -44,30 +40,6 @@ const useStyles = makeStyles((theme) => ({
       height: '210px',
       width: '200px',
     },
-    itemFormModal: {
-      // position: 'absolute',
-      position: "absolute",
-      // top: "20rem",
-      top: 100,
-      // left: 350,
-      left: 600,
-      // left: "20rem",
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      // // border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      // padding: theme.spacing(2, 4, 3),
-      paddingLeft: "5rem",
-      paddingRight: "5rem",
-      paddingTop: "2rem",
-      paddingBottom: "3rem",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      border: "2px solid white",
-    },
-
     submitButton: {
       marginTop: "2rem",
     },
@@ -91,14 +63,12 @@ const useStyles = makeStyles((theme) => ({
     },
   }))
 
+  let arr = []
+
 const NotTopBidderData = (props) => {
   const currUserId = useSelector(store => store.session.currentUser.id);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false)
   const [currItemId, setCurrItemId] = useState(null);
-  const [bidInput, setBidInput] = useState(null);
-  const [currBid, setCurrBid] = useState(null);
-  const [currItemPrice, setCurrItemPrice] = useState(null);
   const [propsItemDataArrayIdx, setPropsItemDataArrayIdx] = useState(null);
   const classes = useStyles();
 
@@ -134,50 +104,8 @@ const NotTopBidderData = (props) => {
     handleDialogClose()
   };
 
-  const openBidModal = (itemData) => {
-    //('ITEM DATA:', itemData)
-    setCurrItemId(itemData.itemId)
-    setCurrBid(itemData.topBid)
-    setCurrItemPrice(itemData.itemPrice)
-    setPropsItemDataArrayIdx(itemData.idx)
-    setModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setModalOpen(false)
-  }
-
-  const updateBidInput = (e) => {
-    // //('BID INPUT:', e.target.value)
-    setBidInput(e.target.value)
-  }
-
-  const updateItems = () => {
-    let item = props.itemData.splice(propsItemDataArrayIdx, 1)
-    props.topBids.push(...item)
-  }
-
-  const submitBid = async () => {
-
-    const body = {
-      bidInput,
-      currUserId
-    }
-
-   await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/bid`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-
-    updateItems()
-    setModalOpen(false)
-  };
-
   //(props)
-  if(props.itemData.length === 0){
+  if(props.items.length === 0){
     return(
       <>
         <div className="top-bidder-heading-container">
@@ -197,13 +125,11 @@ const NotTopBidderData = (props) => {
           <h2>Other Items You've Bid On:</h2>
         </div>
         <div className="top-bidder-outter-container">
-          {props.itemData.map((data, idx) => {
-            //(data.bid_date)
+          {props.items.map((data, idx) => {
             let chosenMonth = data.bid_date.slice(5, 7)
             let chosenDay = data.bid_date.slice(8, 10)
             let chosenYear = data.bid_date.slice(0, 4)
             let fullDate = chosenMonth + '-' + chosenDay + '-' + chosenYear
-            //(fullDate)
             return (
               <div className="top-bidder-inner-container" key={idx}>
                 <div className="home-page-sale-items-container__photos-inner-container">
@@ -219,9 +145,7 @@ const NotTopBidderData = (props) => {
                       </Button>
                     </div>
                     <div className="bid-button-other-bids-page">
-                      <Button color="secondary" size="medium" variant="contained" fullWidth={true} onClick={() => {openBidModal({'itemId': data.item_id, 'itemPrice': data.full_price, 'topBid': data.top_bid, 'idx': idx})}} className={classes.buttons}>
-                        Bid
-                      </Button>
+                      <Bid dataRows={props.items} idx={idx} action={props.updateItems} arr={props.arr} bidderData={props.bidderData} topBidderItems={props.topBidderItems} onBidHistoryPage={props.onBidHistoryPage}/>
                     </div>
                   </div>
                 </div>
@@ -260,45 +184,7 @@ const NotTopBidderData = (props) => {
             )
           })}
         </div>
-        <Modal
-            open={modalOpen}
-            onClose={closeModal}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-          >
-            <div className={classes.itemFormModal}>
-              <h2 id="simple-modal-title">Place Your Bid:</h2>
-              <div>
-                <FormControl>
-                  <InputLabel htmlFor="bid-input" style={{color: "black"}}>Bid Amount</InputLabel>
-                  <Input id="bid-input" onChange={updateBidInput} autoFocus style={{color: "black"}}/>
-                </FormControl>
-              </div>
-              <div>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  style={{ color: "white" }}
-                  size="small"
-                  className={classes.submitButton}
-                  onClick={() => {
-                    if(Number(bidInput) <= currBid) {
-                      alert('Your bid must be larger than the current bid amount')
-                    } else if(Number(bidInput) > currItemPrice) {
-                      alert('Your bid must be less than the item sell price')
-                    } else {
-                      submitBid()
-                    }
-                  }}
-                  type="submit"
-                >
-                  Submit Bid
-                </Button>
-              </div>
-            </div>
-          </Modal>
-
-
+      
           {/* BUY NOW DIALOG BOX */}
 
           <Dialog
@@ -324,4 +210,24 @@ const NotTopBidderData = (props) => {
   }
 }
 
-export default NotTopBidderData;
+const mapStateToProps = state => {
+  return {
+    items: state.entities.bid_history.otherBids,
+    topBidderItems: state.entities.bid_history.topBidder,
+    arr,
+    length: arr.length,
+    onBidHistoryPage: true
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateItems: (items) => dispatch(setBidHistory(items))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NotTopBidderData)
+
