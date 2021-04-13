@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import TopBidderData from './TopBidderData';
 import NotTopBidderData from './NotTopBidderData';
 import LostAuctionData from './LostAuctionData';
+import { setBidHistory } from '../../actions/itemsActions';
 
 const BidHistory = () => {
   const currUserId = useSelector(store => store.session.currentUser.id)
@@ -11,14 +13,16 @@ const BidHistory = () => {
   const [topBidderData, setTopBidderData] = useState([])
   const [notTopBidderData, setNotTopBidderData] = useState([])
   const [selectedView, setSelectedView] = useState('top-bidder')
+  const dispatch = useDispatch()
   useEffect(() => {
     (async() => {
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-bid-history`)
       const bidData = await res.json()
-
+      console.log('BID DATA:', bidData[2])
       setLostAuctionData(bidData[0])
       setTopBidderData(bidData[1])
       setNotTopBidderData(bidData[2])
+      dispatch(setBidHistory([bidData[2], bidData[1]]))
     })()
   }, [])
 

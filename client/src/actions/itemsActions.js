@@ -1,4 +1,11 @@
-import { SET_ITEMS, SET_POST_ITEM_FORM_STATUS, SET_POST_ITEM_RENT_STATUS, SET_RENT_ITEMS, SET_SELLER_PROFILE_ITEMS_FOR_SALE } from './types'
+import { 
+  SET_ITEMS, 
+  SET_POST_ITEM_FORM_STATUS, 
+  SET_POST_ITEM_RENT_STATUS, 
+  SET_RENT_ITEMS, 
+  SET_SELLER_PROFILE_ITEMS_FOR_SALE,
+  SET_BID_HISTORY
+} from './types'
 
 export const setItems = (items) => {
   return {
@@ -10,6 +17,14 @@ export const setItems = (items) => {
 export const setSellerProfileItemsForSale = (items) => {
   return {
     type: SET_SELLER_PROFILE_ITEMS_FOR_SALE,
+    items
+  }
+}
+
+export const setBidHistory = (items) => {
+  console.log(items)
+  return {
+    type: SET_BID_HISTORY,
     items
   }
 }
