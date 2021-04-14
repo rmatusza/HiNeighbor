@@ -416,6 +416,9 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
     const bidObject = bidObjects[i]
     const expiryDate = new Date(bidObject.dataValues.Item.expiry_date)
     const lastBidderId = bidObject.dataValues.Item.last_bidder
+    const purchaserId = bidObject.dataValues.Item.purchaser_id
+    console.log('PURCHASER ID:', purchaserId)
+    console.log('USER ID:', userId)
     const bidData = bidObject.dataValues
     const ItemData = bidObject.dataValues.Item
     const oneDay = 24 * 60 * 60 * 1000
@@ -424,10 +427,9 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
     //('LAST BIDDER:', lastBidderId)
     //('USER ID:', userId)
 
-    if(expiryDate < today && lastBidderId === userId || ItemData.sold === true){
+    if(expiryDate < today && lastBidderId === userId){
       continue
-    } else if(expiryDate < today && lastBidderId !== userId){
-     
+    } else if((expiryDate < today && lastBidderId !== userId) || (purchaserId !== userId && purchaserId !== null)){
       lostAuctions.push(
         {
         'user_bid': bidData.bid_amount,
@@ -444,7 +446,7 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
       topBidder.push(
         {
         'bid_date': bidData.updatedAt,
-        'item_id': ItemData.id,
+        'id': ItemData.id,
         'item_photo': ItemData.image_url,
         'item_name': ItemData.name,
         'item_description': ItemData.description,
@@ -458,7 +460,7 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
         {
         'bid_date': bidData.updatedAt,
         'user_bid': bidData.bid_amount,
-        'item_id': ItemData.id,
+        'id': ItemData.id,
         'item_photo': ItemData.image_url,
         'item_name': ItemData.name,
         'item_description': ItemData.description,

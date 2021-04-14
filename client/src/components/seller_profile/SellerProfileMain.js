@@ -6,8 +6,8 @@ import SellerProfileForRent from './SellerProfileForRent';
 import { useParams } from 'react-router';
 import { setSellerProfileItemsForSale } from '../../actions/itemsActions';
 
-function createData(item_id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining) {
-  return { item_id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining };
+function createData(id, currentBid, image_url, description, name, price, bid, num_bids, days_remaining) {
+  return { id, currentBid, image_url, description, name, price, bid, num_bids, days_remaining };
 }
 
 function createRentData(name, rate, rented, expiry_date) {
@@ -73,7 +73,7 @@ const SellerProfileMain = () => {
           const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
           const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
           if(item.current_bid === null) {
-            rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, 0, item.num_bids, days_remaining, ))
+            rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, 0, item.num_bids, days_remaining))
           } else {
             rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, item.current_bid, item.num_bids, days_remaining))
           }

@@ -263,7 +263,7 @@ const Login = (props) => {
           <p>
             Hi Neighbor is a full stack web application that seeks to replicate a simplified version of an ecommerce 
             site and is a sort of combination of craigslist and ebay. The application is intended to showcase my ability 
-            to create a dynamic multi-page web application as well as demonstrate an understanding of the technologies used in its 
+            to create a dynamic single-page web application as well as demonstrate an understanding of the technologies used in its 
             creation.
           </p>
           <p>

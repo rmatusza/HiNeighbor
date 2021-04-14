@@ -439,7 +439,7 @@ router.patch('/:id/purchase', asyncHandler(async(req, res) => {
   JSON.stringify(date)
 
   let item = await Item.findByPk(itemId)
-  await item.update({ purchaser_id: currUserId, sold: true, date_sold: date})
+  await item.update({ purchaser_id: currUserId, sold: true, date_sold: date, current_bid: item.price})
 
   res.json({'soldItemId':itemId})
 }))
@@ -465,7 +465,7 @@ router.post('/:id/rent', asyncHandler(async(req, res) => {
     active: true,
     image_url: imageURL,
     category: category,
-    seller_id: seller_id
+    seller_id: seller_id,
   })
 
   const updatedItem = await Item.findByPk(itemId)

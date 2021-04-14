@@ -11,6 +11,13 @@ const useStyles = makeStyles(() => ({
 	buttons: {
     width: '160px'
   },
+	bidHistoryButtons: {
+		width: '80px'
+	},
+	dialogBox: {
+    width: '200px',
+    heigth: '200px'
+  },
 }))
 
 const Purchase = (props) => {
@@ -22,6 +29,7 @@ const Purchase = (props) => {
   };
 
 	const handleDialogOpen = (itemData) => {
+		console.log(itemData)
 		setCurrItemId(itemData.itemId)
 		setDialogOpen(true)
 	};
@@ -52,7 +60,7 @@ const Purchase = (props) => {
 	return(
 		<>
 			<div className="buy-button">
-				<Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': props.dataRows[props.idx].id, 'currentBid': props.dataRows[props.idx].current_bid, 'itemPrice': props.dataRows[props.idx].price})}} className={classes.buttons}>
+				<Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': props.dataRows[props.idx].id, 'currentBid': props.dataRows[props.idx].current_bid, 'itemPrice': props.dataRows[props.idx].price})}} className={props.onBidHistoryPage ? classes.bidHistoryButtons : classes.buttons}>
 					Purchase
 				</Button>
       </div>

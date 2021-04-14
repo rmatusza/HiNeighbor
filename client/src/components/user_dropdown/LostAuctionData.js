@@ -112,9 +112,9 @@ const LostAuctionData = (props) => {
             let yearOfLastBid = data.bid_date.slice(0, 4)
             let fullDateLastBid = monthOfLastBid + '-' + dayOfLastBid + '-' + yearOfLastBid
 
-            let monthOfAuctionEnd = data.date_sold.slice(5, 7)
-            let dayOfAuctionEnd = data.date_sold.slice(8, 10)
-            let yearOfAuctionEnd = data.date_sold.slice(0, 4)
+            let monthOfAuctionEnd = data.purchase_date.slice(5, 7)
+            let dayOfAuctionEnd = data.purchase_date.slice(8, 10)
+            let yearOfAuctionEnd = data.purchase_date.slice(0, 4)
             let fullDateAuctionEnd =  monthOfAuctionEnd + '-' + dayOfAuctionEnd + '-' + yearOfAuctionEnd
             return (
               <div className="top-bidder-inner-container" key={idx}>
