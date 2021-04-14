@@ -18,7 +18,7 @@ const BidHistory = () => {
     (async() => {
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-bid-history`)
       const bidData = await res.json()
-      console.log('BID DATA:', bidData[2])
+      console.log('BID DATA:', bidData)
       setLostAuctionData(bidData[0])
       setTopBidderData(bidData[1])
       setNotTopBidderData(bidData[2])

@@ -53,6 +53,7 @@ const Bid = (props) => {
   };
 
 	const openBidModal = (itemData) => {
+		console.log(itemData)
 		setCurrItemId(itemData.itemId)
 		setCurrBid(itemData.currentBid)
 		setCurrItemPrice(itemData.itemPrice)
@@ -81,10 +82,10 @@ const Bid = (props) => {
   };
 
 	const submitBid = async () => {
-    const body = {
-      bidInput,
-      currUserId
-    }
+		const body = {
+			bidInput,
+			currUserId
+		}
 
     const res = await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/bid`, {
       method: 'PATCH',

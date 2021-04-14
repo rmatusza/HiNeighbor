@@ -1,14 +1,8 @@
-import { React, useState } from 'react';
-import { useSelector, connect } from "react-redux";
+import { React } from 'react';
+import { connect } from "react-redux";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import { 
-  Grid, 
-  Button, 
-  Dialog,
-  DialogTitle,
-  DialogActions
-} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import './sellerProfile.css';
 import Table from '@material-ui/core/Table';
@@ -20,7 +14,7 @@ import TableRow from '@material-ui/core/TableRow';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Bid from '../bid_functionality/Bid';
 import { setSellerProfileItemsForSale } from '../../actions/itemsActions';
-
+import Purchase from '../purchase_functionality/Purchase';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -81,13 +75,7 @@ const useStyles = makeStyles((theme) => ({
   submitButton: {
     marginTop: "2rem",
   },
-
-  dialogBox: {
-    width: '200px',
-    heigth: '200px'
-  },
   table: {
-    // minWidth: 650,
     minWidth: 350,
   },
   tableHead: {
@@ -107,56 +95,18 @@ const useStyles = makeStyles((theme) => ({
   },
   gridItem: {
     width: '100%',
-    // border: '2px solid black',
     borderRadius: '5px'
   },
-  buttons: {
-    width: '160px'
-  },
 }))
-// rgb(206, 204, 204)
 
 let test = []
 
 
 const SellerProfileForSale = (props) => {
 
-  const currUserId = useSelector(store => store.session.currentUser.id);
   let tableData = props.itemData['table_data'];
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [currItemId, setCurrItemId] = useState(null);
-  const [propsItemDataArrayIdx, setPropsItemDataArrayIdx] = useState(null)
   const classes = useStyles();
   const largeScreen = useMediaQuery('(min-width:1870px)');
-
-  const handleDialogOpen = (itemData) => {
-    setCurrItemId(itemData.itemId)
-    setPropsItemDataArrayIdx(itemData.idx)
-    setDialogOpen(true)
-  };
-
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
-
-  const updateSoldItems = () => {
-    props.itemData['table_data'].splice(propsItemDataArrayIdx, 1)
-  }
-
-  const handlePurchase = async () => {
-    const body = {
-      currUserId
-    }
-    await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-    updateSoldItems()
-    handleDialogClose()
-  };
 
   return(
     <>
@@ -182,11 +132,7 @@ const SellerProfileForSale = (props) => {
                             <div className="divider-container">
                               <div className="bid-purchase-divider"></div>
                             </div>
-                            <div className="buy-button">
-                              <Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': item.item_id, 'currentBid': item.current_bid, 'itemPrice':item.price, 'idx': idx})}} className={classes.buttons}>
-                                Purchase
-                              </Button>
-                            </div>
+                            <Purchase dataRows={props.items} idx={idx} action={props.updateItems} arr={props.arr} currUserId={props.currUserId}/>
                           </div>
                         </div>
                         <div className="description-table-container">
@@ -228,34 +174,17 @@ const SellerProfileForSale = (props) => {
          <h1>No Items Have Been Posted For Sale by This User</h1>
        </div>
       }
-
-      <Dialog
-        open={dialogOpen}
-        onClose={handleDialogClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Are you sure that you want to purchase this item at its full sale price?"}
-        </DialogTitle>
-        <DialogActions>
-          <Button onClick={handleDialogClose} className={classes.buttons} color="secondary" variant="contained">
-            Cancel
-          </Button>
-          <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={handlePurchase}>
-            Purchase Item
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   )
 };
 
 const mapStateToProps = state => {
+  console.log(state.entities.seller_profile.saleItems)
   return {
     items: state.entities.seller_profile.saleItems,
     arr: test,
-    length: test.length
+    length: test.length,
+    currUserId: state.session.currentUser ? state.session.currentUser.id : null
   }
 }
 

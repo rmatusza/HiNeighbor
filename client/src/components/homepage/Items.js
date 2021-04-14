@@ -235,7 +235,7 @@ const mapStateToProps = state => {
     items: state.entities.items_state.saleItems,
     arr: test,
     length: test.length,
-    currUserId: state.session.currentUser.id
+    currUserId: state.session.currentUser ? state.session.currentUser.id : null
   }
 }
 
