@@ -158,7 +158,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateBidHistory: items => dispatch(setBidHistory(items)),
+    updateBidItems: items => dispatch(setBidHistory(items)),
     purchaseItem: items => dispatch(setItems(items))
   }
 }
