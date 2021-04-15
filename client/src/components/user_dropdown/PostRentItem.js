@@ -142,9 +142,9 @@ const PostRentItem = (props) => {
     }, 2500)
   }
 
-  const confirmItemPost = () => {
-    setConfirmDialog(true)
-  }
+  // const confirmItemPost = () => {
+  //   setConfirmDialog(true)
+  // }
 
 
   const postItem = async() => {

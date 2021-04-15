@@ -1,13 +1,6 @@
-import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogTitle
-} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,7 +8,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { useSelector } from "react-redux";
 import { setItems } from '../../actions/itemsActions';
 import Purchase from '../purchase_functionality/Purchase';
 
@@ -93,41 +85,7 @@ const useStyles = makeStyles((theme) => ({
 let arr = []
 
 const TopBidderData = (props) => {
-  const currUserId = useSelector(store => store.session.currentUser.id);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [currItemId, setCurrItemId] = useState(null);
-  const [propsItemDataArrayIdx, setPropsItemDataArrayIdx] = useState(null)
   const classes = useStyles()
-
-  const handleDialogOpen = (itemData) => {
-    //('ITEM DATA:', itemData)
-    setCurrItemId(itemData.itemId)
-    setPropsItemDataArrayIdx(itemData.idx)
-    setDialogOpen(true)
-  };
-
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
-
-  const updateSoldItems = () => {
-    props.itemData.splice(propsItemDataArrayIdx, 1)
-  }
-
-  const handlePurchase = async () => {
-    const body = {
-      currUserId
-    }
-    await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-    updateSoldItems()
-    handleDialogClose()
-  };
 
   if(props.itemData.length === 0){
     return(
@@ -210,24 +168,6 @@ const TopBidderData = (props) => {
           )
         })}
       </div>
-      <Dialog
-        open={dialogOpen}
-        onClose={handleDialogClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Are you sure that you want to purchase this item at its full sale price?"}
-          </DialogTitle>
-          <DialogActions>
-            <Button onClick={handleDialogClose} className={classes.buttons} color="secondary" variant="contained">
-              Cancel
-            </Button>
-            <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={handlePurchase}>
-              Purchase Item
-            </Button>
-          </DialogActions>
-        </Dialog>
       </>
     )
   }
