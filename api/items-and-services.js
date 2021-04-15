@@ -73,7 +73,7 @@ const postItemValidations = [
 
 router.post('/search', asyncHandler(async(req, res) => {
   let {price_range, distance, offer_type, category, user_search, user_id} = req.body
-
+  console.log('REQ BODY:', req.body)
   if(!price_range){
     price_range = [0, 1000000000]
   }
@@ -109,6 +109,8 @@ router.post('/search', asyncHandler(async(req, res) => {
         expired: false
       },
     })
+
+    console.log('ITEMS:', items)
 
     const expiredWithBidder = []
     const expiredWithoutBidder = []

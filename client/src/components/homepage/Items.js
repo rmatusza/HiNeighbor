@@ -241,7 +241,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateItems: (items) => dispatch(setItems(items))
+    updateItems: items => dispatch(setItems(items))
   }
 }
 

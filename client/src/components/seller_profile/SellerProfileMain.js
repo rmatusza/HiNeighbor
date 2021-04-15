@@ -6,8 +6,8 @@ import SellerProfileForRent from './SellerProfileForRent';
 import { useParams } from 'react-router';
 import { setSellerProfileItemsForSale } from '../../actions/itemsActions';
 
-function createData(id, currentBid, image_url, description, name, price, bid, num_bids, days_remaining) {
-  return { id, currentBid, image_url, description, name, price, bid, num_bids, days_remaining };
+function createData(id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining) {
+  return { id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining };
 }
 
 function createRentData(name, rate, rented, expiry_date) {
@@ -21,11 +21,8 @@ const SellerProfileMain = () => {
   const [userData, setUserData] = useState({'items_for_sale': [], 'items_for_rent': [], 'user': {}, 'sold': {}, 'reviews': {}})
   const [dataRows, setDataRows] = useState([])
   const [dataRowsRentItems, setDataRowsRentItems] = useState([])
-  // const [itemType, setItemType] = useState([])
   const [forSale, setForSale] = useState(true)
   const [forRent, setForRent] = useState(false)
-  // const [forSaleItems, setForSaleItems] = useState([])
-  // const [forRentItems, setForRentItems] = useState([])
   const [bidOnItems, setBidOnItems] = useState(new Set())
   const dispatch = useDispatch()
 
@@ -61,16 +58,14 @@ const SellerProfileMain = () => {
         body: JSON.stringify({currUserId, 'sellerId': id})
       })
       const sellerInfo = await res.json()
-      // //('RETURNED ITEMS:', sellerInfo)
       let set = new Set()
       sellerInfo.items.forEach((item, idx) => {
-        //('ITEM FOR SALE?:', item.for_sale)
         set.add(sellerInfo.items_bid_on[idx])
         if(item.for_sale === true) {
           const d1 = new Date(item.expiry_date)
           const today = new Date()
           today.setDate(today.getDate()+0)
-          const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+          const oneDay = 24 * 60 * 60 * 1000;
           const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
           if(item.current_bid === null) {
             rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, 0, item.num_bids, days_remaining))
@@ -85,7 +80,6 @@ const SellerProfileMain = () => {
             let year = item.expiry_date.slice(0, 4)
             date = month+'-'+day+'-'+year
           }
-          //('RENT ITEM:', item)
           rentRows.push(createRentData(item.name, item.rate, item.rented, date))
         }
       })
@@ -94,13 +88,8 @@ const SellerProfileMain = () => {
       setDataRowsRentItems(rentRows)
       setUserData(sellerInfo)
       dispatch(setSellerProfileItemsForSale(rows))
-      // setForSaleItems(sellerInfo.items_for_sale)
-      // setForRentItems(sellerInfo.items_for_rent)
     })()
   },[])
-
-
-  //(purchasedItems)
 
   return (
     <>

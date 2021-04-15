@@ -228,123 +228,118 @@ const RentHistory = (props) => {
   return(
     <>
       {itemsType.length === 0 ?
-      <>
-        <div className="current-and-past-rent-buttons">
-          <div className="currently-renting-button-container">
-            <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="secondary" name="currently-renting" onClick={changeButtonState}>
-              Currently Renting
-            </Button>
+        <>
+          <div className="current-and-past-rent-buttons">
+            <div className="currently-renting-button-container">
+              <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="secondary" name="currently-renting" onClick={changeButtonState}>
+                Currently Renting
+              </Button>
+            </div>
+            <div className="current-and-past-rent-buttons-divider"></div>
+            <div className="previously-rented-button-container">
+              <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="secondary" name="previously-rented" onClick={changeButtonState}>
+                Previously Rented
+              </Button>
+            </div>
           </div>
-          <div className="current-and-past-rent-buttons-divider"></div>
-          <div className="previously-rented-button-container">
-            <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="secondary" name="previously-rented" onClick={changeButtonState}>
-              Previously Rented
-            </Button>
+          <h1 className="no-history-heading">No Rent History...</h1>
+          <div className="items-body-container-user-dropdown"/>
+        </>
+        :
+        <>
+          <div className="current-and-past-rent-buttons">
+            <div className="currently-renting-button-container">
+              <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="secondary" name="currently-renting" onClick={changeButtonState}>
+                Currently Renting
+              </Button>
+            </div>
+            <div className="current-and-past-rent-buttons-divider"></div>
+            <div className="previously-rented-button-container">
+              <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="secondary" name="previously-rented" onClick={changeButtonState}>
+                Previously Rented
+              </Button>
+            </div>
           </div>
-        </div>
-        <h1 className="no-history-heading">No Rent History...</h1>
-        <div className="items-body-container-user-dropdown"/>
-      </>
-      :
-      <>
-      <div className="current-and-past-rent-buttons">
-        <div className="currently-renting-button-container">
-          <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={currentlyRentingButtonState ? 'contained' : 'outlined'} color="secondary" name="currently-renting" onClick={changeButtonState}>
-            Currently Renting
-          </Button>
-        </div>
-        <div className="current-and-past-rent-buttons-divider"></div>
-        <div className="previously-rented-button-container">
-          <Button className={classes.Buttons} aria-controls="simple-menu" aria-haspopup="true"  variant={previouslyRentedButtonState ? 'contained' : 'outlined'} color="secondary" name="previously-rented" onClick={changeButtonState}>
-            Previously Rented
-          </Button>
-        </div>
-      </div>
-      <div>
-        <h1 className="purchase-history-heading">
-          {currentlyRentingButtonState ? `Items You Are Currently Renting:` : `Items You Have Rented in the Past`}
-        </h1>
-      </div>
-      <div className="body-container-rent-history">
-        <div className="body-container-rent-history__photos-container">
-            {itemsType.map((item, idx) => {
-              //(item)
-              let url = item.image_url
-              return (
-                <div className="item-photo-container-rent-history" key={idx}>
-                  <Card className={classes.paper}>
-                    <CardContent className={classes.image}>
-                      <img alt={item.name} className="item-image" src={url} />
-                    </CardContent>
-                  </Card>
-                </div>
-              )
-            })}
-        </div>
-        <div className="body-container-rent-history__table-container">
+          <div>
+            <h1 className="purchase-history-heading">
+              {currentlyRentingButtonState ? `Items You Are Currently Renting:` : `Items You Have Rented in the Past`}
+            </h1>
+          </div>
           {itemsType.map((item, idx) => {
+            let url = item.image_url
             return(
-              <div className="body-container-rent-history__table-container__table">
-                <TableContainer className={classes.tableContainer} style={{marginRight: "20px"}}>
-                    <Table className={classes.table} size="small" aria-label="a dense table">
-                      <TableHead className={classes.tableHead}>
-                        <TableRow>
-                          <TableCell align="center" className={classes.tableCell}>seller</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Rate Per Day</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Date Rented</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Return Date</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Rent Total</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        <TableRow key={dataRows[idx].name}>
-                          <TableCell align="center">{dataRows[idx].seller}</TableCell>
-                          <TableCell align="center">{dataRows[idx].name}</TableCell>
-                          <TableCell align="center">${dataRows[idx].rate}</TableCell>
-                          <TableCell align="center">{dataRows[idx].start_date}</TableCell>
-                          <TableCell align="center">{dataRows[idx].return_date}</TableCell>
-                          <TableCell align="center">${dataRows[idx].rent_total}</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  {currentlyRentingButtonState === true ?
-                  <> </>
-                  :
-                  <div className="rating-buttons-and-slider">
-                    <div className="rate-and-submit-buttons">
-                      <Button variant="contained" color="secondary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
-                      {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx)}>Submit Rating</Button></div>}
-                    </div>
-                    {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
-                    <></>
-                    :
-                    <div className="slider">
-                    <Typography id="discrete-slider-small-steps" gutterBottom>
-                      Rating:
-                    </Typography>
-                      <Slider
-                        defaultValue={props.postedItems.rent_reviews[idx].rating}
-                        getAriaValueText={valuetext}
-                        aria-labelledby="discrete-slider-small-steps"
-                        step={1}
-                        marks={marks}
-                        min={1}
-                        max={5}
-                        valueLabelDisplay="auto"
-                        color="secondary"
-                        onChange={updateItemRating}
-                      />
-                    </div>}
+              <div className="body-container-rent-history">
+                <div className="body-container-rent-history__photos-container">
+                  <div className="item-photo-container-rent-history" key={idx}>
+                    <Card className={classes.paper}>
+                      <CardContent className={classes.image}>
+                        <img alt={item.name} className="item-image" src={url} />
+                      </CardContent>
+                    </Card>
                   </div>
-                }
+                </div>
+                <div className="body-container-rent-history__table-container">
+                  <div className="body-container-rent-history__table-container__table">
+                    <TableContainer className={classes.tableContainer} style={{marginRight: "20px"}}>
+                        <Table className={classes.table} size="small" aria-label="a dense table">
+                          <TableHead className={classes.tableHead}>
+                            <TableRow>
+                              <TableCell align="center" className={classes.tableCell}>seller</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Rate Per Day</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Date Rented</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Return Date</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Rent Total</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            <TableRow key={dataRows[idx].name}>
+                              <TableCell align="center">{dataRows[idx].seller}</TableCell>
+                              <TableCell align="center">{dataRows[idx].name}</TableCell>
+                              <TableCell align="center">${dataRows[idx].rate}</TableCell>
+                              <TableCell align="center">{dataRows[idx].start_date}</TableCell>
+                              <TableCell align="center">{dataRows[idx].return_date}</TableCell>
+                              <TableCell align="center">${dataRows[idx].rent_total}</TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                      {currentlyRentingButtonState === true ?
+                      <> </>
+                      :
+                      <div className="rating-buttons-and-slider">
+                        <div className="rate-and-submit-buttons">
+                          <Button variant="contained" color="secondary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
+                          {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx)}>Submit Rating</Button></div>}
+                        </div>
+                        {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
+                        <></>
+                        :
+                        <div className="slider">
+                        <Typography id="discrete-slider-small-steps" gutterBottom>
+                          Rating:
+                        </Typography>
+                          <Slider
+                            defaultValue={props.postedItems.rent_reviews[idx].rating}
+                            getAriaValueText={valuetext}
+                            aria-labelledby="discrete-slider-small-steps"
+                            step={1}
+                            marks={marks}
+                            min={1}
+                            max={5}
+                            valueLabelDisplay="auto"
+                            color="secondary"
+                            onChange={updateItemRating}
+                          />
+                        </div>}
+                      </div>
+                    }
+                  </div>
+                </div>
               </div>
             )
           })}
-        </div>
-      </div>
-      </>
+        </>
       }
     </>
   )

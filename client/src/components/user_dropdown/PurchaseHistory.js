@@ -17,10 +17,8 @@ const useStyles = makeStyles((theme) => ({
   grid: {
     width: '100%',
     marginTop: '30px',
-    // marginLeft: '30px',
   },
   paper: {
-    // padding: theme.spacing(2),
     textAlign: 'center',
     backgroundColor: theme.palette.primary.light,
     background: theme.palette.success.light,
@@ -38,18 +36,12 @@ const useStyles = makeStyles((theme) => ({
     width: '200px',
   },
   itemFormModal: {
-    // position: 'absolute',
     position: "absolute",
-    // top: "20rem",
     top: 100,
-    // left: 350,
     left: 600,
-    // left: "20rem",
     width: 400,
     backgroundColor: theme.palette.background.paper,
-    // // border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    // padding: theme.spacing(2, 4, 3),
     paddingLeft: "5rem",
     paddingRight: "5rem",
     paddingTop: "2rem",
@@ -80,7 +72,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'whitesmoke'
   },
   tableContainer: {
-    // width: '800px'
     paddingBottom: '0px',
     backgroundColor: 'white',
     height: '70px',
@@ -187,64 +178,61 @@ const PurchaseHistory = (props) => {
   return(
     <>
       {props.postedItems.purchased_items.length === 0 ?
-      <>
-        <h1 className="no-history-heading">No Purchase History...</h1>
-        <div className="items-body-container-user-dropdown"/>
-      </>
-      :
-      <>
-        <div>
-          <h1 className="purchase-history-heading">
-            Your Purchase History:
-          </h1>
-        </div>
-        <div className="body-container-purchase-history">
-          <div className="body-container-purchase-history__photos-container">
-            {props.postedItems.purchased_items.map((item, idx) => {
-              let url = item.image_url
-              return (
-                <div className="item-photo-container-purchase-history" key={idx}>
-                  <Card className={classes.paper}>
-                    <CardContent className={classes.image}>
-                      <img alt={item.name} className="item-image-purchase-history" src={url}/>
-                    </CardContent>
-                  </Card>
-                </div>
-              )
-            })}
+        <>
+          <h1 className="no-history-heading">No Purchase History...</h1>
+          <div className="items-body-container-user-dropdown"/>
+        </>
+        :
+        <>
+          <div>
+            <h1 className="purchase-history-heading">
+              Your Purchase History:
+            </h1>
           </div>
-          <div className="body-container-purchase-history__purchase-history-table-container">
-            {props.postedItems.purchased_items.map((item, idx) => {
-              return(
-                <div key={idx}>
-                  <div className="body-container-purchase-history__purchase-history-table-container__purchase-history-table">
-                    <TableContainer className={classes.tableContainer}  style={{height: '100px'}}>
-                      <Table className={classes.table} size="small" aria-label="a dense table">
-                        <TableHead className={classes.tableHead}>
-                          <TableRow>
-                            <TableCell align="center" className={classes.tableCell}>seller</TableCell>
-                            <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
-                            <TableCell align="center" className={classes.tableCell}>Purchase Price</TableCell>
-                            <TableCell align="center" className={classes.tableCell}>Purchase Date</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          <TableRow>
-                            <TableCell align="center">{dataRows[idx].seller}</TableCell>
-                            <TableCell align="center">{dataRows[idx].name}</TableCell>
-                            <TableCell align="center">${dataRows[idx].purchase_price}</TableCell>
-                            <TableCell align="center">{dataRows[idx].purchase_date}</TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    <div className="rating-buttons-and-slider">
-                      <div className="rate-and-submit-buttons">
-                        <Button variant="contained" color="secondary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
-                        {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx, item.seller_id)}>Submit Rating</Button></div>}
-                      </div>
-                      {
-                        ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
+          
+          {props.postedItems.purchased_items.map((item, idx) => {
+            let url = item.image_url
+            return(
+              <div className="body-container-purchase-history">
+                <div className="body-container-purchase-history__photos-container">
+                  <div className="item-photo-container-purchase-history" key={idx}>
+                    <Card className={classes.paper}>
+                      <CardContent className={classes.image}>
+                        <img alt={item.name} className="item-image-purchase-history" src={url}/>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+                <div className="body-container-purchase-history__purchase-history-table-container">
+                  <div key={idx}>
+                    <div className="body-container-purchase-history__purchase-history-table-container__purchase-history-table">
+                      <TableContainer className={classes.tableContainer}  style={{height: '100px'}}>
+                        <Table className={classes.table} size="small" aria-label="a dense table">
+                          <TableHead className={classes.tableHead}>
+                            <TableRow>
+                              <TableCell align="center" className={classes.tableCell}>seller</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Purchase Price</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Purchase Date</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell align="center">{dataRows[idx].seller}</TableCell>
+                              <TableCell align="center">{dataRows[idx].name}</TableCell>
+                              <TableCell align="center">${dataRows[idx].purchase_price}</TableCell>
+                              <TableCell align="center">{dataRows[idx].purchase_date}</TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                      <div className="rating-buttons-and-slider">
+                        <div className="rate-and-submit-buttons">
+                          <Button variant="contained" color="secondary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
+                          {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx, item.seller_id)}>Submit Rating</Button></div>}
+                        </div>
+                        {
+                          ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
                           <></>
                           :
                           <div className="slider">
@@ -263,15 +251,16 @@ const PurchaseHistory = (props) => {
                               onChange={updateItemRating}
                             />
                           </div>
-                      }
+                        }
+                      </div>
                     </div>
                   </div>
+                    
                 </div>
-              )
-            })}
-          </div>
-        </div>
-      </>
+              </div>
+            )
+          })}
+        </>
       }
     </>
   )

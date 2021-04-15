@@ -65,6 +65,7 @@ const PostRentItem = (props) => {
   const [itemCategory, setItemCategory] = useState("");
   const [itemPrice, setItemPrice] = useState("");
   const [rate, setRate] = useState(null)
+  const [confirmDialog, setConfirmDialog] = useState(false)
   // const [itemQuantity, setItemQuantity] = useState("");
   const [imageFile, setImageFile] = useState(null)
   const rent_form_state = useSelector(store => store.entities.post_item_rent_state.rentStatus)
@@ -139,6 +140,10 @@ const PostRentItem = (props) => {
       setPopupVisible(false)
       dispatch(setPostItemRentStatus(false))
     }, 2500)
+  }
+
+  const confirmItemPost = () => {
+    setConfirmDialog(true)
   }
 
 
@@ -269,17 +274,7 @@ const PostRentItem = (props) => {
             <MenuItem value={"Video Games"}>Video Games</MenuItem>
           </Select>
         </FormControl>
-        {/* <FormControl>
-          <InputLabel htmlFor="category-input">Category</InputLabel>
-          <Input id="category-input" onChange={handleInputChange} />
-        </FormControl> */}
       </div>
-      {/* <div>
-        <FormControl>
-          <InputLabel htmlFor="quantitiy-input">Quantity</InputLabel>
-          <Input id="quantitiy-input" onChange={handleInputChange} />
-        </FormControl>
-      </div> */}
       <div>
         <FormControl>
           <InputLabel htmlFor="sell-price-input" style={{color: "black"}}>Rent Price</InputLabel>
@@ -372,6 +367,30 @@ const PostRentItem = (props) => {
             </ListItem>
           ))}
         </List>
+      </Dialog>
+
+
+      <Dialog
+      open={confirmDialog}
+      onClose={setConfirmDialog(false)}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure that you want to post this item for sale?"}
+        </DialogTitle>
+        {/* <List>
+          {formErrors.map((error, idx) => (
+            <ListItem key={idx}>
+              <ListItemText>
+                {error}
+              </ListItemText>
+            </ListItem>
+          ))}
+        </List> */}
+        <div className="confirmation-buttons-post-sale-item">
+
+        </div>
       </Dialog>
     </>
   )
