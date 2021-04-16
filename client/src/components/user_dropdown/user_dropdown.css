@@ -565,3 +565,48 @@
 .bid-button-other-bids-page{
   width: 80px;
 }
+
+.purchase-button__other-bids-page{
+  margin-left: 15px;
+}
+
+.bid-button__other-bids-page{
+  margin-right: 15px;
+}
+
+.view-seller-info-button__lost-auction-data{
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+/*-------------------------------------------------------------------------------*/
+
+/* POST ITEM */
+
+.confirmation-buttons-post-sale-item{
+  display: flex;
+  width: 600px;
+  height: 50px;
+  justify-content: flex-end;
+}
+
+.confirm-button__post-item{
+  margin-right: 20px;
+  margin-left: 10px;
+}
+
+
+/*-------------------------------------------------------------------------------*/
+
+/* TOP BIDDER */
+
+.divider__top-bidder-data{
+  width: 160px;
+  border-bottom: 2px solid black;
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+
+.view-seller-info-button__top-bidder-data{
+  margin-left: 20px;
+}

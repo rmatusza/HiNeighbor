@@ -23,7 +23,9 @@ const useStyles = makeStyles(() => ({
 const Purchase = (props) => {
 	const [currItemId, setCurrItemId] = useState(null);
 	const [dialogOpen, setDialogOpen] = useState(false);
+	// const [sellerId, setSellerId] = useState(null);
 	const classes = useStyles()
+
 	const handleDialogClose = () => {
     setDialogOpen(false)
   };
@@ -31,6 +33,7 @@ const Purchase = (props) => {
 	const handleDialogOpen = (itemData) => {
 		console.log(itemData)
 		setCurrItemId(itemData.itemId)
+		// setSellerId(itemData.sellerId)
 		setDialogOpen(true)
 	};
 
@@ -56,14 +59,24 @@ const Purchase = (props) => {
     handleDialogClose()
   };
 
-
 	return(
 		<>
 			<div className="buy-button">
-				<Button color="secondary" size="medium" variant="contained" onClick={() => {handleDialogOpen({'itemId': props.dataRows[props.idx].id, 'currentBid': props.dataRows[props.idx].current_bid, 'itemPrice': props.dataRows[props.idx].price})}} className={props.onBidHistoryPage ? classes.bidHistoryButtons : classes.buttons}>
+				<Button 
+				color="secondary" 
+				size="medium" 
+				variant="contained" 
+				onClick={() => {handleDialogOpen({
+					'itemId': props.dataRows[props.idx].id, 
+					'currentBid': props.dataRows[props.idx].current_bid, 
+					'itemPrice': props.dataRows[props.idx].price,
+					'sellerId': props.dataRows[props.idx].seller_id
+				})}} 
+					className={props.onBidHistoryPage ? classes.bidHistoryButtons : classes.buttons}
+				>
 					Purchase
 				</Button>
-      </div>
+      </div>		
 			<Dialog
 				open={dialogOpen}
 				onClose={handleDialogClose}

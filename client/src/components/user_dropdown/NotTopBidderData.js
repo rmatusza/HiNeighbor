@@ -1,14 +1,17 @@
-import React from 'react';
 import { connect } from 'react-redux';
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import { useHistory } from "react-router-dom";
+import{
+  makeStyles,
+  Card,
+  CardContent,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button
+} from "@material-ui/core"
 import Bid from '../bid_functionality/Bid';
 import { setBidHistory } from '../../actions/itemsActions';
 import { setItems } from '../../actions/itemsActions';
@@ -57,13 +60,20 @@ const useStyles = makeStyles((theme) => ({
   tableCell: {
     color: theme.palette.secondary.contrastText
   },
+  buttons: {
+    width: '160px'
+  },
 }))
 
 let arr = []
 
 const NotTopBidderData = (props) => {
-  
   const classes = useStyles();
+	const history = useHistory()
+
+  const viewSellerInfo = (sellerId) => {
+		history.replace(`/seller-profile/${sellerId}`)
+	}
 
   if(props.items.length === 0){
     return(
@@ -99,10 +109,23 @@ const NotTopBidderData = (props) => {
                     </CardContent>
                   </Card>
                   <div className="bid-buy-buttons-container-other-bids-page">
-                    <Purchase dataRows={props.items} idx={idx} action={props.purchaseItem} arr={props.arr} currUserId={props.currUserId} onBidHistoryPage={props.onBidHistoryPage}/>
-                    <div className="bid-button-other-bids-page">
+                    <div className="purchase-button__other-bids-page">
+                      <Purchase dataRows={props.items} idx={idx} action={props.purchaseItem} arr={props.arr} currUserId={props.currUserId} onBidHistoryPage={props.onBidHistoryPage}/>
+                    </div>
+                    <div className="bid-button__other-bids-page">
                       <Bid dataRows={props.items} idx={idx} action={props.updateBidItems} arr={props.arr} bidderData={props.bidderData} topBidderItems={props.topBidderItems} onBidHistoryPage={props.onBidHistoryPage}/>
                     </div>
+                  </div>
+                  <div className="divider__top-bidder-data" />
+                  <div className="view-seller-info-button__top-bidder-data">
+                    <Button 
+                    color="secondary" 
+                    size="medium" variant="contained" 
+                    className={classes.buttons}
+                    onClick={() => viewSellerInfo(data.seller_id)}
+                    >
+                      View Seller Info
+                    </Button>
                   </div>
                 </div>
                 <div className="top-bidder-table-container">
@@ -121,9 +144,9 @@ const NotTopBidderData = (props) => {
                       </TableHead>
                       <TableBody>
                         <TableCell align="center" style={{height: '63px'}}>{data.item_name}</TableCell>
-                        <TableCell align="center">${data.full_price}</TableCell>
+                        <TableCell align="center">${data.price}</TableCell>
                         <TableCell align="center">{data.num_bidders}</TableCell>
-                        <TableCell align="center">${data.top_bid}</TableCell>
+                        <TableCell align="center">${data.current_bid}</TableCell>
                         <TableCell align="center">${data.user_bid}</TableCell>
                         <TableCell align="center">{fullDate}</TableCell>
                         <TableCell align="center">{data.days_remaining}</TableCell>

@@ -427,7 +427,7 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
     //('LAST BIDDER:', lastBidderId)
     //('USER ID:', userId)
 
-    if(expiryDate < today && lastBidderId === userId){
+    if((expiryDate < today && lastBidderId === userId) || (ItemData.purchaser_id === userId)){
       continue
     } else if((expiryDate < today && lastBidderId !== userId) || (purchaserId !== userId && purchaserId !== null)){
       lostAuctions.push(
@@ -440,7 +440,8 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
         'full_price': ItemData.price,
         'top_bid': ItemData.current_bid,
         'num_bidders': ItemData.num_bids,
-        'purchase_date': ItemData.date_sold
+        'purchase_date': ItemData.date_sold,
+        'seller_id': ItemData.seller_id
       })
     } else if(lastBidderId === userId){
       topBidder.push(
@@ -453,7 +454,8 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
         'full_price': ItemData.price,
         'top_bid': ItemData.current_bid,
         'num_bidders': ItemData.num_bids,
-        'days_remaining': daysRemainingInAuction
+        'days_remaining': daysRemainingInAuction,
+        'seller_id': ItemData.seller_id
       })
     } else {
       notTopBidder.push(
@@ -464,10 +466,11 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
         'item_photo': ItemData.image_url,
         'item_name': ItemData.name,
         'item_description': ItemData.description,
-        'full_price': ItemData.price,
-        'top_bid': ItemData.current_bid,
+        'price': ItemData.price,
+        'current_bid': ItemData.current_bid,
         'num_bidders': ItemData.num_bids,
-        'days_remaining': daysRemainingInAuction
+        'days_remaining': daysRemainingInAuction,
+        'seller_id': ItemData.seller_id
       })
     }
   }
