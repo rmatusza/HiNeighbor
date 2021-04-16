@@ -1,22 +1,23 @@
-import React from 'react';
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import { useHistory } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button
+} from "@material-ui/core"
 
 const useStyles = makeStyles((theme) => ({
     grid: {
       width: '100%',
       marginTop: '30px',
-      // marginLeft: '30px',
     },
     paper: {
-      // padding: theme.spacing(2),
       textAlign: 'center',
       backgroundColor: theme.palette.primary.light,
       background: theme.palette.success.light,
@@ -34,18 +35,12 @@ const useStyles = makeStyles((theme) => ({
       width: '200px',
     },
     itemFormModal: {
-      // position: 'absolute',
       position: "absolute",
-      // top: "20rem",
       top: 100,
-      // left: 350,
       left: 600,
-      // left: "20rem",
       width: 400,
       backgroundColor: theme.palette.background.paper,
-      // // border: '2px solid #000',
       boxShadow: theme.shadows[5],
-      // padding: theme.spacing(2, 4, 3),
       paddingLeft: "5rem",
       paddingRight: "5rem",
       paddingTop: "2rem",
@@ -81,10 +76,13 @@ const useStyles = makeStyles((theme) => ({
   }))
 
 const LostAuctionData = (props) => {
-
   const classes = useStyles()
+	const history = useHistory()
 
-  //(props)
+  const viewSellerInfo = (sellerId) => {
+		history.replace(`/seller-profile/${sellerId}`)
+	}
+
   if(props.itemData.length === 0){
     return(
       <>
@@ -102,7 +100,7 @@ const LostAuctionData = (props) => {
     return(
       <>
         <div className="top-bidder-heading-container">
-          <h2>You're The Top Bidder On The Following Items:</h2>
+          <h2>You Lost The Following Auctions:</h2>
         </div>
         <div className="top-bidder-outter-container">
           {props.itemData.map((data, idx) => {
@@ -124,7 +122,18 @@ const LostAuctionData = (props) => {
                         <img alt={data.item_name} className="item-image-homepage" src={data.item_photo} />
                       </CardContent>
                     </Card>
+                    <div className="view-seller-info-button__lost-auction-data">
+                    <Button 
+                    color="secondary" 
+                    size="medium" variant="contained" 
+                    className={classes.buttons}
+                    onClick={() => viewSellerInfo(data.seller_id)}
+                    >
+                      View Seller Info
+                    </Button>
+                  </div>
                 </div>
+                
                 <div className="top-bidder-table-container">
                   <TableContainer style={{height: '100px', backgroundColor: 'white'}}>
                       <Table className="top-bidder-table" size="small" aria-label="a dense table">

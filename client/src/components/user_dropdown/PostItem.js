@@ -23,9 +23,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
     marginTop: '14vh',
     backgroundColor: "whitesmoke",
-    // // border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    // padding: theme.spacing(2, 4, 3),
     paddingLeft: "5rem",
     paddingRight: "5rem",
     paddingTop: "2rem",
@@ -55,11 +53,16 @@ const useStyles = makeStyles((theme) => ({
     width: '181px',
     marginTop: '10px',
     marginBottom: '10px'
-  }
+  },
+
+  buttons: {
+    width: '160px'
+  },
 }));
 
 const PostItem = (props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [confirmPostDialogBox, setConfirmPostDialogBox] = useState(false);
   const [itemName, setItemName] = useState("");
   const [itemDescription, setItemDescription] = useState("");
   const [itemCategory, setItemCategory] = useState("");
@@ -68,13 +71,10 @@ const PostItem = (props) => {
   const form_state = useSelector(store => store.entities.post_item_form_state.status)
   const userId = useSelector(store => store.session.currentUser.id)
   const username = useSelector(store => store.session.currentUser.username)
-  //(userId)
   const classes = useStyles()
   const dispatch = useDispatch();
   const [popupVisible, setPopupVisible] = useState(false)
   const[modalOpen, setModalOpen] = useState(true)
-  // const [anchorElOffer, setAnchorElOffer] = useState(null);
-  // const [anchorElCategory, setAnchorElCategory] = useState(null);
   const [formErrors, setFormErrors] = useState([]);
   let generatedImageURL;
  
@@ -82,20 +82,11 @@ const PostItem = (props) => {
     setDialogOpen(false);
   };
 
-  // const handleDialogOpen = (itemData) => {
-  //   setDialogOpen(true)
-  // }
-
-  // const handleCloseOffer = () => {
-  //   setAnchorElOffer(null);
-  // };
 
   const handleCloseCategory = () => {
-    // setAnchorElCategory(null);
   }
 
   const handleCategorySelection = (e) => {
-    //(e.target.value)
     setItemCategory(e.target.value)
     handleCloseCategory()
   }
@@ -108,13 +99,11 @@ const PostItem = (props) => {
     } else if(e.target.id === "sell-price-input") {
       setItemPrice(e.target.value)
     } else if(e.target.id === "quantitiy-input") {
-      // setItemQuantity(e.target.value)
     }
   };
 
   const handleCloseModal = (buttonName) => {
     setModalOpen(false)
-    // //(e)
     if(buttonName === 'close-button') {
       dispatch(setPostItemFormStatus(false))
       return
@@ -126,13 +115,17 @@ const PostItem = (props) => {
     }, 2500)
   }
 
+  const openConfirmPostDialogBox = () => {
+    setConfirmPostDialogBox(true)
+  }
+
+  const closeConfirmPostDialogBox = () => {
+    setConfirmPostDialogBox(false)
+  }
 
   const postItem = async() => {
-
-
     const expiryDate = new Date()
     expiryDate.setDate(expiryDate.getDate() + 30);
-    //(generatedImageURL)
 
     const body = {
       userId,
@@ -145,7 +138,6 @@ const PostItem = (props) => {
       expiryDate
     }
 
-    //('EXPIRY DATE:', body)
 
       const res = await fetch('http://localhost:5000/api/items-and-services/post-item', {
       method: 'POST',
@@ -156,7 +148,6 @@ const PostItem = (props) => {
     })
 
     const response = await res.json()
-    //('RESPONSE:', response)
     let errors = []
     if(response.errors) {
       response.errors.forEach(error => {
@@ -170,11 +161,8 @@ const PostItem = (props) => {
   }
 
   const uploadPhoto = async () => {
-    //(imageFile)
-    // //(data.image[0].name)
     const fd = new FormData();
     fd.append('file', imageFile)
-    // //(fd)
     try {
       const res = await fetch('http://localhost:5000/api/items-and-services/upload-photo', {
         method: 'POST',
@@ -182,7 +170,6 @@ const PostItem = (props) => {
       })
       const { imageURL } = await res.json()
       generatedImageURL = imageURL
-      //(generatedImageURL)
       postItem()
     } catch(e) {
       alert(e)
@@ -217,7 +204,7 @@ const PostItem = (props) => {
       setFormErrors(discoveredErrors)
     })
     if(discoveredErrors.length === 0) {
-      uploadPhoto()
+      openConfirmPostDialogBox()
     } else {
       setDialogOpen(true)
     }
@@ -266,7 +253,6 @@ const PostItem = (props) => {
       <div className="photo-upload-container">
         <form onChange={(e) => setImageFile(e.target.files[0])}>
           <input type="file" id="upload-image-input" name='image'/>
-          {/* <button onClick={uploadPhoto} className="confirm-upload-button">Confirm Upload</button> */}
         </form>
       </div>
       <div className="post-item-or-service-buttons">
@@ -304,10 +290,8 @@ const PostItem = (props) => {
       <Modal
       open={(() => {
         if(form_state === false || form_state === 'undefined' || modalOpen === false) {
-          //('FALSE')
           return false
         }
-        //('TRUE')
         return true
       })()}
       aria-labelledby="simple-modal-title"
@@ -333,6 +317,29 @@ const PostItem = (props) => {
             </ListItem>
           ))}
         </List>
+      </Dialog>
+      
+      <Dialog
+      open={confirmPostDialogBox}
+      onClose={closeConfirmPostDialogBox}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure that you want to post this item for sale?"}
+        </DialogTitle>
+        <div className="confirmation-buttons-post-sale-item">
+          <div className="cancel-button__post-item">
+            <Button onClick={closeConfirmPostDialogBox} className={classes.buttons} color="secondary" variant="contained">
+              Cancel
+            </Button>
+          </div>
+          <div className="confirm-button__post-item">
+            <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={uploadPhoto}>
+              Confirm
+            </Button>
+          </div>
+        </div>
       </Dialog>
     </>
   )

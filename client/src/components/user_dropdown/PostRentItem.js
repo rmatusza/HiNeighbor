@@ -65,38 +65,24 @@ const PostRentItem = (props) => {
   const [itemCategory, setItemCategory] = useState("");
   const [itemPrice, setItemPrice] = useState("");
   const [rate, setRate] = useState(null)
-  const [confirmDialog, setConfirmDialog] = useState(false)
-  // const [itemQuantity, setItemQuantity] = useState("");
+  const [confirmPostDialogBox, setConfirmPostDialogBox] = useState(false)
   const [imageFile, setImageFile] = useState(null)
   const rent_form_state = useSelector(store => store.entities.post_item_rent_state.rentStatus)
   const userId = useSelector(store => store.session.currentUser.id)
   const username = useSelector(store => store.session.currentUser.username)
-  //(userId)
   const classes = useStyles()
   const dispatch = useDispatch();
   const [popupVisible, setPopupVisible] = useState(false)
   const[modalOpen, setModalOpen] = useState(true)
-  // const [anchorElOffer, setAnchorElOffer] = useState(null);
-  // const [anchorElCategory, setAnchorElCategory] = useState(null);
   const [formErrors, setFormErrors] = useState([]);
 
-  // //('CURRENT USER ID:', userId)
   let generatedImageURL;
-  // const handleClick = (event) => {
-  //   setAnchorElOffer(event.currentTarget);
-  // };
+ 
 
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
 
-  // const handleCloseOffer = () => {
-  //   setAnchorElOffer(null);
-  // };
-
-  // const handleCloseCategory = () => {
-  //   setAnchorElCategory(null);
-  // }
 
   const handleRentPeriodSelection = (e) => {
     let period = e.target.value
@@ -107,13 +93,10 @@ const PostRentItem = (props) => {
     } else {
       setRate(Math.floor(Number(itemPrice)/30))
     }
-    // handleCloseOffer()
   }
 
   const handleCategorySelection = (e) => {
-    //(e.target.value)
     setItemCategory(e.target.value)
-    // handleCloseCategory()
   }
 
   const handleInputChange = (e) => {
@@ -123,14 +106,11 @@ const PostRentItem = (props) => {
       setItemDescription(e.target.value);
     } else if(e.target.id === "sell-price-input") {
       setItemPrice(e.target.value)
-    } //else if(e.target.id === "quantitiy-input") {
-    //   setItemQuantity(e.target.value)
-    // }
+    } 
   };
 
   const handleCloseModal = (buttonName) => {
     setModalOpen(false)
-    // //(e)
     if(buttonName === 'close-button-rent') {
       dispatch(setPostItemRentStatus(false))
       return
@@ -142,14 +122,15 @@ const PostRentItem = (props) => {
     }, 2500)
   }
 
-  // const confirmItemPost = () => {
-  //   setConfirmDialog(true)
-  // }
+  const openConfirmPostDialogBox = () => {
+    setConfirmPostDialogBox(true)
+  }
 
+  const closeConfirmPostDialogBox = () => {
+    setConfirmPostDialogBox(false)
+  }
 
   const postItem = async() => {
-
-    //(generatedImageURL)
     const body = {
       userId,
       username,
@@ -160,8 +141,6 @@ const PostRentItem = (props) => {
       rate,
       generatedImageURL,
     }
-
-    //('EXPIRY DATE:', body)
 
     const res = await fetch('http://localhost:5000/api/items-and-services/post-item-for-rent', {
       method: 'POST',
@@ -185,11 +164,8 @@ const PostRentItem = (props) => {
   }
 
   const uploadPhoto = async () => {
-    //(imageFile)
-    // //(data.image[0].name)
     const fd = new FormData();
     fd.append('file', imageFile)
-    // //(fd)
     try {
       const res = await fetch('http://localhost:5000/api/items-and-services/upload-photo', {
         method: 'POST',
@@ -197,7 +173,6 @@ const PostRentItem = (props) => {
       })
       const { imageURL } = await res.json()
       generatedImageURL = imageURL
-      //(generatedImageURL)
       postItem()
     } catch(e) {
       alert(e)
@@ -207,8 +182,6 @@ const PostRentItem = (props) => {
 
   const validateForm = (e) => {
     e.preventDefault()
-    // alert('Rent Functionality Still in Progress')
-    // return
     let discoveredErrors = []
     let requiredFields =
     [
@@ -236,7 +209,7 @@ const PostRentItem = (props) => {
       setFormErrors(discoveredErrors)
     })
     if(discoveredErrors.length === 0) {
-      uploadPhoto()
+      setConfirmPostDialogBox(true)
     } else {
       setDialogOpen(true)
     }
@@ -300,7 +273,6 @@ const PostRentItem = (props) => {
       <div className="photo-upload-container">
         <form onChange={(e) => setImageFile(e.target.files[0])}>
           <input type="file" id="upload-image-input" name='image'/>
-          {/* <button onClick={uploadPhoto} className="confirm-upload-button">Confirm Upload</button> */}
         </form>
       </div>
       <div className="post-item-or-service-buttons">
@@ -338,10 +310,8 @@ const PostRentItem = (props) => {
       <Modal
       open={(() => {
         if(rent_form_state === false || rent_form_state === 'undefined' || modalOpen === false) {
-          //('FALSE')
           return false
         }
-        //('TRUE')
         return true
       })()}
       aria-labelledby="simple-modal-title"
@@ -371,25 +341,25 @@ const PostRentItem = (props) => {
 
 
       <Dialog
-      open={confirmDialog}
-      onClose={setConfirmDialog(false)}
+      open={confirmPostDialogBox}
+      onClose={closeConfirmPostDialogBox}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure that you want to post this item for sale?"}
+          {"Are you sure that you want to post this item for rent?"}
         </DialogTitle>
-        {/* <List>
-          {formErrors.map((error, idx) => (
-            <ListItem key={idx}>
-              <ListItemText>
-                {error}
-              </ListItemText>
-            </ListItem>
-          ))}
-        </List> */}
         <div className="confirmation-buttons-post-sale-item">
-
+          <div className="cancel-button__post-item">
+            <Button onClick={closeConfirmPostDialogBox} className={classes.buttons} color="secondary" variant="contained">
+              Cancel
+            </Button>
+          </div>
+          <div className="confirm-button__post-item">
+            <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={uploadPhoto}>
+              Confirm
+            </Button>
+          </div>
         </div>
       </Dialog>
     </>

@@ -110,7 +110,9 @@ const Bid = (props) => {
 				'itemId': props.dataRows[props.idx].id, 
 				'currentBid': props.dataRows[props.idx].current_bid, 
 				'itemPrice': props.dataRows[props.idx].price, 
-				'itemIdx': props.idx})}} 
+				'itemIdx': props.idx,
+				'sellerId': props.dataRows[props.idx].seller_id
+				})}} 
 				className={props.onBidHistoryPage ? classes.bidHistoryButtons : classes.buttons}
 				>
 					Bid
@@ -140,7 +142,7 @@ const Bid = (props) => {
 							onClick={() => {
 								if(Number(bidInput) <= currBid) {
 									alert('Your bid must be larger than the current bid amount')
-								} else if(Number(bidInput) > currItemPrice) {
+								} else if(Number(bidInput) >= currItemPrice) {
 									alert('Your bid must be less than the item sell price')
 								} else {
 									submitBid()
