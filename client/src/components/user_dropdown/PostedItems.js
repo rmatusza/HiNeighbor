@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector } from "react-redux";
 import {
   Button,
+  makeStyles
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
 import PostedSaleItems from './PostedSaleItems';
 import PostedRentItems from './PostedRentItems';
-
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -14,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
     margin: '0px'
   },
   paper: {
-    // padding: theme.spacing(2),
     textAlign: 'center',
     backgroundColor: theme.palette.primary.light,
     background: theme.palette.success.light,
@@ -32,18 +30,12 @@ const useStyles = makeStyles((theme) => ({
     width: '200px',
   },
   itemFormModal: {
-    // position: 'absolute',
     position: "absolute",
-    // top: "20rem",
     top: 100,
-    // left: 350,
     left: 600,
-    // left: "20rem",
     width: 400,
     backgroundColor: theme.palette.background.paper,
-    // // border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    // padding: theme.spacing(2, 4, 3),
     paddingLeft: "5rem",
     paddingRight: "5rem",
     paddingTop: "2rem",
@@ -54,11 +46,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     border: "2px solid white",
   },
-
   submitButton: {
     marginTop: "2rem",
   },
-
   dialogBox: {
     width: '200px',
     heigth: '200px'
@@ -88,7 +78,6 @@ const PostedItems = () => {
   const [forRentButtonState, setForRentButtonState] = useState(false)
   const [saleItems, setSaleItems] = useState({'items_for_sale': []})
   const [rentItems, setRentItems] = useState({'items_for_rent': []})
-  // const [dataRows, setDataRows] = useState([])
   const classes = useStyles()
 
   const handleClick = (e) => {
@@ -118,7 +107,6 @@ const PostedItems = () => {
       if(postedItems.length === 0) {
         return
       }
-      // setDataRows(rows)
       let forSaleObj = {}
       let forRentObj = {}
       forSaleObj['items_for_sale'] = postedItems.items_for_sale

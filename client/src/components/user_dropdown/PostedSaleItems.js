@@ -1,4 +1,3 @@
-import React from 'react';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "30px"
   },
   paper: {
-    // padding: theme.spacing(2),
     textAlign: 'center',
     backgroundColor: theme.palette.primary.light,
     background: theme.palette.success.light,
@@ -51,50 +49,25 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, price, bid, num_bidders, days_remaining) {
-  return { name, price, bid, num_bidders, days_remaining };
+function createData(name, price, bid, num_bidders, days_remaining, description) {
+  return { name, price, bid, num_bidders, days_remaining, description};
 }
 
 const PostedSaleItems = (props) => {
-  //(props.postedItems.items_for_sale)
   const classes = useStyles()
-  // //('ITEMS:', items)
-
-  // const handleClick = (e) => {
-  //   if(e.target.name === 'for-sale') {
-  //     if(forSaleButtonState === false) {
-  //       setForSaleButtonState(true)
-  //       setForRentButtonState(false)
-  //     } else {
-  //       setForSaleButtonState(false)
-  //       setForRentButtonState(true)
-
-  //     }
-  //   } else {
-  //     if(forRentButtonState === false) {
-  //       setForRentButtonState(true)
-  //       setForSaleButtonState(false)
-
-  //     }else {
-  //       setForRentButtonState(false)
-  //       setForSaleButtonState(true)
-  //     }
-  //   }
-  // }
 
   let rows = []
 
   props.postedItems.items_for_sale.forEach((item, idx) => {
     const d1 = new Date(item.expiry_date)
-    //('EXPIRY DATE:', d1)
     const today = new Date()
     today.setDate(today.getDate()+0)
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
     if(item.current_bid === null) {
-      rows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining))
+      rows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.description))
     } else {
-      rows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining))
+      rows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.description))
     }
   })
 
@@ -117,53 +90,53 @@ const PostedSaleItems = (props) => {
           </h1>
         </div>
         <div className="body-container-posted-sale-items">
-          <div className="body-container-posted-sale-items__photos-container">
-              {props.postedItems.items_for_sale.map((item, idx) => {
-                let url = item.image_url
-                return (
-                  <div className="item-photo-container-posted-sale-items" key={idx}>
+          {props.postedItems.items_for_sale.map((item, idx) => {
+            let url = item.image_url
+            return (
+              <div className="posted-sale-item-outer-container" key={idx}>
+                <div className="body-container-posted-sale-items__photos-container">
+                  <div className="item-photo-container-posted-sale-items">
                     <Card className={classes.paper}>
                       <CardContent className={classes.image}>
                         <img alt={item.name} className="item-image" src={url} />
                       </CardContent>
                     </Card>
                   </div>
-                )
-              })}
-          </div>
-          <div className="body-container-posted-sale-items__for-sale-table-container">
-            {props.postedItems.items_for_sale.map((item, idx) => {
-              return(
-                <div className="body-container-posted-sale-items__for-sale-table-container__for-sale-table" key={idx}>
-                  <TableContainer className={classes.tableContainer}  style={{marginRight: "20px"}}>
-                    <Table className={classes.table} size="small" aria-label="a dense table">
-                      <TableHead className={classes.tableHead}>
-                        <TableRow>
-                          {/* <TableCell align="right">Item Name</TableCell> */}
-                          <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Number of Bidders</TableCell>
-                          <TableCell align="center" className={classes.tableCell}>Days Remaining</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-
-                        <TableRow key={rows[idx].name}>
-                          <TableCell align="center">{rows[idx].name}</TableCell>
-                          <TableCell align="center">${rows[idx].price}</TableCell>
-                          <TableCell align="center">${rows[idx].bid}</TableCell>
-                          <TableCell align="center">{rows[idx].num_bidders}</TableCell>
-                          <TableCell align="center">{rows[idx].days_remaining}</TableCell>
-                        </TableRow>
-
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
                 </div>
-              )
-            })}
-          </div>
+                <div className="body-container-posted-sale-items__for-sale-table-container">
+                  <div className="body-container-posted-sale-items__for-sale-table-container__for-sale-table">
+                    <TableContainer className={classes.tableContainer}  style={{marginRight: "20px"}}>
+                      <Table className={classes.table} size="small" aria-label="a dense table">
+                        <TableHead className={classes.tableHead}>
+                          <TableRow>
+                            <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                            <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
+                            <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
+                            <TableCell align="center" className={classes.tableCell}>Number of Bidders</TableCell>
+                            <TableCell align="center" className={classes.tableCell}>Days Remaining</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow key={rows[idx].name}>
+                            <TableCell align="center">{rows[idx].name}</TableCell>
+                            <TableCell align="center">${rows[idx].price}</TableCell>
+                            <TableCell align="center">${rows[idx].bid}</TableCell>
+                            <TableCell align="center">{rows[idx].num_bidders}</TableCell>
+                            <TableCell align="center">{rows[idx].days_remaining}</TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    <div className="posted-sale-items-description-container">
+                      <p>
+                        {rows[idx].description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </>
       }
