@@ -82,8 +82,8 @@ const searchCategoryReducer = (state = initialState, action) => {
       let saleItems = action.items
     return {
       ...state,
-      // items_state: {...state.items_state, saleItems}
-      items_state: {saleItems, rentItems: []}
+      items_state: {...state.items_state, saleItems}
+      // items_state: {saleItems, rentItems: []}
     }
     case SET_SELLER_PROFILE_ITEMS_FOR_SALE:
       let sellerProfileSaleItems = action.items

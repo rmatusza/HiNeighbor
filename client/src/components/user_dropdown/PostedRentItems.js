@@ -50,8 +50,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, rate,rented, id, seller_username, image_url, category) {
-  return { name, rate,rented, id, seller_username, image_url, category};
+function createData(name, rate,rented, id, seller_username, image_url, category, description) {
+  return { name, rate,rented, id, seller_username, image_url, category, description};
 }
 
 const PostedRentItems = (props) => {
@@ -85,7 +85,7 @@ const PostedRentItems = (props) => {
   props.postedItems.items_for_rent.forEach((item, idx) => {
     const today = new Date()
     today.setDate(today.getDate()+0)
-    rows.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category))
+    rows.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category, item.description))
   })
 
   return(
@@ -107,25 +107,22 @@ const PostedRentItems = (props) => {
           </h1>
         </div>
         <div className="body-container-posted-rent-items">
-          <div className="body-container-posted-rent-items__photos-container">
-              {props.postedItems.items_for_rent.map((item, idx) => {
-                let url = item.image_url
-                return (
+          {props.postedItems.items_for_rent.map((item, idx) => {
+            let url = item.image_url
+            return (
+              <div className="posted-rent-items-outer-container">
+                <div className="body-container-posted-rent-items__photos-container">
                   <div className="item-photo-container-posted-rent-items" key={idx}>
-                      <Card className={classes.paper}>
-                        <CardContent className={classes.image}>
-                          <img alt={item.name} className="item-image" src={url} />
-                        </CardContent>
-                      </Card>
+                    <Card className={classes.paper}>
+                      <CardContent className={classes.image}>
+                        <img alt={item.name} className="item-image" src={url} />
+                      </CardContent>
+                    </Card>
                   </div>
-                )
-              })}
-          </div>
-          <div className="body-container-posted-rent-items__for-rent-table-container">
-            {props.postedItems.items_for_rent.map((item, idx) => {
-              return(
-                <div className="body-container-posted-rent-items__for-rent-table-container__for-rent-table" key={idx}>
-                  <TableContainer className={classes.tableContainer} style={{marginRight: "20px"}}>
+                </div>
+                <div className="body-container-posted-rent-items__for-rent-table-container">
+                  <div className="body-container-posted-rent-items__for-rent-table-container__for-rent-table" key={idx}>
+                    <TableContainer className={classes.tableContainer} style={{marginRight: "20px"}}>
                       <Table className={classes.table} size="small" aria-label="a dense table">
                         <TableHead className={classes.tableHead}>
                           <TableRow className={classes.tableHead}>
@@ -143,12 +140,18 @@ const PostedRentItems = (props) => {
                             <TableCell align="center">{rows[idx].rented === true ? 'Rented' : 'Posted'}</TableCell>
                           </TableRow>
                         </TableBody>
-                      </Table>
+                        </Table>
                     </TableContainer>
+                    <div className="posted-rent-items-description-container">
+                      <p>
+                        {rows[idx].description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
         </div>
       </>
       }

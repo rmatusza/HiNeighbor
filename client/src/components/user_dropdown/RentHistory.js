@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { Button } from "@material-ui/core";
@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "30px"
   },
   paper: {
-    // padding: theme.spacing(2),
     textAlign: 'center',
     backgroundColor: theme.palette.primary.light,
     background: theme.palette.success.light,
@@ -38,18 +37,12 @@ const useStyles = makeStyles((theme) => ({
     width: '200px',
   },
   itemFormModal: {
-    // position: 'absolute',
     position: "absolute",
-    // top: "20rem",
     top: 100,
-    // left: 350,
     left: 600,
-    // left: "20rem",
     width: 400,
     backgroundColor: theme.palette.background.paper,
-    // // border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    // padding: theme.spacing(2, 4, 3),
     paddingLeft: "5rem",
     paddingRight: "5rem",
     paddingTop: "2rem",
@@ -60,11 +53,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     border: "2px solid white",
   },
-
   submitButton: {
     marginTop: "2rem",
   },
-
   dialogBox: {
     width: '200px',
     heigth: '200px'
@@ -79,7 +70,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'whitesmoke'
   },
   tableContainer: {
-    // width: '800px'
     paddingBottom: '0px',
     backgroundColor: 'white',
     height: '70px'
@@ -93,8 +83,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, seller, rate, start_date, return_date, rent_total) {
-  return { name, seller, rate, start_date, return_date, rent_total };
+function createData(name, seller, rate, start_date, return_date, rent_total, description) {
+  return { name, seller, rate, start_date, return_date, rent_total, description};
 }
 
 function valuetext(value) {
@@ -138,9 +128,9 @@ const RentHistory = (props) => {
     // startMonth+'-'+startDay+'-'+startYear
 
     if(item.current_bid === null) {
-      dataRows.push(createData(item.item_name, item.seller_name, item.rate, startMonth+'-'+startDay+'-'+startYear, returnMonth+'-'+returnDay+'-'+returnYear, item.rent_total))
+      dataRows.push(createData(item.item_name, item.seller_name, item.rate, startMonth+'-'+startDay+'-'+startYear, returnMonth+'-'+returnDay+'-'+returnYear, item.rent_total, item.description))
     } else {
-      dataRows.push(createData(item.item_name, item.seller_name, item.rate, startMonth+'-'+startDay+'-'+startYear, returnMonth+'-'+returnDay+'-'+returnYear, item.rent_total))
+      dataRows.push(createData(item.item_name, item.seller_name, item.rate, startMonth+'-'+startDay+'-'+startYear, returnMonth+'-'+returnDay+'-'+returnYear, item.rent_total, item.description))
     }
   })
 
@@ -194,7 +184,6 @@ const RentHistory = (props) => {
   }
 
   const enableRating = (itemId, idx) => {
-    //(itemId)
     let statecpy = {...ratingVisibility}
     let value = ratingVisibility[idx]
     statecpy[idx] = !value
@@ -204,9 +193,6 @@ const RentHistory = (props) => {
     setCurrItem(itemId)
     setRatingVisibility(statecpy)
     setSelectedRatingButton(idx)
-    // currItem = itemId
-    // ratingVisibility = statecpy
-    // selectedRatingButton = idx
   }
 
   const submitRating = async(itemId, idx) => {
@@ -266,6 +252,7 @@ const RentHistory = (props) => {
             </h1>
           </div>
           {itemsType.map((item, idx) => {
+            console.log(item)
             let url = item.image_url
             return(
               <div className="body-container-rent-history">
@@ -304,6 +291,11 @@ const RentHistory = (props) => {
                           </TableBody>
                         </Table>
                       </TableContainer>
+                      <div className="rent-history-item-description">
+                        <p>
+                          {dataRows[idx].description}
+                        </p>
+                      </div>  
                       {currentlyRentingButtonState === true ?
                       <> </>
                       :
