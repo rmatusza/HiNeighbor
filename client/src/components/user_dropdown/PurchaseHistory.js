@@ -82,13 +82,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function createData(name, seller, purchase_price, purchase_date) {
-  return { name, seller, purchase_price, purchase_date };
+function createData(name, seller, purchase_price, purchase_date, description) {
+  return { name, seller, purchase_price, purchase_date, description };
 }
 
 const PurchaseHistory = (props) => {
   const currUserId = useSelector(store => store.session.currentUser.id)
-  // const [dataRows, setDataRows] = useState([])
   const[ratingVisibility, setRatingVisibility] = useState({})
   const[currItem, setCurrItem] = useState(null)
   const[itemRating, setItemRating] = useState(null)
@@ -103,9 +102,9 @@ const PurchaseHistory = (props) => {
     let day = item.date_sold.slice(8,10)
     let year = item.date_sold.slice(0, 4)
     if(item.current_bid === null) {
-      dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year))
+      dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year, item.description))
     } else {
-      dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year))
+      dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year, item.description))
     }
   })
 
@@ -201,36 +200,18 @@ const PurchaseHistory = (props) => {
                         <img alt={item.name} className="item-image-purchase-history" src={url}/>
                       </CardContent>
                     </Card>
-                  </div>
-                </div>
-                <div className="body-container-purchase-history__purchase-history-table-container">
-                  <div key={idx}>
-                    <div className="body-container-purchase-history__purchase-history-table-container__purchase-history-table">
-                      <TableContainer className={classes.tableContainer}  style={{height: '100px'}}>
-                        <Table className={classes.table} size="small" aria-label="a dense table">
-                          <TableHead className={classes.tableHead}>
-                            <TableRow>
-                              <TableCell align="center" className={classes.tableCell}>seller</TableCell>
-                              <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
-                              <TableCell align="center" className={classes.tableCell}>Purchase Price</TableCell>
-                              <TableCell align="center" className={classes.tableCell}>Purchase Date</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell align="center">{dataRows[idx].seller}</TableCell>
-                              <TableCell align="center">{dataRows[idx].name}</TableCell>
-                              <TableCell align="center">${dataRows[idx].purchase_price}</TableCell>
-                              <TableCell align="center">{dataRows[idx].purchase_date}</TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                      <div className="rating-buttons-and-slider">
-                        <div className="rate-and-submit-buttons">
-                          <Button variant="contained" color="secondary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
-                          {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx, item.seller_id)}>Submit Rating</Button></div>}
+                     <div className="rating-buttons-and-slider">
+                        <div className="rate-item-button">
+                          <Button variant="contained" color="secondary" fullWidth={true} onClick={() => enableRating(item.id, idx)}>Rate item</Button>
                         </div>
+                        {
+                          ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? 
+                          <></> 
+                          : 
+                          <div  className="submit-rating-button">
+                            <Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx, item.seller_id)}>Submit Rating</Button>
+                          </div>
+                        }
                         {
                           ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
                           <></>
@@ -253,9 +234,36 @@ const PurchaseHistory = (props) => {
                           </div>
                         }
                       </div>
-                    </div>
                   </div>
-                    
+                </div>
+                <div className="body-container-purchase-history__purchase-history-table-container">
+                    <div className="body-container-purchase-history__purchase-history-table-container__purchase-history-table">
+                      <TableContainer className={classes.tableContainer}  style={{height: '100px'}}>
+                        <Table className={classes.table} size="small" aria-label="a dense table">
+                          <TableHead className={classes.tableHead}>
+                            <TableRow>
+                              <TableCell align="center" className={classes.tableCell}>seller</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Purchase Price</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Purchase Date</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell align="center">{dataRows[idx].seller}</TableCell>
+                              <TableCell align="center">{dataRows[idx].name}</TableCell>
+                              <TableCell align="center">${dataRows[idx].purchase_price}</TableCell>
+                              <TableCell align="center">{dataRows[idx].purchase_date}</TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                      <div className="purchase-history-item-description">
+                        <p>
+                          {dataRows[idx].description}
+                        </p>
+                      </div>  
+                    </div>
                 </div>
               </div>
             )

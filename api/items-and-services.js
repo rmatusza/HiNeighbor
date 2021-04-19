@@ -455,6 +455,12 @@ router.post('/:id/rent', asyncHandler(async(req, res) => {
   JSON.stringify(dateObj)
   JSON.stringify(today)
 
+  const updatedItem = await Item.findByPk(itemId)
+  await updatedItem.update({
+    rented: true,
+    expiry_date: dateObj
+  })
+
   const newRentItem = await Rented_Item.create({
     item_id: Number(itemId),
     item_name: itemName,
@@ -468,12 +474,7 @@ router.post('/:id/rent', asyncHandler(async(req, res) => {
     image_url: imageURL,
     category: category,
     seller_id: seller_id,
-  })
-
-  const updatedItem = await Item.findByPk(itemId)
-  await updatedItem.update({
-    rented: true,
-    expiry_date: dateObj
+    description: updatedItem.description
   })
 
   await Review.create({

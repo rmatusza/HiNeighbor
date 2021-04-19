@@ -161,6 +161,7 @@ const PostItem = (props) => {
   }
 
   const uploadPhoto = async () => {
+    closeConfirmPostDialogBox()
     const fd = new FormData();
     fd.append('file', imageFile)
     try {

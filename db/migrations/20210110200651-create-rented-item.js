@@ -26,6 +26,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(50)
       },
+      description: {
+        allowNull: false,
+        type: Sequelize.TEXT
+      },
       rate: {
         allowNull: false,
         type: Sequelize.INTEGER

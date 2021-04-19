@@ -20,6 +20,7 @@ import {
 import { setItems } from '../../actions/itemsActions';
 import Bid from '../bid_functionality/Bid';
 import Purchase from '../purchase_functionality/Purchase';
+import { AutoScaling } from 'aws-sdk';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -42,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     height: '210px',
     width: '200px',
+    // height: '100%',
+    // width: '100%'
   },
   dialogBox: {
     width: '200px',
