@@ -83,13 +83,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, seller, rate, start_date, return_date, rent_total, description) {
-  return { name, seller, rate, start_date, return_date, rent_total, description};
+function createData(name, seller, rate, start_date, return_date, rent_total, description, category) {
+  return { name, seller, rate, start_date, return_date, rent_total, description, category};
 }
 
-function valuetext(value) {
-  return `${value}°C`;
-}
+// function valuetext(value) {
+//   return `${value}°C`;
+// }
 
 const RentHistory = (props) => {
   const currUserId = useSelector(store => store.session.currentUser.id)
@@ -102,9 +102,10 @@ const RentHistory = (props) => {
   const classes = useStyles()
   let ratingState = {}
   let dataRows = []
+  console.log(props.postedItems.rented_items)
   let currentlyRenting = props.postedItems.rented_items
   let previouslyRented = props.postedItems.returned_rented_items
-  let itemsType;
+  let itemsType = currentlyRenting
   if(currentlyRentingButtonState === true) {
     itemsType = currentlyRenting
   } else {
@@ -112,27 +113,32 @@ const RentHistory = (props) => {
   }
 
   //('RETURNEDDDDD ITEMS:', props.postedItems.returned_rented_items)
-  itemsType.forEach((item, i) => {
-    ratingState[i] = false
-    let returnDate = item.return_date
-    let startDate = item.start_date
-
-    let startMonth = startDate.slice(5,7)
-    let startDay = startDate.slice(8,10)
-    let startYear = startDate.slice(0, 4)
-
-    let returnMonth = returnDate.slice(5,7)
-    let returnDay = returnDate.slice(8,10)
-    let returnYear = returnDate.slice(0, 4)
-
-    // startMonth+'-'+startDay+'-'+startYear
-
-    if(item.current_bid === null) {
-      dataRows.push(createData(item.item_name, item.seller_name, item.rate, startMonth+'-'+startDay+'-'+startYear, returnMonth+'-'+returnDay+'-'+returnYear, item.rent_total, item.description))
-    } else {
-      dataRows.push(createData(item.item_name, item.seller_name, item.rate, startMonth+'-'+startDay+'-'+startYear, returnMonth+'-'+returnDay+'-'+returnYear, item.rent_total, item.description))
-    }
-  })
+  (() => {
+    itemsType ? 
+    itemsType.forEach((item, i) => {
+      ratingState[i] = false
+      let returnDate = item.return_date
+      let startDate = item.start_date
+  
+      let startMonth = startDate.slice(5,7)
+      let startDay = startDate.slice(8,10)
+      let startYear = startDate.slice(0, 4)
+  
+      let returnMonth = returnDate.slice(5,7)
+      let returnDay = returnDate.slice(8,10)
+      let returnYear = returnDate.slice(0, 4)
+  
+      // startMonth+'-'+startDay+'-'+startYear
+  
+      if(item.current_bid === null) {
+        dataRows.push(createData(item.item_name, item.seller_name, item.rate, startMonth+'-'+startDay+'-'+startYear, returnMonth+'-'+returnDay+'-'+returnYear, item.rent_total, item.description, item.category))
+      } else {
+        dataRows.push(createData(item.item_name, item.seller_name, item.rate, startMonth+'-'+startDay+'-'+startYear, returnMonth+'-'+returnDay+'-'+returnYear, item.rent_total, item.description, item.category))
+      }
+    })
+    :
+    itemsType = []
+  })()
 
   const marks = [
     {
@@ -273,6 +279,7 @@ const RentHistory = (props) => {
                             <TableRow>
                               <TableCell align="center" className={classes.tableCell}>seller</TableCell>
                               <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Category</TableCell>
                               <TableCell align="center" className={classes.tableCell}>Rate Per Day</TableCell>
                               <TableCell align="center" className={classes.tableCell}>Date Rented</TableCell>
                               <TableCell align="center" className={classes.tableCell}>Return Date</TableCell>
@@ -283,6 +290,7 @@ const RentHistory = (props) => {
                             <TableRow key={dataRows[idx].name}>
                               <TableCell align="center">{dataRows[idx].seller}</TableCell>
                               <TableCell align="center">{dataRows[idx].name}</TableCell>
+                              <TableCell align="center">{dataRows[idx].category}</TableCell>
                               <TableCell align="center">${dataRows[idx].rate}</TableCell>
                               <TableCell align="center">{dataRows[idx].start_date}</TableCell>
                               <TableCell align="center">{dataRows[idx].return_date}</TableCell>
@@ -313,7 +321,7 @@ const RentHistory = (props) => {
                         </Typography>
                           <Slider
                             defaultValue={props.postedItems.rent_reviews[idx].rating}
-                            getAriaValueText={valuetext}
+                            // getAriaValueText={valuetext}
                             aria-labelledby="discrete-slider-small-steps"
                             step={1}
                             marks={marks}

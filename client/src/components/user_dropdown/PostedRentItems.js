@@ -85,7 +85,7 @@ const PostedRentItems = (props) => {
   props.postedItems.items_for_rent.forEach((item, idx) => {
     const today = new Date()
     today.setDate(today.getDate()+0)
-    rows.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category, item.description))
+    rows.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category, item.description, item.category))
   })
 
   return(
@@ -128,6 +128,7 @@ const PostedRentItems = (props) => {
                           <TableRow className={classes.tableHead}>
                             {/* <TableCell align="right">Item Name</TableCell> */}
                             <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                            <TableCell align="center" className={classes.tableCell}>Category</TableCell>
                             <TableCell align="center" className={classes.tableCell}>Rate per Day</TableCell>
                             <TableCell align="center" className={classes.tableCell}>Item Status</TableCell>
                           </TableRow>
@@ -136,6 +137,7 @@ const PostedRentItems = (props) => {
 
                           <TableRow key={rows[idx].name}>
                             <TableCell align="center">{rows[idx].name}</TableCell>
+                            <TableCell align="center">{rows[idx].category}</TableCell>
                             <TableCell align="center">${rows[idx].rate}</TableCell>
                             <TableCell align="center">{rows[idx].rented === true ? 'Rented' : 'Posted'}</TableCell>
                           </TableRow>

@@ -1,20 +1,23 @@
 import { React } from 'react';
 import { connect } from "react-redux";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import './sellerProfile.css';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {
+  Card,
+  CardContent,
+  Grid,
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  useMediaQuery,
+  CardMedia
+} from '@material-ui/core'
 import Bid from '../bid_functionality/Bid';
 import { setSellerProfileItemsForSale } from '../../actions/itemsActions';
 import Purchase from '../purchase_functionality/Purchase';
+import './sellerProfile.css';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -22,17 +25,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '0px',
   },
   paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    backgroundColor: 'white',
-    background: 'white',
-    color: theme.palette.secondary.contrastText,
-    height: '300px',
-    width: '300px',
-    marginLeft: '20px',
-    paddingTop: '50px',
-    paddingBottom: '50px',
-    paddingLeft: '20px'
+    marginLeft: "20px",
+    display: "flex",
+    justifyContent: "center"
   },
   typography: {
     fontSize: theme.typography.fontSize
@@ -40,37 +35,19 @@ const useStyles = makeStyles((theme) => ({
   image: {
     display: "flex",
     justifyContent: "center",
-    alignSelf: 'center',
-    alignItems: "center",
-    padding: '10px',
-    height: '300px',
-    width: '300px',
-    marginBottom: '200px',
-    paddingRight: '50px'
+    height: '280px',
+    width: '200px',
   },
   paper_large_screen: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    backgroundColor: 'white',
-    background: 'white',
-    color: theme.palette.secondary.contrastText,
-    height: '200px',
-    width: '200px',
-    marginLeft: '20px',
-    paddingTop: '50px',
-    paddingBottom: '50px',
-    paddingLeft: '20px'
+    marginLeft: "20px",
+    display: "flex",
+    justifyContent: "center"
   },
   image_large_screen: {
     display: "flex",
     justifyContent: "center",
-    alignSelf: 'center',
-    alignItems: "center",
-    padding: '10px',
-    height: '200px',
+    height: '280px',
     width: '200px',
-    marginBottom: '200px',
-    paddingRight: '50px'
   },
   submitButton: {
     marginTop: "2rem",

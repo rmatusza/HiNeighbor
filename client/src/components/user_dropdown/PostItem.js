@@ -8,7 +8,8 @@ import {
   FormControl,
   InputLabel,
   Input,
-  Button
+  Button,
+  TextareaAutosize
 } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import MenuItem from '@material-ui/core/MenuItem';
@@ -220,10 +221,11 @@ const PostItem = (props) => {
           <Input id="name-input" onChange={handleInputChange} autoFocus style={{color: "black"}} />
         </FormControl>
       </div>
-      <div>
+      <div className="post-sale-item-description-input-container">
+        <InputLabel htmlFor="description-input" style={{color: "black"}}>Description</InputLabel>
         <FormControl>
-          <InputLabel htmlFor="description-input" style={{color: "black"}}>Description</InputLabel>
-          <Input id="description-input" onChange={handleInputChange} style={{color: "black"}}/>
+          {/* <Input id="description-input" onChange={handleInputChange} onClick={openDescriptionDialogBox} style={{color: "black"}}/> */}
+          <TextareaAutosize id="description-input" onChange={handleInputChange} rowsMax={4}/>
         </FormControl>
       </div>
       <div>
@@ -288,6 +290,9 @@ const PostItem = (props) => {
   return(
     <>
       {popupVisible ? <div className="fade-test" style={{display:"block"}}><h2>Post Successful!</h2></div> : <></>}
+
+      {/* Form for posting the item */}
+
       <Modal
       open={(() => {
         if(form_state === false || form_state === 'undefined' || modalOpen === false) {
@@ -298,8 +303,11 @@ const PostItem = (props) => {
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
       >
-      {postItemBody}
+        {postItemBody}
       </Modal>
+
+      {/* Dialog box that displays any errors in the user provided data */}
+
       <Dialog
       open={dialogOpen}
       onClose={handleDialogClose}
@@ -319,6 +327,8 @@ const PostItem = (props) => {
           ))}
         </List>
       </Dialog>
+
+      {/* Dialog box that that asks the user to confirm their provided data */}
       
       <Dialog
       open={confirmPostDialogBox}

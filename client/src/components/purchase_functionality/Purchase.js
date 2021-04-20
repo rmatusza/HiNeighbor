@@ -23,7 +23,6 @@ const useStyles = makeStyles(() => ({
 const Purchase = (props) => {
 	const [currItemId, setCurrItemId] = useState(null);
 	const [dialogOpen, setDialogOpen] = useState(false);
-	// const [sellerId, setSellerId] = useState(null);
 	const classes = useStyles()
 
 	const handleDialogClose = () => {
@@ -33,7 +32,6 @@ const Purchase = (props) => {
 	const handleDialogOpen = (itemData) => {
 		console.log(itemData)
 		setCurrItemId(itemData.itemId)
-		// setSellerId(itemData.sellerId)
 		setDialogOpen(true)
 	};
 

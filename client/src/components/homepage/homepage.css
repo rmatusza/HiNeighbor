@@ -284,13 +284,9 @@
   margin-right: 25px;
 }
 
-.home-page-sale-items-container{
-  display: flex
+.home-page-sale-items-outer-container{
+  display: flex;
 }
-
-/* .home-page-sale-items-container__photos-outer-container{
-
-} */
 
 .home-page-sale-items-container__photos-inner-container {
   margin-top: 20px;

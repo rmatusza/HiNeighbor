@@ -177,10 +177,9 @@
 .bid-buy-buttons-container-seller-profile{
   display: flex;
   flex-direction: column;
-  margin-left: 90px;
   width: 200px;
   margin-top: 20px;
-  /* margin-left: 20px; */
+  margin-left: 55px;
 }
 
 .rent-button-seller-profile{

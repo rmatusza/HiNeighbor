@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector, connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import './homepage.css'
 import { CgArrowsExpandLeft, /*CgGoogle*/ } from "react-icons/cg";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -20,7 +19,7 @@ import {
 import { setItems } from '../../actions/itemsActions';
 import Bid from '../bid_functionality/Bid';
 import Purchase from '../purchase_functionality/Purchase';
-import { AutoScaling } from 'aws-sdk';
+import './homepage.css'
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -43,8 +42,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     height: '210px',
     width: '200px',
-    // height: '100%',
-    // width: '100%'
   },
   dialogBox: {
     width: '200px',
@@ -116,50 +113,43 @@ const Items = (props) => {
   let dataRows = []
 
   if(items[0] === 'no_items') {
-      return(
-        <div className="items-body-container-no-items">
-          <h1 className="no-results-heading">No Results Found</h1>
-        </div>
-      )
-    }else {
-      return(
-        <div className="home-page-sale-items-container">
-          <div className="home-page-sale-items-container__photos-outer-container">
-            {props.items.map((item, idx) => {
-              let url = item.image_url
-              return (
-                <div className="home-page-sale-items-container__photos-inner-container" key={idx}>
-                  <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(item.image_url)}>
-                    <Card className={classes.paper}>
-                      <div className="home-page-sale-items-container__photos-inner-container__expand-icon-outer-container">
-                        <div className="home-page-sale-items-container__photos-inner-container__expand-icon-inner-container">
-                          <CgArrowsExpandLeft className="expand-icon"/>
-                        </div>
+    return(
+      <div className="items-body-container-no-items">
+        <h1 className="no-results-heading">No Results Found</h1>
+      </div>
+    )
+  }else {
+    return(
+      <>
+        {props.items.map((item, idx) => {
+          let url = item.image_url
+          const d1 = new Date(item.expiry_date)
+          const today = new Date()
+          today.setDate(today.getDate()+0)
+          const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+          const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
+          if(item.current_bid === null) {
+            dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
+          } else {
+            dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
+          }
+          return (
+            <div className="home-page-sale-items-outer-container" key={idx}>
+              <div className="home-page-sale-items-container__photos-inner-container">
+                <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(item.image_url)}>
+                  <Card className={classes.paper}>
+                    <div className="home-page-sale-items-container__photos-inner-container__expand-icon-outer-container">
+                      <div className="home-page-sale-items-container__photos-inner-container__expand-icon-inner-container">
+                        <CgArrowsExpandLeft className="expand-icon"/>
                       </div>
-                      <CardContent className={classes.image}>
-                        <img alt="item" className="item-image-homepage" src={url} />
-                      </CardContent>
-                    </Card>
-                  </CardActionArea>
-                </div>
-              )
-            })}
-          </div>
-          <div className="home-page-sale-items-container__item-table-and-description-outer-container">
-            {props.items.forEach((item, idx) => {
-              const d1 = new Date(item.expiry_date)
-              const today = new Date()
-              today.setDate(today.getDate()+0)
-              const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-              const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
-              if(item.current_bid === null) {
-                dataRows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
-              } else {
-                dataRows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.id, item.current_bid, item.price, item.seller_id, item.description))
-              }
-            })}
-            {props.items.map((item, idx) => {
-              return(
+                    </div>
+                    <CardContent className={classes.image}>
+                      <img alt="item" className="item-image-homepage" src={url} />
+                    </CardContent>
+                  </Card>
+                </CardActionArea>
+              </div>
+              <div className="home-page-sale-items-container__item-table-and-description-outer-container">
                 <div className="home-page-sale-items-container__item-table-and-description-inner-container" key={idx}>
                   <TableContainer className="home-page-sale-items-container__item-table-and-description-inner-container__table-container">
                     <Table className="home-page-sale-items-container__item-table-and-description-inner-container__table-container__table"
@@ -167,7 +157,6 @@ const Items = (props) => {
                     >
                       <TableHead className={classes.tableHead}>
                         <TableRow className={classes.tableHead}>
-                          {/* <TableCell align="right">Item Name</TableCell> */}
                           <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
                           <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
                           <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
@@ -192,12 +181,8 @@ const Items = (props) => {
                     </p>
                   </div>
                 </div>
-              )
-            })}
-          </div>
-          <div className="home-page-sale-items-container__buttons-outer-container">
-            {props.items.map((item, idx) => {
-              return(
+              </div>
+              <div className="home-page-sale-items-container__buttons-outer-container">
                 <div className="home-page-sale-items-container__buttons-inner-container" key={idx}>
                   <Bid dataRows={props.items} idx={idx} action={props.updateItems} arr={props.arr}/>
                   <div className="divider-container">
@@ -213,23 +198,24 @@ const Items = (props) => {
                     </Button>
                   </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            </div>
+          )
+        })}
 
         {/* ENLARGED IMAGE DIALOG BOX */}
 
-          <Dialog
-          open={enlargeImage}
-          onClose={closeImage}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          >
-            <img alt="enlarged-item" className="item-image-enlarged" src={image} />
-          </Dialog>
-        </div>
-      )
-    }
+        <Dialog
+        open={enlargeImage}
+        onClose={closeImage}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        >
+          <img alt="enlarged-item" className="item-image-enlarged" src={image} />
+        </Dialog>
+      </>
+    )
+  }
   
 }
 

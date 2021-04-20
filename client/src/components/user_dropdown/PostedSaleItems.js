@@ -49,8 +49,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function createData(name, price, bid, num_bidders, days_remaining, description) {
-  return { name, price, bid, num_bidders, days_remaining, description};
+function createData(name, price, bid, num_bidders, days_remaining, description, category) {
+  return { name, price, bid, num_bidders, days_remaining, description, category};
 }
 
 const PostedSaleItems = (props) => {
@@ -65,9 +65,9 @@ const PostedSaleItems = (props) => {
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
     if(item.current_bid === null) {
-      rows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.description))
+      rows.push(createData(item.name, item.price, 0, item.num_bids, days_remaining, item.description, item.category))
     } else {
-      rows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.description))
+      rows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.description, item.category))
     }
   })
 
@@ -110,6 +110,7 @@ const PostedSaleItems = (props) => {
                         <TableHead className={classes.tableHead}>
                           <TableRow>
                             <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                            <TableCell align="center" className={classes.tableCell}>Category</TableCell>
                             <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
                             <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
                             <TableCell align="center" className={classes.tableCell}>Number of Bidders</TableCell>
@@ -119,6 +120,7 @@ const PostedSaleItems = (props) => {
                         <TableBody>
                           <TableRow key={rows[idx].name}>
                             <TableCell align="center">{rows[idx].name}</TableCell>
+                            <TableCell align="center">{rows[idx].category}</TableCell>
                             <TableCell align="center">${rows[idx].price}</TableCell>
                             <TableCell align="center">${rows[idx].bid}</TableCell>
                             <TableCell align="center">{rows[idx].num_bidders}</TableCell>
