@@ -8,7 +8,8 @@ import {
   FormControl,
   InputLabel,
   Input,
-  Button
+  Button,
+  TextareaAutosize
 } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import MenuItem from '@material-ui/core/MenuItem';
@@ -142,7 +143,7 @@ const PostRentItem = (props) => {
       generatedImageURL,
     }
 
-    const res = await fetch('http://localhost:5000/api/items-and-services/post-item-for-rent', {
+    const res = await fetch('/api/items-and-services/post-item-for-rent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -168,7 +169,7 @@ const PostRentItem = (props) => {
     const fd = new FormData();
     fd.append('file', imageFile)
     try {
-      const res = await fetch('http://localhost:5000/api/items-and-services/upload-photo', {
+      const res = await fetch('/api/items-and-services/upload-photo', {
         method: 'POST',
         body: fd
       })
@@ -225,10 +226,11 @@ const PostRentItem = (props) => {
           <Input id="name-input" onChange={handleInputChange} autoFocus style={{color: "black"}}/>
         </FormControl>
       </div>
-      <div>
+      <div className="post-rent-item-description-input-container">
+        <InputLabel htmlFor="description-input" style={{color: "black"}}>Description</InputLabel>
         <FormControl>
-          <InputLabel htmlFor="description-input" style={{color: "black"}}>Description</InputLabel>
-          <Input id="description-input" onChange={handleInputChange} style={{color: "black"}}/>
+          {/* <Input id="description-input" onChange={handleInputChange} style={{color: "black"}}/> */}
+          <TextareaAutosize id="description-input" onChange={handleInputChange} rowsMax={4}/>
         </FormControl>
       </div>
       <div>
@@ -253,7 +255,6 @@ const PostRentItem = (props) => {
         <FormControl>
           <InputLabel htmlFor="sell-price-input" style={{color: "black"}}>Rent Price</InputLabel>
           <Input id="sell-price-input" onChange={handleInputChange} style={{color: "black"}}/>
-
         </FormControl>
       </div>
       <div>

@@ -102,7 +102,7 @@ const PostedItems = () => {
 
   useEffect(() => {
     (async() => {
-      const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-posted-items`)
+      const res = await fetch(`/api/users/${currUserId}/get-posted-items`)
       const postedItems = await res.json()
       if(postedItems.length === 0) {
         return

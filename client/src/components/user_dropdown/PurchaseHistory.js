@@ -82,8 +82,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function createData(name, seller, purchase_price, purchase_date, description) {
-  return { name, seller, purchase_price, purchase_date, description };
+function createData(name, seller, purchase_price, purchase_date, description, category) {
+  return { name, seller, purchase_price, purchase_date, description, category};
 }
 
 const PurchaseHistory = (props) => {
@@ -102,9 +102,9 @@ const PurchaseHistory = (props) => {
     let day = item.date_sold.slice(8,10)
     let year = item.date_sold.slice(0, 4)
     if(item.current_bid === null) {
-      dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year, item.description))
+      dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year, item.description, item.category))
     } else {
-      dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year, item.description))
+      dataRows.push(createData(item.name, item.seller_name, item.price, month+'-'+day+'-'+year, item.description, item.category))
     }
   })
 
@@ -154,7 +154,7 @@ const PurchaseHistory = (props) => {
       sellerId
     }
     try {
-    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
+    const res = await fetch(`/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'
@@ -244,6 +244,7 @@ const PurchaseHistory = (props) => {
                             <TableRow>
                               <TableCell align="center" className={classes.tableCell}>seller</TableCell>
                               <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
+                              <TableCell align="center" className={classes.tableCell}>Category</TableCell>
                               <TableCell align="center" className={classes.tableCell}>Purchase Price</TableCell>
                               <TableCell align="center" className={classes.tableCell}>Purchase Date</TableCell>
                             </TableRow>
@@ -252,6 +253,7 @@ const PurchaseHistory = (props) => {
                             <TableRow>
                               <TableCell align="center">{dataRows[idx].seller}</TableCell>
                               <TableCell align="center">{dataRows[idx].name}</TableCell>
+                              <TableCell align="center">{dataRows[idx].category}</TableCell>
                               <TableCell align="center">${dataRows[idx].purchase_price}</TableCell>
                               <TableCell align="center">{dataRows[idx].purchase_date}</TableCell>
                             </TableRow>

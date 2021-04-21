@@ -284,13 +284,9 @@
   margin-right: 25px;
 }
 
-.home-page-sale-items-container{
-  display: flex
+.home-page-sale-items-outer-container{
+  display: flex;
 }
-
-/* .home-page-sale-items-container__photos-outer-container{
-
-} */
 
 .home-page-sale-items-container__photos-inner-container {
   margin-top: 20px;
@@ -397,12 +393,15 @@
 }
 
 
+/*-----------------------------------------------------------------------------------------------------------------------------------*/
 
 /*ITEMS FOR RENT HOMEPAGE*/
 
 
-.home-page-rent-items-container{
-  display: flex
+.home-page-rent-items-outer-container{
+  display: flex;
+  margin-left: 20px;
+  margin-top: 20px;
 }
 
 /* .home-page-rent-items-container__photos-inner-container{

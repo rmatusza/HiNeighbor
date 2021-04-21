@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import {
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import{
+  Card,
+  CardContent,
   CardActionArea,
   Button,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from "react-redux";
+  makeStyles,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from '@material-ui/core'
+import { CgArrowsExpandLeft, /*CgGoogle*/ } from "react-icons/cg";
 import { setRentItems } from '../../actions/itemsActions';
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { useHistory } from "react-router-dom";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -26,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     margin: '0px'
   },
   paper: {
-    // padding: theme.spacing(2),
     textAlign: 'center',
     backgroundColor: theme.palette.primary.light,
     background: theme.palette.success.light,
@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     height: '210px',
     width: '200px',
-    // border: '2px solid black'
   },
   submitButton: {
     marginTop: "2rem",
@@ -100,15 +99,11 @@ const useStyles = makeStyles((theme) => ({
 function createData(name, rate,rented, id, seller_username, image_url, category, description, seller_id, return_date) {
   return { name, rate,rented, id, seller_username, image_url, category, description, seller_id, return_date};
 }
-// sets the current date as the default date for the date picker
 
 const date = new Date()
 const day = date.getDate()
 const month = date.getMonth() + 1
 const year = date.getFullYear()
-//(year)
-//(day)
-//(month)
 const today = new Date(month+'-'+day+'-'+year)
 
 const RentItems = () => {
@@ -172,9 +167,7 @@ const RentItems = () => {
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     const rentPeriod = Math.round(Math.abs((chosenDateObj - today) / oneDay));
     const total = rentPeriod * currItem.rate
-    //(total)
     setRentTotal(total)
-    // setSelectedDate(chosenDateObj)
     setSelectedDateString(chosenDateString)
     setConfirmRentDialog(true)
   }
@@ -202,7 +195,6 @@ const RentItems = () => {
   }
 
   const handleRentItem = async () => {
-    //(currItem)
     let rate = currItem.rate
     let seller_name = currItem.seller_username
     let itemName = currItem.name
@@ -222,14 +214,13 @@ const RentItems = () => {
       seller_id
     }
 
-    await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
+    await fetch(`/api/items-and-services/${currItem.id}/rent`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
     })
-    //(new_rent_item)
     updateSoldItems(currItem.id)
     handleCloseAll()
   }
@@ -245,12 +236,26 @@ const RentItems = () => {
     } else {
       return(
         <div className="home-page-rent-items-container">
-          <div className="home-page-rent-items-container__photos-outer-container">
-              {rentItems.map((item, idx) => {
-                let url = item.image_url
-                return (
+          {rentItems.map((item, idx) => {
+            let url = item.image_url
+            let date;
+            if(item.expiry_date){
+              let month = item.expiry_date.slice(5,7)
+              let day = item.expiry_date.slice(8,10)
+              let year = item.expiry_date.slice(0, 4)
+              date = month+'-'+day+'-'+year
+            }
+            dataRowsRent.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category, item.description, item.seller_id, date, item.category))
+            return (
+              <div className="home-page-rent-items-outer-container">
+                <div className="home-page-rent-items-container__photos-outer-container">
                   <div className="home-page-rent-items-container__photos-inner-container" key={idx}>
                     <CardActionArea className={classes.cardActionArea} onClick={() => handleEnlargeImage(url)}>
+                      <div className="home-page-sale-items-container__photos-inner-container__expand-icon-outer-container">
+                        <div className="home-page-sale-items-container__photos-inner-container__expand-icon-inner-container">
+                          <CgArrowsExpandLeft className="expand-icon"/>
+                        </div>
+                      </div>
                       <Card className={classes.paper}>
                         <CardContent className={classes.image}>
                           <img alt="rent-item-homepage" className="item-image-homepage" src={url} />
@@ -258,75 +263,57 @@ const RentItems = () => {
                       </Card>
                     </CardActionArea>
                   </div>
-                )
-              })}
-          </div>
-          <div className="home-page-rent-items-container__item-table-and-description-outer-container">
-            {rentItems.forEach((item, idx) => {
-              let date;
-              if(item.expiry_date){
-                let month = item.expiry_date.slice(5,7)
-                let day = item.expiry_date.slice(8,10)
-                let year = item.expiry_date.slice(0, 4)
-                date = month+'-'+day+'-'+year
-              }
-              dataRowsRent.push(createData(item.name, item.rate, item.rented, item.id, item.seller_name, item.image_url, item.category, item.description, item.seller_id, date))
-            })}
-            {dataRowsRent.map((item, idx) => {
-              return(
-                <div className="home-page-rent-items-container__item-table-and-description-inner-container" key={idx}>
-                  <TableContainer className="home-page-rent-items-container__item-table-and-description-inner-container__table-container">
-                    <Table className="home-page-rent-items-container__item-table-and-description-inner-container__table-container__table" size="small" aria-label="a dense table">
-                      <TableHead className={classes.tableHead}>
-                        <TableRow className={classes.tableHead}>
-                          {/* <TableCell align="right">Item Name</TableCell> */}
-                          <TableCell align="right" className={classes.tableCell}>Seller Name</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Rate per Day</TableCell>
-                          <TableCell align="right" className={classes.tableCell}>Availablity</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        <TableRow key={dataRowsRent[idx].name}>
-                          <TableCell align="right">{dataRowsRent[idx].seller_username}</TableCell>
-                          <TableCell align="right">{dataRowsRent[idx].name}</TableCell>
-                          <TableCell align="right">${dataRowsRent[idx].rate}</TableCell>
-                          <TableCell align="right">{dataRowsRent[idx].rented === true ? `Unavailable Until: ${dataRowsRent[idx].return_date}` : 'Available'}</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  <div className="home-page-rent-items-container__item-table-and-description-inner-container__description-container">
-                    <p>
-                      {dataRowsRent[idx].description}
-                    </p>
+                </div>
+                <div className="home-page-rent-items-container__item-table-and-description-outer-container">
+                  <div className="home-page-rent-items-container__item-table-and-description-inner-container" key={idx}>
+                    <TableContainer className="home-page-rent-items-container__item-table-and-description-inner-container__table-container">
+                      <Table className="home-page-rent-items-container__item-table-and-description-inner-container__table-container__table" size="small" aria-label="a dense table">
+                        <TableHead className={classes.tableHead}>
+                          <TableRow className={classes.tableHead}>
+                            {/* <TableCell align="right">Item Name</TableCell> */}
+                            <TableCell align="right" className={classes.tableCell}>Seller Name</TableCell>
+                            <TableCell align="right" className={classes.tableCell}>Item Name</TableCell>
+                            <TableCell align="right" className={classes.tableCell}>Rate per Day</TableCell>
+                            <TableCell align="right" className={classes.tableCell}>Availablity</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow key={dataRowsRent[idx].name}>
+                            <TableCell align="right">{dataRowsRent[idx].seller_username}</TableCell>
+                            <TableCell align="right">{dataRowsRent[idx].name}</TableCell>
+                            <TableCell align="right">${dataRowsRent[idx].rate}</TableCell>
+                            <TableCell align="right">{dataRowsRent[idx].rented === true ? `Unavailable Until: ${dataRowsRent[idx].return_date}` : 'Available'}</TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    <div className="home-page-rent-items-container__item-table-and-description-inner-container__description-container">
+                      <p>
+                        {dataRowsRent[idx].description}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              )
-            })}
-          </div>
-          <div className="home-page-rent-items-container__buttons-outer-container">
-            {dataRowsRent.map((item, idx) => {
-              return(
-                <div className="home-page-rent-items-container__buttons-inner-container" key={idx}>
-                  <div className="buy-button">
-                    <Button color="secondary" style={{width: "158.03px"}} size="medium" variant="contained" onClick={() => {handleDialogOpen(dataRowsRent[idx])}}>
-                      Rent
-                    </Button>
-                  </div>
-                  <div className="divider-container">
-                    <div className="bid-purchase-divider"></div>
-                  </div>
-                  <div className="seller-profile-button">
-                    <Button color="secondary" size="medium" variant="contained" onClick={() => {handleClick(dataRowsRent[idx].seller_id)}}>
-                      View Seller Info
-                    </Button>
+                <div className="home-page-rent-items-container__buttons-outer-container">
+                  <div className="home-page-rent-items-container__buttons-inner-container" key={idx}>
+                    <div className="buy-button">
+                      <Button color="secondary" style={{width: "158.03px"}} size="medium" variant="contained" onClick={() => {handleDialogOpen(dataRowsRent[idx])}}>
+                        Rent
+                      </Button>
+                    </div>
+                    <div className="divider-container">
+                      <div className="bid-purchase-divider"></div>
+                    </div>
+                    <div className="seller-profile-button">
+                      <Button color="secondary" size="medium" variant="contained" onClick={() => {handleClick(dataRowsRent[idx].seller_id)}}>
+                        View Seller Info
+                      </Button>
+                    </div>
                   </div>
                 </div>
-
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
 
           <Dialog
           open={dialogOpen}
@@ -335,11 +322,9 @@ const RentItems = () => {
           scroll='body'
           fullWidth={true}
           maxWidth='sm'
-          // className={classes.rentDialog}
           >
             <div className="rent-item-dbox-content-container">
               <div className="date-picker-container">
-                {/* <div className="rent-item-dbox-content-container__inner-container"> */}
                   <h5>Note: If you choose to rent this item, the beginning of the rent period will start today</h5>
                   <h3 className="select-return-date-heading">Please Select a Return Date:</h3>
                   <form className={classes.container} noValidate>
@@ -354,14 +339,12 @@ const RentItems = () => {
                       }}
                     />
                   </form>
-                {/* </div> */}
               </div>
               <div className="rent-item-buttons-container">
                 <div className="rent-item-buttons">
                   <Button
                   variant="contained"
                   color="secondary"
-                  // style={{ color: "white" }}
                   size="small"
                   className={classes.confirmButton}
                   onClick={handleConfirmRentDialog}
@@ -372,7 +355,6 @@ const RentItems = () => {
                   <Button
                   variant="contained"
                   color="secondary"
-                  // style={{ color: "white" }}
                   size="small"
                   className={classes.cancelButton}
                   onClick={handleDialogClose}
@@ -392,7 +374,6 @@ const RentItems = () => {
           scroll='body'
           fullWidth={true}
           maxWidth='xs'
-          // className={classes.rentDialog}
           >
             <DialogTitle id="alert-dialog-title">
               {`Are you sure that you want to rent the selected item, which is to be returned on ${selectedDateString}, for a total of $${rentTotal}?`}

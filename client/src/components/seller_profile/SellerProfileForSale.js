@@ -1,20 +1,22 @@
 import { React } from 'react';
 import { connect } from "react-redux";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import './sellerProfile.css';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {
+  Card,
+  CardContent,
+  Grid,
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  useMediaQuery,
+} from '@material-ui/core'
 import Bid from '../bid_functionality/Bid';
 import { setSellerProfileItemsForSale } from '../../actions/itemsActions';
 import Purchase from '../purchase_functionality/Purchase';
+import './sellerProfile.css';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -22,55 +24,29 @@ const useStyles = makeStyles((theme) => ({
     margin: '0px',
   },
   paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    backgroundColor: 'white',
-    background: 'white',
-    color: theme.palette.secondary.contrastText,
-    height: '300px',
-    width: '300px',
-    marginLeft: '20px',
-    paddingTop: '50px',
-    paddingBottom: '50px',
-    paddingLeft: '20px'
-  },
-  typography: {
-    fontSize: theme.typography.fontSize
+    marginLeft: "20px",
+    display: "flex",
+    justifyContent: "center"
   },
   image: {
     display: "flex",
     justifyContent: "center",
-    alignSelf: 'center',
-    alignItems: "center",
-    padding: '10px',
-    height: '300px',
-    width: '300px',
-    marginBottom: '200px',
-    paddingRight: '50px'
+    height: '280px',
+    width: '200px',
   },
   paper_large_screen: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    backgroundColor: 'white',
-    background: 'white',
-    color: theme.palette.secondary.contrastText,
-    height: '200px',
-    width: '200px',
-    marginLeft: '20px',
-    paddingTop: '50px',
-    paddingBottom: '50px',
-    paddingLeft: '20px'
+    marginLeft: "20px",
+    display: "flex",
+    justifyContent: "center"
   },
   image_large_screen: {
     display: "flex",
     justifyContent: "center",
-    alignSelf: 'center',
-    alignItems: "center",
-    padding: '10px',
-    height: '200px',
-    width: '200px',
-    marginBottom: '200px',
-    paddingRight: '50px'
+    height: '280px',
+    width: '280px',
+  },
+  typography: {
+    fontSize: theme.typography.fontSize
   },
   submitButton: {
     marginTop: "2rem",
@@ -79,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 350,
   },
   tableHead: {
-    backgroundColor: '#ff5e00'
+    backgroundColor: '#ff5e00',
   },
   tableRow: {
     backgroundColor: 'whitesmoke'
@@ -87,8 +63,8 @@ const useStyles = makeStyles((theme) => ({
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
-    width: '400px',
-    height: '94px'
+    width: '475px',
+    height: '140px'
   },
   tableCell: {
     color: theme.palette.secondary.contrastText
@@ -120,7 +96,7 @@ const SellerProfileForSale = (props) => {
                   <Grid item xs={12} md={12} lg={largeScreen ? 6 : 12} className={classes.gridItem} key={idx}>
                     <div className="seller-items-body-container">
                       <div className="seller-page-item-cards">
-                      <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
+                        <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
                         <div className="image-container-seller-profile">
                           <Card className={largeScreen ? classes.paper_large_screen : classes.paper}>
                             <CardContent className={largeScreen ? classes.image_large_screen : classes.image}>
@@ -142,6 +118,7 @@ const SellerProfileForSale = (props) => {
                                 <TableHead className={classes.tableHead}>
                                   <TableRow>
                                     {/* <TableCell align="right">Item Name</TableCell> */}
+                                    <TableCell align="center" className={classes.tableCell}>Category</TableCell>
                                     <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
                                     <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
                                     <TableCell align="center" className={classes.tableCell}>Number of Bidders</TableCell>
@@ -150,6 +127,7 @@ const SellerProfileForSale = (props) => {
                                 </TableHead>
                                 <TableBody>
                                   <TableRow key={tableData[idx].name}>
+                                    <TableCell align="center">{item.category}</TableCell> 
                                     <TableCell align="center">${item.price}</TableCell> 
                                     <TableCell align="center">${item.current_bid ? item.current_bid : 0}</TableCell>
                                     <TableCell align="center">{item.num_bids}</TableCell>
@@ -159,7 +137,7 @@ const SellerProfileForSale = (props) => {
                               </Table>
                             </TableContainer>
                           </div>
-                          <div className="item-description-conatiner">
+                          <div className="seller-profile-sale-item-description-conatiner">
                             {item.description}
                           </div>
                         </div>
