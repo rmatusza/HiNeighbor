@@ -486,6 +486,21 @@
 }
 
 
+/*--------------------------------------------------------------------------------------*/
+
+/* RENT HISTORY - PREVIOUSLY RENTED */
+
+.rate-item-button-container-previously-rented-items{
+  margin-top: 10px;
+  /* margin-left: 30px; */
+  margin-right: 30px
+}
+
+.submit-rating-button-previously-rented-items{
+  margin-top: 10px;
+}
+
+
 /*----------------------------------------------------------------------------------------------------------*/
 
 /* BID HISTORY */

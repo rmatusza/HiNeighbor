@@ -207,7 +207,7 @@ const RentHistory = (props) => {
       itemRating
     }
 
-    await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
+    await fetch(`/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'
@@ -269,6 +269,42 @@ const RentHistory = (props) => {
                         <img alt={item.name} className="item-image" src={url} />
                       </CardContent>
                     </Card>
+                    {currentlyRentingButtonState === true ?
+                      <> </>
+                      :
+                      <div className="rating-buttons-and-slider">
+                        <div className="rate-item-button-container-previously-rented-items">
+                          <Button variant="contained" color="secondary" fullWidth={true} onClick={() => enableRating(item.id, idx)}>Rate item</Button>
+                          {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? 
+                          <></> 
+                          : 
+                          <div className="submit-rating-button-previously-rented-items">
+                            <Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx)}>
+                              Submit Rating
+                            </Button></div>}
+                        </div>
+                        {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
+                        <></>
+                        :
+                        <div className="slider">
+                        <Typography id="discrete-slider-small-steps" gutterBottom>
+                          Rating:
+                        </Typography>
+                          <Slider
+                            defaultValue={props.postedItems.rent_reviews[idx].rating}
+                            // getAriaValueText={valuetext}
+                            aria-labelledby="discrete-slider-small-steps"
+                            step={1}
+                            marks={marks}
+                            min={1}
+                            max={5}
+                            valueLabelDisplay="auto"
+                            color="secondary"
+                            onChange={updateItemRating}
+                          />
+                        </div>}
+                      </div>
+                    }
                   </div>
                 </div>
                 <div className="body-container-rent-history__table-container">
@@ -304,36 +340,7 @@ const RentHistory = (props) => {
                           {dataRows[idx].description}
                         </p>
                       </div>  
-                      {currentlyRentingButtonState === true ?
-                      <> </>
-                      :
-                      <div className="rating-buttons-and-slider">
-                        <div className="rate-and-submit-buttons">
-                          <Button variant="contained" color="secondary" onClick={() => enableRating(item.id, idx)}>Rate item</Button>
-                          {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? <></> : <div  className="submit-rating-button"><Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx)}>Submit Rating</Button></div>}
-                        </div>
-                        {ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
-                        <></>
-                        :
-                        <div className="slider">
-                        <Typography id="discrete-slider-small-steps" gutterBottom>
-                          Rating:
-                        </Typography>
-                          <Slider
-                            defaultValue={props.postedItems.rent_reviews[idx].rating}
-                            // getAriaValueText={valuetext}
-                            aria-labelledby="discrete-slider-small-steps"
-                            step={1}
-                            marks={marks}
-                            min={1}
-                            max={5}
-                            valueLabelDisplay="auto"
-                            color="secondary"
-                            onChange={updateItemRating}
-                          />
-                        </div>}
-                      </div>
-                    }
+                     
                   </div>
                 </div>
               </div>

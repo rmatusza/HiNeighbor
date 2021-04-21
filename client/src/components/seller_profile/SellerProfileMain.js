@@ -6,12 +6,12 @@ import SellerProfileForRent from './SellerProfileForRent';
 import { useParams } from 'react-router';
 import { setSellerProfileItemsForSale } from '../../actions/itemsActions';
 
-function createData(id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining) {
-  return { id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining };
+function createData(id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining, category) {
+  return { id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining, category };
 }
 
-function createRentData(name, rate, rented, expiry_date) {
-  return { name, rate, rented, expiry_date };
+function createRentData(name, rate, rented, expiry_date, category) {
+  return { name, rate, rented, expiry_date, category };
 }
 
 
@@ -50,7 +50,7 @@ const SellerProfileMain = () => {
     (async() => {
       let rows = []
       let rentRows = []
-      const res = await fetch(`http://localhost:5000/api/users/${id}/get-seller-info`, {
+      const res = await fetch(`/api/users/${id}/get-seller-info`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -68,9 +68,9 @@ const SellerProfileMain = () => {
           const oneDay = 24 * 60 * 60 * 1000;
           const days_remaining = Math.round(Math.abs((today - d1) / oneDay));
           if(item.current_bid === null) {
-            rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, 0, item.num_bids, days_remaining))
+            rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, 0, item.num_bids, days_remaining, item.category))
           } else {
-            rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, item.current_bid, item.num_bids, days_remaining))
+            rows.push(createData(item.id, item.current_bid, item.image_url, item.description, item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.category))
           }
         } else {
           let date;
@@ -80,7 +80,7 @@ const SellerProfileMain = () => {
             let year = item.expiry_date.slice(0, 4)
             date = month+'-'+day+'-'+year
           }
-          rentRows.push(createRentData(item.name, item.rate, item.rented, date))
+          rentRows.push(createRentData(item.name, item.rate, item.rented, date, item.category))
         }
       })
       setBidOnItems(set)

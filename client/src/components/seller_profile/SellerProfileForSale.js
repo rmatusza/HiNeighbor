@@ -12,7 +12,6 @@ import {
   TableHead,
   TableRow,
   useMediaQuery,
-  CardMedia
 } from '@material-ui/core'
 import Bid from '../bid_functionality/Bid';
 import { setSellerProfileItemsForSale } from '../../actions/itemsActions';
@@ -29,9 +28,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center"
   },
-  typography: {
-    fontSize: theme.typography.fontSize
-  },
   image: {
     display: "flex",
     justifyContent: "center",
@@ -47,7 +43,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     height: '280px',
-    width: '200px',
+    width: '280px',
+  },
+  typography: {
+    fontSize: theme.typography.fontSize
   },
   submitButton: {
     marginTop: "2rem",
@@ -56,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 350,
   },
   tableHead: {
-    backgroundColor: '#ff5e00'
+    backgroundColor: '#ff5e00',
   },
   tableRow: {
     backgroundColor: 'whitesmoke'
@@ -64,8 +63,8 @@ const useStyles = makeStyles((theme) => ({
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
-    width: '400px',
-    height: '94px'
+    width: '475px',
+    height: '140px'
   },
   tableCell: {
     color: theme.palette.secondary.contrastText
@@ -97,7 +96,7 @@ const SellerProfileForSale = (props) => {
                   <Grid item xs={12} md={12} lg={largeScreen ? 6 : 12} className={classes.gridItem} key={idx}>
                     <div className="seller-items-body-container">
                       <div className="seller-page-item-cards">
-                      <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
+                        <div className="item-name-seller-profile"><h2 className="item-text">{item.name}</h2></div>
                         <div className="image-container-seller-profile">
                           <Card className={largeScreen ? classes.paper_large_screen : classes.paper}>
                             <CardContent className={largeScreen ? classes.image_large_screen : classes.image}>
@@ -119,6 +118,7 @@ const SellerProfileForSale = (props) => {
                                 <TableHead className={classes.tableHead}>
                                   <TableRow>
                                     {/* <TableCell align="right">Item Name</TableCell> */}
+                                    <TableCell align="center" className={classes.tableCell}>Category</TableCell>
                                     <TableCell align="center" className={classes.tableCell}>Full Sale Price</TableCell>
                                     <TableCell align="center" className={classes.tableCell}>Current Bid</TableCell>
                                     <TableCell align="center" className={classes.tableCell}>Number of Bidders</TableCell>
@@ -127,6 +127,7 @@ const SellerProfileForSale = (props) => {
                                 </TableHead>
                                 <TableBody>
                                   <TableRow key={tableData[idx].name}>
+                                    <TableCell align="center">{item.category}</TableCell> 
                                     <TableCell align="center">${item.price}</TableCell> 
                                     <TableCell align="center">${item.current_bid ? item.current_bid : 0}</TableCell>
                                     <TableCell align="center">{item.num_bids}</TableCell>
@@ -136,7 +137,7 @@ const SellerProfileForSale = (props) => {
                               </Table>
                             </TableContainer>
                           </div>
-                          <div className="item-description-conatiner">
+                          <div className="seller-profile-sale-item-description-conatiner">
                             {item.description}
                           </div>
                         </div>

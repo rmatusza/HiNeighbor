@@ -393,12 +393,15 @@
 }
 
 
+/*-----------------------------------------------------------------------------------------------------------------------------------*/
 
 /*ITEMS FOR RENT HOMEPAGE*/
 
 
-.home-page-rent-items-container{
-  display: flex
+.home-page-rent-items-outer-container{
+  display: flex;
+  margin-left: 20px;
+  margin-top: 20px;
 }
 
 /* .home-page-rent-items-container__photos-inner-container{

@@ -49,30 +49,33 @@
   display: flex;
   padding-bottom: 20px;
   padding-top: 20px;
-  /* margin-right: 20px; */
 }
 
 .divider{
-  /* border-bottom: 40px solid white; */
   height: 40px;
   width: 100%;
   background-image: url("../../static/memphis-mini.png");
-  /* margin-left: 270px;
-  margin-top: 50px; */
-  /* padding-right: 30px; */
-  /* justify-self: flex-end; */
 }
 
-.item-description-conatiner{
+.seller-profile-sale-item-description-conatiner{
+  margin-top: 20px;
+  height: 200px;
+  width: 480px;
+  padding: 5px;
+  background-color: white;
+  margin-bottom: 20px;
+  border-top: 2px solid black;
+  overflow: auto;
+}
+
+.seller-profile-rent-item-description-conatiner{
   margin-top: 20px;
   height: 200px;
   width: 400px;
   padding: 5px;
   background-color: white;
   margin-bottom: 20px;
-  /* border-radius: 10px; */
   border-top: 2px solid black;
-  /* border-bottom: 2px solid black; */
   overflow: auto;
 }
 
@@ -177,13 +180,9 @@
 .bid-buy-buttons-container-seller-profile{
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: 250px;
   margin-top: 20px;
-  margin-left: 55px;
-}
-
-.rent-button-seller-profile{
-  margin-left: 20px;
+  margin-left: 70px;
 }
 
 .seller-info-rent-item-container{
@@ -200,10 +199,11 @@
   margin-top: 100px;
 }
 
-.rent-button-seller-profile{
-  margin-left: 90px;
+.rent-button-container-for-rent-seller-profile{
+  display: flex;
+  justify-content: center;
+  width: 300px;
   margin-top: 20px;
-
 }
 
 /*=============================================================================================================================*/
@@ -227,16 +227,12 @@
     justify-content: center;
     align-items: center;
     padding-right: 20px;
-    width: 210px;
+    width: 280px;
     height: 140px;
     margin-left: 20px;
   }
   .seller-items-body-container{
     width: 900px;
-  }
-  .rent-button-seller-profile{
-    margin-left: 40px;
-    margin-top: 20px;
   }
 }
 
@@ -245,8 +241,10 @@
     width: 1000px;
     margin-left: 100px;
   }
-  .rent-button-seller-profile{
-    margin-left: 90px;
+  .rent-button-container-for-rent-seller-profile{
+    display: flex;
+    width: 250px;
     margin-top: 20px;
+    justify-content: center;
   }
 }

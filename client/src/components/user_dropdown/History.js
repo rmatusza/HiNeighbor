@@ -54,12 +54,12 @@ const History = () => {
 
   useEffect(() => {
     (async() => {
-      const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-purchase-history`)
+      const res = await fetch(`/api/users/${currUserId}/get-purchase-history`)
       const postedItems = await res.json()
       //('PURCHASED ITEMS:', postedItems)
       // //(postedItems)
       setPurchasedItems({'purchased_items': postedItems.purchased_items, 'users': postedItems.users, 'reviews': postedItems.reviews})
-      const getRentHistory = await fetch(`http://localhost:5000/api/users/${currUserId}/get-rent-history`)
+      const getRentHistory = await fetch(`/api/users/${currUserId}/get-rent-history`)
       const returnedItems = await getRentHistory.json()
       //('RENTED ITEMS:', returnedItems)
       setRentedItems({'rented_items': returnedItems.rent_items, 'rent_reviews': returnedItems.reviews, 'returned_rented_items': returnedItems.returned_rented_items})
