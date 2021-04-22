@@ -1,12 +1,17 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import { useState } from 'react';
+import UpdateSaleItem from './UpdateSaleItem';
+import {
+  Card,
+  CardContent,
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@material-ui/core';
+import { AiOutlineEdit } from "react-icons/ai";
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -54,10 +59,10 @@ function createData(name, price, bid, num_bidders, days_remaining, description, 
 }
 
 const PostedSaleItems = (props) => {
+  console.log(props)
+  const [itemToEditData, setItemToEditData] = useState({'clicked': false, 'data:': {}})
   const classes = useStyles()
-
   let rows = []
-
   props.postedItems.items_for_sale.forEach((item, idx) => {
     const d1 = new Date(item.expiry_date)
     const today = new Date()
@@ -70,6 +75,12 @@ const PostedSaleItems = (props) => {
       rows.push(createData(item.name, item.price, item.current_bid, item.num_bids, days_remaining, item.description, item.category))
     }
   })
+
+  const handleSetItemToEditData = (data) =>{
+    setItemToEditData({'clicked': true, 'data': data, 'rerender_parent': () => setItemToEditData({'clicked': false, 'data:': {}})})
+	}
+
+  console.log('EDIT ACTIVE:', itemToEditData.clicked)
 
   return(
     <>
@@ -136,6 +147,12 @@ const PostedSaleItems = (props) => {
                     </div>
                   </div>
                 </div>
+                {/* <div className="edit-icon-outer-container">
+                  <div className="edit-icon-inner-container" onClick={() => handleSetItemToEditData(item)}>
+                    <AiOutlineEdit className="edit-icon-posted-sale-items"/>
+                  </div>
+                </div>
+               <UpdateSaleItem itemData={itemToEditData}/>  */}
               </div>
             )
           })}

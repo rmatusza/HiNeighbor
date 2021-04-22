@@ -79,7 +79,6 @@ const PostedItems = () => {
   const [saleItems, setSaleItems] = useState({'items_for_sale': []})
   const [rentItems, setRentItems] = useState({'items_for_rent': []})
   const classes = useStyles()
-
   const handleClick = (e) => {
     if(e.target.name === 'for-sale') {
       if(forSaleButtonState === false) {
@@ -102,7 +101,7 @@ const PostedItems = () => {
 
   useEffect(() => {
     (async() => {
-      const res = await fetch(`/api/users/${currUserId}/get-posted-items`)
+      const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-posted-items`)
       const postedItems = await res.json()
       if(postedItems.length === 0) {
         return

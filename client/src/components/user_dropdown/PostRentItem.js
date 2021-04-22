@@ -143,7 +143,7 @@ const PostRentItem = (props) => {
       generatedImageURL,
     }
 
-    const res = await fetch('/api/items-and-services/post-item-for-rent', {
+    const res = await fetch('http://localhost:5000/api/items-and-services/post-item-for-rent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -169,7 +169,7 @@ const PostRentItem = (props) => {
     const fd = new FormData();
     fd.append('file', imageFile)
     try {
-      const res = await fetch('/api/items-and-services/upload-photo', {
+      const res = await fetch('http://localhost:5000/api/items-and-services/upload-photo', {
         method: 'POST',
         body: fd
       })

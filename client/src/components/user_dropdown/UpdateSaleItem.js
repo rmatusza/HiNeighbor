@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { setPostItemFormStatus } from '../../actions/itemsActions';
 import {
@@ -19,49 +19,49 @@ import {
 } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
-  itemFormModal: {
-    width: '400px',
-    margin: 'auto',
-    marginTop: '14vh',
-    backgroundColor: "whitesmoke",
-    boxShadow: theme.shadows[5],
-    paddingLeft: "5rem",
-    paddingRight: "5rem",
-    paddingTop: "2rem",
-    paddingBottom: "3rem",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    border: "2px solid white",
-  },
+    itemFormModal: {
+      width: '400px',
+      margin: 'auto',
+      marginTop: '14vh',
+      backgroundColor: "whitesmoke",
+      boxShadow: theme.shadows[5],
+      paddingLeft: "5rem",
+      paddingRight: "5rem",
+      paddingTop: "2rem",
+      paddingBottom: "3rem",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      border: "2px solid white",
+    },
+  
+    submitButton: {
+      marginTop: "2rem",
+    },
+  
+    dialogBox: {
+      width: '200px',
+      heigth: '200px'
+    },
+  
+    offerType: {
+      margin: '10px',
+      width: '100%'
+    },
+  
+    formControl: {
+      width: '181px',
+      marginTop: '10px',
+      marginBottom: '10px'
+    },
+  
+    buttons: {
+      width: '160px'
+    },
+  }));
 
-  submitButton: {
-    marginTop: "2rem",
-  },
-
-  dialogBox: {
-    width: '200px',
-    heigth: '200px'
-  },
-
-  offerType: {
-    margin: '10px',
-    width: '100%'
-  },
-
-  formControl: {
-    width: '181px',
-    marginTop: '10px',
-    marginBottom: '10px'
-  },
-
-  buttons: {
-    width: '160px'
-  },
-}));
-
-const PostItem = (props) => {
+const UpdateSaleItem = (props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [confirmPostDialogBox, setConfirmPostDialogBox] = useState(false);
   const [itemName, setItemName] = useState("");
@@ -75,10 +75,15 @@ const PostItem = (props) => {
   const classes = useStyles()
   const dispatch = useDispatch();
   const [popupVisible, setPopupVisible] = useState(false)
-  const[modalOpen, setModalOpen] = useState(true)
+  const[modalOpen, setModalOpen] = useState(false)
   const [formErrors, setFormErrors] = useState([]);
   let generatedImageURL;
- 
+
+	useEffect(() => {
+		console.log(props)
+    setModalOpen(props.itemData.clicked)
+  }, [props.itemData.clicked])
+
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
@@ -91,30 +96,35 @@ const PostItem = (props) => {
     setItemCategory(e.target.value)
     handleCloseCategory()
   }
+	console.log('PROPS:', props)
+	console.log('MODAL OPEN:', modalOpen)
+	const handleInputChange = (e) => {
+		if (e.target.id === "name-input") {
+			setItemName(e.target.value);
+		} else if (e.target.id === "description-input") {
+			setItemDescription(e.target.value);
+		} else if(e.target.id === "sell-price-input") {
+			setItemPrice(e.target.value)
+		} else if(e.target.id === "quantitiy-input") {
+		}
+	};
 
-  const handleInputChange = (e) => {
-    if (e.target.id === "name-input") {
-      setItemName(e.target.value);
-    } else if (e.target.id === "description-input") {
-      setItemDescription(e.target.value);
-    } else if(e.target.id === "sell-price-input") {
-      setItemPrice(e.target.value)
-    } else if(e.target.id === "quantitiy-input") {
-    }
-  };
-
-  const handleCloseModal = (buttonName) => {
-    setModalOpen(false)
-    if(buttonName === 'close-button') {
-      dispatch(setPostItemFormStatus(false))
-      return
-    }
-    setPopupVisible(true)
-    setTimeout(() => {
-      setPopupVisible(false)
-      dispatch(setPostItemFormStatus(false))
-    }, 2500)
-  }
+	const handleCloseModal = (buttonName) => {
+		console.log(props)
+		// props.itemData.clicked = false
+		// setModalOpen(false)
+		props.itemData.rerender_parent()
+		console.log(props)
+		// if(buttonName === 'close-button') {
+		// 	dispatch(setPostItemFormStatus(false))
+		// 	return
+		// }
+		// setPopupVisible(true)
+		// setTimeout(() => {
+		// setPopupVisible(false)
+		// dispatch(setPostItemFormStatus(false))
+		// }, 2500)
+	}
 
   const openConfirmPostDialogBox = () => {
     setConfirmPostDialogBox(true)
@@ -124,41 +134,41 @@ const PostItem = (props) => {
     setConfirmPostDialogBox(false)
   }
 
-  const postItem = async() => {
-    const expiryDate = new Date()
-    expiryDate.setDate(expiryDate.getDate() + 30);
+	const postItem = async() => {
+		const expiryDate = new Date()
+		expiryDate.setDate(expiryDate.getDate() + 30);
 
-    const body = {
-      userId,
-      username,
-      itemName,
-      itemDescription,
-      itemCategory,
-      itemPrice,
-      generatedImageURL,
-      expiryDate
-    }
+		const body = {
+			userId,
+			username,
+			itemName,
+			itemDescription,
+			itemCategory,
+			itemPrice,
+			generatedImageURL,
+			expiryDate
+		}
 
 
-      const res = await fetch('http://localhost:5000/api/items-and-services/post-item', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
+		const res = await fetch('http://localhost:5000/api/items-and-services/post-item', {
+			method: 'POST',
+			headers: {
+			'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(body)
+		})
 
-    const response = await res.json()
-    let errors = []
-    if(response.errors) {
-      response.errors.forEach(error => {
-        errors.push(error.msg)
-      })
-      setFormErrors(errors)
-      setDialogOpen(true)
-      return
-    }
-    handleCloseModal()
+		const response = await res.json()
+		let errors = [] 
+		if(response.errors) {
+			response.errors.forEach(error => {
+			errors.push(error.msg)
+			})
+			setFormErrors(errors)
+			setDialogOpen(true)
+			return
+		}
+		handleCloseModal()
   }
 
   const uploadPhoto = async () => {
@@ -224,7 +234,6 @@ const PostItem = (props) => {
       <div className="post-sale-item-description-input-container">
         <InputLabel htmlFor="description-input" style={{color: "black"}}>Description</InputLabel>
         <FormControl>
-          {/* <Input id="description-input" onChange={handleInputChange} onClick={openDescriptionDialogBox} style={{color: "black"}}/> */}
           <TextareaAutosize id="description-input" onChange={handleInputChange} rowsMax={4}/>
         </FormControl>
       </div>
@@ -294,12 +303,7 @@ const PostItem = (props) => {
       {/* Form for posting the item */}
 
       <Modal
-      open={(() => {
-        if(form_state === false || form_state === 'undefined' || modalOpen === false) {
-          return false
-        }
-        return true
-      })()}
+      open={modalOpen}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
       >
@@ -356,4 +360,4 @@ const PostItem = (props) => {
   )
 }
 
-export default PostItem;
+export default UpdateSaleItem;
