@@ -10,8 +10,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Dialog,
+  DialogTitle,
+  Button
 } from '@material-ui/core';
 import { AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -59,9 +63,49 @@ function createData(name, price, bid, num_bidders, days_remaining, description, 
 }
 
 const PostedSaleItems = (props) => {
-  console.log(props)
-  const [itemToEditData, setItemToEditData] = useState({'clicked': false, 'data:': {}})
-  const classes = useStyles()
+  const [itemToEditData, setItemToEditData] = useState({'clicked': false, 'data:': {}});
+  const [confirmDeleteDialogBox, setConfirmDeleteDialogBox] = useState(false);
+  const [errorDialogBox, setErrorDialogBox] = useState(false);
+  const [seedDataErrorDialogBox, setSeedDataErrorDialogBox] = useState(false);
+  const [selectedItemToDelete, setSelectedItemToDelete] = useState({})
+  const [selectedItemToDeleteIdx, setSelectedItemToDeleteIdx] = useState(null)
+  const [selectedItemToUpdate, setSelectedItemToUpdate] = useState({})
+  const classes = useStyles();
+
+  const closeErrorDialogBox = () => {
+    setErrorDialogBox(false)
+  }
+
+  const openErrorDialogBox = () => {
+    setErrorDialogBox(true)
+  }
+
+  const closeSeedDataErrorDialogBox = () => {
+    setSeedDataErrorDialogBox(false)
+  }
+
+  const openSeedDataErrorDialogBox = () => {
+    setSeedDataErrorDialogBox(true)
+  }
+
+  const closeConfirmDeleteDialogBox = () => {
+    setConfirmDeleteDialogBox(false);
+  };
+
+  const openConfirmDeleteDialogBox = (item, idx) => {
+    if(item.image_key === null){
+      openSeedDataErrorDialogBox()
+    } else if(item.num_bids !== 0){
+      openErrorDialogBox()
+    } else {
+      setSelectedItemToDelete(item)
+      setSelectedItemToDeleteIdx(idx)
+      setConfirmDeleteDialogBox(true)
+    }
+  }
+
+  
+
   let rows = []
   props.postedItems.items_for_sale.forEach((item, idx) => {
     const d1 = new Date(item.expiry_date)
@@ -76,11 +120,35 @@ const PostedSaleItems = (props) => {
     }
   })
 
-  const handleSetItemToEditData = (data) =>{
-    setItemToEditData({'clicked': true, 'data': data, 'rerender_parent': () => setItemToEditData({'clicked': false, 'data:': {}})})
+  const handleSetItemToEditData =(data, idx) => {
+    let itemToUpdateObj = {...selectedItemToUpdate}
+    itemToUpdateObj[idx] = true
+    setSelectedItemToUpdate(itemToUpdateObj)
+    setItemToEditData({'clicked': true, 'data': data, 'rerender_parent': () => {setItemToEditData({'clicked': false, 'data:': {}}); setSelectedItemToUpdate({})}})
 	}
 
-  console.log('EDIT ACTIVE:', itemToEditData.clicked)
+  const deleteItem = async() => {
+    let image_key = selectedItemToDelete.image_key
+    const res = await fetch(`http://localhost:5000/api/items-and-services/delete-posted-sale-item/${selectedItemToDelete.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({image_key})
+    })
+
+    const response = await res.json()
+    if(response.errors) {
+      alert('There was an unexpected error')
+      return
+    } else if(response.error){
+      closeConfirmDeleteDialogBox()
+      alert(`${response.status ? response.status : 'Error'}: ${response.error.message ? response.error.message: response.error.name}`)
+    } else {
+      props.postedItems.items_for_sale.splice(selectedItemToDeleteIdx, 1)
+      closeConfirmDeleteDialogBox()
+    }
+  }
 
   return(
     <>
@@ -147,16 +215,88 @@ const PostedSaleItems = (props) => {
                     </div>
                   </div>
                 </div>
-                {/* <div className="edit-icon-outer-container">
-                  <div className="edit-icon-inner-container" onClick={() => handleSetItemToEditData(item)}>
-                    <AiOutlineEdit className="edit-icon-posted-sale-items"/>
+                <div className="edit-and-delete-button-container__posted-sale-items">
+                  <div className="edit-icon-outer-container">
+                    <div className="edit-icon-inner-container" onClick={() => handleSetItemToEditData(item, idx)}>
+                      <AiOutlineEdit className="edit-icon-posted-sale-items"/>
+                    </div>
+                  </div>
+                  <div className="delete-icon-outer-container">
+                    <div className="delete-icon-inner-container" onClick={() => openConfirmDeleteDialogBox(item, idx)}>
+                      <AiOutlineDelete className="delete-icon-posted-sale-items"/>
+                    </div>
                   </div>
                 </div>
-               <UpdateSaleItem itemData={itemToEditData}/>  */}
+                {selectedItemToUpdate[idx] ? <UpdateSaleItem itemData={itemToEditData}/> : <></>}
               </div>
             )
           })}
         </div>
+
+         {/* DIALOG BOX ASKING USER TO CONFIRM THAT THEY WANT TO DELETE THE ITEM */}
+
+         <Dialog
+          open={confirmDeleteDialogBox}
+          onClose={closeConfirmDeleteDialogBox}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Are you sure that you want to delete this item?"}
+          </DialogTitle>
+          <div className="confirmation-buttons-post-sale-item">
+            <div className="cancel-button__post-item">
+              <Button onClick={closeConfirmDeleteDialogBox} className={classes.buttons} color="secondary" variant="contained">
+                Cancel
+              </Button>
+            </div>
+            <div className="confirm-button__post-item">
+              <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={deleteItem}>
+                Confirm
+              </Button>
+            </div>
+          </div>
+        </Dialog>
+
+        {/* DIALOG BOX FOR WHEN USER TRIES TO DELETE AN ITEM THAT ALREADY HAS BIDS */}
+
+        <Dialog
+          open={errorDialogBox}
+          onClose={closeErrorDialogBox}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"This item cannot be deleted because it already has one or more bidders"}
+          </DialogTitle>
+          <div className="confirmation-buttons-post-sale-item">
+            <div className="confirm-button__post-item">
+              <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={closeErrorDialogBox}>
+                Close
+              </Button>
+            </div>
+          </div>
+        </Dialog>
+
+        {/* DIALOG BOX FOR WHEN USER TRIES TO DELETE ONE OF THE SEED DATA ITEMS */}
+
+        <Dialog
+          open={seedDataErrorDialogBox}
+          onClose={closeSeedDataErrorDialogBox}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"This item cannot be deleted because it is part of the seed data"}
+          </DialogTitle>
+          <div className="confirmation-buttons-post-sale-item">
+            <div className="confirm-button__post-item">
+              <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={closeSeedDataErrorDialogBox}>
+                Close
+              </Button>
+            </div>
+          </div>
+        </Dialog>
       </>
       }
     </>

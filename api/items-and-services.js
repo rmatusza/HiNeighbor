@@ -73,7 +73,6 @@ const postItemValidations = [
 
 router.post('/search', asyncHandler(async(req, res) => {
   let {price_range, distance, offer_type, category, user_search, user_id} = req.body
-  console.log('REQ BODY:', req.body)
   if(!price_range){
     price_range = [0, 1000000000]
   }
@@ -110,7 +109,6 @@ router.post('/search', asyncHandler(async(req, res) => {
       },
     })
 
-    console.log('ITEMS:', items)
 
     const expiredWithBidder = []
     const expiredWithoutBidder = []
@@ -254,7 +252,8 @@ router.post('/upload-photo', upload.any(), fileFilter, asyncHandler(async (req, 
   const promise = s3.upload(params).promise()
   const uploadedImage = await promise
   const imageURL = uploadedImage.Location
-  res.json({'imageURL': imageURL})
+  const imageKey = uploadedImage.Key
+  res.json({'imageURL': imageURL, 'image_key': imageKey})
 }))
 
 router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
@@ -273,6 +272,7 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
     itemDescription,
     itemCategory,
     itemPrice,
+    generatedImageKey,
     generatedImageURL,
     expiryDate
   } = req.body
@@ -294,6 +294,7 @@ router.post('/post-item', postItemValidations, asyncHandler(async(req,res) => {
     for_rent: false,
     for_sale: true,
     image_url: generatedImageURL,
+    image_key: generatedImageKey,
     expiry_date: expiryDate,
     expired: false
   })
@@ -487,7 +488,7 @@ router.post('/:id/rent', asyncHandler(async(req, res) => {
 }))
 
 router.patch('/:id/rate-item', asyncHandler(async(req,res) => {
-  itemId = req.params.id
+  const itemId = req.params.id
   const { itemRating, currUserId, sellerId } = req.body
 
   const review = await Review.findOne({
@@ -508,6 +509,44 @@ router.patch('/:id/rate-item', asyncHandler(async(req,res) => {
     })
     res.json(review)
   }
+}))
+
+router.patch('/update-posted-sale-item/:id', asyncHandler(async(req, res) => {
+  const itemId = req.params.id
+  const { item_name, item_description, item_category } = req.body
+  let item = await Item.findByPk(itemId)
+  item.update({
+    name: item_name,
+    description: item_description,
+    category: item_category
+  })
+  res.json({'post_successful': true})
+}))
+
+router.delete('/delete-posted-sale-item/:id', asyncHandler(async(req, res) => {
+  const itemId = req.params.id
+  const { image_key } = req.body
+
+  await Review.destroy({
+    where: {
+      item_id: itemId
+    }
+  })
+
+  await Item.destroy({
+    where: {
+      id: itemId
+    }
+  })
+
+  const promise = s3.deleteObject({
+    Bucket: "hi-neighbor-item-photos",
+    Key: image_key
+  }).promise()
+
+  const deletedImage = await promise
+  res.json({'deleted_image': deletedImage})
+
 }))
 
 

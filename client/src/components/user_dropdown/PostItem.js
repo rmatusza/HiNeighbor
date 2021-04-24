@@ -78,6 +78,7 @@ const PostItem = (props) => {
   const[modalOpen, setModalOpen] = useState(true)
   const [formErrors, setFormErrors] = useState([]);
   let generatedImageURL;
+  let generatedImageKey;
  
   const handleDialogClose = () => {
     setDialogOpen(false);
@@ -135,6 +136,7 @@ const PostItem = (props) => {
       itemDescription,
       itemCategory,
       itemPrice,
+      generatedImageKey,
       generatedImageURL,
       expiryDate
     }
@@ -170,8 +172,9 @@ const PostItem = (props) => {
         method: 'POST',
         body: fd
       })
-      const { imageURL } = await res.json()
+      const { imageURL, image_key } = await res.json()
       generatedImageURL = imageURL
+      generatedImageKey = image_key
       postItem()
     } catch(e) {
       alert(e)

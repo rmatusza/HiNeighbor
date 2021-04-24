@@ -123,10 +123,6 @@ const PostRentItem = (props) => {
     }, 2500)
   }
 
-  const openConfirmPostDialogBox = () => {
-    setConfirmPostDialogBox(true)
-  }
-
   const closeConfirmPostDialogBox = () => {
     setConfirmPostDialogBox(false)
   }

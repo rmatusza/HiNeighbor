@@ -45,12 +45,14 @@ if (process.env.NODE_ENV === "production") {
 app.use(function(_req, _res, next) {
   next(createError(404));
 });
+
 app.use(function(err, _req, res, _next) {
   res.status(err.status || 500);
   if (err.status === 401) {
     res.set('WWW-Authenticate', 'Bearer');
   }
   res.json({
+    status: err.status,
     message: err.message,
     error: JSON.parse(JSON.stringify(err)),
   });
