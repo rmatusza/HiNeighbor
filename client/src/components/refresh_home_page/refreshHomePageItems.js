@@ -10,8 +10,7 @@ export const refreshHomePageItems = async (data) => {
 	}
 	body['user_id'] = data.currUserId
 	body['user_search'] = ''
-	console.log('BODY:', body)
-	const res = await fetch('/api/items-and-services/search', {
+	const res = await fetch('http://localhost:5000/api/items-and-services/search', {
 		method: 'POST',
 		headers: {
 			'Content-Type':'application/json'

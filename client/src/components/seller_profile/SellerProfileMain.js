@@ -50,7 +50,7 @@ const SellerProfileMain = () => {
     (async() => {
       let rows = []
       let rentRows = []
-      const res = await fetch(`/api/users/${id}/get-seller-info`, {
+      const res = await fetch(`http://localhost:5000/api/users/${id}/get-seller-info`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

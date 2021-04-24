@@ -53,6 +53,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.TEXT
       },
+      image_key: {
+        allowNull: true,
+        type: Sequelize.TEXT
+      },
       sold: {
         allowNull: false,
         type: Sequelize.BOOLEAN,

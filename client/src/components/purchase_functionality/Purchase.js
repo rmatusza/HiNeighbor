@@ -46,7 +46,7 @@ const Purchase = (props) => {
       currUserId: props.currUserId
     }
 
-    await fetch(`/api/items-and-services/${currItemId}/purchase`, {
+    await fetch(`http://localhost:5000/api/items-and-services/${currItemId}/purchase`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'

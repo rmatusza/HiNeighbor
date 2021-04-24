@@ -55,6 +55,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT
       },
+      image_key: {
+        allowNull: true,
+        type: Sequelize.TEXT
+      },
       category: {
         allowNull: false,
         type: Sequelize.STRING(50)

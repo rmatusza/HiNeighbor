@@ -50,6 +50,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.TEXT
     },
+    image_key: {
+      allowNull: true,
+      type: DataTypes.TEXT
+    },
     sold: {
       allowNull: false,
       type: DataTypes.BOOLEAN,

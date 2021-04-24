@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider';
+import {
+  Card,
+  CardContent,
+  Button,
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  Slider  
+} from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -87,15 +89,12 @@ function createData(name, seller, rate, start_date, return_date, rent_total, des
   return { name, seller, rate, start_date, return_date, rent_total, description, category};
 }
 
-// function valuetext(value) {
-//   return `${value}°C`;
-// }
-
 const RentHistory = (props) => {
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [ratingVisibility, setRatingVisibility] = useState({})
   const [currItem, setCurrItem] = useState(null)
   const [itemRating, setItemRating] = useState(null)
+  const[sliderState, setSliderState] = useState({})
   const [selectedRatingButton, setSelectedRatingButton] = useState(null)
   const [currentlyRentingButtonState, setCurrentlyRentingButtonState] = useState(true)
   const [previouslyRentedButtonState, setPreviouslyRentedButtonState] = useState(false)
@@ -112,7 +111,6 @@ const RentHistory = (props) => {
     itemsType = previouslyRented
   }
 
-  //('RETURNEDDDDD ITEMS:', props.postedItems.returned_rented_items)
   (() => {
     itemsType ? 
     itemsType.forEach((item, i) => {
@@ -127,9 +125,7 @@ const RentHistory = (props) => {
       let returnMonth = returnDate.slice(5,7)
       let returnDay = returnDate.slice(8,10)
       let returnYear = returnDate.slice(0, 4)
-  
-      // startMonth+'-'+startDay+'-'+startYear
-  
+    
       if(item.current_bid === null) {
         dataRows.push(createData(item.item_name, item.seller_name, item.rate, startMonth+'-'+startDay+'-'+startYear, returnMonth+'-'+returnDay+'-'+returnYear, item.rent_total, item.description, item.category))
       } else {
@@ -207,13 +203,16 @@ const RentHistory = (props) => {
       itemRating
     }
 
-    await fetch(`/api/items-and-services/${currItem}/rate-item`, {
+    await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'
       },
       body: JSON.stringify(body)
     })
+    let ratingsCopy = {...sliderState}
+    ratingsCopy[idx] = itemRating
+    setSliderState(ratingsCopy)
     enableRating(itemId, idx)
   }
 
@@ -291,8 +290,7 @@ const RentHistory = (props) => {
                           Rating:
                         </Typography>
                           <Slider
-                            defaultValue={props.postedItems.rent_reviews[idx].rating}
-                            // getAriaValueText={valuetext}
+                            defaultValue={sliderState[idx] ? sliderState[idx] : props.postedItems.rent_reviews[idx].rating}
                             aria-labelledby="discrete-slider-small-steps"
                             step={1}
                             marks={marks}

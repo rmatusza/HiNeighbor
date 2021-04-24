@@ -16,7 +16,6 @@ const TopBar = (props) => {
 
   const redirectToHomePage = async () => {
     const items = await refreshHomePageItems({search_params, currUserId})
-    console.log(items)
     if (items.saleItems.length > 0) {
       dispatch(setItems(items.saleItems))
       dispatch(setRentItems([]))

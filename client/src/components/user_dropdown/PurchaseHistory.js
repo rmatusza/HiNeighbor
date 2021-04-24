@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider';
+import {
+  Card,
+  CardContent,
+  Button,
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  Slider  
+} from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -89,6 +91,7 @@ function createData(name, seller, purchase_price, purchase_date, description, ca
 const PurchaseHistory = (props) => {
   const currUserId = useSelector(store => store.session.currentUser.id)
   const[ratingVisibility, setRatingVisibility] = useState({})
+  const[sliderState, setSliderState] = useState({})
   const[currItem, setCurrItem] = useState(null)
   const[itemRating, setItemRating] = useState(null)
   const [selectedRatingButton, setSelectedRatingButton] = useState(null)
@@ -135,6 +138,7 @@ const PurchaseHistory = (props) => {
     setItemRating(value)
   }
 
+
   const enableRating = (itemId, idx) => {
     let statecpy = {...ratingVisibility}
     let value = ratingVisibility[idx]
@@ -154,7 +158,7 @@ const PurchaseHistory = (props) => {
       sellerId
     }
     try {
-    const res = await fetch(`/api/items-and-services/${currItem}/rate-item`, {
+    const res = await fetch(`http://localhost:5000/api/items-and-services/${currItem}/rate-item`, {
       method: 'PATCH',
       headers: {
         'Content-Type':'application/json'
@@ -168,6 +172,9 @@ const PurchaseHistory = (props) => {
       err.message = status
       throw err
     }
+    let ratingsCopy = {...sliderState}
+    ratingsCopy[idx] = itemRating
+    setSliderState(ratingsCopy)
     enableRating(itemId, idx)
     } catch(e) {
       alert(`Something went wrong. Error status: ${e.message}`)
@@ -188,13 +195,12 @@ const PurchaseHistory = (props) => {
               Your Purchase History:
             </h1>
           </div>
-          
           {props.postedItems.purchased_items.map((item, idx) => {
             let url = item.image_url
             return(
-              <div className="body-container-purchase-history">
+              <div className="body-container-purchase-history"  key={idx}>
                 <div className="body-container-purchase-history__photos-container">
-                  <div className="item-photo-container-purchase-history" key={idx}>
+                  <div className="item-photo-container-purchase-history">
                     <Card className={classes.paper}>
                       <CardContent className={classes.image}>
                         <img alt={item.name} className="item-image-purchase-history" src={url}/>
@@ -205,23 +211,19 @@ const PurchaseHistory = (props) => {
                           <Button variant="contained" color="secondary" fullWidth={true} onClick={() => enableRating(item.id, idx)}>Rate item</Button>
                         </div>
                         {
-                          ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? 
+                        ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ? 
                           <></> 
                           : 
+                          <>
                           <div  className="submit-rating-button">
                             <Button variant="contained" color="secondary" onClick={() => submitRating(item.id, idx, item.seller_id)}>Submit Rating</Button>
                           </div>
-                        }
-                        {
-                          ratingVisibility[idx] === false || ratingVisibility[idx] === undefined ?
-                          <></>
-                          :
                           <div className="slider">
                             <Typography id="discrete-slider-small-steps" gutterBottom>
                               Rating:
                             </Typography>
                             <Slider
-                              defaultValue={props.postedItems.reviews[idx].rating}
+                              defaultValue={sliderState[idx] ? sliderState[idx] : props.postedItems.reviews[idx].rating}
                               aria-labelledby="discrete-slider-small-steps"
                               step={1}
                               marks={marks}
@@ -232,6 +234,7 @@ const PurchaseHistory = (props) => {
                               onChange={updateItemRating}
                             />
                           </div>
+                          </>
                         }
                       </div>
                   </div>
