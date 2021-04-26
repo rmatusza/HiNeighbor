@@ -1,13 +1,22 @@
-import React from 'react';
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import { useState } from 'react';
+import UpdateSaleItem from './UpdateSaleItem';
+import {
+  Card,
+  CardContent,
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Dialog,
+  DialogTitle,
+  Button
+} from '@material-ui/core'
+import { AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineDelete } from "react-icons/ai";
+
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -55,30 +64,68 @@ function createData(name, rate,rented, id, seller_username, image_url, category,
 }
 
 const PostedRentItems = (props) => {
-  //(props.postedItems.items_for_rent)
   const classes = useStyles()
+  const[selectedItemToUpdate, setSelectedItemToUpdate] = useState({})
+  const [itemToEditData, setItemToEditData] = useState({})
+  const [confirmDeleteDialogBox, setConfirmDeleteDialogBox] = useState(false);
+  const [errorDialogBox, setErrorDialogBox] = useState(false);
+  const [selectedItemToDelete, setSelectedItemToDelete] = useState({})
+  const [selectedItemToDeleteIdx, setSelectedItemToDeleteIdx] = useState(null)
+ 
+  const handleSetItemToEditData =(data, idx) => {
+    let itemToUpdateObj = {...selectedItemToUpdate}
+    itemToUpdateObj[idx] = true
+    setSelectedItemToUpdate(itemToUpdateObj)
+    setItemToEditData({'clicked': true, 'data': data, 'rerender_parent': () => {setItemToEditData({'clicked': false, 'data:': {}}); setSelectedItemToUpdate({})}})
+  }
 
-  // const handleClick = (e) => {
-  //   if(e.target.name === 'for-sale') {
-  //     if(forSaleButtonState === false) {
-  //       setForSaleButtonState(true)
-  //       setForRentButtonState(false)
-  //     } else {
-  //       setForSaleButtonState(false)
-  //       setForRentButtonState(true)
 
-  //     }
-  //   } else {
-  //     if(forRentButtonState === false) {
-  //       setForRentButtonState(true)
-  //       setForSaleButtonState(false)
+  const deleteItem = async() => {
+    let image_key = selectedItemToDelete.image_key
+    const res = await fetch(`http://localhost:5000/api/items-and-services/delete-posted-sale-item/${selectedItemToDelete.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({image_key})
+    })
 
-  //     }else {
-  //       setForRentButtonState(false)
-  //       setForSaleButtonState(true)
-  //     }
-  //   }
-  // }
+    const response = await res.json()
+    if(response.errors) {
+      alert('There was an unexpected error')
+      return
+    } else if(response.error){
+      closeConfirmDeleteDialogBox()
+      alert(`${response.status ? response.status : 'Error'}: ${response.error.message ? response.error.message: response.error.name}`)
+    } else {
+      props.postedItems.items_for_rent.splice(selectedItemToDeleteIdx, 1)
+      closeConfirmDeleteDialogBox()
+    }
+  }
+
+  console.log(props)
+
+  const closeErrorDialogBox = () => {
+    setErrorDialogBox(false)
+  }
+
+  const openErrorDialogBox = () => {
+    setErrorDialogBox(true)
+  }
+
+  const closeConfirmDeleteDialogBox = () => {
+    setConfirmDeleteDialogBox(false);
+  };
+
+  const openConfirmDeleteDialogBox = (item, idx) => {
+    if(item.rented === true){
+      openErrorDialogBox()
+    } else {
+      setSelectedItemToDelete(item)
+      setSelectedItemToDeleteIdx(idx)
+      setConfirmDeleteDialogBox(true)
+    }
+  }
 
   let rows = []
 
@@ -126,7 +173,6 @@ const PostedRentItems = (props) => {
                       <Table className={classes.table} size="small" aria-label="a dense table">
                         <TableHead className={classes.tableHead}>
                           <TableRow className={classes.tableHead}>
-                            {/* <TableCell align="right">Item Name</TableCell> */}
                             <TableCell align="center" className={classes.tableCell}>Item Name</TableCell>
                             <TableCell align="center" className={classes.tableCell}>Category</TableCell>
                             <TableCell align="center" className={classes.tableCell}>Rate per Day</TableCell>
@@ -134,7 +180,6 @@ const PostedRentItems = (props) => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-
                           <TableRow key={rows[idx].name}>
                             <TableCell align="center">{rows[idx].name}</TableCell>
                             <TableCell align="center">{rows[idx].category}</TableCell>
@@ -142,7 +187,7 @@ const PostedRentItems = (props) => {
                             <TableCell align="center">{rows[idx].rented === true ? 'Rented' : 'Posted'}</TableCell>
                           </TableRow>
                         </TableBody>
-                        </Table>
+                      </Table>
                     </TableContainer>
                     <div className="posted-rent-items-description-container">
                       <p>
@@ -151,12 +196,66 @@ const PostedRentItems = (props) => {
                     </div>
                   </div>
                 </div>
+                <div className="edit-and-delete-button-container__posted-rent-items">
+                  <div className="edit-button-outer-container__posted-rent-items">
+                    <div className="edit-button-inner-container__posted-rent-items" onClick={() => handleSetItemToEditData(item, idx)}>
+                      <AiOutlineEdit className="edit-icon__posted-rent-items"/>
+                    </div>
+                  </div>
+                  <div className="delete-button-outer-container__posted-rent-items">
+                    <div className="edit-button-inner-container__posted-rent-items" onClick={() => openConfirmDeleteDialogBox(item, idx)}>
+                      <AiOutlineDelete className="delete-icon__posted-rent-items"/>
+                    </div>
+                  </div>
+                </div>
+                {selectedItemToUpdate[idx] ? <UpdateSaleItem itemData={itemToEditData}/> : <></>}
               </div>
             )
           })}
         </div>
       </>
       }
+      <Dialog
+        open={confirmDeleteDialogBox}
+        onClose={closeConfirmDeleteDialogBox}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure that you want to delete this item?"}
+        </DialogTitle>
+        <div className="confirmation-buttons-post-sale-item">
+          <div className="cancel-button__post-item">
+            <Button onClick={closeConfirmDeleteDialogBox} className={classes.buttons} color="secondary" variant="contained">
+              Cancel
+            </Button>
+          </div>
+          <div className="confirm-button__post-item">
+            <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={deleteItem}>
+              Confirm
+            </Button>
+          </div>
+        </div>
+      </Dialog>
+
+
+      <Dialog
+        open={errorDialogBox}
+        onClose={closeErrorDialogBox}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"This item cannot be deleted because it is already being rented. Please wait until the item is returned to delete it"}
+        </DialogTitle>
+        <div className="confirmation-buttons-post-sale-item">
+          <div className="confirm-button__post-item">
+            <Button className={classes.buttons} color="secondary" variant="contained" autoFocus onClick={closeErrorDialogBox}>
+              Close
+            </Button>
+          </div>
+        </div>
+      </Dialog>
     </>
   )
 }

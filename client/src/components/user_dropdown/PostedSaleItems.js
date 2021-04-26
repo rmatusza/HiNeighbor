@@ -104,9 +104,8 @@ const PostedSaleItems = (props) => {
     }
   }
 
-  
-
   let rows = []
+
   props.postedItems.items_for_sale.forEach((item, idx) => {
     const d1 = new Date(item.expiry_date)
     const today = new Date()
