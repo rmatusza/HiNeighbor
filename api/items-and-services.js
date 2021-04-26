@@ -339,6 +339,7 @@ router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(r
     itemPrice,
     rate,
     generatedImageURL,
+    generatedImageKey,
   } = req.body
 
   let maxId = await Item.max('id') + 1
@@ -357,6 +358,7 @@ router.post('/post-item-for-rent', postRentItemValidations, asyncHandler(async(r
     for_rent: true,
     for_sale: false,
     image_url: generatedImageURL,
+    image_key: generatedImageKey,
     rented: false,
     expired: false
   })

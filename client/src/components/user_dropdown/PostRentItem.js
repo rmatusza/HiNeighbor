@@ -78,7 +78,7 @@ const PostRentItem = (props) => {
   const [formErrors, setFormErrors] = useState([]);
 
   let generatedImageURL;
- 
+  let generatedImageKey;
 
   const handleDialogClose = () => {
     setDialogOpen(false);
@@ -137,6 +137,7 @@ const PostRentItem = (props) => {
       itemPrice,
       rate,
       generatedImageURL,
+      generatedImageKey
     }
 
     const res = await fetch('http://localhost:5000/api/items-and-services/post-item-for-rent', {
@@ -169,8 +170,9 @@ const PostRentItem = (props) => {
         method: 'POST',
         body: fd
       })
-      const { imageURL } = await res.json()
+      const { imageURL, image_key } = await res.json()
       generatedImageURL = imageURL
+      generatedImageKey = image_key
       postItem()
     } catch(e) {
       alert(e)
