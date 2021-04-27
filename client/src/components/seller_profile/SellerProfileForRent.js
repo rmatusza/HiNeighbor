@@ -79,15 +79,15 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 350,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   tableRow: {
-    backgroundColor: 'whitesmoke'
+    backgroundColor: 'whitesmoke',
   },
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
-    width: '400px',
+    width: '450px',
     height: '94px'
   },
   tableCell: {
@@ -158,14 +158,17 @@ const SellerProfileForRent = (props) => {
     const month = date.getMonth() + 1
     const year = date.getFullYear()
     const today = new Date(month+'-'+day+'-'+year)
-
+    if(!selectedDate){
+      alert('Please select a return date')
+      return
+    }
     let chosenMonth = selectedDate.slice(5, 7)
     let chosenDay = selectedDate.slice(8)
     let chosenYear = selectedDate.slice(0, 4)
     let chosenDateObj = new Date(chosenMonth + '-' + chosenDay + '-' + chosenYear)
 
     if(chosenDateObj < today) {
-      alert('Please Select a Future Date')
+      alert('Please select a valid date')
       return
     }
 
@@ -237,7 +240,7 @@ const SellerProfileForRent = (props) => {
                           </Button>
                         </div>
                       </div>
-                      <div className="description-table-container">
+                      <div className="description-table-container__seller-profile-for-rent">
                         <div className="table-container">
                           <TableContainer className={classes.tableContainer}>
                             <Table className={classes.table} size="small" aria-label="a dense table">

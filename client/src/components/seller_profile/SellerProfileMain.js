@@ -58,6 +58,7 @@ const SellerProfileMain = () => {
         body: JSON.stringify({currUserId, 'sellerId': id})
       })
       const sellerInfo = await res.json()
+      console.log('SELLER INFO:', sellerInfo)
       let set = new Set()
       sellerInfo.items.forEach((item, idx) => {
         set.add(sellerInfo.items_bid_on[idx])

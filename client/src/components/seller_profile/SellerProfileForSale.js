@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
-    width: '475px',
+    width: '550px',
     height: '140px'
   },
   tableCell: {
@@ -83,7 +83,7 @@ const SellerProfileForSale = (props) => {
   let tableData = props.itemData['table_data'];
   const classes = useStyles();
   const largeScreen = useMediaQuery('(min-width:1870px)');
-
+  console.log(props)
   return(
     <>
       <div className="divider">
@@ -111,7 +111,7 @@ const SellerProfileForSale = (props) => {
                             <Purchase dataRows={props.items} idx={idx} action={props.updateItems} arr={props.arr} currUserId={props.currUserId}/>
                           </div>
                         </div>
-                        <div className="description-table-container">
+                        <div className="description-table-container__seller-profile-for-sale">
                           <div className="table-container">
                             <TableContainer className={classes.tableContainer}>
                               <Table className={classes.table} size="small" aria-label="a dense table">

@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { makeStyles } from "@material-ui/core/styles";
+import { useState } from 'react';
 import { setPostItemRentStatus } from '../../actions/itemsActions';
 import { useDispatch, useSelector } from "react-redux";
 import {
+  Dialog,
+  DialogTitle,
+  makeStyles,
   FormControl,
   InputLabel,
   Input,
   Button,
-  TextareaAutosize
-} from "@material-ui/core";
-import Modal from "@material-ui/core/Modal";
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from "@material-ui/core/Select";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+  TextareaAutosize,
+  Modal,
+  MenuItem,
+  Select,
+  List,
+  ListItem, 
+  ListItemText
+} from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   itemFormModal: {
