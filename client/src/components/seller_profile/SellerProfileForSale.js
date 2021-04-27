@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   tableContainer: {
     paddingBottom: '0px',
     backgroundColor: 'white',
-    width: '475px',
+    width: '550px',
     height: '140px'
   },
   tableCell: {
@@ -80,17 +80,15 @@ let test = []
 
 const SellerProfileForSale = (props) => {
 
-  let tableData = props.itemData['table_data'];
   const classes = useStyles();
   const largeScreen = useMediaQuery('(min-width:1870px)');
-
   return(
     <>
       <div className="divider">
       </div>
-      {tableData.length > 0 ?
+      {props.itemData.length > 0 ?
             <Grid container spacing={3} className={classes.grid} >
-              {tableData.map((item, idx) => {
+              {props.itemData.map((item, idx) => {
                 let url = item.image_url
                 return (
                   <Grid item xs={12} md={12} lg={largeScreen ? 6 : 12} className={classes.gridItem} key={idx}>
@@ -111,7 +109,7 @@ const SellerProfileForSale = (props) => {
                             <Purchase dataRows={props.items} idx={idx} action={props.updateItems} arr={props.arr} currUserId={props.currUserId}/>
                           </div>
                         </div>
-                        <div className="description-table-container">
+                        <div className="description-table-container__seller-profile-for-sale">
                           <div className="table-container">
                             <TableContainer className={classes.tableContainer}>
                               <Table className={classes.table} size="small" aria-label="a dense table">
@@ -126,7 +124,7 @@ const SellerProfileForSale = (props) => {
                                   </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                  <TableRow key={tableData[idx].name}>
+                                  <TableRow>
                                     <TableCell align="center">{item.category}</TableCell> 
                                     <TableCell align="center">${item.price}</TableCell> 
                                     <TableCell align="center">${item.current_bid ? item.current_bid : 0}</TableCell>
@@ -157,7 +155,6 @@ const SellerProfileForSale = (props) => {
 };
 
 const mapStateToProps = state => {
-  console.log(state.entities.seller_profile.saleItems)
   return {
     items: state.entities.seller_profile.saleItems,
     arr: test,

@@ -130,9 +130,11 @@ const RentItems = () => {
       dispatch(setRentItems(currItems))
     })
   }
+
   const handleUpdateDate = (e) => {
     setSelectedDate(e.target.value)
   }
+
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
@@ -152,14 +154,17 @@ const RentItems = () => {
     const month = date.getMonth() + 1
     const year = date.getFullYear()
     const today = new Date(month+'-'+day+'-'+year)
-
+    if(!selectedDate){
+      alert('Please select a return date')
+      return
+    }
     let chosenMonth = selectedDate.slice(5, 7)
     let chosenDay = selectedDate.slice(8)
     let chosenYear = selectedDate.slice(0, 4)
     let chosenDateObj = new Date(chosenMonth + '-' + chosenDay + '-' + chosenYear)
-
+    console.log(chosenDateObj)
     if(chosenDateObj < today) {
-      alert('Please Select a Future Date')
+      alert('Please select a valid date')
       return
     }
 
