@@ -197,6 +197,7 @@ router.post('/:id/get-seller-info', asyncHandler(async(req,res) => {
 
   let itemIds = []
   let itemsSold = 0
+  let userData = {}
 
   items.forEach(async(item, i) => {
     if(item.for_sale === true && new Date(item.expiry_date) < today && item.last_bidder !== null){
@@ -211,7 +212,7 @@ router.post('/:id/get-seller-info', asyncHandler(async(req,res) => {
         expired: true,
       })
     }else if(item.sold === true){
-      console.log('ITEM HAS BEEN SOLD:', item.name)
+      // console.log('ITEM HAS BEEN SOLD:', item.name)
       itemsSold++
       itemIds.push(item.id)
       items.splice(i, 1)
@@ -220,10 +221,9 @@ router.post('/:id/get-seller-info', asyncHandler(async(req,res) => {
 
   const user = await User.findByPk(sellerId)
 
-
-  let reviewData = {}
   let ratings = 0
   let numRatings = 0
+
   const reviews = await Review.findAll({
     where: {
       reviewee_id: sellerId,
@@ -238,16 +238,17 @@ router.post('/:id/get-seller-info', asyncHandler(async(req,res) => {
       numRatings += 1
       ratings += review.rating
     })
-
-    reviewData['num_ratings'] = numRatings
-    reviewData['average'] = ratings/numRatings
+    userData.num_ratings = numRatings
+    userData.average_rating = ratings/numRatings
   } else {
-    reviewData['num_ratings'] = numRatings
-    reviewData['average'] = ratings
+    userData.num_ratings = numRatings
+    userData.average_rating = null
   }
 
+  userData.items_sold = itemsSold
+  userData.username = user.username
 
-  res.json({'items': items, 'user': user, 'reviews': reviewData, 'items_sold': itemsSold})
+  res.json({'items': items, 'user': userData, 'items_sold': itemsSold})
 }))
 
 router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
@@ -407,8 +408,8 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
     const expiryDate = new Date(bidObject.dataValues.Item.expiry_date)
     const lastBidderId = bidObject.dataValues.Item.last_bidder
     const purchaserId = bidObject.dataValues.Item.purchaser_id
-    console.log('PURCHASER ID:', purchaserId)
-    console.log('USER ID:', userId)
+    // console.log('PURCHASER ID:', purchaserId)
+    // console.log('USER ID:', userId)
     const bidData = bidObject.dataValues
     const ItemData = bidObject.dataValues.Item
     const oneDay = 24 * 60 * 60 * 1000
