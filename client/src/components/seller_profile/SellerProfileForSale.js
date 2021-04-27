@@ -80,17 +80,15 @@ let test = []
 
 const SellerProfileForSale = (props) => {
 
-  let tableData = props.itemData['table_data'];
   const classes = useStyles();
   const largeScreen = useMediaQuery('(min-width:1870px)');
-  console.log(props)
   return(
     <>
       <div className="divider">
       </div>
-      {tableData.length > 0 ?
+      {props.itemData.length > 0 ?
             <Grid container spacing={3} className={classes.grid} >
-              {tableData.map((item, idx) => {
+              {props.itemData.map((item, idx) => {
                 let url = item.image_url
                 return (
                   <Grid item xs={12} md={12} lg={largeScreen ? 6 : 12} className={classes.gridItem} key={idx}>
@@ -126,7 +124,7 @@ const SellerProfileForSale = (props) => {
                                   </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                  <TableRow key={tableData[idx].name}>
+                                  <TableRow>
                                     <TableCell align="center">{item.category}</TableCell> 
                                     <TableCell align="center">${item.price}</TableCell> 
                                     <TableCell align="center">${item.current_bid ? item.current_bid : 0}</TableCell>
@@ -157,7 +155,6 @@ const SellerProfileForSale = (props) => {
 };
 
 const mapStateToProps = state => {
-  console.log(state.entities.seller_profile.saleItems)
   return {
     items: state.entities.seller_profile.saleItems,
     arr: test,

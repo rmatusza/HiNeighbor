@@ -114,8 +114,8 @@ const today = new Date(month+'-'+day+'-'+year)
 
 const SellerProfileForRent = (props) => {
   const currUserId = useSelector(store => store.session.currentUser.id);
-  let itemData = props.itemData['user_data']['items_for_rent']
-  let tableData = props.itemData['table_data']
+  let itemData;
+  let tableData;
   const [currItem, setCurrItem] = useState()
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -219,9 +219,9 @@ const SellerProfileForRent = (props) => {
   return(
     <>
       <div className="divider"/>
-      {itemData.length > 0 ?
+      {props.itemData.length > 0 ?
         <Grid container spacing={3} className={classes.grid}>
-          {itemData.map((item, idx) => {
+          {props.itemData.map((item, idx) => {
             let url = item.image_url
             return (
                 <Grid item xs={12} md={12} lg={largeScreen ? 6 : 12} className={classes.gridItem}>
@@ -252,10 +252,10 @@ const SellerProfileForRent = (props) => {
                                 </TableRow>
                               </TableHead>
                               <TableBody>
-                                <TableRow key={tableData[idx].name}>
-                                  <TableCell align="center">{tableData[idx].category}</TableCell>
-                                  <TableCell align="center">${tableData[idx].rate}</TableCell>
-                                  <TableCell align="center">{tableData[idx].rented === true ? `Unavailable Until: ${tableData[idx].expiry_date}` : 'Available'}</TableCell>
+                                <TableRow key={props.itemData[idx].name}>
+                                  <TableCell align="center">{props.itemData[idx].category}</TableCell>
+                                  <TableCell align="center">${props.itemData[idx].rate}</TableCell>
+                                  <TableCell align="center">{props.itemData[idx].rented === true ? `Unavailable Until: ${props.itemData[idx].expiry_date}` : 'Available'}</TableCell>
                                 </TableRow>
                               </TableBody>
                             </Table>

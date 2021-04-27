@@ -182,48 +182,44 @@ router.get('/:id/get-posted-items', asyncHandler(async(req,res) => {
 }))
 
 router.post('/:id/get-seller-info', asyncHandler(async(req,res) => {
-  const { currUserId, sellerId } = req.body
+  const date = new Date()
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+  const today = new Date(month+'-'+day+'-'+year)
+
+  const { sellerId } = req.body
   const items = await Item.findAll({
     where: {
       seller_id: sellerId,
-      sold: false,
-      expired: false
     },
   })
 
   let itemIds = []
-  let itemsBidOn = []
+  let itemsSold = 0
 
-  let itemsForSale = []
-  let itemsForRent = []
-
-  items.forEach(item => {
-    if(item.for_sale === true) {
-      itemsForSale.push(item)
+  items.forEach(async(item, i) => {
+    if(item.for_sale === true && new Date(item.expiry_date) < today && item.last_bidder !== null){
+      await item.update({
+        sold: true,
+        purchaser_id: item.last_bidder
+      })
+      itemsSold++
       itemIds.push(item.id)
-    } else {
-      itemsForRent.push(item)
+    }else if(item.for_sale === true && new Date(item.expiry_date) < today && item.last_bidder === null){
+      await item.update({
+        expired: true,
+      })
+    }else if(item.sold === true){
+      console.log('ITEM HAS BEEN SOLD:', item.name)
+      itemsSold++
+      itemIds.push(item.id)
+      items.splice(i, 1)
     }
   })
-
-  //('ITEM IDS:', itemIds)
-
-  const bids = await Bid.findAll({
-    where: {
-      user_id: currUserId,
-      item_id: itemIds
-    }
-  })
-
-  //('BIDS:', bids)
-
-  bids.forEach(bid => {
-    itemsBidOn.push(bid.id)
-  })
-
-  //('ITEMS BID ON:', itemsBidOn)
 
   const user = await User.findByPk(sellerId)
+
 
   let reviewData = {}
   let ratings = 0
@@ -250,14 +246,8 @@ router.post('/:id/get-seller-info', asyncHandler(async(req,res) => {
     reviewData['average'] = ratings
   }
 
-  const soldItems = await Item.findAndCountAll({
-    where: {
-      seller_id: sellerId,
-      sold: true
-    }
-  })
 
-  res.json({'items': items, 'items_for_sale': itemsForSale, 'items_for_rent': itemsForRent, 'user': user, 'reviews': reviewData, 'sold': soldItems, 'items_bid_on': itemsBidOn})
+  res.json({'items': items, 'user': user, 'reviews': reviewData, 'items_sold': itemsSold})
 }))
 
 router.get('/:id/get-purchase-history', asyncHandler(async(req,res) => {
