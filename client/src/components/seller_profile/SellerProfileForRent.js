@@ -122,12 +122,13 @@ const SellerProfileForRent = (props) => {
   const [rentTotal, setRentTotal] = useState(null)
   const [selectedDateString, setSelectedDateString] = useState(null)
   const [confirmRentDialog, setConfirmRentDialog] = useState(false);
+  const [selectedItemIdx, setSelectedItemIdx] = useState(null)
   const classes = useStyles()
   const largeScreen = useMediaQuery('(min-width:1870px)');
 
   const updateSoldItems = (id) => {
-    tableData[id].expiry_date = selectedDateString
-    tableData[id].rented = true
+   currItem.expiry_date = selectedDateString
+   currItem.rented = true
   }
 
   const handleDialogOpen = (itemData, idx) => {

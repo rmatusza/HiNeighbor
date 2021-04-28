@@ -10,7 +10,9 @@ const userRouter = require('./api/users');
 const itemsAndServicesRouter = require('./api/items-and-services')
 const itemsRouter = require('./api/items')
 const bearerToken = require("express-bearer-token");
+const WebSocket = require('ws');
 const { secret, expiresIn } = require('./config').jwtConfig;
+const { WSASYSCALLFAILURE } = require('constants');
 
 const app = express();
 const corsOptions = {
@@ -27,7 +29,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')));
 
+// const wss = new WebSocket.Server({ port: 8082 })
+// wss.on("connection", ws => {
+//   console.log('CONNECTED TO WEB SOCKET!');
 
+//   ws.on("close", () => {
+//     console.log("DISCONNECTED FROM WEB SOCKET!")
+//   })
+
+//   ws.on('message', data => {
+//     console.log(`MESSAGE RECEIVED: ${data}`)
+
+//     ws.send('test message to client')
+//   })
+// })
 
 app.use("/api/users", userRouter);
 app.use("/api/items-and-services", itemsAndServicesRouter)

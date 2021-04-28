@@ -10,8 +10,8 @@ function createData(id, current_bid, image_url, description, name, price, bid, n
   return { id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining, category };
 }
 
-function createRentData(name, rate, rented, expiry_date, category, image_url, description) {
-  return { name, rate, rented, expiry_date, category, image_url, description };
+function createRentData(name, rate, rented, expiry_date, category, image_url, description, id, seller_id, seller_name) {
+  return { name, rate, rented, expiry_date, category, image_url, description, id, seller_id, seller_name };
 }
 
 
@@ -84,7 +84,7 @@ const SellerProfileMain = () => {
             let year = item.expiry_date.slice(0, 4)
             date = month+'-'+day+'-'+year
           }
-          forRentItemData.push(createRentData(item.name, item.rate, item.rented, date, item.category, item.image_url, item.description))
+          forRentItemData.push(createRentData(item.name, item.rate, item.rented, date, item.category, item.image_url, item.description, item.id, item.seller_id, item.seller_name))
         }
       })
       setForSaleItems(forSaleItemData)
@@ -107,10 +107,10 @@ const SellerProfileMain = () => {
             <h3> Items sold:</h3><h4 className="sell-count">{userData.items_sold}</h4>
           </div>
           <div className="seller-sold-items-count">
-            <h3> Average Rating:</h3><h4 className="average-ratings">{userData.average_rating === null ? 'No Ratings' : `${Number(userData.reviews.average).toFixed(2)} Stars`}</h4>
+            <h3> Average Rating:</h3><h4 className="average-ratings">{userData.average_rating === null ? 'No Ratings' : `${Number(userData.average_rating).toFixed(2)} Stars`}</h4>
           </div>
           <div className="num-seller-ratings">
-            <h3>Ratings:</h3><h4 className="num-ratings">{userData.num_ratings === 0 ? <p> No Ratings</p> : <p>{userData.reviews.num_ratings}</p>}</h4>
+            <h3>Ratings:</h3><h4 className="num-ratings">{userData.num_ratings === 0 ? <p> No Ratings</p> : <p>{userData.num_ratings}</p>}</h4>
           </div>
         </div>
         <div className="current-items-heading-container">

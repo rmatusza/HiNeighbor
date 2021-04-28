@@ -12,7 +12,7 @@ import { useHistory, Redirect } from 'react-router-dom'
 import { setUserCreds } from '../../actions/userCredsAction'
 import { BsInfoSquare } from "react-icons/bs";
 import './login.css';
-
+// export const ws = new WebSocket("ws://localhost:8082")
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -169,7 +169,7 @@ const Login = (props) => {
       props.setAuthenticated(true)
     } 
   }
-
+  
   const redirectToSignUpPage = () => {
     history.replace('/signup')
   }

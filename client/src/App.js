@@ -16,7 +16,6 @@ import BidHistory from './components/user_dropdown/BidHistory';
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const dispatch = useDispatch();
-  
   // AUTHENTICATES THE USER BY CHECKING TO SEE IF THEY HAVE A VALID ACCESS TOKEN
   useEffect(() => {
     (async () => {

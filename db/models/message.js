@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     author_id: {
       allowNull: false,
       type: DataTypes.INTEGER,
-
     },
     content: {
       allowNull: false,
@@ -18,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     conversation_id: {
       type: DataTypes.INTEGER,
-
     },
    
   }, {});
