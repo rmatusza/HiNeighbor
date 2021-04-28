@@ -7,6 +7,7 @@ import NotTopBidderData from './NotTopBidderData';
 import LostAuctionData from './LostAuctionData';
 import { setBidHistory } from '../../actions/itemsActions';
 
+
 const BidHistory = () => {
   const currUserId = useSelector(store => store.session.currentUser.id)
   const [lostAuctionData, setLostAuctionData] = useState([])
@@ -26,6 +27,17 @@ const BidHistory = () => {
     })()
   }, [])
 
+  
+  // const ws = new WebSocket("ws://localhost:8082")
+  // ws.addEventListener("open", () => {
+  //   console.log('We connected!')
+
+  //   ws.send("test")
+  // })
+
+  // ws.addEventListener('message', e => {
+  //   console.log(e)
+  // })
   const toggleButton = (button) => {
     setSelectedView(button)
   }

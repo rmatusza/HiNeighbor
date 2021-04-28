@@ -91,6 +91,11 @@ router.post('/token', signInValidations, asyncHandler(async(req, res) => {
 }))
 
 router.post('/signup', signUpValidations, asyncHandler(async(req, res) => {
+  const valRes = validationResult(req)
+  if (valRes.errors.length > 0) {
+    res.json(valRes)
+    return
+  }
   const {email, password, username, firstName, lastName} = req.body
   let maxId = await User.max('id') + 1
   const userCheck = await User.findAll({

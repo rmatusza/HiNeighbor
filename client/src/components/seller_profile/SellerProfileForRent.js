@@ -206,7 +206,6 @@ const SellerProfileForRent = (props) => {
       seller_id
     }
 
-
     await fetch(`http://localhost:5000/api/items-and-services/${currItem.id}/rent`, {
       method: 'POST',
       headers: {

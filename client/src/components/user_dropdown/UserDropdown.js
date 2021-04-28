@@ -10,7 +10,6 @@ import { setPostItemFormStatus, setPostItemRentStatus } from '../../actions/item
 import { logoutUser } from '../../actions/userCredsAction';
 import { clearSearchParams } from '../../actions/searchCategoryActions';
 
-
 const UserDropdown = (props) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
