@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from "@material-ui/core";
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from 'react-router';
 import SellerProfileForSale from './SellerProfileForSale';
 import SellerProfileForRent from './SellerProfileForRent';
-import { useParams } from 'react-router';
 import { setSellerProfileItemsForSale } from '../../actions/itemsActions';
+import { Button } from "@material-ui/core";
 
 function createData(id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining, category) {
   return { id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining, category };
@@ -16,32 +16,30 @@ function createRentData(name, rate, rented, expiry_date, category, image_url, de
 
 
 const SellerProfileMain = () => {
-  const { id } = useParams()
+  const { id } = useParams();
   const currUserId = useSelector(store => store.session.currentUser.id);
-  const [userData, setUserData] = useState({})
-  const [forSaleItems, setForSaleItems] = useState([])
-  const [forRentItems, setForRentItems] = useState([])
-  const [forSale, setForSale] = useState(true)
-  const [forRent, setForRent] = useState(false)
-  const dispatch = useDispatch()
+  const [userData, setUserData] = useState({});
+  const [forSaleItems, setForSaleItems] = useState([]);
+  const [forRentItems, setForRentItems] = useState([]);
+  const [forSale, setForSale] = useState(true);
+  const [forRent, setForRent] = useState(false);
+  const [messageSeller, setMessageSeller] = useState(false);
+  const dispatch = useDispatch();
 
   const setButtonState = (e) => {
-    if(e.target.name === 'for-sale') {
-      if(forSale === false) {
-        setForSale(true)
-        setForRent(false)
-      } else {
-        setForSale(false)
-        setForRent(true)
+    if(e === 'for-sale') {
+      setForSale(true)
+      setForRent(false)
+    } else if(e === 'message-seller'){
+      if(messageSeller === false){
+        setMessageSeller(true)
+      } else{
+        setMessageSeller(false)
       }
-    } else {
-      if(forRent === false) {
-        setForRent(true)
-        setForSale(false)
-      }else {
-        setForRent(false)
-        setForSale(true)
-      }
+     
+    }else {
+      setForRent(true)
+      setForSale(false)
     }
   }
 
@@ -97,36 +95,41 @@ const SellerProfileMain = () => {
   return (
     <>
       {userData.username ?
-      <div className='seller-info-and-current-items-container'>
-        <h1 className="seller-info-heading">Seller Info:</h1>
-        <div className="seller-info">
-          <div className="seller-username">
-            <h3> Seller: </h3><h4 className="username">{userData.username}</h4>
+      
+        <div className='seller-info-and-current-items-container'>
+          <h1 className="seller-info-heading">Seller Info:</h1>
+          <div className="seller-info">
+            <div className="seller-username">
+              <h3> Seller: </h3><h4 className="username">{userData.username}</h4>
+            </div>
+            <div className="seller-sold-items-count">
+              <h3> Items sold:</h3><h4 className="sell-count">{userData.items_sold}</h4>
+            </div>
+            <div className="seller-sold-items-count">
+              <h3> Average Rating:</h3><h4 className="average-ratings">{userData.average_rating === null ? 'No Ratings' : `${Number(userData.average_rating).toFixed(2)} Stars`}</h4>
+            </div>
+            <div className="num-seller-ratings">
+              <h3>Ratings:</h3><h4 className="num-ratings">{userData.num_ratings === 0 ? <p> No Ratings</p> : <p>{userData.num_ratings}</p>}</h4>
+            </div>
+          </div> 
+          <div className="current-items-heading-container">
+            <h1 className="current-items-heading">
+            {userData.username} is Currently Offering the Following Items:
+            </h1>
           </div>
-          <div className="seller-sold-items-count">
-            <h3> Items sold:</h3><h4 className="sell-count">{userData.items_sold}</h4>
-          </div>
-          <div className="seller-sold-items-count">
-            <h3> Average Rating:</h3><h4 className="average-ratings">{userData.average_rating === null ? 'No Ratings' : `${Number(userData.average_rating).toFixed(2)} Stars`}</h4>
-          </div>
-          <div className="num-seller-ratings">
-            <h3>Ratings:</h3><h4 className="num-ratings">{userData.num_ratings === 0 ? <p> No Ratings</p> : <p>{userData.num_ratings}</p>}</h4>
+          <div className="buttons-container__seller-profile-main">
+            <div className="for-sale-button-container">
+              <Button color="secondary" name="for-sale" onClick={() => setButtonState('for-sale')} variant={forSale ? 'contained' : 'outlined'}>For Sale</Button>
+            </div>
+            <div className="for-rent-button-container">
+              <Button color="secondary" name="for-rent" onClick={() => setButtonState('for-rent')} variant={forRent ? 'contained' : 'outlined'}>For Rent</Button>
+            </div>
+            <div className="message-seller-buttton-container">
+              <Button color="secondary" name="message-seller" onClick={() => setButtonState('message-seller')} variant={messageSeller ? 'contained' : 'outlined'}>message seller</Button>        
+            </div>
           </div>
         </div>
-        <div className="current-items-heading-container">
-          <h1 className="current-items-heading">
-          {userData.username} is Currently Offering the Following Items:
-          </h1>
-        </div>
-        <div className="buttons-container">
-          <div className="for-sale-button-container">
-            <Button color="secondary" name="for-sale" onClick={setButtonState} variant={forSale ? 'contained' : 'outlined'}>For Sale</Button>
-          </div>
-          <div className="for-rent-button-container">
-            <Button color="secondary" onClick={setButtonState} variant={forRent ? 'contained' : 'outlined'}>For Rent</Button>
-          </div>
-        </div>
-      </div>
+      
       :
       <>
       </>
