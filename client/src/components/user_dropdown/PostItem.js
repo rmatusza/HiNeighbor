@@ -142,7 +142,7 @@ const PostItem = (props) => {
     }
 
 
-      const res = await fetch('http://localhost:5000/api/items-and-services/post-item', {
+    const res = await fetch('http://localhost:5000/api/items-and-services/post-item', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -253,7 +253,6 @@ const PostItem = (props) => {
         <FormControl>
           <InputLabel htmlFor="sell-price-input" style={{color: "black"}}>Sell Price</InputLabel>
           <Input id="sell-price-input" onChange={handleInputChange} style={{color: "black"}}/>
-
         </FormControl>
       </div>
       <div className="photo-upload-container">

@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
-const { User, Item, Review, Rented_Item, Bid } = require("../db/models");
+const { User, Item, Review, Rented_Item, Bid, Conversation, Message } = require("../db/models");
 const { asyncHandler } = require('../utils');
 const { check, validationResult } = require("express-validator");
 const { getUserToken, verifyUser } = require('../auth');
@@ -485,6 +485,36 @@ router.get('/:id/chart-data', asyncHandler(async(req,res) => {
   })
 
   res.json(items)
+}))
+
+router.get('/:creatorId/find-conversations/:recipientId', asyncHandler(async(req, res) => {
+  const creator = req.params.creatorId
+  const recipient = req.params.recipientId
+
+  let conversations = await Conversation.findAll({
+    where: {
+      creator,
+      recipient
+    },
+  })
+
+  // if(conversations){
+  //   let messages = await Message.findAll()
+  // }
+
+  res.json(conversations)
+}))
+
+router.post('/:id/start-new-conversation', asyncHandler(async(req, res) => {
+  const creator = req.params
+  const { recipient, subject } = req.body
+
+  let newConversation = await Conversation.create({
+    creator,
+    recipient,
+    subject
+  })
+
 }))
 
 
