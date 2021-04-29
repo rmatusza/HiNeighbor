@@ -35,8 +35,8 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = function(models) {
     User.hasMany(models.Bid, { foreignKey: 'user_id'})
-    User.hasMany(models.Conversation, { foreignKey: 'member_one'})
-    User.hasMany(models.Conversation, { foreignKey: 'member_two'})
+    User.hasMany(models.Conversation, { foreignKey: 'creator'})
+    User.hasMany(models.Conversation, { foreignKey: 'recipient'})
     User.hasMany(models.Item, { foreignKey: 'seller_id'})
     User.hasMany(models.Item, { foreignKey: 'purchaser_id'})
     User.hasMany(models.Message, { foreignKey: 'author'})

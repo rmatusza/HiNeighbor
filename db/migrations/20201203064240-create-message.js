@@ -18,8 +18,9 @@ module.exports = {
         type: Sequelize.TEXT
       },
       conversation_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: 'Messages' }
+        references: { model: 'Conversations' }
       },
       createdAt: {
         allowNull: false,

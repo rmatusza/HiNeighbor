@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import SellerProfileForSale from './SellerProfileForSale';
 import SellerProfileForRent from './SellerProfileForRent';
 import { setSellerProfileItemsForSale } from '../../actions/itemsActions';
+import Message from './Message';
 import { Button } from "@material-ui/core";
 
 function createData(id, current_bid, image_url, description, name, price, bid, num_bids, days_remaining, category) {
@@ -124,9 +125,10 @@ const SellerProfileMain = () => {
             <div className="for-rent-button-container">
               <Button color="secondary" name="for-rent" onClick={() => setButtonState('for-rent')} variant={forRent ? 'contained' : 'outlined'}>For Rent</Button>
             </div>
-            <div className="message-seller-buttton-container">
+            {/* <div className="message-seller-buttton-container">
               <Button color="secondary" name="message-seller" onClick={() => setButtonState('message-seller')} variant={messageSeller ? 'contained' : 'outlined'}>message seller</Button>        
-            </div>
+            </div> */}
+            <Message recipientId={id}/>
           </div>
         </div>
       

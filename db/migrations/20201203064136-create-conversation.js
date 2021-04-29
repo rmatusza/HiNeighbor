@@ -6,18 +6,18 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       subject: {
         allowNull: false,
         type: Sequelize.STRING(100)
       },
-      member_one: {
+      creator: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: 'Users' }
       },
-      member_two: {
+      recipient: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {model: 'Users'}

@@ -11,21 +11,19 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING(100)
     },
-    member_one: {
+    creator: {
       allowNull: false,
       type: DataTypes.INTEGER,
 
     },
-    member_two: {
+    recipient: {
       allowNull: false,
       type: DataTypes.INTEGER,
-
     },
-
   }, {});
   Conversation.associate = function(models) {
-    Conversation.belongsTo(models.User, { foreignKey: 'member_one'})
-    Conversation.belongsTo(models.User, { foreignKey: 'member_two'})
+    Conversation.belongsTo(models.User, { foreignKey: 'creator'})
+    Conversation.belongsTo(models.User, { foreignKey: 'recipient'})
     Conversation.hasMany(models.Message, { foreignKey: 'conversation_id'})
 
   };
