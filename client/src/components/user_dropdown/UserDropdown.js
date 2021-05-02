@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { BiDotsVerticalRounded } from "react-icons/bi";
-import { useHistory } from 'react-router-dom'
-import PostItem from './PostItem';
-import PostRentItem from './PostRentItem';
+import { useHistory } from 'react-router-dom';
 import { setPostItemFormStatus, setPostItemRentStatus } from '../../actions/itemsActions';
 import { logoutUser } from '../../actions/userCredsAction';
 import { clearSearchParams } from '../../actions/searchCategoryActions';
+import { setInboxVisibility } from '../../actions/chatActions';
+import PostItem from './PostItem';
+import PostRentItem from './PostRentItem';
+import Inbox from './Inbox';
+import {
+  Menu,
+  MenuItem,
+} from '@material-ui/core';
+import { BiDotsVerticalRounded } from "react-icons/bi";
 
 const UserDropdown = (props) => {
 
@@ -18,7 +22,6 @@ const UserDropdown = (props) => {
   const history = useHistory();
   const form_state = useSelector(store => store.entities.post_item_form_state.status)
   const rent_form_state = useSelector(store => store.entities.post_item_rent_state.rentStatus)
-  //(rent_form_state)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -59,6 +62,10 @@ const UserDropdown = (props) => {
    dispatch(setPostItemRentStatus(true))
   };
 
+  const handleDisplayInbox = () => {
+    dispatch(setInboxVisibility(true))
+  }
+
   return (
     <>
       <div>
@@ -74,6 +81,7 @@ const UserDropdown = (props) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
+          <MenuItem onClick={handleDisplayInbox}>Inbox</MenuItem>
           <MenuItem onClick={handleDialogOpen}> Post an Item for Sale</MenuItem>
           <MenuItem onClick={handleDialogRentOpen}> Post an Item for Rent</MenuItem>
           <MenuItem onClick={handleMyStats}>My Stats</MenuItem>

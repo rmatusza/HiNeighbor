@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     author_id: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      references: {model: 'Users'}
     },
     content: {
       allowNull: false,
@@ -19,8 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     conversation_id: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      references: {model: 'Conversations'}
     },
+    author_username:{
+      allowNull: false,
+      type: DataTypes.STRING(100)
+    }
    
   }, {});
   Message.associate = function(models) {

@@ -202,7 +202,7 @@ const Items = (props) => {
             </div>
           )
         })}
-
+      
         {/* ENLARGED IMAGE DIALOG BOX */}
 
         <Dialog

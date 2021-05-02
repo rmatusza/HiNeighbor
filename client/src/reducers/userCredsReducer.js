@@ -1,10 +1,6 @@
 import { CLEAR_REDUX_STORE, SET_USER_CREDS } from '../actions/types';
-// import { setUserCreds } from '../actions/userCredsAction';
 
-const initialState = {
- 
-}
-
+const initialState = {}
 
 const setUserCredsReducer = (state = initialState, action) => {
   const currentUser = action.currentUserData

@@ -9,7 +9,8 @@ const {
   SET_POST_ITEM_RENT_STATUS, 
   CLEAR_SEARCH_PARAMS, 
   SET_SELLER_PROFILE_ITEMS_FOR_SALE,
-  SET_BID_HISTORY
+  SET_BID_HISTORY,
+  SET_INBOX_VISIBILITY
 } = require("../actions/types")
 
 
@@ -36,10 +37,11 @@ const initialState = {
   post_item_rent_state: {
     rentStatus: false
   },
+  inbox_visibility:{
+    visible: false
+  }
 }
 const searchCategoryReducer = (state = initialState, action) => {
-
-  //('ACTION:', action)
 
   switch(action.type) {
     case SET_CATEGORY:
@@ -109,6 +111,13 @@ const searchCategoryReducer = (state = initialState, action) => {
         ...state,
         search_params: {category: 'Books', offer_type: 'Purchase'},
         items_state: {saleItems: [], rentItems: []}
+      }
+    case SET_INBOX_VISIBILITY:
+      let visibilityStatus = action.visible
+      console.log('VISIBILITY STATUS:', visibilityStatus)
+      return {
+        ...state,
+       inbox_visibility: {visible: visibilityStatus}
       }
     default:
       return state;

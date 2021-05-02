@@ -24,3 +24,17 @@ code {
   background-image: url('https://hi-neighbor-item-photos.s3.amazonaws.com/memphis-mini.png')
 }
 
+/*-----------------------------------------------------------------------------------------------------------------------------------*/
+
+/*INBOX*/
+
+.inboxContainer__visible{
+  width: 300px;
+  height: auto;
+  border: 1px solid red;
+  display: block;
+  position:fixed;
+  bottom:0;
+  right:0;
+  margin-right: 20px;
+}

@@ -487,33 +487,43 @@ router.get('/:id/chart-data', asyncHandler(async(req,res) => {
   res.json(items)
 }))
 
-router.get('/:creatorId/find-conversations/:recipientId', asyncHandler(async(req, res) => {
+router.get('/:creatorId/find-conversations', asyncHandler(async(req, res) => {
   const creator = req.params.creatorId
-  const recipient = req.params.recipientId
 
   let conversations = await Conversation.findAll({
     where: {
-      creator,
-      recipient
+      creator
     },
+    include: {
+      model: Message
+    }
   })
-
-  // if(conversations){
-  //   let messages = await Message.findAll()
-  // }
 
   res.json(conversations)
 }))
 
-router.post('/:id/start-new-conversation', asyncHandler(async(req, res) => {
-  const creator = req.params
-  const { recipient, subject } = req.body
+router.post('/:senderId/start-new-conversation/:recipientId', asyncHandler(async(req, res) => {
+  const sender = req.params.senderId
+  const recipient = req.params.recipientId
+  console.log(req.body)
+  const { subject, content, recipientUsername, senderUsername } = req.body
 
   let newConversation = await Conversation.create({
-    creator,
+    creator: sender,
     recipient,
-    subject
+    subject,
+    creator_username: senderUsername,
+    recipient_username: recipientUsername
   })
+  
+  await Message.create({
+    author_id: sender,
+    content,
+    conversation_id: newConversation.id,
+    author_username: senderUsername
+  })
+
+  res.json([])
 
 }))
 
