@@ -12,11 +12,20 @@ import UserStats from './components/user_dropdown/UserStats';
 import History from './components/user_dropdown/History';
 import SignUp from './components/signup/SignUp';
 import BidHistory from './components/user_dropdown/BidHistory';
+import './index.css'
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography
+} from '@material-ui/core'
+import Inbox from './components/user_dropdown/Inbox';
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
+  const [userId, setUserId] = useState(null);
   const dispatch = useDispatch();
-  // AUTHENTICATES THE USER BY CHECKING TO SEE IF THEY HAVE A VALID ACCESS TOKEN
+  // const userId = useSelector(store => store.session.currentUser.id);
   useEffect(() => {
     (async () => {
       try{
@@ -41,9 +50,9 @@ const App = () => {
           return
         }
         const payload = await res.json()
-        //(payload)
         dispatch(setUserCreds(payload))
         setAuthenticated(true)
+        setUserId(payload.id)
       } catch(err) {
         //(err)
       }
@@ -52,6 +61,7 @@ const App = () => {
   }, /*[]*/)
 
   return (
+    <>
     <BrowserRouter>
       <ProtectedRoute path="/" authenticated={authenticated} exact={true}>
         <TopBar setAuthenticated={setAuthenticated}/>
@@ -84,6 +94,11 @@ const App = () => {
         <UserStats />
       </ProtectedRoute>
     </BrowserRouter>
+    
+    <div className="inboxContainer__visible">
+      <Inbox userId={userId}/>
+    </div>
+    </>
   );
 }
 

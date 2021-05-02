@@ -15,6 +15,7 @@ const BidHistory = () => {
   const [notTopBidderData, setNotTopBidderData] = useState([])
   const [selectedView, setSelectedView] = useState('top-bidder')
   const dispatch = useDispatch()
+
   useEffect(() => {
     (async() => {
       const res = await fetch(`http://localhost:5000/api/users/${currUserId}/get-bid-history`)
@@ -27,17 +28,6 @@ const BidHistory = () => {
     })()
   }, [])
 
-  
-  // const ws = new WebSocket("ws://localhost:8082")
-  // ws.addEventListener("open", () => {
-  //   console.log('We connected!')
-
-  //   ws.send("test")
-  // })
-
-  // ws.addEventListener('message', e => {
-  //   console.log(e)
-  // })
   const toggleButton = (button) => {
     setSelectedView(button)
   }

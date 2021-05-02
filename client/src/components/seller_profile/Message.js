@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import {
 	Dialog,
 	DialogTitle,
@@ -14,10 +13,11 @@ import {
 
 const Message = (props) => {
 	const [dialogOpen, setDialogOpen] = useState(false);
-	const [composeMessageDialog, setComposeMessageDialog] = useState(false)
-	const [confirmCancelMessageDialog, setConfirmCancelMessageDialog] = useState(false)
+	const [composeMessageDialog, setComposeMessageDialog] = useState(false);
+	const [confirmCancelMessageDialog, setConfirmCancelMessageDialog] = useState(false);
+	const [content, setContent] = useState('');
+	const [subject, setSubject] = useState('');
 	const [buttonState, setButtonState] = useState(false);
-	const userId = useSelector(store => store.session.currentUser.id)
 
 	const handleDialogOpen = async(recipientId) => {
 		setDialogOpen(true)
@@ -40,7 +40,11 @@ const Message = (props) => {
 	}
 
 	const handleInputChange = (e) => {
-
+		if(e.target.id === 'message'){
+			setContent(e.target.value)
+		}else{
+			setSubject(e.target.value)
+		}
 	}
 
 	const openConfirmCancelMessageDialogBox = () => {
@@ -55,8 +59,30 @@ const Message = (props) => {
 		setConfirmCancelMessageDialog(false)
 		setComposeMessageDialog(false)
 		setButtonState(false)
-
 	}
+
+	const startConversation = async() => {
+		
+		const body = {
+			subject,
+			content,
+			recipientUsername: props.conversationData.recipientUsername,
+			senderUsername: props.conversationData.senderUsername
+		}
+		console.log(body)
+		let newConversation = await fetch(`http://localhost:5000/api/users/${props.conversationData.senderId}/start-new-conversation/${props.conversationData.recipientId}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(body)
+		})
+		await newConversation.json()
+		console.log(newConversation)
+		closeComposeMessageDialogBox()
+	}
+
+	console.log(props)
 	
 	return (
 		<div className="message-seller-buttton-container">
@@ -84,19 +110,19 @@ const Message = (props) => {
 						<div className="subject-line-container">
 							<InputLabel htmlFor="name-input" style={{color: "black"}}>Subject:</InputLabel>
 							<FormControl>
-								<Input id="name-input" className="subject-line" onChange={handleInputChange} autoFocus style={{color: "black"}} />
+								<Input id="subject" className="subject-line" onChange={handleInputChange} autoFocus style={{color: "black"}} />
 							</FormControl>
 						</div>
 						<div className="message-box-container">
-							<InputLabel htmlFor="description-input" className="message-field-label" style={{color: "black"}}>Message:</InputLabel>
+							<InputLabel className="message-field-label" style={{color: "black"}}>Message:</InputLabel>
 							<FormControl>
 								{/* <Input id="description-input" onChange={handleInputChange} onClick={openDescriptionDialogBox} style={{color: "black"}}/> */}
-								<TextField className="message-box" multiline={true} rows={10} id="description-input" variant="filled" onChange={handleInputChange}/>
+								<TextField className="message-box" id="message" multiline={true} rows={10} variant="filled" onChange={handleInputChange}/>
 							</FormControl>
 						</div>
 						<div className="send-and-cancel-buttons-container__message-seller">
 							<div className="send-message-button-container">
-								<Button color="secondary" variant='contained'>Send Message</Button>
+								<Button color="secondary" variant='contained' onClick={startConversation}>Send Message</Button>
 							</div>
 							<div className="cancel-message-button-container">
 								<Button color="secondary" variant='contained' onClick={openConfirmCancelMessageDialogBox}>Cancel</Button>
@@ -116,7 +142,7 @@ const Message = (props) => {
 								<Button color="secondary" variant='contained' onClick={confirmDeleteMessage}>Delete Message</Button>
 							</div>
 							<div className="cancel-delete-message-button-container">
-								<Button color="secondary" variant='contained' onClick={openConfirmCancelMessageDialogBox}>Cancel</Button>
+								<Button color="secondary" variant='contained' onClick={closeConfirmCancelMessageDialogBox}>Cancel</Button>
 							</div>
 						</div>
 					</div>

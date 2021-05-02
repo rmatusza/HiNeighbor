@@ -817,3 +817,58 @@
 .view-seller-info-button__top-bidder-data{
   margin-left: 20px;
 }
+
+
+/*-------------------------------------------------------------------------------*/
+
+/* INBOX COMPONENT */
+
+
+.up-arrow-container__inbox{
+  /* border: 1px solid red; */
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.up-arrow{
+  width: 25px;
+  height: 25px;
+}
+
+.accordion-top-tab__inbox{
+  border-bottom: 1px solid black;
+}
+
+.messages-container__inbox{
+  width: 500px;
+  height: 410px;
+}
+
+.user-div{
+  position: relative;
+  left: 250px;
+  display: flex;
+  justify-content: flex-start;
+  width: 250px;
+  background-color: rgb(43, 80, 182);
+  color: white
+}
+
+.non-user-div{
+  position: relative;
+  left: 0px;
+  display: flex;
+  justify-content: flex-start;
+  width: 250px;
+}
+
+.username__messages-container{
+  margin-left: 10px;
+}
+
+.message__messages-container{
+  margin: 10px;
+
+}

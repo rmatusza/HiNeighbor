@@ -19,6 +19,7 @@ function createRentData(name, rate, rented, expiry_date, category, image_url, de
 const SellerProfileMain = () => {
   const { id } = useParams();
   const currUserId = useSelector(store => store.session.currentUser.id);
+  const currUsername = useSelector(store => store.session.currentUser.username )
   const [userData, setUserData] = useState({});
   const [forSaleItems, setForSaleItems] = useState([]);
   const [forRentItems, setForRentItems] = useState([]);
@@ -128,7 +129,7 @@ const SellerProfileMain = () => {
             {/* <div className="message-seller-buttton-container">
               <Button color="secondary" name="message-seller" onClick={() => setButtonState('message-seller')} variant={messageSeller ? 'contained' : 'outlined'}>message seller</Button>        
             </div> */}
-            <Message recipientId={id}/>
+            <Message conversationData={{recipientId: parseInt(id, 10), recipientUsername: userData.username, senderId: currUserId, senderUsername: currUsername}}/>
           </div>
         </div>
       
