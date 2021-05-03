@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setInboxVisibility } from '../../actions/chatActions';
 import {
 	Accordion,
 	AccordionSummary,
@@ -6,40 +8,78 @@ import {
 	Typography,
 	Button,
 	Dialog,
-	DialogTitle,
 	FormControl,
-  InputLabel,
-  Input,
 	TextField
 } from '@material-ui/core'
 import { BiUpArrowAlt } from "react-icons/bi";
 
 const Inbox = (props) => {
-	const [conversations, setConversations] = useState([])
-	const [composeMessageDialog, setComposeMessageDialog] = useState(false)
-	const [messages, setMessages] = useState([])
-	console.log(props.userId)
+	const [conversations, setConversations] = useState([]);
+	const [composeMessageDialog, setComposeMessageDialog] = useState(false);
+	const [messageContent, setMessageContent] = useState('');
+	const [recipientUsername, setRecipientUsername] = useState(null);
+	const [recipientId, setRecipientId] = useState(null);
+	const [messages, setMessages] = useState([]);
+	const dispatch = useDispatch();
+
 	const fillInbox = async() => {
-		const res = await fetch(`http://localhost:5000/api/users/${props.userId}/find-conversations`)
+		const res = await fetch(`http://localhost:5000/api/users/${props.userInfo.userId}/find-conversations`)
 		const conversations = await res.json()
-		console.log(conversations)
 		setConversations(conversations)
 	}
 
-	const openComposeMessageDialogBox = (messages) => {
-		setMessages(messages)
+	console.log(props)
+
+	const updateMessageContent = (e) => {
+		setMessageContent(e.target.value)
+	}
+	
+	const removeMessagingBox = () => {
+		dispatch(setInboxVisibility(false))
+	}
+	
+	const openComposeMessageDialogBox = (convo) => {
+		console.log(convo)
+		if(convo.creator === props.userInfo.userId){
+			setRecipientId(convo.recipient)
+			setRecipientUsername(convo.recipient_username)
+		} else{
+			setRecipientId(convo.creator)
+			setRecipientUsername(convo.creator_username)
+		}
+		setMessages(convo.Messages)
 		setComposeMessageDialog(true)
 	}
-
+	
 	const closeComposeMessageDialogBox = () => {
 		setComposeMessageDialog(false)
 	}
 
-	console.log(conversations)
+	const sendMessage = async() => {
+		const body = {
+			content: messageContent,
+			recipientUsername: recipientUsername,
+			senderUsername: props.userInfo.username
+		}
+		console.log(body)
+		let newMessage = await fetch(`http://localhost:5000/api/users/${props.userInfo.userId}/send-message-to-user/${recipientId}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(body)
+		})
+		await newMessage.json()
+		console.log(newMessage)
+		// closeComposeMessageDialogBox()
+	}
+
 
   return(
 		<>
-			<Accordion>
+			<Accordion
+				defaultExpanded={true}
+			>
 				<div className="accordion-top-tab__inbox">
 					<AccordionSummary
 						aria-controls="panel1a-content"
@@ -51,21 +91,36 @@ const Inbox = (props) => {
 						</div>
 					</AccordionSummary>
 				</div>
+				<div className="close-messaging-container">
+					<h4 className="close-messaging-container-text" onClick={removeMessagingBox}>Remove Messaging Box</h4>
+				</div>
 				{conversations.map((convo, idx) => {
-					console.log(convo.Messages)
-					let name;
-					if(convo.creator === props.userId){
-						name = convo.recipient_username
+					let lastIdx = convo.Messages.length-1
+					let recipientName;
+					let lastSender;
+					if(convo.creator === props.userInfo.userId){
+						recipientName = convo.recipient_username
 					} else {
-						name = convo.creator_username
+						recipientName = convo.creator_username
+					}
+
+					if(convo.Messages[lastIdx].author_id === props.userInfo.userId){
+						lastSender = 'You'
+					}else{
+						lastSender = recipientName
 					}
 					
 					return(
-						<AccordionDetails key={idx} onClick={() => openComposeMessageDialogBox(convo.Messages)}>
-							<Typography>
-								{`${name}: ${convo.subject}`}
-							</Typography>
-						</AccordionDetails>
+						<div className="conversation-container__inbox-messaging-accordion">
+							<AccordionDetails key={idx} onClick={() => openComposeMessageDialogBox(convo)}>
+								<Typography>
+									<div className="recipient-name">
+										{recipientName}
+									</div>
+									{`${lastSender}: ${convo.Messages[lastIdx].content}`}
+								</Typography>
+							</AccordionDetails>
+						</div>
 					)
 				})}
 				<Button onClick={fillInbox}>get conversations</Button>
@@ -75,16 +130,8 @@ const Inbox = (props) => {
 				open={composeMessageDialog}
 				onClose={closeComposeMessageDialogBox}
 			>
-				<div className="messages-container__inbox">
+				<div className="conversation-container__inbox">
 					{messages.map(msg => {
-						console.log(msg.content)
-						let divType;
-						if(msg.author_id === props.userId){
-							divType = 'user-div'
-						} else {
-							divType = 'non-user-div'
-						}
-						console.log(divType)
 						return(
 							<>
 								<h4 className="username__messages-container">{msg.author_username}</h4>
@@ -94,6 +141,19 @@ const Inbox = (props) => {
 							</>
 						)
 					})}
+						<div className="message-box-container__inbox">
+							<FormControl>
+								<TextField className="message-box__inbox" id="message" multiline={true} rows={5} variant="outlined" color="secondary" onChange={updateMessageContent}/>
+							</FormControl>
+						</div>
+						<div className="send-and-cancel-buttons-container__inbox">
+							<div className="send-button-container__inbox">
+								<Button color="secondary" variant='contained' onClick={sendMessage}>Send</Button>
+							</div>
+							<div className="cancel-button__inbox">
+								<Button color="secondary" variant='contained' onClick={closeComposeMessageDialogBox}>Close</Button>
+							</div>
+						</div>
 				</div>
 			</Dialog>
 		</>

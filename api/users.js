@@ -487,31 +487,53 @@ router.get('/:id/chart-data', asyncHandler(async(req,res) => {
   res.json(items)
 }))
 
-router.get('/:creatorId/find-conversations', asyncHandler(async(req, res) => {
-  const creator = req.params.creatorId
+router.get('/:currUserId/find-conversations', asyncHandler(async(req, res) => {
+  const currUserId = req.params.currUserId
 
   let conversations = await Conversation.findAll({
     where: {
-      creator
+      [Op.or]: [
+        { creator: currUserId },
+        { recipient: currUserId }
+      ]
     },
     include: {
       model: Message
     }
   })
 
+
   res.json(conversations)
 }))
 
-router.post('/:senderId/start-new-conversation/:recipientId', asyncHandler(async(req, res) => {
-  const sender = req.params.senderId
-  const recipient = req.params.recipientId
-  console.log(req.body)
-  const { subject, content, recipientUsername, senderUsername } = req.body
+router.post('/:senderId/send-message-to-user/:recipientId', asyncHandler(async(req, res) => {
+  const sender = parseInt(req.params.senderId, 10)
+  const recipient = parseInt(req.params.recipientId, 10)
+  const { content, recipientUsername, senderUsername } = req.body
+
+  let previousConversation = await Conversation.findAll({
+    where: {
+      [Op.or]: [
+        { creator: sender, recipient: recipient },
+        { creator: recipient, recipient: sender }
+      ]
+    }
+  })
+  
+  if(previousConversation.length > 0){
+    await Message.create({
+      author_id: sender,
+      content,
+      conversation_id: previousConversation[0].dataValues.id,
+      author_username: senderUsername
+    })
+    res.json([])
+    return
+  }
 
   let newConversation = await Conversation.create({
     creator: sender,
     recipient,
-    subject,
     creator_username: senderUsername,
     recipient_username: recipientUsername
   })
@@ -524,7 +546,6 @@ router.post('/:senderId/start-new-conversation/:recipientId', asyncHandler(async
   })
 
   res.json([])
-
 }))
 
 
