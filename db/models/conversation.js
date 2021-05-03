@@ -7,10 +7,6 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    subject: {
-      allowNull: false,
-      type: DataTypes.STRING(100)
-    },
     creator: {
       allowNull: false,
       type: DataTypes.INTEGER,

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { BrowserRouter, Route } from "react-router-dom";
 import TopBar from './components/top-bar/TopBar'
 import HomePage from './components/homepage/HomePage';
@@ -13,19 +14,14 @@ import History from './components/user_dropdown/History';
 import SignUp from './components/signup/SignUp';
 import BidHistory from './components/user_dropdown/BidHistory';
 import './index.css'
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography
-} from '@material-ui/core'
 import Inbox from './components/user_dropdown/Inbox';
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [username, setUsername] = useState(null)
   const dispatch = useDispatch();
-  // const userId = useSelector(store => store.session.currentUser.id);
+  const inboxVisible = useSelector(store => store.entities.inbox_visibility.visible);
   useEffect(() => {
     (async () => {
       try{
@@ -53,8 +49,8 @@ const App = () => {
         dispatch(setUserCreds(payload))
         setAuthenticated(true)
         setUserId(payload.id)
+        setUsername(payload.username)
       } catch(err) {
-        //(err)
       }
 
     })()
@@ -95,8 +91,8 @@ const App = () => {
       </ProtectedRoute>
     </BrowserRouter>
     
-    <div className="inboxContainer__visible">
-      <Inbox userId={userId}/>
+    <div className={inboxVisible ? 'inboxContainer__visible' : 'inboxContainer__invisible'}>
+      <Inbox userInfo={{userId, username}}/>
     </div>
     </>
   );

@@ -7,7 +7,6 @@ import { clearSearchParams } from '../../actions/searchCategoryActions';
 import { setInboxVisibility } from '../../actions/chatActions';
 import PostItem from './PostItem';
 import PostRentItem from './PostRentItem';
-import Inbox from './Inbox';
 import {
   Menu,
   MenuItem,

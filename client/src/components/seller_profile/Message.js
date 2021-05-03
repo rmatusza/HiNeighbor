@@ -5,9 +5,6 @@ import {
 	Button,
 	FormControl,
   InputLabel,
-  Input,
-	TextareaAutosize,
-	TextArea,
 	TextField
 } from '@material-ui/core';
 
@@ -61,24 +58,23 @@ const Message = (props) => {
 		setButtonState(false)
 	}
 
-	const startConversation = async() => {
+	const sendMessage = async() => {
 		
 		const body = {
-			subject,
 			content,
 			recipientUsername: props.conversationData.recipientUsername,
 			senderUsername: props.conversationData.senderUsername
 		}
 		console.log(body)
-		let newConversation = await fetch(`http://localhost:5000/api/users/${props.conversationData.senderId}/start-new-conversation/${props.conversationData.recipientId}`, {
+		let newMessage = await fetch(`http://localhost:5000/api/users/${props.conversationData.senderId}/send-message-to-user/${props.conversationData.recipientId}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(body)
 		})
-		await newConversation.json()
-		console.log(newConversation)
+		await newMessage.json()
+		console.log(newMessage)
 		closeComposeMessageDialogBox()
 	}
 
@@ -86,7 +82,7 @@ const Message = (props) => {
 	
 	return (
 		<div className="message-seller-buttton-container">
-			<Button color="secondary" name="message-seller" variant={buttonState ? 'contained' : 'outlined'} onClick={() => handleDialogOpen(props.recipientId)}>message seller</Button>
+			<Button color="secondary" name="message-seller" variant={buttonState ? 'contained' : 'outlined'} onClick={openComposeMessageDialogBox}>message seller</Button>
 				<Dialog
 					open={dialogOpen}
 					onClose={handleDialogClose}
@@ -107,22 +103,21 @@ const Message = (props) => {
 					onClose={closeComposeMessageDialogBox}
 				>
 					<div className="compose-message-container">
-						<div className="subject-line-container">
+						{/* <div className="subject-line-container">
 							<InputLabel htmlFor="name-input" style={{color: "black"}}>Subject:</InputLabel>
 							<FormControl>
 								<Input id="subject" className="subject-line" onChange={handleInputChange} autoFocus style={{color: "black"}} />
 							</FormControl>
-						</div>
+						</div> */}
 						<div className="message-box-container">
 							<InputLabel className="message-field-label" style={{color: "black"}}>Message:</InputLabel>
 							<FormControl>
-								{/* <Input id="description-input" onChange={handleInputChange} onClick={openDescriptionDialogBox} style={{color: "black"}}/> */}
 								<TextField className="message-box" id="message" multiline={true} rows={10} variant="filled" onChange={handleInputChange}/>
 							</FormControl>
 						</div>
 						<div className="send-and-cancel-buttons-container__message-seller">
 							<div className="send-message-button-container">
-								<Button color="secondary" variant='contained' onClick={startConversation}>Send Message</Button>
+								<Button color="secondary" variant='contained' onClick={sendMessage}>Send Message</Button>
 							</div>
 							<div className="cancel-message-button-container">
 								<Button color="secondary" variant='contained' onClick={openConfirmCancelMessageDialogBox}>Cancel</Button>

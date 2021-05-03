@@ -841,9 +841,15 @@
   border-bottom: 1px solid black;
 }
 
-.messages-container__inbox{
+.conversation-container__inbox{
   width: 500px;
-  height: 410px;
+  min-height: 300px;
+  max-height: 410px;
+  overflow: scroll;
+}
+
+.conversation-container__inbox::-webkit-scrollbar {
+  display: none;
 }
 
 .user-div{
@@ -870,5 +876,58 @@
 
 .message__messages-container{
   margin: 10px;
+}
 
+.recipient-name{
+  font-weight: bold;
+}
+
+.conversation-container__inbox-messaging-accordion{
+  max-height: 110px;
+  overflow: hidden;
+  padding: 5px;
+}
+
+.conversation-container__inbox-messaging-accordion:hover{
+  cursor: pointer;
+  background-color: rgb(241, 241, 241);
+}
+
+.close-messaging-container{
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  color: red;
+}
+
+.close-messaging-container-text{
+  margin-right: 10px;
+}
+
+.close-messaging-container-text:hover{
+  cursor: pointer;
+}
+
+.message-box-container__inbox{
+  width: 500px;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px
+}
+
+.message-box__inbox{
+  width: 480px;
+}
+
+.send-and-cancel-buttons-container__inbox{
+  margin-top: 20px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.send-button-container__inbox{
+  margin-right: 10px;
 }
