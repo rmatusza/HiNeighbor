@@ -10,8 +10,34 @@ const userRouter = require('./api/users');
 const itemsAndServicesRouter = require('./api/items-and-services')
 const itemsRouter = require('./api/items')
 const bearerToken = require("express-bearer-token");
-
 const app = express();
+const httpServer = require('http').createServer(app);
+const options = {
+  cors: {
+    origin: ["http://localhost:3000"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
+  }
+};
+const io = require('socket.io')(httpServer, options)
+
+io.on('connection', socket => {
+  console.log('dis muh fuh done kuhnekted')
+  socket.on('initialize_rooms', roomNums => {
+    console.log('recieved command to initialize rooms')
+    roomNums.forEach(roomNum => {
+      console.log(roomNum)
+      socket.join(roomNum)
+    })
+  })
+
+  socket.on('message', (messageContent, conversation) =>{
+    socket.to(conversation.id).emit('instant_message', messageContent, conversation)
+  })
+})
+
+httpServer.listen(8082)
+
 const corsOptions = {
   origin: 'http://localhost:3000',
   credentials: true

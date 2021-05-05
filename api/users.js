@@ -502,7 +502,6 @@ router.get('/:currUserId/find-conversations', asyncHandler(async(req, res) => {
     }
   })
 
-
   res.json(conversations)
 }))
 
@@ -521,13 +520,13 @@ router.post('/:senderId/send-message-to-user/:recipientId', asyncHandler(async(r
   })
   
   if(previousConversation.length > 0){
-    await Message.create({
+    let message = await Message.create({
       author_id: sender,
       content,
       conversation_id: previousConversation[0].dataValues.id,
       author_username: senderUsername
     })
-    res.json([])
+    res.json(message)
     return
   }
 
@@ -538,14 +537,14 @@ router.post('/:senderId/send-message-to-user/:recipientId', asyncHandler(async(r
     recipient_username: recipientUsername
   })
   
-  await Message.create({
+  let message = await Message.create({
     author_id: sender,
     content,
     conversation_id: newConversation.id,
     author_username: senderUsername
   })
 
-  res.json([])
+  res.json(message)
 }))
 
 

@@ -842,9 +842,9 @@
 }
 
 .conversation-container__inbox{
-  width: 500px;
-  min-height: 300px;
-  max-height: 410px;
+  width: 600px;
+  min-height: 400px;
+  max-height: 510px;
   overflow: scroll;
 }
 
@@ -871,15 +871,16 @@
 }
 
 .username__messages-container{
-  margin-left: 10px;
+  margin-left: 15px;
 }
 
 .message__messages-container{
-  margin: 10px;
+  margin: 20px;
 }
 
 .recipient-name{
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .conversation-container__inbox-messaging-accordion{
@@ -909,14 +910,14 @@
 }
 
 .message-box-container__inbox{
-  width: 500px;
-  margin-right: 10px;
-  margin-left: 10px;
+  width: 600px;
+  margin-right: 20px;
+  margin-left: 20px;
   margin-bottom: 10px
 }
 
 .message-box__inbox{
-  width: 480px;
+  width: 560px;
 }
 
 .send-and-cancel-buttons-container__inbox{
