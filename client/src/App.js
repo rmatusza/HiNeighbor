@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter, Route } from "react-router-dom";
-import TopBar from './components/top-bar/TopBar'
+import TopBar from './components/top-bar/TopBar';
 import HomePage from './components/homepage/HomePage';
 import Login from './components/login/Login';
-import { setUserCreds } from './actions/userCredsAction'
+import { setUserCreds } from './actions/userCredsAction';
 import { useDispatch } from "react-redux";
 import ProtectedRoute from './components/ProtectedRoute';
 import PostedItems from './components/user_dropdown/PostedItems';
@@ -13,17 +13,20 @@ import UserStats from './components/user_dropdown/UserStats';
 import History from './components/user_dropdown/History';
 import SignUp from './components/signup/SignUp';
 import BidHistory from './components/user_dropdown/BidHistory';
-import './index.css'
+import './index.css';
 import Inbox from './components/user_dropdown/Inbox';
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [userId, setUserId] = useState(null);
   const [username, setUsername] = useState(null)
+  const [conversations, setConversations] = useState([])
   const dispatch = useDispatch();
   const inboxVisible = useSelector(store => store.entities.inbox_visibility.visible);
+
   useEffect(() => {
     (async () => {
+      // let UserId;
       try{
         let token;
         const cookieArr = document.cookie.split('=')
@@ -51,49 +54,53 @@ const App = () => {
         setUserId(payload.id)
         setUsername(payload.username)
       } catch(err) {
+
       }
 
+      // let res = await fetch(`http://localhost:5000/api/users/${userId}/find-conversations`)
+			// const conversations = await res.json()
+      // setConversations(conversations)
     })()
   }, /*[]*/)
 
   return (
     <>
-    <BrowserRouter>
-      <ProtectedRoute path="/" authenticated={authenticated} exact={true}>
-        <TopBar setAuthenticated={setAuthenticated}/>
-        <HomePage />
-      </ProtectedRoute>
-      <ProtectedRoute path="/posted-items" authenticated={authenticated} exact={true}>
-        <TopBar setAuthenticated={setAuthenticated}/>
-        <PostedItems />
-      </ProtectedRoute>
-      <ProtectedRoute path="/purchase-history" authenticated={authenticated} exact={true}>
-        <TopBar setAuthenticated={setAuthenticated}/>
-        <History />
-      </ProtectedRoute>
-      <ProtectedRoute path="/bid-history" authenticated={authenticated} exact={true}>
-        <TopBar setAuthenticated={setAuthenticated}/>
-        <BidHistory />
-      </ProtectedRoute>
-      <ProtectedRoute path="/seller-profile/:id" authenticated={authenticated} exact={true}>
-        <TopBar setAuthenticated={setAuthenticated}/>
-        <SellerProfileMain />
-      </ProtectedRoute>
-      <Route path="/login" exact={true} >
-        <Login authenticated={authenticated} setAuthenticated={setAuthenticated}/>
-      </Route>
-      <Route path="/signup" exact={true} >
-        <SignUp authenticated={authenticated} setAuthenticated={setAuthenticated}/>
-      </Route>
-      <ProtectedRoute path="/user-stats" authenticated={authenticated} exact={true} >
-        <TopBar setAuthenticated={setAuthenticated}/>
-        <UserStats />
-      </ProtectedRoute>
-    </BrowserRouter>
-    
-    <div className={inboxVisible ? 'inboxContainer__visible' : 'inboxContainer__invisible'}>
-      <Inbox userInfo={{userId, username}}/>
-    </div>
+      <BrowserRouter>
+        <ProtectedRoute path="/" authenticated={authenticated} exact={true}>
+          <TopBar setAuthenticated={setAuthenticated}/>
+          <HomePage />
+        </ProtectedRoute>
+        <ProtectedRoute path="/posted-items" authenticated={authenticated} exact={true}>
+          <TopBar setAuthenticated={setAuthenticated}/>
+          <PostedItems />
+        </ProtectedRoute>
+        <ProtectedRoute path="/purchase-history" authenticated={authenticated} exact={true}>
+          <TopBar setAuthenticated={setAuthenticated}/>
+          <History />
+        </ProtectedRoute>
+        <ProtectedRoute path="/bid-history" authenticated={authenticated} exact={true}>
+          <TopBar setAuthenticated={setAuthenticated}/>
+          <BidHistory />
+        </ProtectedRoute>
+        <ProtectedRoute path="/seller-profile/:id" authenticated={authenticated} exact={true}>
+          <TopBar setAuthenticated={setAuthenticated}/>
+          <SellerProfileMain />
+        </ProtectedRoute>
+        <Route path="/login" exact={true} >
+          <Login authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+        </Route>
+        <Route path="/signup" exact={true} >
+          <SignUp authenticated={authenticated} setAuthenticated={setAuthenticated}/>
+        </Route>
+        <ProtectedRoute path="/user-stats" authenticated={authenticated} exact={true} >
+          <TopBar setAuthenticated={setAuthenticated}/>
+          <UserStats />
+        </ProtectedRoute>
+      </BrowserRouter>
+      
+      <div className={inboxVisible ? 'inboxContainer__visible' : 'inboxContainer__invisible'}>
+        <Inbox userInfo={{userId, username}}/>
+      </div>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setInboxVisibility } from '../../actions/chatActions';
 import {
@@ -12,6 +12,10 @@ import {
 	TextField
 } from '@material-ui/core'
 import { BiUpArrowAlt } from "react-icons/bi";
+import { io } from 'socket.io-client';
+// import { GiConsoleController } from 'react-icons/gi';
+// import { AiOutlineConsoleSql } from 'react-icons/ai';
+
 
 const Inbox = (props) => {
 	const [conversations, setConversations] = useState([]);
@@ -20,7 +24,37 @@ const Inbox = (props) => {
 	const [recipientUsername, setRecipientUsername] = useState(null);
 	const [recipientId, setRecipientId] = useState(null);
 	const [messages, setMessages] = useState([]);
+	const [conversationId, setConversationId] = useState(null);
+	const [convoArrayIdx, setConvoArrayIdx] = useState(null);
+	const [connectedToSocket, setConnectedToSocket] = useState(false);
+	// const [socket, setSocket] = useState(null);
 	const dispatch = useDispatch();
+
+	const socket = io('http://localhost:8082')
+
+	console.log(props)
+
+	useEffect(() =>{
+		(async() => {
+			if(props.userInfo.userId === null){
+				return
+			}else{
+				let res = await fetch(`http://localhost:5000/api/users/${props.userInfo.userId}/find-conversations`)
+				const conversations = await res.json()
+				setConversations(conversations)
+				if(connectedToSocket === false){
+					let roomNums = []
+					conversations.forEach(convo => {
+						roomNums.push(convo.id)
+					})
+					console.log(roomNums)
+					socket.emit('initialize_rooms', roomNums)
+					setConnectedToSocket(true)
+				}
+			}
+			
+		})()
+	}, [props, messages])
 
 	const fillInbox = async() => {
 		const res = await fetch(`http://localhost:5000/api/users/${props.userInfo.userId}/find-conversations`)
@@ -28,7 +62,6 @@ const Inbox = (props) => {
 		setConversations(conversations)
 	}
 
-	console.log(props)
 
 	const updateMessageContent = (e) => {
 		setMessageContent(e.target.value)
@@ -38,8 +71,10 @@ const Inbox = (props) => {
 		dispatch(setInboxVisibility(false))
 	}
 	
-	const openComposeMessageDialogBox = (convo) => {
+	const openComposeMessageDialogBox = (convo, id, idx) => {
 		console.log(convo)
+		setConversationId(id)
+		setConvoArrayIdx(idx)
 		if(convo.creator === props.userInfo.userId){
 			setRecipientId(convo.recipient)
 			setRecipientUsername(convo.recipient_username)
@@ -55,13 +90,28 @@ const Inbox = (props) => {
 		setComposeMessageDialog(false)
 	}
 
+	const updateConversations = (messageContent, conversation) => {
+		console.log('callback successfull')
+		console.log(conversations)
+		conversations.forEach((convo, idx) => {
+			console.log('CONVO:', convo)
+			console.log('CONVERSATION', conversation)
+			if (convo.id === conversation.id){
+				convo.Messages.push(messageContent)
+				conversations.splice(idx, 1, conversation)
+			}
+			if(conversation.id === conversationId){
+				setMessages(conversation.Messages)
+			}
+		})
+	}
+
 	const sendMessage = async() => {
 		const body = {
 			content: messageContent,
 			recipientUsername: recipientUsername,
 			senderUsername: props.userInfo.username
 		}
-		console.log(body)
 		let newMessage = await fetch(`http://localhost:5000/api/users/${props.userInfo.userId}/send-message-to-user/${recipientId}`, {
 			method: 'POST',
 			headers: {
@@ -70,10 +120,19 @@ const Inbox = (props) => {
 			body: JSON.stringify(body)
 		})
 		await newMessage.json()
-		console.log(newMessage)
-		// closeComposeMessageDialogBox()
+		conversations[convoArrayIdx].Messages.push(messageContent)
+		socket.emit('message', messageContent, conversations[convoArrayIdx])
+		setMessageContent('')
+		// setMessages(conversations[convoArrayIdx].Messages)
 	}
 
+	
+
+	socket.on('instant_message', (messageContent, conversation) =>{
+		console.log(messageContent)
+		updateConversations(messageContent, conversation)
+		
+	}) 
 
   return(
 		<>
@@ -112,7 +171,7 @@ const Inbox = (props) => {
 					
 					return(
 						<div className="conversation-container__inbox-messaging-accordion">
-							<AccordionDetails key={idx} onClick={() => openComposeMessageDialogBox(convo)}>
+							<AccordionDetails key={idx} onClick={() => openComposeMessageDialogBox(convo, convo.id, idx)}>
 								<Typography>
 									<div className="recipient-name">
 										{recipientName}
@@ -143,7 +202,8 @@ const Inbox = (props) => {
 					})}
 						<div className="message-box-container__inbox">
 							<FormControl>
-								<TextField className="message-box__inbox" id="message" multiline={true} rows={5} variant="outlined" color="secondary" onChange={updateMessageContent}/>
+								<TextField className="message-box__inbox" id="message" multiline={true} rows={5} variant="outlined" color="secondary" value={messageContent} onChange={updateMessageContent}>
+								</TextField>
 							</FormControl>
 						</div>
 						<div className="send-and-cancel-buttons-container__inbox">
