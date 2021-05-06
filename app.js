@@ -20,19 +20,30 @@ const options = {
   }
 };
 const io = require('socket.io')(httpServer, options)
-
+let roomSet = new Set()
 io.on('connection', socket => {
+  console.log(roomSet)
   console.log('dis muh fuh done kuhnekted')
-  socket.on('initialize_rooms', roomNums => {
+  socket.on('initialize_rooms', roomNum => {
     console.log('recieved command to initialize rooms')
-    roomNums.forEach(roomNum => {
-      console.log(roomNum)
+    console.log('room nums:', roomNum)
+    if(roomSet.has(roomNum)){
+      return
+    } else{
       socket.join(roomNum)
-    })
+      roomSet.add(roomNum)
+    }
+
+    // roomNums.forEach(roomNum => {
+    //   console.log(roomNum)
+    //   socket.join(roomNum)
+    // })
   })
 
-  socket.on('message', (messageContent, conversation) =>{
-    socket.to(conversation.id).emit('instant_message', messageContent, conversation)
+  socket.on('message', (message, conversation) =>{
+    console.log('MESSAGE RECEIVED:', message.content)
+    console.log('ROOM NUMBER:', message.recipient_id)
+    socket.to(message.recipient_id).emit('instant_message', message, conversation)
   })
 })
 
