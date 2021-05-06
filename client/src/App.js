@@ -15,6 +15,7 @@ import SignUp from './components/signup/SignUp';
 import BidHistory from './components/user_dropdown/BidHistory';
 import './index.css';
 import Inbox from './components/user_dropdown/Inbox';
+import { socket } from './services/socket'
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -53,6 +54,8 @@ const App = () => {
         setAuthenticated(true)
         setUserId(payload.id)
         setUsername(payload.username)
+        socket.emit('initialize_rooms', payload.id)
+
       } catch(err) {
 
       }
@@ -61,7 +64,7 @@ const App = () => {
 			// const conversations = await res.json()
       // setConversations(conversations)
     })()
-  }, /*[]*/)
+  }, [])
 
   return (
     <>

@@ -524,7 +524,8 @@ router.post('/:senderId/send-message-to-user/:recipientId', asyncHandler(async(r
       author_id: sender,
       content,
       conversation_id: previousConversation[0].dataValues.id,
-      author_username: senderUsername
+      author_username: senderUsername,
+      recipient_id: recipient
     })
     res.json(message)
     return
@@ -541,7 +542,8 @@ router.post('/:senderId/send-message-to-user/:recipientId', asyncHandler(async(r
     author_id: sender,
     content,
     conversation_id: newConversation.id,
-    author_username: senderUsername
+    author_username: senderUsername,
+    recipient_id: recipient
   })
 
   res.json(message)
