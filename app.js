@@ -20,34 +20,10 @@ const options = {
   }
 };
 const io = require('socket.io')(httpServer, options)
-let roomSet = new Set()
-io.on('connection', socket => {
-  console.log(roomSet)
-  console.log('dis muh fuh done kuhnekted')
-  socket.on('initialize_rooms', roomNum => {
-    console.log('recieved command to initialize rooms')
-    console.log('room nums:', roomNum)
-    if(roomSet.has(roomNum)){
-      return
-    } else{
-      socket.join(roomNum)
-      roomSet.add(roomNum)
-    }
-
-    // roomNums.forEach(roomNum => {
-    //   console.log(roomNum)
-    //   socket.join(roomNum)
-    // })
-  })
-
-  socket.on('message', (message, conversation) =>{
-    console.log('MESSAGE RECEIVED:', message.content)
-    console.log('ROOM NUMBER:', message.recipient_id)
-    socket.to(message.recipient_id).emit('instant_message', message, conversation)
-  })
-})
-
 httpServer.listen(8082)
+
+
+
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -91,5 +67,25 @@ app.use(function(err, _req, res, _next) {
     error: JSON.parse(JSON.stringify(err)),
   });
 });
+
+io.on('connection', async (socket) => {
+  console.log('User Conected')
+  const sockets = await io.fetchSockets()
+  console.log('# of sockets connected:', sockets.length)
+  console.log('# of rooms:', io.sockets.adapter.rooms)
+  socket.on('add_user_to_room', async (roomNum) => {
+    console.log('adding new user to room:', roomNum)
+    socket.join(roomNum)
+    const sockets = await io.fetchSockets()
+    console.log('# of sockets connected:', sockets.length)
+    console.log('ROOOOOMMMSS:', io.sockets.adapter.rooms)
+  })
+
+  socket.on('message', (message, conversation) =>{
+    console.log('MESSAGE RECEIVED:', message.content)
+    console.log('ROOM NUMBER:', message.recipient_id)
+    socket.to(message.recipient_id).emit(`instant_message`, message, conversation)
+  })
+})
 
 module.exports = app;

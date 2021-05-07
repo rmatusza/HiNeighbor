@@ -25,9 +25,11 @@ const App = () => {
   const dispatch = useDispatch();
   const inboxVisible = useSelector(store => store.entities.inbox_visibility.visible);
 
+
   useEffect(() => {
     (async () => {
       // let UserId;
+      console.log('use effect: App component')
       try{
         let token;
         const cookieArr = document.cookie.split('=')
@@ -54,15 +56,14 @@ const App = () => {
         setAuthenticated(true)
         setUserId(payload.id)
         setUsername(payload.username)
-        socket.emit('initialize_rooms', payload.id)
 
+        // let fetchConversations = await fetch(`http://localhost:5000/api/users/${payload.id}/find-conversations`)
+        // const conversations = await fetchConversations.json()
+        // setConversations(conversations)
       } catch(err) {
 
       }
 
-      // let res = await fetch(`http://localhost:5000/api/users/${userId}/find-conversations`)
-			// const conversations = await res.json()
-      // setConversations(conversations)
     })()
   }, [])
 
@@ -102,7 +103,7 @@ const App = () => {
       </BrowserRouter>
       
       <div className={inboxVisible ? 'inboxContainer__visible' : 'inboxContainer__invisible'}>
-        <Inbox userInfo={{userId, username}}/>
+        <Inbox userInfo={{userId, username, conversations}}/>
       </div>
     </>
   );

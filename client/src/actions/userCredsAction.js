@@ -7,9 +7,10 @@ export const setUserCreds = (currentUserData) => {
   }
 }
 
-export const logoutUser = () => {
+export const logoutUser = (currentUserData) => {
   return {
     type: CLEAR_REDUX_STORE,
+    currentUserData
   }
 }
 
