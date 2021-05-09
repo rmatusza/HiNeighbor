@@ -33,7 +33,7 @@ const UserDropdown = (props) => {
     setAnchorEl(null);
     document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     props.setAuthenticated(false)
-    dispatch(logoutUser())
+    dispatch(logoutUser({id: null, username: null, firstName: null, lastName: null}))
     dispatch(clearSearchParams())
   };
 

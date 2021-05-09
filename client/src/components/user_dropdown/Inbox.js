@@ -22,34 +22,61 @@ const Inbox = (props) => {
 	const [recipientId, setRecipientId] = useState(null);
 	const [messages, setMessages] = useState([]);
 	const [conversationId, setConversationId] = useState(null);
-	const [convoArrayIdx, setConvoArrayIdx] = useState(null);
+	const [conversationIndex, setConversationIndex] = useState(null);
 	const [connectedToSocket, setConnectedToSocket] = useState(false);
-	// const currUserId = useSelector(store => store.session.currentUser.id);
+	const currUserId = useSelector(store => store.session.currentUser.id);
+	const currUsername = useSelector(store => store.session.currentUser.username)
+	const inboxVisiblity = useSelector(store => store.entities.inbox_visibility.visible)
 
 	// const [socket, setSocket] = useState(null);
 	const dispatch = useDispatch();
 
-	// console.log(props)
+	console.log(connectedToSocket)
+
+	const test = () => {
+		console.log('i got called')
+	}
+
+	if(connectedToSocket === false){
+		console.log('adding "instant_message" event listener')
+		socket.on(`instant_message`, (message, conversation) =>{
+			// console.log('CONVERSATIONS:', conversations)
+			// console.log(message)
+			// conversations.forEach(convo => {
+			// 	console.log(convo)
+			// 	if(convo.id === conversation.id){
+			// 		convo.Messages.push(message)
+			// 		// setConversations(conversations)
+			// 	}
+	
+			// })
+			test()
+		}) 
+	}
 
 	useEffect(() =>{
 		(async() => {
-			if(props.userInfo.userId){
-				console.log('updating convos')
-				let res = await fetch(`http://localhost:5000/api/users/${props.userInfo.userId}/find-conversations`)
+			if(currUserId !== null){
+				console.log('fetching conversations for user number:', currUserId)
+				let res = await fetch(`http://localhost:5000/api/users/${currUserId}/find-conversations`)
 				const conversations = await res.json()
+				console.log(conversations)
 				setConversations(conversations)
-				if(connectedToSocket === false){
-					// let roomNums = []
-					// conversations.forEach(convo => {
-					// 	roomNums.push(convo.id)
-					// })
-					// console.log(roomNums)
-					// socket.emit('initialize_rooms', props.userInfo.userId)
-					setConnectedToSocket(true)
-				}
+				socket.emit('add_user_to_room', currUserId)
+				setConnectedToSocket(true)
+				// if(connectedToSocket === false){
+				// 	// let roomNums = []
+				// 	// conversations.forEach(convo => {
+				// 	// 	roomNums.push(convo.id)
+				// 	// })
+				// 	// console.log(roomNums)
+				// 	// socket.emit('initialize_rooms', props.userInfo.userId)
+				// 	setConnectedToSocket(true)
+				// }
 			}
 		})()
-	}, [])
+	}, [currUserId])
+
 
 	const fillInbox = async() => {
 		const res = await fetch(`http://localhost:5000/api/users/${props.userInfo.userId}/find-conversations`)
@@ -68,9 +95,10 @@ const Inbox = (props) => {
 	
 	const openComposeMessageDialogBox = (convo, id, idx) => {
 		console.log(convo)
+		console.log('CURR USER ID:', currUserId)
 		setConversationId(id)
-		setConvoArrayIdx(idx)
-		if(convo.creator === props.userInfo.userId){
+		setConversationIndex(idx)
+		if(convo.creator ===currUserId){
 			setRecipientId(convo.recipient)
 			setRecipientUsername(convo.recipient_username)
 		} else{
@@ -85,29 +113,21 @@ const Inbox = (props) => {
 		setComposeMessageDialog(false)
 	}
 
-	// const updateConversations = (messageContent, conversation) => {
-	// 	console.log('callback successfull')
-	// 	console.log(conversations)
-	// 	conversations.forEach((convo, idx) => {
-	// 		console.log('CONVO:', convo)
-	// 		console.log('CONVERSATION', conversation)
-	// 		if (convo.id === conversation.id){
-	// 			convo.Messages.push(messageContent)
-	// 			conversations.splice(idx, 1, conversation)
-	// 		}
-	// 		if(conversation.id === conversationId){
-	// 			setMessages(conversation.Messages)
-	// 		}
-	// 	})
-	// }
+	const emitMessage = (newMessage, currentConvo) => {
+		console.log('i got emmited')
+		socket.emit('message', newMessage, currentConvo)
+
+	}
 
 	const sendMessage = async() => {
 		const body = {
 			content: messageContent,
 			recipientUsername: recipientUsername,
-			senderUsername: props.userInfo.username
+			senderUsername: currUsername
 		}
-		let res = await fetch(`http://localhost:5000/api/users/${props.userInfo.userId}/send-message-to-user/${recipientId}`, {
+
+		console.log(body)
+		let res = await fetch(`http://localhost:5000/api/users/${currUserId}/send-message-to-user/${recipientId}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -116,28 +136,17 @@ const Inbox = (props) => {
 		})
 		let newMessage = await res.json()
 		console.log('CONVERSATIONS:', conversations)
-		conversations[convoArrayIdx].Messages.push(newMessage)
-		setMessages(conversations[convoArrayIdx].Messages)
-		socket.emit('message', newMessage, conversations[convoArrayIdx])
+		let currentConvo = conversations[conversationIndex]
+		let currentConvoMessages = conversations[conversationIndex].Messages
+		currentConvoMessages.push(newMessage)
+		setMessages(currentConvoMessages)
 		setMessageContent('')
+		emitMessage(newMessage, currentConvo)
 	}
 
 	
 
-	socket.on('instant_message', (message, conversation) =>{
-		console.log('CONVERSATIONS:', conversations)
-		console.log(message)
-		conversations.forEach(convo => {
-			console.log(convo)
-			if(convo.id === conversation.id){
-				convo.Messages.push(message)
-				setConversations(conversations)
-			}
-
-		})
-		// updateConversations(messageContent, conversation)
-	}) 
-
+	
   return(
 		<>
 			<Accordion
