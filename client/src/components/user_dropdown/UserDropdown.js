@@ -7,6 +7,7 @@ import { clearSearchParams } from '../../actions/searchCategoryActions';
 import { setInboxVisibility } from '../../actions/chatActions';
 import PostItem from './PostItem';
 import PostRentItem from './PostRentItem';
+import { socket } from '../../App';
 import {
   Menu,
   MenuItem,
@@ -35,6 +36,7 @@ const UserDropdown = (props) => {
     props.setAuthenticated(false)
     dispatch(logoutUser({id: null, username: null, firstName: null, lastName: null}))
     dispatch(clearSearchParams())
+    socket.emit('disconnect-socket')
   };
 
   const handlePostedItems = () => {

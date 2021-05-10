@@ -12,7 +12,7 @@ import {
 	TextField
 } from '@material-ui/core'
 import { BiUpArrowAlt } from "react-icons/bi";
-import { socket } from '../../services/socket';
+import { socket } from '../../App';
 
 const Inbox = (props) => {
 	const [conversations, setConversations] = useState([]);
@@ -30,52 +30,48 @@ const Inbox = (props) => {
 
 	// const [socket, setSocket] = useState(null);
 	const dispatch = useDispatch();
-
-	console.log(connectedToSocket)
-
-	const test = () => {
-		console.log('i got called')
-	}
-
-	if(connectedToSocket === false){
-		console.log('adding "instant_message" event listener')
-		socket.on(`instant_message`, (message, conversation) =>{
-			// console.log('CONVERSATIONS:', conversations)
-			// console.log(message)
-			// conversations.forEach(convo => {
-			// 	console.log(convo)
-			// 	if(convo.id === conversation.id){
-			// 		convo.Messages.push(message)
-			// 		// setConversations(conversations)
-			// 	}
+	console.log(props)
+	// if(connectedToSocket === false){
+	// 	console.log('adding "instant_message" event listener')
+	// 	socket.on(`instant_message`, (message, conversation) =>{
+	// 		console.log('CONVERSATIONS:', conversations)
+	// 		console.log(message)
+	// 		conversations.forEach(convo => {
+	// 			console.log(convo)
+	// 			if(convo.id === conversation.id){
+	// 				convo.Messages.push(message)
+	// 				setConversations(conversations)
+	// 			}
 	
-			// })
-			test()
-		}) 
-	}
+	// 		})
+	// 		test()
+	// 	}) 
+	// }
 
 	useEffect(() =>{
 		(async() => {
-			if(currUserId !== null){
-				console.log('fetching conversations for user number:', currUserId)
-				let res = await fetch(`http://localhost:5000/api/users/${currUserId}/find-conversations`)
-				const conversations = await res.json()
-				console.log(conversations)
-				setConversations(conversations)
-				socket.emit('add_user_to_room', currUserId)
-				setConnectedToSocket(true)
-				// if(connectedToSocket === false){
-				// 	// let roomNums = []
-				// 	// conversations.forEach(convo => {
-				// 	// 	roomNums.push(convo.id)
-				// 	// })
-				// 	// console.log(roomNums)
-				// 	// socket.emit('initialize_rooms', props.userInfo.userId)
-				// 	setConnectedToSocket(true)
-				// }
-			}
+			// console.log('fetching conversations for user number:', currUserId)
+			// let res = await fetch(`http://localhost:5000/api/users/${currUserId}/find-conversations`)
+			// const conversations = await res.json()
+			// console.log(conversations)
+			// setConversations(conversations)
+			// if(props.userInfo.userId){
+			// 	console.log('IN THE USE EFFECT')
+			// }
+			socket.on(`instant_message`, (message, conversation) =>{
+				console.log('CONVERSATIONS:', conversations)
+				console.log(message)
+				conversations.forEach(convo => {
+					console.log(convo)
+					if(convo.id === conversation.id){
+						convo.Messages.push(message)
+						setConversations(conversations)
+						props.userInfo.conversations = conversations
+					}
+				})
+			}) 
 		})()
-	}, [currUserId])
+	}, [])
 
 
 	const fillInbox = async() => {
@@ -119,6 +115,8 @@ const Inbox = (props) => {
 
 	}
 
+	// {socket.emit('add_user_to_room', props.userInfo.userId)}
+
 	const sendMessage = async() => {
 		const body = {
 			content: messageContent,
@@ -136,18 +134,18 @@ const Inbox = (props) => {
 		})
 		let newMessage = await res.json()
 		console.log('CONVERSATIONS:', conversations)
-		let currentConvo = conversations[conversationIndex]
-		let currentConvoMessages = conversations[conversationIndex].Messages
+		let currentConvo = props.userInfo.conversations[conversationIndex]
+		let currentConvoMessages = props.userInfo.conversations[conversationIndex].Messages
 		currentConvoMessages.push(newMessage)
 		setMessages(currentConvoMessages)
 		setMessageContent('')
 		emitMessage(newMessage, currentConvo)
 	}
 
-	
-
-	
   return(
+		props.userInfo.userId === null ? 
+		<></>
+		:
 		<>
 			<Accordion
 				defaultExpanded={true}
@@ -166,7 +164,7 @@ const Inbox = (props) => {
 				<div className="close-messaging-container">
 					<h4 className="close-messaging-container-text" onClick={removeMessagingBox}>Remove Messaging Box</h4>
 				</div>
-				{conversations.map((convo, idx) => {
+				{props.userInfo.conversations.map((convo, idx) => {
 					let lastIdx = convo.Messages.length-1
 					let recipientName;
 					let lastSender;
