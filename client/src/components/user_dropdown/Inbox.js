@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setInboxVisibility } from '../../actions/chatActions';
+import { setInboxVisibility, setConversations } from '../../actions/chatActions';
 import {
 	Accordion,
 	AccordionSummary,
@@ -15,70 +15,40 @@ import { BiUpArrowAlt } from "react-icons/bi";
 import { socket } from '../../App';
 
 const Inbox = (props) => {
-	const [conversations, setConversations] = useState([]);
+	const [convos, setConvos] = useState([]);
 	const [composeMessageDialog, setComposeMessageDialog] = useState(false);
 	const [messageContent, setMessageContent] = useState('');
 	const [recipientUsername, setRecipientUsername] = useState(null);
 	const [recipientId, setRecipientId] = useState(null);
 	const [messages, setMessages] = useState([]);
-	const [conversationId, setConversationId] = useState(null);
 	const [conversationIndex, setConversationIndex] = useState(null);
-	const [connectedToSocket, setConnectedToSocket] = useState(false);
 	const currUserId = useSelector(store => store.session.currentUser.id);
 	const currUsername = useSelector(store => store.session.currentUser.username)
-	const inboxVisiblity = useSelector(store => store.entities.inbox_visibility.visible)
 
-	// const [socket, setSocket] = useState(null);
 	const dispatch = useDispatch();
-	console.log(props)
-	// if(connectedToSocket === false){
-	// 	console.log('adding "instant_message" event listener')
-	// 	socket.on(`instant_message`, (message, conversation) =>{
-	// 		console.log('CONVERSATIONS:', conversations)
-	// 		console.log(message)
-	// 		conversations.forEach(convo => {
-	// 			console.log(convo)
-	// 			if(convo.id === conversation.id){
-	// 				convo.Messages.push(message)
-	// 				setConversations(conversations)
-	// 			}
-	
-	// 		})
-	// 		test()
-	// 	}) 
-	// }
+	console.log('PROPS INBOX:', props)
+	let conversations = props.userInfo.conversations
 
-	useEffect(() =>{
-		(async() => {
-			// console.log('fetching conversations for user number:', currUserId)
-			// let res = await fetch(`http://localhost:5000/api/users/${currUserId}/find-conversations`)
-			// const conversations = await res.json()
-			// console.log(conversations)
-			// setConversations(conversations)
-			// if(props.userInfo.userId){
-			// 	console.log('IN THE USE EFFECT')
-			// }
-			socket.on(`instant_message`, (message, conversation) =>{
-				console.log('CONVERSATIONS:', conversations)
-				console.log(message)
-				conversations.forEach(convo => {
-					console.log(convo)
-					if(convo.id === conversation.id){
-						convo.Messages.push(message)
-						setConversations(conversations)
-						props.userInfo.conversations = conversations
-					}
-				})
-			}) 
-		})()
-	}, [])
-
-
-	const fillInbox = async() => {
-		const res = await fetch(`http://localhost:5000/api/users/${props.userInfo.userId}/find-conversations`)
-		const conversations = await res.json()
-		setConversations(conversations)
+	const updateConvos = (message, conversation) => {
+		console.log(message, conversation)
+		
 	}
+	
+
+	socket.removeAllListeners()
+	socket.on(`instant_message`, (message, conversation) =>{
+		console.log(message)
+		conversations.forEach((convo, idx) => {
+			console.log(convo)
+			if(convo.id === conversation.id){
+				console.log('FOUND MATCH')
+				conversations[idx].Messages.push(message)
+				props.userInfo.conversations.splice(idx, 1, conversation)
+				setConvos(props.userInfo.conversations)
+				setMessages(conversations[idx].Messages)
+			}
+		})		
+	}) 
 
 
 	const updateMessageContent = (e) => {
@@ -92,7 +62,6 @@ const Inbox = (props) => {
 	const openComposeMessageDialogBox = (convo, id, idx) => {
 		console.log(convo)
 		console.log('CURR USER ID:', currUserId)
-		setConversationId(id)
 		setConversationIndex(idx)
 		if(convo.creator ===currUserId){
 			setRecipientId(convo.recipient)
@@ -115,8 +84,6 @@ const Inbox = (props) => {
 
 	}
 
-	// {socket.emit('add_user_to_room', props.userInfo.userId)}
-
 	const sendMessage = async() => {
 		const body = {
 			content: messageContent,
@@ -134,18 +101,16 @@ const Inbox = (props) => {
 		})
 		let newMessage = await res.json()
 		console.log('CONVERSATIONS:', conversations)
-		let currentConvo = props.userInfo.conversations[conversationIndex]
-		let currentConvoMessages = props.userInfo.conversations[conversationIndex].Messages
+		let currentConvo = conversations[conversationIndex]
+		let currentConvoMessages = currentConvo.Messages
 		currentConvoMessages.push(newMessage)
+		dispatch(setConversations(conversations))
 		setMessages(currentConvoMessages)
 		setMessageContent('')
 		emitMessage(newMessage, currentConvo)
 	}
 
   return(
-		props.userInfo.userId === null ? 
-		<></>
-		:
 		<>
 			<Accordion
 				defaultExpanded={true}
@@ -164,17 +129,17 @@ const Inbox = (props) => {
 				<div className="close-messaging-container">
 					<h4 className="close-messaging-container-text" onClick={removeMessagingBox}>Remove Messaging Box</h4>
 				</div>
-				{props.userInfo.conversations.map((convo, idx) => {
+				{conversations.map((convo, idx) => {
 					let lastIdx = convo.Messages.length-1
 					let recipientName;
 					let lastSender;
-					if(convo.creator === props.userInfo.userId){
+					if(convo.creator === currUserId){
 						recipientName = convo.recipient_username
 					} else {
 						recipientName = convo.creator_username
 					}
 
-					if(convo.Messages[lastIdx].author_id === props.userInfo.userId){
+					if(convo.Messages[lastIdx].author_id === currUserId){
 						lastSender = 'You'
 					}else{
 						lastSender = recipientName
@@ -193,7 +158,7 @@ const Inbox = (props) => {
 						</div>
 					)
 				})}
-				<Button onClick={fillInbox}>get conversations</Button>
+				{/* <Button onClick={fillInbox}>get conversations</Button> */}
 			</Accordion>
 
 			<Dialog

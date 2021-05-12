@@ -10,7 +10,8 @@ const {
   CLEAR_SEARCH_PARAMS, 
   SET_SELLER_PROFILE_ITEMS_FOR_SALE,
   SET_BID_HISTORY,
-  SET_INBOX_VISIBILITY
+  SET_INBOX_VISIBILITY,
+  SET_CONVERSATIONS
 } = require("../actions/types")
 
 
@@ -39,7 +40,8 @@ const initialState = {
   },
   inbox_visibility:{
     visible: false
-  }
+  },
+  conversations: []
 }
 const searchCategoryReducer = (state = initialState, action) => {
 
@@ -114,10 +116,15 @@ const searchCategoryReducer = (state = initialState, action) => {
       }
     case SET_INBOX_VISIBILITY:
       let visibilityStatus = action.visible
-      console.log('VISIBILITY STATUS:', visibilityStatus)
       return {
         ...state,
        inbox_visibility: {visible: visibilityStatus}
+      }
+    case SET_CONVERSATIONS:
+      let conversations = action.conversations
+      return{
+        ...state,
+        conversations
       }
     default:
       return state;
