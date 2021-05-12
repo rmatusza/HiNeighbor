@@ -15,7 +15,8 @@ import SignUp from './components/signup/SignUp';
 import BidHistory from './components/user_dropdown/BidHistory';
 import './index.css';
 import Inbox from './components/user_dropdown/Inbox';
-import { socket } from './services/socket'
+import { io } from 'socket.io-client';
+export const socket = io.connect('http://localhost:8082')
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -56,16 +57,18 @@ const App = () => {
         setAuthenticated(true)
         setUserId(payload.id)
         setUsername(payload.username)
-
-        // let fetchConversations = await fetch(`http://localhost:5000/api/users/${payload.id}/find-conversations`)
-        // const conversations = await fetchConversations.json()
-        // setConversations(conversations)
+        // await fetch('http://localhost:5000/api/init-websockets')
+        let fetchConversations = await fetch(`http://localhost:5000/api/users/${payload.id}/find-conversations`)
+        const conversations = await fetchConversations.json()
+        setConversations(conversations)
+        console.log('payload id:', payload.id)
+        socket.emit('add_user_to_room', payload.id)
       } catch(err) {
 
       }
 
     })()
-  }, [])
+  }, [authenticated])
 
   return (
     <>
@@ -100,11 +103,14 @@ const App = () => {
           <TopBar setAuthenticated={setAuthenticated}/>
           <UserStats />
         </ProtectedRoute>
+        <ProtectedRoute path="/" authenticated={authenticated} exact={false}>
+          <div className={inboxVisible ? 'inboxContainer__visible' : 'inboxContainer__invisible'}>
+            <Inbox userInfo={{userId, username, conversations}}/>
+          </div>
+        </ProtectedRoute>
       </BrowserRouter>
       
-      <div className={inboxVisible ? 'inboxContainer__visible' : 'inboxContainer__invisible'}>
-        <Inbox userInfo={{userId, username, conversations}}/>
-      </div>
+      
     </>
   );
 }
