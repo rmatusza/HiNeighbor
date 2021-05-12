@@ -20,9 +20,9 @@ export const socket = io.connect('http://localhost:8082')
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
+  const [conversations, setConversations] = useState([])
   const [userId, setUserId] = useState(null);
   const [username, setUsername] = useState(null)
-  const [conversations, setConversations] = useState([])
   const dispatch = useDispatch();
   const inboxVisible = useSelector(store => store.entities.inbox_visibility.visible);
 
