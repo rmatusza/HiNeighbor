@@ -27,10 +27,25 @@ io.on('connection', async (socket) => {
 		console.log('ROOOOOMMMSS:', io.sockets.adapter.rooms)
 	})
 
-	socket.on('message', (message, conversation) =>{
+	socket.on('message', (message, conversation, origin) =>{
+		console.log('CONVERSATION:', conversation)
 		console.log('MESSAGE RECEIVED:', message.content)
 		console.log('ROOM NUMBER:', message.recipient_id)
 		socket.to(message.recipient_id).emit(`instant_message`, message, conversation)
+	})
+
+	socket.on('message_from_seller_profile', async (message, conversation) =>{
+		console.log('CONVERSATION:', conversation)
+		console.log('MESSAGE RECEIVED:', message.content)
+		console.log('ROOM NUMBER:', message.recipient_id)
+		await socket.to(message.recipient_id).emit(`message_from_seller_profile`, message, conversation)
+		await socket.to(message.author_id).emit(`message_from_seller_profile`, message, conversation)
+	})
+
+	socket.on('create_new_conversation', conversation => {
+		console.log('CONVERSATION BACKEND:', conversation)
+		console.log('ROOM NUMBER:', conversation.recipient)
+		socket.to(conversation.recipient, conversation.creator).emit('new_conversation', conversation)
 	})
 
 	socket.on('disconnect-socket', () => {

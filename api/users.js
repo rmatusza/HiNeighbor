@@ -516,18 +516,21 @@ router.post('/:senderId/send-message-to-user/:recipientId', asyncHandler(async(r
         { creator: sender, recipient: recipient },
         { creator: recipient, recipient: sender }
       ]
+    },
+    include: {
+      model: Message
     }
   })
   
   if(previousConversation.length > 0){
-    let message = await Message.create({
+    let newMessage = await Message.create({
       author_id: sender,
       content,
       conversation_id: previousConversation[0].dataValues.id,
       author_username: senderUsername,
       recipient_id: recipient
     })
-    res.json(message)
+    res.json({'previousConversation': previousConversation, newMessage})
     return
   }
 
@@ -538,7 +541,7 @@ router.post('/:senderId/send-message-to-user/:recipientId', asyncHandler(async(r
     recipient_username: recipientUsername
   })
   
-  let message = await Message.create({
+  let newMessage = await Message.create({
     author_id: sender,
     content,
     conversation_id: newConversation.id,
@@ -546,7 +549,9 @@ router.post('/:senderId/send-message-to-user/:recipientId', asyncHandler(async(r
     recipient_id: recipient
   })
 
-  res.json(message)
+  newConversation.Messages = [newMessage]
+
+  res.json({'newConversation': newConversation, newMessage})
 }))
 
 

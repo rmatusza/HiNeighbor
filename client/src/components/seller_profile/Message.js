@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { socket } from '../../App';
 import {
 	Dialog,
 	DialogTitle,
@@ -73,7 +74,13 @@ const Message = (props) => {
 			},
 			body: JSON.stringify(body)
 		})
-		await newMessage.json()
+		let conversationData = await newMessage.json()
+		console.log('CONVERSATION DATA:', conversationData)
+		if(conversationData.newConversation) {
+			socket.emit('create_new_conversation', conversationData.newConversation[0])
+		} else {
+			await socket.emit('message_from_seller_profile', conversationData.newMessage, conversationData.previousConversation[0])
+		}
 		console.log(newMessage)
 		closeComposeMessageDialogBox()
 	}
