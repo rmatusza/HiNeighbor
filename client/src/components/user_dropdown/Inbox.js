@@ -50,6 +50,28 @@ const Inbox = (props) => {
 		})		
 	}) 
 
+	socket.on('message_from_seller_profile', (message, conversation) => {
+		console.log(message)
+		conversations.forEach((convo, idx) => {
+			console.log(convo)
+			if(convo.id === conversation.id){
+				console.log('FOUND MATCH')
+				conversations[idx].Messages.push(message)
+				props.userInfo.conversations.splice(idx, 1, conversation)
+				setConvos(props.userInfo.conversations)
+				setMessages(conversations[idx].Messages)
+			}
+		})		
+	})
+
+	
+
+	socket.on('new_conversation', conversation => {
+		console.log('NEW CONVERSATION:', conversation)
+		props.userInfo.conversations.push(conversation)
+		setConvos(props.userInfo.conversations)
+	})
+
 
 	const updateMessageContent = (e) => {
 		setMessageContent(e.target.value)
@@ -80,7 +102,8 @@ const Inbox = (props) => {
 
 	const emitMessage = (newMessage, currentConvo) => {
 		console.log('i got emmited')
-		socket.emit('message', newMessage, currentConvo)
+		console.log('CURRENT CONVO:', currentConvo)
+		socket.emit('message', newMessage, currentConvo, {'from_seller_profile': false})
 
 	}
 
@@ -99,7 +122,7 @@ const Inbox = (props) => {
 			},
 			body: JSON.stringify(body)
 		})
-		let newMessage = await res.json()
+		let { newMessage } = await res.json()
 		console.log('CONVERSATIONS:', conversations)
 		let currentConvo = conversations[conversationIndex]
 		let currentConvoMessages = currentConvo.Messages
