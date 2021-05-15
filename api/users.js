@@ -549,7 +549,6 @@ router.post('/:senderId/send-message-to-user/:recipientId', asyncHandler(async(r
     recipient_id: recipient
   })
 
-  newConversation.Messages = [newMessage]
 
   res.json({'newConversation': newConversation, newMessage})
 }))

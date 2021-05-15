@@ -15,61 +15,68 @@ import { BiUpArrowAlt } from "react-icons/bi";
 import { socket } from '../../App';
 
 const Inbox = (props) => {
-	const [convos, setConvos] = useState([]);
+	const [conversations, setConversations] = useState([]);
 	const [composeMessageDialog, setComposeMessageDialog] = useState(false);
 	const [messageContent, setMessageContent] = useState('');
 	const [recipientUsername, setRecipientUsername] = useState(null);
 	const [recipientId, setRecipientId] = useState(null);
 	const [messages, setMessages] = useState([]);
 	const [conversationIndex, setConversationIndex] = useState(null);
+	const [lastMessage, setLastMessage] = useState([]);
 	const currUserId = useSelector(store => store.session.currentUser.id);
 	const currUsername = useSelector(store => store.session.currentUser.username)
 
 	const dispatch = useDispatch();
-	console.log('PROPS INBOX:', props)
-	let conversations = props.userInfo.conversations
-
-	const updateConvos = (message, conversation) => {
-		console.log(message, conversation)
-		
-	}
-	
+	// console.log('PROPS INBOX:', props)
+	// console.log('LAST RECEIVED MESSAGE:', lastMessage)
+	useEffect(()=> {
+		if(props.userInfo.userId){
+			setConversations(props.userInfo.conversations)
+		}
+	}, [props, conversations])
 
 	socket.removeAllListeners()
 	socket.on(`instant_message`, (message, conversation) =>{
-		console.log(message)
+		// console.log(message)
 		conversations.forEach((convo, idx) => {
-			console.log(convo)
+			// console.log(convo)
 			if(convo.id === conversation.id){
-				console.log('FOUND MATCH')
+				// console.log('FOUND MATCH')
 				conversations[idx].Messages.push(message)
 				props.userInfo.conversations.splice(idx, 1, conversation)
-				setConvos(props.userInfo.conversations)
-				setMessages(conversations[idx].Messages)
-			}
+				setConversations(props.userInfo.conversations)
+				let msgs = [...lastMessage]
+				msgs.push(message)
+				setLastMessage(msgs)			}
 		})		
 	}) 
 
 	socket.on('message_from_seller_profile', (message, conversation) => {
-		console.log(message)
+		// console.log('message from seller profile:', message)
+		// console.log('conversation from the seller profile:', conversation)
 		conversations.forEach((convo, idx) => {
-			console.log(convo)
+			// console.log(convo)
 			if(convo.id === conversation.id){
-				console.log('FOUND MATCH')
-				conversations[idx].Messages.push(message)
+				// console.log('FOUND MATCH')
+				conversation.Messages.push(message)
 				props.userInfo.conversations.splice(idx, 1, conversation)
-				setConvos(props.userInfo.conversations)
-				setMessages(conversations[idx].Messages)
+				setConversations(props.userInfo.conversations)
+				let msgs = [...lastMessage]
+				msgs.push(message)
+				setLastMessage(msgs)
 			}
-		})		
+		})	
+	
 	})
 
-	
-
 	socket.on('new_conversation', conversation => {
-		console.log('NEW CONVERSATION:', conversation)
+		// console.log('NEW CONVERSATION:', conversation)
 		props.userInfo.conversations.push(conversation)
-		setConvos(props.userInfo.conversations)
+		let message = conversation.Messages[0]
+		let msgs = [...lastMessage]
+		msgs.push(message)
+		setLastMessage(msgs)
+		setConversations(props.userInfo.conversations)
 	})
 
 
@@ -82,8 +89,8 @@ const Inbox = (props) => {
 	}
 	
 	const openComposeMessageDialogBox = (convo, id, idx) => {
-		console.log(convo)
-		console.log('CURR USER ID:', currUserId)
+		// console.log(convo)
+		// console.log('CURR USER ID:', currUserId)
 		setConversationIndex(idx)
 		if(convo.creator ===currUserId){
 			setRecipientId(convo.recipient)
@@ -101,8 +108,8 @@ const Inbox = (props) => {
 	}
 
 	const emitMessage = (newMessage, currentConvo) => {
-		console.log('i got emmited')
-		console.log('CURRENT CONVO:', currentConvo)
+		// console.log('i got emmited')
+		// console.log('CURRENT CONVO:', currentConvo)
 		socket.emit('message', newMessage, currentConvo, {'from_seller_profile': false})
 
 	}
@@ -114,7 +121,7 @@ const Inbox = (props) => {
 			senderUsername: currUsername
 		}
 
-		console.log(body)
+		// console.log(body)
 		let res = await fetch(`http://localhost:5000/api/users/${currUserId}/send-message-to-user/${recipientId}`, {
 			method: 'POST',
 			headers: {
@@ -123,11 +130,11 @@ const Inbox = (props) => {
 			body: JSON.stringify(body)
 		})
 		let { newMessage } = await res.json()
-		console.log('CONVERSATIONS:', conversations)
+		// console.log('CONVERSATIONS:', conversations)
 		let currentConvo = conversations[conversationIndex]
 		let currentConvoMessages = currentConvo.Messages
 		currentConvoMessages.push(newMessage)
-		dispatch(setConversations(conversations))
+		// dispatch(setConversations(conversations))
 		setMessages(currentConvoMessages)
 		setMessageContent('')
 		emitMessage(newMessage, currentConvo)
