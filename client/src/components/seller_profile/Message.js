@@ -75,17 +75,19 @@ const Message = (props) => {
 			body: JSON.stringify(body)
 		})
 		let conversationData = await newMessage.json()
-		console.log('CONVERSATION DATA:', conversationData)
+		// console.log('CONVERSATION DATA:', conversationData)
 		if(conversationData.newConversation) {
-			socket.emit('create_new_conversation', conversationData.newConversation[0])
+			conversationData.newConversation['Messages'] = [conversationData.newMessage]
+			// console.log('CONVERSATION WITH MESSAGES ADDED:', conversationData.newConversation)
+			socket.emit('create_new_conversation', conversationData.newConversation)
 		} else {
+			// console.log('PREVIOUS CONVO:', conversationData.previousConversation)
 			await socket.emit('message_from_seller_profile', conversationData.newMessage, conversationData.previousConversation[0])
 		}
 		console.log(newMessage)
 		closeComposeMessageDialogBox()
 	}
 
-	console.log(props)
 	
 	return (
 		<div className="message-seller-buttton-container">
