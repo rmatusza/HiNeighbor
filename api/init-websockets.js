@@ -15,10 +15,10 @@ const io = require('socket.io')(httpServer, options)
 httpServer.listen(8082)
 
 io.on('connection', (socket) => {
-	console.log('User Conected')
+	// console.log('User Conected')
 	socket.on('add_user_to_room', (roomNum) => {
 		socket.join(roomNum)
-		console.log('ROOOOOMMMSS:', io.sockets.adapter.rooms)
+		// console.log('ROOOOOMMMSS:', io.sockets.adapter.rooms)
 	})
 
 	socket.on('message', (message, conversation, origin) =>{
@@ -26,21 +26,21 @@ io.on('connection', (socket) => {
 	})
 
 	socket.on('message_from_seller_profile', (message, conversation) =>{
-		console.log('CONVERSATION:', conversation)
-		console.log('MESSAGE RECEIVED:', message.content)
-		console.log('ROOM NUMBER:', message.recipient_id)
+		// console.log('CONVERSATION:', conversation)
+		// console.log('MESSAGE RECEIVED:', message.content)
+		// console.log('ROOM NUMBER:', message.recipient_id)
 		io.to(message.recipient_id).to(message.author_id).emit(`message_from_seller_profile`, message, conversation)
 	})
 
 	socket.on('create_new_conversation', conversation => {
-		console.log('NEW CONVERSATION:', conversation)
-		console.log('ROOM NUMBERS:', conversation.recipient, conversation.creator)
+		// console.log('NEW CONVERSATION:', conversation)
+		// console.log('ROOM NUMBERS:', conversation.recipient, conversation.creator)
 		// socket.to(conversation.recipient).emit('new_conversation', conversation)
 		io.to(conversation.creator).to(conversation.recipient).emit('new_conversation', conversation)
 	})
 
 	socket.on('disconnect-socket', () => {
-		console.log('DISCONNECTING THE SOCKET')
+		// console.log('DISCONNECTING THE SOCKET')
 		socket.disconnect()
 	})
 

@@ -846,11 +846,12 @@
   min-height: 400px;
   max-height: 510px;
   overflow: scroll;
+  overflow-x: hidden;
 }
 
-.conversation-container__inbox::-webkit-scrollbar {
+/* .conversation-container__inbox::-webkit-scrollbar {
   display: none;
-}
+} */
 
 .user-div{
   position: relative;
@@ -887,6 +888,7 @@
   max-height: 110px;
   overflow: hidden;
   padding: 5px;
+  margin-bottom: 10px;
 }
 
 .conversation-container__inbox-messaging-accordion:hover{

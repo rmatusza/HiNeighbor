@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setInboxVisibility, setConversations } from '../../actions/chatActions';
+import { setInboxVisibility } from '../../actions/chatActions';
 import {
 	Accordion,
 	AccordionSummary,
@@ -12,8 +12,8 @@ import {
 	TextField
 } from '@material-ui/core'
 import { BiUpArrowAlt } from "react-icons/bi";
+import { BiDownArrowAlt } from "react-icons/bi";
 import { socket } from '../../App';
-import { AiOutlineConsoleSql } from 'react-icons/ai';
 
 const Inbox = (props) => {
 	const [conversations, setConversations] = useState([]);
@@ -24,12 +24,12 @@ const Inbox = (props) => {
 	const [messages, setMessages] = useState([]);
 	const [conversationIndex, setConversationIndex] = useState(null);
 	const [lastMessage, setLastMessage] = useState([]);
+	const [accordionOpen, setAccordianOpen] = useState(true)
 	const currUserId = useSelector(store => store.session.currentUser.id);
 	const currUsername = useSelector(store => store.session.currentUser.username)
 
 	const dispatch = useDispatch();
-	// console.log('PROPS INBOX:', props)
-	// console.log('LAST RECEIVED MESSAGE:', lastMessage)
+
 	useEffect(()=> {
 		if(props.userInfo.userId){
 			setConversations(props.userInfo.conversations)
@@ -57,8 +57,6 @@ const Inbox = (props) => {
 		})		
 	}) 
 
-	console.log(lastMessage.length)
-
 	socket.on('message_from_seller_profile', (message, conversation) => {
 		conversations.forEach((convo, idx) => {
 			if(convo.id === conversation.id && conversationIndex === idx){
@@ -79,7 +77,6 @@ const Inbox = (props) => {
 	})
 
 	socket.on('new_conversation', conversation => {
-		// console.log('NEW CONVERSATION:', conversation)
 		props.userInfo.conversations.push(conversation)
 		let message = conversation.Messages[0]
 		let updatedMessages = [...lastMessage]
@@ -98,8 +95,6 @@ const Inbox = (props) => {
 	}
 	
 	const openComposeMessageDialogBox = (convo, id, idx) => {
-		// console.log(convo)
-		// console.log('CURR USER ID:', currUserId)
 		setConversationIndex(idx)
 		if(convo.creator ===currUserId){
 			setRecipientId(convo.recipient)
@@ -117,10 +112,7 @@ const Inbox = (props) => {
 	}
 
 	const emitMessage = (newMessage, currentConvo) => {
-		// console.log('i got emmited')
-		// console.log('CURRENT CONVO:', currentConvo)
 		socket.emit('message', newMessage, currentConvo, {'from_seller_profile': false})
-
 	}
 
 	const sendMessage = async() => {
@@ -130,7 +122,6 @@ const Inbox = (props) => {
 			senderUsername: currUsername
 		}
 
-		// console.log(body)
 		let res = await fetch(`http://localhost:5000/api/users/${currUserId}/send-message-to-user/${recipientId}`, {
 			method: 'POST',
 			headers: {
@@ -139,29 +130,31 @@ const Inbox = (props) => {
 			body: JSON.stringify(body)
 		})
 		let { newMessage } = await res.json()
-		// console.log('CONVERSATIONS:', conversations)
 		let currentConvo = conversations[conversationIndex]
 		let currentConvoMessages = currentConvo.Messages
 		currentConvoMessages.push(newMessage)
-		// dispatch(setConversations(conversations))
 		setMessages(currentConvoMessages)
 		setMessageContent('')
 		emitMessage(newMessage, currentConvo)
 	}
 
+	const expandAccordion = () => {
+		setAccordianOpen(!accordionOpen)
+	}
+
   return(
 		<>
 			<Accordion
-				defaultExpanded={true}
+				expanded={accordionOpen}
 			>
-				<div className="accordion-top-tab__inbox">
+				<div className="accordion-top-tab__inbox" onClick={expandAccordion}>
 					<AccordionSummary
 						aria-controls="panel1a-content"
 						id="panel1a-header"
 					>
 						<Typography>Messaging</Typography>
 						<div className="up-arrow-container__inbox">
-							<BiUpArrowAlt className="up-arrow"/>
+							{accordionOpen ? <BiDownArrowAlt className="up-arrow"/> : <BiUpArrowAlt className="up-arrow"/>}
 						</div>
 					</AccordionSummary>
 				</div>
@@ -197,12 +190,10 @@ const Inbox = (props) => {
 						</div>
 					)
 				})}
-				{/* <Button onClick={fillInbox}>get conversations</Button> */}
 			</Accordion>
 
 			<Dialog
 				open={composeMessageDialog}
-				onClose={closeComposeMessageDialogBox}
 			>
 				<div className="conversation-container__inbox">
 					{messages.map((msg, idx) => {

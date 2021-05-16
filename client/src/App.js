@@ -30,7 +30,7 @@ const App = () => {
   useEffect(() => {
     (async () => {
       // let UserId;
-      console.log('use effect: App component')
+      // console.log('use effect: App component')
       try{
         let token;
         const cookieArr = document.cookie.split('=')
@@ -61,7 +61,7 @@ const App = () => {
         let fetchConversations = await fetch(`http://localhost:5000/api/users/${payload.id}/find-conversations`)
         const conversations = await fetchConversations.json()
         setConversations(conversations)
-        console.log('payload id:', payload.id)
+        // console.log('payload id:', payload.id)
         socket.emit('add_user_to_room', payload.id)
       } catch(err) {
 

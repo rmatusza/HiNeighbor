@@ -31,12 +31,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center"
   },
-  image: {
-    display: "flex",
-    justifyContent: "center",
-    height: '280px',
-    width: '280px',
-  },
   paper_large_screen: {
     marginLeft: "20px",
     display: "flex",
@@ -113,16 +107,13 @@ const year = date.getFullYear()
 const today = new Date(month+'-'+day+'-'+year)
 
 const SellerProfileForRent = (props) => {
-  const currUserId = useSelector(store => store.session.currentUser.id);
-  let itemData;
-  let tableData;
+  const currUserId = useSelector(store => store.session.currentUser.id)
   const [currItem, setCurrItem] = useState()
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [rentTotal, setRentTotal] = useState(null)
   const [selectedDateString, setSelectedDateString] = useState(null)
   const [confirmRentDialog, setConfirmRentDialog] = useState(false);
-  const [selectedItemIdx, setSelectedItemIdx] = useState(null)
   const classes = useStyles()
   const largeScreen = useMediaQuery('(min-width:1870px)');
 
