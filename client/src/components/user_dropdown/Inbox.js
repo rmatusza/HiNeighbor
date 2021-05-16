@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core'
 import { BiUpArrowAlt } from "react-icons/bi";
 import { socket } from '../../App';
+import { AiOutlineConsoleSql } from 'react-icons/ai';
 
 const Inbox = (props) => {
 	const [conversations, setConversations] = useState([]);
@@ -33,49 +34,57 @@ const Inbox = (props) => {
 		if(props.userInfo.userId){
 			setConversations(props.userInfo.conversations)
 		}
-	}, [props, conversations])
+	}, [lastMessage, props, conversations])
 
 	socket.removeAllListeners()
-	socket.on(`instant_message`, (message, conversation) =>{
-		// console.log(message)
-		conversations.forEach((convo, idx) => {
-			// console.log(convo)
-			if(convo.id === conversation.id){
-				// console.log('FOUND MATCH')
-				conversations[idx].Messages.push(message)
-				props.userInfo.conversations.splice(idx, 1, conversation)
-				setConversations(props.userInfo.conversations)
-				let msgs = [...lastMessage]
-				msgs.push(message)
-				setLastMessage(msgs)			}
-		})		
-	}) 
 
-	socket.on('message_from_seller_profile', (message, conversation) => {
-		// console.log('message from seller profile:', message)
-		// console.log('conversation from the seller profile:', conversation)
+	socket.on(`instant_message`, (message, conversation) =>{
 		conversations.forEach((convo, idx) => {
-			// console.log(convo)
-			if(convo.id === conversation.id){
-				// console.log('FOUND MATCH')
+			if(convo.id === conversation.id && conversationIndex === idx){
 				conversation.Messages.push(message)
 				props.userInfo.conversations.splice(idx, 1, conversation)
 				setConversations(props.userInfo.conversations)
-				let msgs = [...lastMessage]
-				msgs.push(message)
-				setLastMessage(msgs)
+				let updatedMessages = [...messages, message]
+				setMessages(updatedMessages)
+			} else if(convo.id === conversation.id) {
+				conversation.Messages.push(message)
+				props.userInfo.conversations.splice(idx, 1, conversation)
+				let updatedMessages = [...lastMessage]
+				updatedMessages.push(message)
+				setLastMessage(updatedMessages)
+				setConversations(props.userInfo.conversations)
+			}
+		})		
+	}) 
+
+	console.log(lastMessage.length)
+
+	socket.on('message_from_seller_profile', (message, conversation) => {
+		conversations.forEach((convo, idx) => {
+			if(convo.id === conversation.id && conversationIndex === idx){
+				conversation.Messages.push(message)
+				props.userInfo.conversations.splice(idx, 1, conversation)
+				setConversations(props.userInfo.conversations)
+				let updatedMessages = [...messages, message]
+				setMessages(updatedMessages)
+			} else if(convo.id === conversation.id){
+				conversation.Messages.push(message)
+				props.userInfo.conversations.splice(idx, 1, conversation)
+				let updatedMessages = [...lastMessage]
+				updatedMessages.push(message)
+				setLastMessage(updatedMessages)
+				setConversations(props.userInfo.conversations)
 			}
 		})	
-	
 	})
 
 	socket.on('new_conversation', conversation => {
 		// console.log('NEW CONVERSATION:', conversation)
 		props.userInfo.conversations.push(conversation)
 		let message = conversation.Messages[0]
-		let msgs = [...lastMessage]
-		msgs.push(message)
-		setLastMessage(msgs)
+		let updatedMessages = [...lastMessage]
+		updatedMessages.push(message)
+		setLastMessage(updatedMessages)
 		setConversations(props.userInfo.conversations)
 	})
 
@@ -196,14 +205,14 @@ const Inbox = (props) => {
 				onClose={closeComposeMessageDialogBox}
 			>
 				<div className="conversation-container__inbox">
-					{messages.map(msg => {
+					{messages.map((msg, idx) => {
 						return(
-							<>
+							<div key={idx}>
 								<h4 className="username__messages-container">{msg.author_username}</h4>
 								<div className="message__messages-container">
 									<p>{msg.content}</p>
 								</div>
-							</>
+							</div>
 						)
 					})}
 						<div className="message-box-container__inbox">

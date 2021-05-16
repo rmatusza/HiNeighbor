@@ -36,7 +36,7 @@ const UserDropdown = (props) => {
     props.setAuthenticated(false)
     dispatch(logoutUser({id: null, username: null, firstName: null, lastName: null}))
     dispatch(clearSearchParams())
-    socket.emit('disconnect-socket')
+    // socket.emit('disconnect-socket')
   };
 
   const handlePostedItems = () => {

@@ -70,6 +70,7 @@ const App = () => {
     })()
   }, [authenticated])
 
+  
   return (
     <>
       <BrowserRouter>
@@ -109,8 +110,6 @@ const App = () => {
           </div>
         </ProtectedRoute>
       </BrowserRouter>
-      
-      
     </>
   );
 }

@@ -14,15 +14,15 @@ const options = {
 const io = require('socket.io')(httpServer, options)
 httpServer.listen(8082)
 
-io.on('connection', async (socket) => {
+io.on('connection', (socket) => {
 	console.log('User Conected')
-	socket.on('add_user_to_room', async (roomNum) => {
+	socket.on('add_user_to_room', (roomNum) => {
 		socket.join(roomNum)
 		console.log('ROOOOOMMMSS:', io.sockets.adapter.rooms)
 	})
 
 	socket.on('message', (message, conversation, origin) =>{
-		socket.to(message.recipient_id).emit(`instant_message`, message, conversation)
+		io.to(message.recipient_id).emit(`instant_message`, message, conversation)
 	})
 
 	socket.on('message_from_seller_profile', (message, conversation) =>{
@@ -43,6 +43,7 @@ io.on('connection', async (socket) => {
 		console.log('DISCONNECTING THE SOCKET')
 		socket.disconnect()
 	})
+
 })
 
 // router.get('/', asyncHandler(async (req, res) => {
