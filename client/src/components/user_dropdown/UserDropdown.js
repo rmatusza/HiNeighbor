@@ -7,7 +7,6 @@ import { clearSearchParams } from '../../actions/searchCategoryActions';
 import { setInboxVisibility } from '../../actions/chatActions';
 import PostItem from './PostItem';
 import PostRentItem from './PostRentItem';
-import { socket } from '../../App';
 import {
   Menu,
   MenuItem,
@@ -65,16 +64,15 @@ const UserDropdown = (props) => {
 
   const handleDisplayInbox = () => {
     dispatch(setInboxVisibility(true))
+    handleClose()
   }
 
   return (
     <>
       <div>
-        {/* <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}> */}
           <h2 className="three-dots">
             <BiDotsVerticalRounded aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}/>
           </h2>
-        {/* </Button> */}
         <Menu
           id="simple-menu"
           anchorEl={anchorEl}
@@ -94,13 +92,9 @@ const UserDropdown = (props) => {
       </div>
       {rent_form_state === true ? <PostRentItem /> : <> </>}
       {form_state === true ? <PostItem /> : <> </>}
-
-      {/* <PostRentItem /> */}
     </>
-
   );
 }
 
-// || form_state.length === 0)
 
 export default UserDropdown;

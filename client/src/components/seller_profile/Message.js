@@ -14,13 +14,7 @@ const Message = (props) => {
 	const [composeMessageDialog, setComposeMessageDialog] = useState(false);
 	const [confirmCancelMessageDialog, setConfirmCancelMessageDialog] = useState(false);
 	const [content, setContent] = useState('');
-	const [subject, setSubject] = useState('');
 	const [buttonState, setButtonState] = useState(false);
-
-	const handleDialogOpen = async(recipientId) => {
-		setDialogOpen(true)
-		setButtonState(true)
-	}
 
 	const handleDialogClose = () => {
 		setDialogOpen(false)
@@ -40,8 +34,6 @@ const Message = (props) => {
 	const handleInputChange = (e) => {
 		if(e.target.id === 'message'){
 			setContent(e.target.value)
-		}else{
-			setSubject(e.target.value)
 		}
 	}
 
@@ -66,7 +58,7 @@ const Message = (props) => {
 			recipientUsername: props.conversationData.recipientUsername,
 			senderUsername: props.conversationData.senderUsername
 		}
-		console.log(body)
+		// console.log(body)
 		let newMessage = await fetch(`http://localhost:5000/api/users/${props.conversationData.senderId}/send-message-to-user/${props.conversationData.recipientId}`, {
 			method: 'POST',
 			headers: {
@@ -84,7 +76,7 @@ const Message = (props) => {
 			// console.log('PREVIOUS CONVO:', conversationData.previousConversation)
 			await socket.emit('message_from_seller_profile', conversationData.newMessage, conversationData.previousConversation[0])
 		}
-		console.log(newMessage)
+		// console.log(newMessage)
 		closeComposeMessageDialogBox()
 	}
 
@@ -94,7 +86,6 @@ const Message = (props) => {
 			<Button color="secondary" name="message-seller" variant={buttonState ? 'contained' : 'outlined'} onClick={openComposeMessageDialogBox}>message seller</Button>
 				<Dialog
 					open={dialogOpen}
-					onClose={handleDialogClose}
 				>
 					<div className="message-seller-dialog-box">
 						<DialogTitle>Would you like to start a new conversation with this seller?</DialogTitle>
@@ -109,7 +100,6 @@ const Message = (props) => {
 
 				<Dialog
 					open={composeMessageDialog}
-					onClose={closeComposeMessageDialogBox}
 				>
 					<div className="compose-message-container">
 						{/* <div className="subject-line-container">

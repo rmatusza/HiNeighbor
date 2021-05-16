@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
 import {
   Dialog,
   DialogTitle,
@@ -66,7 +65,6 @@ const UpdateSaleItem = (props) => {
   const [itemName, setItemName] = useState("");
   const [itemDescription, setItemDescription] = useState("");
   const [itemCategory, setItemCategory] = useState("");
-  const [itemPrice, setItemPrice] = useState("");
   const classes = useStyles()
   const [popupVisible, setPopupVisible] = useState(false)
   const[modalOpen, setModalOpen] = useState(false)
@@ -93,8 +91,6 @@ const UpdateSaleItem = (props) => {
 			setItemName(e.target.value);
 		} else if (e.target.id === "description-input") {
 			setItemDescription(e.target.value);
-		} else if(e.target.id === "sell-price-input") {
-			setItemPrice(e.target.value)
 		} else if(e.target.id === "quantitiy-input") {
 		}
 	};
