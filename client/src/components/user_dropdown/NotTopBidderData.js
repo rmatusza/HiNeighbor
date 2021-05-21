@@ -1,3 +1,4 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import{
@@ -74,6 +75,8 @@ const NotTopBidderData = (props) => {
   const viewSellerInfo = (sellerId) => {
 		history.replace(`/seller-profile/${sellerId}`)
 	}
+
+  // console.log(props)
 
   if(props.items.length === 0){
     return(

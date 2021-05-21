@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -53,7 +53,6 @@ const Bid = (props) => {
   };
 
 	const openBidModal = (itemData) => {
-		console.log(itemData)
 		setCurrItemId(itemData.itemId)
 		setCurrBid(itemData.currentBid)
 		setCurrItemPrice(itemData.itemPrice)
@@ -68,6 +67,7 @@ const Bid = (props) => {
 	const updateItems = (newBidder) => {
 		if(props.onBidHistoryPage){
 			let item = props.dataRows.splice(selectedItemIdx, 1)
+			item[0]['top_bid'] = bidInput
 			props.topBidderItems.push(item[0])
 			props.arr.push(1)
 			props.action([props.dataRows, props.topBidderItems])
@@ -95,6 +95,7 @@ const Bid = (props) => {
       body: JSON.stringify(body)
     })
     const updatedItem = await res.json()
+		// console.log(updatedItem)
 		const newBidder = updatedItem.new_bidder
     updateItems(newBidder)
     setModalOpen(false)

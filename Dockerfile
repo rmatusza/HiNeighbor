@@ -9,5 +9,5 @@ COPY . .
 COPY --from=front-end-build /react-app/build/ ./client/build/
 RUN npm install
 RUN npm install -g sequelize-cli
-EXPOSE 5000
+EXPOSE 5000 8082
 CMD ["npm", "start"]

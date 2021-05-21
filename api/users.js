@@ -447,7 +447,7 @@ router.get('/:id/get-bid-history', asyncHandler(async(req,res) => {
         'item_photo': ItemData.image_url,
         'item_name': ItemData.name,
         'item_description': ItemData.description,
-        'full_price': ItemData.price,
+        'price': ItemData.price,
         'top_bid': ItemData.current_bid,
         'num_bidders': ItemData.num_bids,
         'days_remaining': daysRemainingInAuction,

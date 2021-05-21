@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { socket } from '../../App';
 import {
 	Dialog,
@@ -70,10 +70,8 @@ const Message = (props) => {
 		// console.log('CONVERSATION DATA:', conversationData)
 		if(conversationData.newConversation) {
 			conversationData.newConversation['Messages'] = [conversationData.newMessage]
-			// console.log('CONVERSATION WITH MESSAGES ADDED:', conversationData.newConversation)
 			socket.emit('create_new_conversation', conversationData.newConversation)
 		} else {
-			// console.log('PREVIOUS CONVO:', conversationData.previousConversation)
 			await socket.emit('message_from_seller_profile', conversationData.newMessage, conversationData.previousConversation[0])
 		}
 		// console.log(newMessage)
@@ -102,12 +100,6 @@ const Message = (props) => {
 					open={composeMessageDialog}
 				>
 					<div className="compose-message-container">
-						{/* <div className="subject-line-container">
-							<InputLabel htmlFor="name-input" style={{color: "black"}}>Subject:</InputLabel>
-							<FormControl>
-								<Input id="subject" className="subject-line" onChange={handleInputChange} autoFocus style={{color: "black"}} />
-							</FormControl>
-						</div> */}
 						<div className="message-box-container">
 							<InputLabel className="message-field-label" style={{color: "black"}}>Message:</InputLabel>
 							<FormControl>

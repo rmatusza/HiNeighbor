@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { CgArrowsExpandLeft, /*CgGoogle*/ } from "react-icons/cg";

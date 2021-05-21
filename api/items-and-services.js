@@ -406,9 +406,7 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
       last_bidder: currUserId
     })
 
-
-
-    res.json({'new_bidder': true})
+    res.json({'new_bidder': true, 'updated_item': updatedItem})
   } else {
     //('ALREADY A BID OBJECT')
 
@@ -420,7 +418,7 @@ router.patch('/:id/bid', asyncHandler(async(req, res) => {
       current_bid: bidInput,
       last_bidder: currUserId
     })
-    res.json({'new_bidder': false})
+    res.json({'new_bidder': false, 'updated_item': updatedItem})
   }
 
 
