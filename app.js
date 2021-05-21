@@ -2,27 +2,15 @@ const cors = require('cors');
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser')
 const express = require('express');
-const helmet = require('helmet');
 const path = require('path');
 const logger = require('morgan');
-const csurf = require('csurf');
 const userRouter = require('./api/users');
 const itemsAndServicesRouter = require('./api/items-and-services')
-const websocketsRouter = require('./api/init-websockets')
+const websocket = require('./init-websockets')
 const itemsRouter = require('./api/items')
 const bearerToken = require("express-bearer-token");
 const app = express();
-// const httpServer = require('http').createServer(app);
 
-// const options = {
-//   cors: {
-//     origin: ["http://localhost:3000"],
-//     credentials: true
-//   }
-// };
-
-// const io = require('socket.io')(httpServer, options)
-// httpServer.listen(8082)
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -41,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use("/api/users", userRouter);
 app.use("/api/items-and-services", itemsAndServicesRouter)
 app.use("/api/items", itemsRouter)
-// app.use("/api/init-websockets", websocketsRouter)
+// app.use("./init-websockets", websocketsRouter)
 
 // Serve React Application
 // This should come after routes, but before 404 and error handling.
@@ -67,25 +55,5 @@ app.use(function(err, _req, res, _next) {
     error: JSON.parse(JSON.stringify(err)),
   });
 });
-
-// io.on('connection', async (socket) => {
-//   console.log('User Conected')
-//   const sockets = await io.fetchSockets()
-//   console.log('# of sockets connected:', sockets.length)
-//   console.log('# of rooms:', io.sockets.adapter.rooms)
-//   socket.on('add_user_to_room', async (roomNum) => {
-//     console.log('adding new user to room:', roomNum)
-//     socket.join(roomNum)
-//     const sockets = await io.fetchSockets()
-//     console.log('# of sockets connected:', sockets.length)
-//     console.log('ROOOOOMMMSS:', io.sockets.adapter.rooms)
-//   })
-
-//   socket.on('message', (message, conversation) =>{
-//     console.log('MESSAGE RECEIVED:', message.content)
-//     console.log('ROOM NUMBER:', message.recipient_id)
-//     socket.to(message.recipient_id).emit(`instant_message`, message, conversation)
-//   })
-// })
 
 module.exports = app;

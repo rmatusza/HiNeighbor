@@ -17,7 +17,7 @@ import {
   TableHead,
   TableRow,
   TableCell
-  } from "@material-ui/core";
+} from "@material-ui/core";
 import './sellerProfile.css';
 
 
@@ -275,11 +275,9 @@ const SellerProfileForRent = (props) => {
           scroll='body'
           fullWidth={true}
           maxWidth='sm'
-          // className={classes.rentDialog}
         >
           <div className="rent-item-dbox-content-container">
             <div className="date-picker-container">
-              {/* <div className="rent-item-dbox-content-container__inner-container"> */}
                 <h5>Note: If you choose to rent this item, the beginning of the rent period will start today</h5>
                 <h3 className="select-return-date-heading">Please Select a Return Date:</h3>
                 <form className={classes.container} noValidate>
@@ -294,14 +292,12 @@ const SellerProfileForRent = (props) => {
                     }}
                   />
                 </form>
-              {/* </div> */}
             </div>
             <div className="rent-item-buttons-container">
               <div className="rent-item-buttons">
                 <Button
                   variant="contained"
                   color="secondary"
-                  // style={{ color: "white" }}
                   size="small"
                   className={classes.confirmButton}
                   onClick={handleConfirmRentDialog}
@@ -312,7 +308,6 @@ const SellerProfileForRent = (props) => {
                   <Button
                   variant="contained"
                   color="secondary"
-                  // style={{ color: "white" }}
                   size="small"
                   className={classes.cancelButton}
                   onClick={handleDialogClose}
@@ -333,7 +328,6 @@ const SellerProfileForRent = (props) => {
           scroll='body'
           fullWidth={true}
           maxWidth='xs'
-          // className={classes.rentDialog}
         >
           <DialogTitle id="alert-dialog-title">
             {`Are you sure that you want to rent the selected item, which is to be returned on ${selectedDateString}, for a total of $${rentTotal}?`}
@@ -347,16 +341,6 @@ const SellerProfileForRent = (props) => {
             </Button>
           </DialogActions>
         </Dialog>
-
-          {/* <Dialog
-          open={enlargeImage}
-          onClose={closeImage}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          >
-            <img className="item-image-enlarged" src={image} />
-          </Dialog> */}
-
     </>
   )
 };

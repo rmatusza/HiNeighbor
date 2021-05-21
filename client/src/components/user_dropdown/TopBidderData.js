@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import React, { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -91,6 +91,8 @@ const TopBidderData = (props) => {
 		history.replace(`/seller-profile/${sellerId}`)
 	}
 
+  // console.log(props)
+
   if(props.itemData.length === 0){
     return(
       <>
@@ -157,7 +159,7 @@ const TopBidderData = (props) => {
                     <TableBody>
                       <TableRow>
                         <TableCell align="center" style={{height: '63px'}}>{data.item_name}</TableCell>
-                        <TableCell align="center">${data.full_price}</TableCell>
+                        <TableCell align="center">${data.price}</TableCell>
                         <TableCell align="center">{data.num_bidders}</TableCell>
                         <TableCell align="center">${data.top_bid}</TableCell>
                         <TableCell align="center">{fullDate}</TableCell>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInboxVisibility } from '../../actions/chatActions';
 import {
@@ -40,14 +40,15 @@ const Inbox = (props) => {
 
 	socket.on(`instant_message`, (message, conversation) =>{
 		conversations.forEach((convo, idx) => {
+			socket.removeAllListeners()
 			if(convo.id === conversation.id && conversationIndex === idx){
-				conversation.Messages.push(message)
+				// conversation.Messages.push(message)
 				props.userInfo.conversations.splice(idx, 1, conversation)
 				setConversations(props.userInfo.conversations)
 				let updatedMessages = [...messages, message]
 				setMessages(updatedMessages)
 			} else if(convo.id === conversation.id) {
-				conversation.Messages.push(message)
+				// conversation.Messages.push(message)
 				props.userInfo.conversations.splice(idx, 1, conversation)
 				let updatedMessages = [...lastMessage]
 				updatedMessages.push(message)
